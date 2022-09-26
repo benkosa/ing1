@@ -1,117 +1,261 @@
-select table_name from tabs;
--- user_tables, user, all, dba
+SELECT
+  TABLE_NAME
+FROM
+  TABS;
 
-desc os_udaje;
+SELECT
+  *
+FROM
+  OS_UDAJE;
 
-select meno, priezvisko, pocet
-from
-(select meno, priezvisko, rod_cislo, count(cis_predm) as pocet
- from os_udaje LEFT JOIN student using(rod_cislo)
-               LEFT JOIN zap_predmety using(os_cislo)
-  group by meno, priezvisko, rod_cislo
-   order by 3);
-  -- group by meno, priezvisko, rod_cislo ;
-   
-select meno, priezvisko, os_cislo
- from os_udaje left join student using(rod_cislo)
-  where priezvisko='Biely';
-  
-  
-select meno, priezvisko, rod_cislo, count(cis_predm) as pocet
- from os_udaje LEFT JOIN student using(rod_cislo)
-               LEFT JOIN zap_predmety using(os_cislo)
-  group by meno, priezvisko, rod_cislo
-   having count(cis_predm) = (select max(count(cis_predm))
-                                from zap_predmety join student using(os_cislo)
-                                 group by rod_cislo);
-                                 
-select meno, priezvisko, os_cislo
- from os_udaje LEFT join student using(rod_cislo);
+-- user_tables, user, all, dba DESC OS_UDAJE;
 
-select meno, priezvisko, os_cislo
- from os_udaje LEFT join student ON(os_udaje.rod_cislo=student.rod_cislo)
-  order by os_cislo nulls first;
+SELECT
+  MENO,
+  PRIEZVISKO,
+  POCET
+FROM
+  (
+    SELECT
+      MENO,
+      PRIEZVISKO,
+      ROD_CISLO,
+      COUNT(CIS_PREDM) AS POCET
+    FROM
+      OS_UDAJE
+      LEFT JOIN STUDENT
+      USING (ROD_CISLO )
+      LEFT JOIN ZAP_PREDMETY
+      USING (OS_CISLO )
+    GROUP BY
+      MENO,
+      PRIEZVISKO,
+      ROD_CISLO
+    ORDER BY
+      3
+  );
 
-select meno, priezvisko, os_cislo
- from os_udaje LEFT join student ON(os_udaje.rod_cislo=student.rod_cislo
-                                         and rocnik=2)
-  order by os_cislo nulls last; 
-  
-select meno, priezvisko, os_cislo
- from os_udaje LEFT join student ON(os_udaje.rod_cislo=student.rod_cislo)
- where rocnik=2
-  order by os_cislo nulls last;   
-  
-select meno, priezvisko
- from os_udaje
-  where rod_cislo NOT IN (select rod_cislo from student union select null from dual);
+--
+GROUP BY MENO, PRIEZVISKO, ROD_CISLO;
 
-select meno, priezvisko
- from os_udaje 
-  where not exists(select 'x' from student 
-                    where student.rod_cislo=os_udaje.rod_cislo);
-                
-select meno, priezvisko, count(os_cislo)
- from os_udaje left join student using(rod_cislo)
-  group by meno, priezvisko, rod_cislo
-   having count(os_cislo)<=2;
+SELECT
+  MENO,
+  PRIEZVISKO,
+  OS_CISLO
+FROM
+  OS_UDAJE
+  LEFT JOIN STUDENT
+  USING (ROD_CISLO )
+WHERE
+  PRIEZVISKO = 'Biely';
 
-set serveroutput on;
-   
-begin
- for premenna in (select meno, priezvisko from os_udaje)
-  loop
-   dbms_output.put_line(premenna.meno);
-  end loop;
-end;
+SELECT
+  MENO,
+  PRIEZVISKO,
+  ROD_CISLO,
+  COUNT(CIS_PREDM) AS POCET
+FROM
+  OS_UDAJE
+  LEFT JOIN STUDENT
+  USING (ROD_CISLO )
+  LEFT JOIN ZAP_PREDMETY
+  USING (OS_CISLO )
+GROUP BY
+  MENO,
+  PRIEZVISKO,
+  ROD_CISLO
+HAVING
+  COUNT(CIS_PREDM) = (
+    SELECT
+      MAX(COUNT(CIS_PREDM))
+    FROM
+      ZAP_PREDMETY
+      JOIN STUDENT
+      USING (OS_CISLO )
+    GROUP BY
+      ROD_CISLO
+  );
+
+SELECT
+  MENO,
+  PRIEZVISKO,
+  OS_CISLO
+FROM
+  OS_UDAJE
+  LEFT JOIN STUDENT
+  USING (ROD_CISLO );
+
+SELECT
+  MENO,
+  PRIEZVISKO,
+  OS_CISLO
+FROM
+  OS_UDAJE
+  LEFT JOIN STUDENT
+  ON (OS_UDAJE.ROD_CISLO = STUDENT.ROD_CISLO )
+ORDER BY
+  OS_CISLO NULLS FIRST;
+
+SELECT
+  MENO,
+  PRIEZVISKO,
+  OS_CISLO
+FROM
+  OS_UDAJE
+  LEFT JOIN STUDENT
+  ON (OS_UDAJE.ROD_CISLO = STUDENT.ROD_CISLO
+  AND ROCNIK = 2 )
+ORDER BY
+  OS_CISLO NULLS LAST;
+
+SELECT
+  MENO,
+  PRIEZVISKO,
+  OS_CISLO
+FROM
+  OS_UDAJE
+  LEFT JOIN STUDENT
+  ON (OS_UDAJE.ROD_CISLO = STUDENT.ROD_CISLO )
+WHERE
+  ROCNIK = 2
+ORDER BY
+  OS_CISLO NULLS LAST;
+
+SELECT
+  MENO,
+  PRIEZVISKO
+FROM
+  OS_UDAJE
+WHERE
+  ROD_CISLO NOT IN (
+    SELECT
+      ROD_CISLO
+    FROM
+      STUDENT UNION
+      SELECT
+        NULL
+      FROM
+        DUAL
+  );
+
+SELECT
+  MENO,
+  PRIEZVISKO
+FROM
+  OS_UDAJE
+WHERE
+  NOT EXISTS(
+    SELECT
+      'x'
+    FROM
+      STUDENT
+    WHERE
+      STUDENT.ROD_CISLO = OS_UDAJE.ROD_CISLO
+  );
+
+SELECT
+  MENO,
+  PRIEZVISKO,
+  COUNT(OS_CISLO)
+FROM
+  OS_UDAJE
+  LEFT JOIN STUDENT
+  USING (ROD_CISLO )
+GROUP BY
+  MENO,
+  PRIEZVISKO,
+  ROD_CISLO
+HAVING
+  COUNT(OS_CISLO) <= 2;
+
+SET SERVEROUTPUT ON;
+BEGIN FOR PREMENNA IN (
+  SELECT
+    MENO,
+    PRIEZVISKO
+  FROM
+    OS_UDAJE
+) LOOP DBMS_OUTPUT.PUT_LINE(PREMENNA.MENO);
+END LOOP;
+END;
 /
 
-create user LOGIN identified by HESLO;
+CREATE USER LOGIN IDENTIFIED BY HESLO;
+
 -- LOGIN - priezvisko
 -- HESLO - krstne meno
+SELECT
+  'create user '|| PRIEZVISKO || ' identified by ' || MENO
+FROM
+  OS_UDAJE;
 
-select 'create user '|| priezvisko || ' identified by ' || meno
- from os_udaje;
- 
-create user Novak identified by Peter;  
-drop user novak;
+CREATE USER NOVAK IDENTIFIED BY Peter;
 
-select table_name from tabs;
-alter table NAZOV_TAB rename to NOVY_NAZOV;
+DROP USER NOVAK;
 
-select 'alter table '||table_name ||' rename to '|| 'tab'||table_name
- from tabs;
- 
-begin
- for premenna in (select 'alter table '||table_name 
-                         ||' rename to '|| 'tab'||table_name prikaz
-                    from tabs)
- loop
-  execute immediate premenna.prikaz;
- end loop;
-end;
+SELECT
+  TABLE_NAME
+FROM
+  TABS;
+
+ALTER TABLE NAZOV_TAB RENAME TO NOVY_NAZOV;
+
+SELECT
+  'alter table '||TABLE_NAME ||' rename to '|| 'tab'||TABLE_NAME
+FROM
+  TABS;
+
+BEGIN
+  FOR PREMENNA IN (
+    SELECT
+      'alter table '||TABLE_NAME ||' rename to '|| 'tab'||TABLE_NAME PRIKAZ
+    FROM
+      TABS
+  ) LOOP
+    EXECUTE IMMEDIATE PREMENNA.PRIKAZ;
+  END LOOP;
+END;
 /
-
-begin
- for premenna in (select 'alter table '||table_name 
-                         ||' rename to '|| substr(table_name,4) prikaz
-                    from tabs)
- loop
-  execute immediate premenna.prikaz;
- end loop;
-end;
+BEGIN
+  FOR PREMENNA IN (
+    SELECT
+      'alter table '||TABLE_NAME ||' rename to '|| SUBSTR(TABLE_NAME,
+      4) PRIKAZ
+    FROM
+      TABS
+  ) LOOP
+    EXECUTE IMMEDIATE PREMENNA.PRIKAZ;
+  END LOOP;
+END;
 /
-
-select table_name from tabs;
-
-select meno, priezvisko,
-       cursor(select os_cislo 
-                from student 
-                 where os_udaje.rod_cislo=student.rod_cislo)
-from os_udaje;
-
-select meno, priezvisko, 
-      listagg(os_cislo, ' ') within group (order by os_cislo)
-from os_udaje left join student using(rod_cislo)
- group by meno, priezvisko, rod_cislo;
- 
+SELECT
+  TABLE_NAME
+FROM
+  TABS;
+SELECT
+  MENO,
+  PRIEZVISKO,
+  CURSOR(
+  SELECT
+    OS_CISLO
+  FROM
+    STUDENT
+  WHERE
+    OS_UDAJE.ROD_CISLO = STUDENT.ROD_CISLO)
+  FROM
+    OS_UDAJE;
+SELECT
+  MENO,
+  PRIEZVISKO,
+  LISTAGG(OS_CISLO,
+  ' ') WITHIN GROUP (
+ORDER BY
+  OS_CISLO )
+FROM
+  OS_UDAJE
+  LEFT JOIN STUDENT
+  USING (ROD_CISLO )
+GROUP BY
+  MENO,
+  PRIEZVISKO,
+  ROD_CISLO;
