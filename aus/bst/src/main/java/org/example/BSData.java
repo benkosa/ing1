@@ -1,11 +1,5 @@
 package org.example;
 
-enum Compare {
-    LESS,
-    EQUAL,
-    MORE
-}
-
 /**
  * used to warp element you want to insert into BSTree
  * tree is sorted by key parameter with compare function
@@ -25,4 +19,10 @@ public abstract class BSData<T> {
      * @return
      */
     public abstract Compare compare(BSData<T> data);
+}
+
+enum Compare {
+    LESS,
+    EQUAL,
+    MORE
 }
