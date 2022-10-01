@@ -1,7 +1,5 @@
 package org.example;
 
-import javax.lang.model.element.Element;
-
 public class Main {
 
     public static class Element extends BSData<Integer> {
@@ -17,17 +15,17 @@ public class Main {
         }
     }
 
-    public static void main(String[] args) throws Throwable {
+    public static void main(String[] args) {
 
-        BSTree<Integer> tree = new BSTree<Integer>();
+        BSTree<Integer> tree = new BSTree<>();
 
 
-        BSData e1 = new Element(10);
-        BSData e2 = new Element(20);
-        BSData e3 = new Element(5);
-        BSData e4 = new Element(7);
-        BSData e5 = new Element(2);
-        BSData e6 = new Element(6);
+        BSData<Integer> e1 = new Element(10);
+        BSData<Integer> e2 = new Element(20);
+        BSData<Integer> e3 = new Element(5);
+        BSData<Integer> e4 = new Element(7);
+        BSData<Integer> e5 = new Element(2);
+        BSData<Integer> e6 = new Element(6);
 
         tree.insert(e1);
         tree.insert(e1);

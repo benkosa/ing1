@@ -15,8 +15,8 @@ public abstract class BSData<T> {
 
     /**
      * tree is sorted by key parameter with compare function
-     * @param data
-     * @return
+     * @param data data
+     * @return Compare
      */
     public abstract Compare compare(BSData<T> data);
 }
