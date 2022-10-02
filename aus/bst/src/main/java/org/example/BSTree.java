@@ -166,8 +166,10 @@ public class BSTree<T> {
             if (node.rightNode != null && node.rightNode.isVisited != mark) {
                 return  node.rightNode;
             }
-            node.isVisited = mark;
-            list.add(node);
+            if (node.isVisited != mark) {
+                node.isVisited = mark;
+                list.add(node);
+            }
         }
         return node.parent;
     }

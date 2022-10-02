@@ -19,13 +19,20 @@ public class Main {
 
         BSTree<Integer> tree = new BSTree<>();
 
-        tree.insert(new Element(10));
-        tree.insert(new Element(20));
-        tree.insert(new Element(5));
-        tree.insert(new Element(7));
-        tree.insert(new Element(2));
-        tree.insert(new Element(6));
+//        tree.insert(new Element(10));
+//        tree.insert(new Element(20));
+//        tree.insert(new Element(5));
+//        tree.insert(new Element(7));
+//        tree.insert(new Element(2));
+//        tree.insert(new Element(6));
+//        tree.insert(new Element(8));
+
         tree.insert(new Element(8));
+        tree.insert(new Element(5));
+        tree.insert(new Element(20));
+        tree.insert(new Element(2));
+        tree.insert(new Element(7));
+        tree.insert(new Element(6));
 
         tree.find(2);
 
@@ -33,7 +40,7 @@ public class Main {
         //System.out.println(tree.find(1));
 
         //tree.remove(2);
-        //tree.remove(7);
+        //tree.remove(10);
         //System.out.println(tree.find(7));
         //tree.remove(7);
 
