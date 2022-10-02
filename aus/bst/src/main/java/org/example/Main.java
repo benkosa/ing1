@@ -26,7 +26,7 @@ public class Main {
         BSData<Integer> e4 = new Element(7);
         BSData<Integer> e5 = new Element(2);
         BSData<Integer> e6 = new Element(6);
-
+        BSData<Integer> e7 = new Element(8);
         tree.insert(e1);
         tree.insert(e1);
         tree.insert(e2);
@@ -34,16 +34,21 @@ public class Main {
         tree.insert(e4);
         tree.insert(e5);
         tree.insert(e6);
+        tree.insert(e7);
 
         tree.find(2);
 
-        System.out.println(tree.find(2).key);
-        System.out.println(tree.find(1));
+        //System.out.println(tree.find(2).key);
+        //System.out.println(tree.find(1));
 
         //tree.remove(2);
         //tree.remove(7);
         //System.out.println(tree.find(7));
-        tree.remove(7);
+        //tree.remove(7);
+
+        tree.levelOrder().forEach(n -> System.out.print(n.key.toString() + ' '));
+        System.out.println();
+        tree.inOrder().forEach(n -> System.out.print(n.key.toString() + ' '));
 
 
     }

@@ -1,5 +1,7 @@
 package org.example;
 
+import java.util.ArrayList;
+
 public class BSTree<T> {
     private BSNode<T> root;
 
@@ -73,6 +75,105 @@ public class BSTree<T> {
         final BSData<T> retData = nodeToRemove.data;
         swapData(nodeToRemove, inorderSuccessor);
         return retData;
+    }
+
+    /**
+     * iterative level order
+     * @return level order array of data
+     */
+    public ArrayList<BSData<T>> levelOrder() {
+        final ArrayList<BSNode<T>> levelOrderNodes = levelOrderNodes();
+        final ArrayList<BSData<T>> levelOrderData = new ArrayList<>(levelOrderNodes.size());
+        levelOrderNodes.forEach(n -> levelOrderData.add(n.data));
+        return levelOrderData;
+    };
+
+    /**
+     * iterative in order
+     * @return in order list of data
+     */
+    public ArrayList<BSData<T>> inOrder() {
+        final ArrayList<BSNode<T>> inOrderNodes = inOrderNodes();
+        final ArrayList<BSData<T>> inOrderData = new ArrayList<>(inOrderNodes.size());
+        inOrderNodes.forEach(n -> inOrderData.add(n.data));
+        return inOrderData;
+    }
+
+    /**
+     * @return in order list of nodes
+     */
+    private ArrayList<BSNode<T>> inOrderNodes () {
+        if (root == null) {
+            return null;
+        }
+        final ArrayList<BSNode<T>> inOrderList = new ArrayList<>();
+        BSNode<T> startNode = root;
+        boolean mark = !root.isVisited;
+
+        do {
+            startNode = inOrderMove(startNode, mark, inOrderList);
+        } while (startNode != null);
+
+        return inOrderList;
+    }
+
+    /**
+     * used in inOrderNodes to move to next node
+     * and add to list of sorted nodes
+     *
+     * @param node start node
+     * @param mark mark added node
+     * @param list sorted list of nodes
+     * @return node to move to
+     */
+    private BSNode<T> inOrderMove(BSNode<T> node, boolean mark, ArrayList<BSNode<T>> list) {
+        if (node.isVisited != mark) {
+            if (node.leftNode != null) {
+                if (node.leftNode.isVisited == mark) {
+                    node.isVisited = mark;
+                    list.add(node);
+                } else {
+                    return  node.leftNode;
+                }
+            }
+            if (node.rightNode != null && node.rightNode.isVisited != mark) {
+                return  node.rightNode;
+            }
+            node.isVisited = mark;
+            list.add(node);
+        }
+        return node.parent;
+    }
+
+    /**
+     * iterative level order
+     * @return array if nodes
+     */
+    private ArrayList<BSNode<T>> levelOrderNodes () {
+        if (root == null) {
+            return null;
+        }
+        final ArrayList<BSNode<T>> levelOrderList = new ArrayList<>();
+        int startIndex = 0;
+        int endIndex = 1;
+        int newEndIndex = 1;
+        levelOrderList.add(root);
+        while (startIndex != newEndIndex) {
+            for (; startIndex < endIndex; startIndex++) {
+                final BSNode<T> rightNode = levelOrderList.get(startIndex).rightNode;
+                final BSNode<T> leftNode = levelOrderList.get(startIndex).leftNode;
+                if (leftNode != null) {
+                    levelOrderList.add(leftNode);
+                    newEndIndex++;
+                }
+                if (rightNode != null) {
+                    levelOrderList.add(rightNode);
+                    newEndIndex++;
+                }
+            }
+            endIndex = newEndIndex;
+        }
+        return levelOrderList;
     }
 
     /**
