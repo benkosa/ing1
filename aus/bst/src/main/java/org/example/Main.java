@@ -24,6 +24,7 @@ public class Main {
         tree.insert(new Element(5));
         tree.insert(new Element(7));
         tree.insert(new Element(2));
+        tree.insert(new Element(2));
         tree.insert(new Element(6));
         tree.insert(new Element(8));
 
