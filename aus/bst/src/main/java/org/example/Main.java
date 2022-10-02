@@ -27,9 +27,8 @@ public class Main {
         tree.insert(new Element(6));
         tree.insert(new Element(8));
 
-        tree.find(2);
-
-        System.out.println(tree.remove(10));
+        System.out.println(tree.find(2).key);
+        System.out.println(tree.remove(10).key);
         System.out.println(tree.find(10));
 
         tree.levelOrder().forEach(n -> System.out.print(n.key.toString() + ' '));
