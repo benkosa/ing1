@@ -8,6 +8,5 @@ public class BSNode<T> {
     public BSNode<T> leftNode;
     public BSNode<T> parent;
     public BSData<T> data;
-
     public  boolean isVisited = false;
 }

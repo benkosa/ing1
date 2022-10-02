@@ -5,6 +5,10 @@ import java.util.ArrayList;
 public class BSTree<T> {
     private BSNode<T> root;
 
+    public BSData<T> getRoot() {
+        return root == null ? null : root.data;
+    }
+
     /**
      * iterative insert
      * @param incomingNode incomingNode
@@ -49,7 +53,8 @@ public class BSTree<T> {
      * @return data
      */
     public BSData<T> find(T searchKey) {
-        return this.findNode(searchKey) == null ? null : this.findNode(searchKey).data;
+        final BSNode<T> element = this.findNode(searchKey);
+        return element == null ? null : element.data;
     }
 
     /**
@@ -284,7 +289,7 @@ public class BSTree<T> {
      */
     private void swapNodes(BSNode<T> parent, BSNode<T> child, BSNode<T> nodeToRemove) {
         if (child != null) {
-            child.parent = parent.parent;
+            child.parent = parent == null ? null : parent.parent;
         }
         if (parent == null) {
             this.root = child;
