@@ -82,21 +82,30 @@ public class BSTree<T> {
      * @return level order array of data
      */
     public ArrayList<BSData<T>> levelOrder() {
-        final ArrayList<BSNode<T>> levelOrderNodes = levelOrderNodes();
-        final ArrayList<BSData<T>> levelOrderData = new ArrayList<>(levelOrderNodes.size());
-        levelOrderNodes.forEach(n -> levelOrderData.add(n.data));
-        return levelOrderData;
-    };
+        return getOrderData(levelOrderNodes());
+    }
 
     /**
      * iterative in order
      * @return in order list of data
      */
     public ArrayList<BSData<T>> inOrder() {
-        final ArrayList<BSNode<T>> inOrderNodes = inOrderNodes();
-        final ArrayList<BSData<T>> inOrderData = new ArrayList<>(inOrderNodes.size());
-        inOrderNodes.forEach(n -> inOrderData.add(n.data));
-        return inOrderData;
+        return getOrderData(inOrderNodes());
+    }
+
+    /**
+     * iterative post order
+     * @return in order list of data
+     */
+    public ArrayList<BSData<T>> postOrder() {
+        return getOrderData(postOrderNodes());
+    }
+
+    private ArrayList<BSData<T>> getOrderData(ArrayList<BSNode<T>> sortedNodes) {
+        if (sortedNodes == null) return null;
+        final ArrayList<BSData<T>> sortedData = new ArrayList<>(sortedNodes.size());
+        sortedNodes.forEach(n -> sortedData.add(n.data));
+        return sortedData;
     }
 
     /**
@@ -112,6 +121,24 @@ public class BSTree<T> {
 
         do {
             startNode = inOrderMove(startNode, mark, inOrderList);
+        } while (startNode != null);
+
+        return inOrderList;
+    }
+
+    /**
+     * @return post order list of nodes
+     */
+    private ArrayList<BSNode<T>> postOrderNodes () {
+        if (root == null) {
+            return null;
+        }
+        final ArrayList<BSNode<T>> inOrderList = new ArrayList<>();
+        BSNode<T> startNode = root;
+        boolean mark = !root.isVisited;
+
+        do {
+            startNode = postOrderMove(startNode, mark, inOrderList);
         } while (startNode != null);
 
         return inOrderList;
@@ -135,6 +162,29 @@ public class BSTree<T> {
                 } else {
                     return  node.leftNode;
                 }
+            }
+            if (node.rightNode != null && node.rightNode.isVisited != mark) {
+                return  node.rightNode;
+            }
+            node.isVisited = mark;
+            list.add(node);
+        }
+        return node.parent;
+    }
+
+    /**
+     * used in postOrderNodes to move to next node
+     * and add to list of nodes
+     *
+     * @param node start node
+     * @param mark mark added node
+     * @param list sorted list of nodes
+     * @return node to move to
+     */
+    private BSNode<T> postOrderMove(BSNode<T> node, boolean mark, ArrayList<BSNode<T>> list) {
+        if (node.isVisited != mark) {
+            if (node.leftNode != null && node.leftNode.isVisited != mark) {
+                return  node.leftNode;
             }
             if (node.rightNode != null && node.rightNode.isVisited != mark) {
                 return  node.rightNode;

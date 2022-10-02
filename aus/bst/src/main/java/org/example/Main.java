@@ -49,6 +49,8 @@ public class Main {
         tree.levelOrder().forEach(n -> System.out.print(n.key.toString() + ' '));
         System.out.println();
         tree.inOrder().forEach(n -> System.out.print(n.key.toString() + ' '));
+        System.out.println();
+        tree.postOrder().forEach(n -> System.out.print(n.key.toString() + ' '));
 
 
     }
