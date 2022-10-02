@@ -19,22 +19,13 @@ public class Main {
 
         BSTree<Integer> tree = new BSTree<>();
 
-
-        BSData<Integer> e1 = new Element(10);
-        BSData<Integer> e2 = new Element(20);
-        BSData<Integer> e3 = new Element(5);
-        BSData<Integer> e4 = new Element(7);
-        BSData<Integer> e5 = new Element(2);
-        BSData<Integer> e6 = new Element(6);
-        BSData<Integer> e7 = new Element(8);
-        tree.insert(e1);
-        tree.insert(e1);
-        tree.insert(e2);
-        tree.insert(e3);
-        tree.insert(e4);
-        tree.insert(e5);
-        tree.insert(e6);
-        tree.insert(e7);
+        tree.insert(new Element(10));
+        tree.insert(new Element(20));
+        tree.insert(new Element(5));
+        tree.insert(new Element(7));
+        tree.insert(new Element(2));
+        tree.insert(new Element(6));
+        tree.insert(new Element(8));
 
         tree.find(2);
 
