@@ -63,7 +63,7 @@ public class BSTree<T> {
      * @return removed data
      */
     public BSData<T> remove(T key) {
-        BSNode<T> nodeToRemove = this.findNode(key);
+        final BSNode<T> nodeToRemove = this.findNode(key);
         if (nodeToRemove == null) {
             return null;
         }
@@ -74,11 +74,11 @@ public class BSTree<T> {
         if (oneChildNull(nodeToRemove)) return nodeToRemove.data;
 
         //both children
-        BSNode<T> inorderSuccessor = findInorderSuccessor(nodeToRemove.leftNode);
+        final BSNode<T> inorderSuccessor = findInorderSuccessor(nodeToRemove.leftNode);
         bothChildNull(inorderSuccessor);
         oneChildNull(inorderSuccessor);
         final BSData<T> retData = nodeToRemove.data;
-        swapData(nodeToRemove, inorderSuccessor);
+        nodeToRemove.data = inorderSuccessor.data;
         return retData;
     }
 
@@ -301,16 +301,6 @@ public class BSTree<T> {
     }
 
     /**
-     * used to swap data when removing node with both children
-     *
-     * @param nodeToRemove BSNode<T>
-     * @param inorderSuccessor BSNode<T>
-     */
-    private void swapData(BSNode<T> nodeToRemove, BSNode<T> inorderSuccessor) {
-        nodeToRemove.data = inorderSuccessor.data;
-    }
-
-    /**
      * used to find node by key
      * @param searchKey BSNode<T>
      * @return node
@@ -320,7 +310,7 @@ public class BSTree<T> {
             return null;
         }
 
-        BSData<T> searchElement = new BSData<>(searchKey) {
+        final BSData<T> searchElement = new BSData<>(searchKey) {
             @Override
             public Compare compare(BSData<T> data) {
                 return null;
