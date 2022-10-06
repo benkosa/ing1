@@ -13,10 +13,10 @@ public class BSTree<T> {
      * iterative insert
      * @param incomingNode incomingNode
      */
-    public void insert(BSData<T> incomingNode) {
+    public boolean insert(BSData<T> incomingNode) {
         if (root == null) {
             root = new BSNode<>(incomingNode);
-            return;
+            return true;
         }
         BSNode<T>currentNode = root;
 
@@ -24,13 +24,13 @@ public class BSTree<T> {
             //no duplicates
             final Compare compareResult = currentNode.data.compare(incomingNode);
             if (compareResult == Compare.EQUAL) {
-                return;
+                return false;
             //leftNode
             } else if (compareResult == Compare.LESS) {
                 if (currentNode.leftNode == null) {
                     currentNode.leftNode = new BSNode<>(incomingNode);
                     currentNode.leftNode.parent = currentNode;
-                    return;
+                    return true;
                 } else {
                     currentNode = currentNode.leftNode;
                 }
@@ -39,7 +39,7 @@ public class BSTree<T> {
                 if (currentNode.rightNode == null) {
                     currentNode.rightNode = new BSNode<>(incomingNode);
                     currentNode.rightNode.parent = currentNode;
-                    return;
+                    return true;
                 } else {
                     currentNode = currentNode.rightNode;
                 }
@@ -283,8 +283,8 @@ public class BSTree<T> {
     /**
      * used to remove node when node has one or none child
      *
-     * @param parent BSNode<T>
-     * @param child BSNode<T>
+     * @param parent nodeToRemove.parent
+     * @param child nodeToRemove.child
      * @param nodeToRemove BSNode<T>
      */
     private void swapNodes(BSNode<T> parent, BSNode<T> child, BSNode<T> nodeToRemove) {

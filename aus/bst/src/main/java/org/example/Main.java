@@ -1,5 +1,7 @@
 package org.example;
 
+import java.util.Random;
+
 public class Main {
 
     public static class Element extends BSData<Integer> {
@@ -17,31 +19,29 @@ public class Main {
 
     public static void main(String[] args) {
 
+        BSTTests test = new BSTTests();
+
+        //test.testInsertWithDuplicities();
+        //test.testInsert();
+        //test.testInsertAndRemove();
+
+        Random rand = new Random(2);
         BSTree<Integer> tree = new BSTree<>();
-
-        tree.insert(new Element(10));
-        tree.insert(new Element(20));
-        tree.insert(new Element(5));
-        tree.insert(new Element(7));
-        tree.insert(new Element(2));
-        tree.insert(new Element(2));
-        tree.insert(new Element(6));
-        tree.insert(new Element(8));
-
-        System.out.println(tree.find(2).key);
-        System.out.println(tree.remove(10).key);
-        System.out.println(tree.find(10));
-
-        tree.levelOrder().forEach(n -> System.out.print(n.key.toString() + ' '));
-        System.out.println();
-        tree.inOrder().forEach(n -> System.out.print(n.key.toString() + ' '));
-        System.out.println();
-        tree.postOrder().forEach(n -> System.out.print(n.key.toString() + ' '));
-
-        while (tree.getRoot() != null) {
-            tree.remove(tree.getRoot().key);
+        for (int i = 0; i < 10; i++) {
+            tree.insert(new Main.Element(rand.nextInt(100)));
         }
 
+        tree.levelOrder().forEach(a -> System.out.print(a.key + ","));
+        System.out.println();
 
+
+        for (int i = 0; i< 4; i++) {
+            tree.remove(tree.getRoot().key);
+            tree.levelOrder().forEach(a -> System.out.print(a.key + ","));
+            System.out.println();
+
+        }
+
+        System.out.println();
     }
 }
