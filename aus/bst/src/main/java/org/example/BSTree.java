@@ -9,6 +9,10 @@ public class BSTree<T> {
         return root == null ? null : root.data;
     }
 
+    public BSNode<T> getRootNode() {
+        return root;
+    }
+
     /**
      * iterative insert
      * @param incomingNode incomingNode
@@ -74,7 +78,7 @@ public class BSTree<T> {
         if (oneChildNull(nodeToRemove)) return nodeToRemove.data;
 
         //both children
-        final BSNode<T> inorderSuccessor = findInorderSuccessor(nodeToRemove.leftNode);
+        final BSNode<T> inorderSuccessor = findInorderSuccessor(nodeToRemove);
         bothChildNull(inorderSuccessor);
         oneChildNull(inorderSuccessor);
         final BSData<T> retData = nodeToRemove.data;
@@ -106,6 +110,95 @@ public class BSTree<T> {
         return getOrderData(postOrderNodes());
     }
 
+    public void leftRotation(BSNode<T> root) {
+        if (root.rightNode == null) {
+            return;
+        }
+        final BSNode<T> pivot = root.rightNode;
+        final BSNode<T> A = pivot.rightNode;
+        final BSNode<T> B = pivot.leftNode;
+        final BSNode<T> C = root.leftNode;
+
+        BSData<T> tmpRootData = root.data;
+        root.data = pivot.data;
+        pivot.data = tmpRootData;
+        if(B != null) B.parent = pivot;
+        root.leftNode = pivot;
+        root.rightNode = A;
+        pivot.rightNode = B;
+        pivot.leftNode = C;
+    }
+
+    public void rightRotation(BSNode<T> root) {
+        // no pivot
+        if (root.leftNode == null) {
+            return;
+        }
+        final BSNode<T> pivot = root.leftNode;
+        final BSNode<T> A = pivot.leftNode;
+        final BSNode<T> B = pivot.rightNode;
+        final BSNode<T> C = root.rightNode;
+
+        BSData<T> tmpRootData = root.data;
+        root.data = pivot.data;
+        pivot.data = tmpRootData;
+        if(C != null) C.parent = pivot;
+        root.rightNode = pivot;
+        root.leftNode = A;
+        pivot.leftNode = B;
+        pivot.rightNode = C;
+    }
+
+    /**
+     * n+n/2*n/2+n
+     */
+    public void balanceTree() {
+        ArrayList<BSData<T>> inOrderData = inOrder();
+        boolean mark = !root.isVisited;
+        int median = inOrderData.size()/2;
+        BSNode<T> nodeToBubble = findNode(inOrderData.get(median).key);
+
+        //move median to root
+        for (; nodeToBubble.parent != null; nodeToBubble = nodeToBubble.parent) {
+            if (nodeToBubble.parent.leftNode == nodeToBubble) {
+                this.rightRotation(nodeToBubble.parent);
+            } else {
+                this.leftRotation(nodeToBubble.parent);
+            }
+        }
+        nodeToBubble.isVisited = mark;
+        ArrayList<Integer> medians = new ArrayList<>(inOrderData.size());
+
+        //get array of all others medians
+        while (median > 0) {
+            int currentMedian = median/2;
+            medians.add(currentMedian);
+            for (int i = currentMedian+median; i < inOrderData.size(); i+= median) {
+                medians.add(i);
+            }
+            median = currentMedian;
+        }
+
+        //bubble all others nodes until node reach balanced node
+        for (Integer selectedMedian: medians) {
+            nodeToBubble = findNode(inOrderData.get(selectedMedian).key);
+            if (nodeToBubble.isVisited != mark) {
+                for (; nodeToBubble.parent.isVisited != mark; nodeToBubble = nodeToBubble.parent) {
+                    if (nodeToBubble.parent.leftNode == nodeToBubble) {
+                        this.rightRotation(nodeToBubble.parent);
+                    } else {
+                        this.leftRotation(nodeToBubble.parent);
+                    }
+                }
+                nodeToBubble.isVisited = mark;
+            }
+        }
+
+        //tidy visited
+
+        levelOrderNodes().forEach(a -> a.isVisited = false);
+
+    }
     private ArrayList<BSData<T>> getOrderData(ArrayList<BSNode<T>> sortedNodes) {
         if (sortedNodes == null) return null;
         final ArrayList<BSData<T>> sortedData = new ArrayList<>(sortedNodes.size());
@@ -127,7 +220,6 @@ public class BSTree<T> {
         do {
             startNode = inOrderMove(startNode, mark, inOrderList);
         } while (startNode != null);
-
         return inOrderList;
     }
 
@@ -160,7 +252,7 @@ public class BSTree<T> {
      */
     private BSNode<T> inOrderMove(BSNode<T> node, boolean mark, ArrayList<BSNode<T>> list) {
         if (node.isVisited != mark) {
-            if (node.leftNode != null) {
+            if (node.leftNode != null && node.leftNode.isVisited != mark) {
                 if (node.leftNode.isVisited == mark) {
                     node.isVisited = mark;
                     list.add(node);
@@ -169,6 +261,8 @@ public class BSTree<T> {
                 }
             }
             if (node.rightNode != null && node.rightNode.isVisited != mark) {
+                list.add(node);
+                node.isVisited = mark;
                 return  node.rightNode;
             }
             if (node.isVisited != mark) {
@@ -176,6 +270,7 @@ public class BSTree<T> {
                 list.add(node);
             }
         }
+        //System.out.println(node.data.key);
         return node.parent;
     }
 
@@ -233,17 +328,43 @@ public class BSTree<T> {
         return levelOrderList;
     }
 
+    public int getHeight() {
+        if (root == null) {
+            return 0;
+        }
+        final ArrayList<BSNode<T>> levelOrderList = new ArrayList<>();
+        int startIndex = 0;
+        int endIndex = 1;
+        int newEndIndex = 1;
+        int height = 0;
+        levelOrderList.add(root);
+        while (startIndex != newEndIndex) {
+            height++;
+            for (; startIndex < endIndex; startIndex++) {
+                final BSNode<T> rightNode = levelOrderList.get(startIndex).rightNode;
+                final BSNode<T> leftNode = levelOrderList.get(startIndex).leftNode;
+                if (leftNode != null) {
+                    levelOrderList.add(leftNode);
+                    newEndIndex++;
+                }
+                if (rightNode != null) {
+                    levelOrderList.add(rightNode);
+                    newEndIndex++;
+                }
+            }
+            endIndex = newEndIndex;
+        }
+        return height;
+    }
+
     /**
      * used to find inorder successor when removing node
-     * @param startNode leftNode of nodeToRemove
+     * @param startNode node to remove
      * @return successor
      */
     private BSNode<T> findInorderSuccessor(BSNode<T> startNode) {
-        BSNode<T> ret = startNode;
-        for (BSNode<T> i = ret ; i != null; i = i.rightNode) {
-            ret = i;
-        }
-        return ret;
+        for (startNode = startNode.leftNode; startNode.rightNode != null; startNode = startNode.rightNode);
+        return startNode;
     }
 
     /**
@@ -289,7 +410,7 @@ public class BSTree<T> {
      */
     private void swapNodes(BSNode<T> parent, BSNode<T> child, BSNode<T> nodeToRemove) {
         if (child != null) {
-            child.parent = parent == null ? null : parent.parent;
+            child.parent = parent;
         }
         if (parent == null) {
             this.root = child;

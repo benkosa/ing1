@@ -15,7 +15,7 @@ export class LogicComponent implements OnInit {
   }
 
   testTree() {
-    class Element implements BSTData<number, string> {
+    class Element implements BSTData<number> {
       constructor(public data: number) {}
       compare(data: number): string {
         if (data < this.data) return "<";
@@ -29,7 +29,7 @@ export class LogicComponent implements OnInit {
     const el3 = new Element(10);
     const el4 = new Element(80);
 
-    const tree: BSTree<Element> = new BSTree<Element>();
+    const tree: BSTree<Number> = new BSTree<Number>();
 
     tree.insert(el1);
     tree.insert(el1);
