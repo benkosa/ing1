@@ -112,6 +112,7 @@ public class BSTree<T> {
 
     public void leftRotation(BSNode<T> root) {
         if (root.rightNode == null) {
+            System.out.println("rightRotation");
             return;
         }
         final BSNode<T> pivot = root.rightNode;
@@ -122,8 +123,9 @@ public class BSTree<T> {
         BSData<T> tmpRootData = root.data;
         root.data = pivot.data;
         pivot.data = tmpRootData;
-        if(B != null) B.parent = pivot;
         root.leftNode = pivot;
+        if(A != null) A.parent = root;
+        if(C != null) C.parent = pivot;
         root.rightNode = A;
         pivot.rightNode = B;
         pivot.leftNode = C;
@@ -132,6 +134,7 @@ public class BSTree<T> {
     public void rightRotation(BSNode<T> root) {
         // no pivot
         if (root.leftNode == null) {
+            System.out.println("rightRotation");
             return;
         }
         final BSNode<T> pivot = root.leftNode;
@@ -143,6 +146,7 @@ public class BSTree<T> {
         root.data = pivot.data;
         pivot.data = tmpRootData;
         if(C != null) C.parent = pivot;
+        if(A != null) A.parent = root;
         root.rightNode = pivot;
         root.leftNode = A;
         pivot.leftNode = B;
@@ -157,13 +161,19 @@ public class BSTree<T> {
         boolean mark = !root.isVisited;
         int median = inOrderData.size()/2;
         BSNode<T> nodeToBubble = findNode(inOrderData.get(median).key);
+        //System.out.println(nodeToBubble.data.key);
 
         //move median to root
         for (; nodeToBubble.parent != null; nodeToBubble = nodeToBubble.parent) {
+            //System.out.println("bol somt u");
             if (nodeToBubble.parent.leftNode == nodeToBubble) {
                 this.rightRotation(nodeToBubble.parent);
+                //levelOrder().forEach(a -> System.out.print(a.key + ","));
+                //System.out.println();
             } else {
                 this.leftRotation(nodeToBubble.parent);
+                //levelOrder().forEach(a -> System.out.print(a.key + ","));
+                //System.out.println();
             }
         }
         nodeToBubble.isVisited = mark;
@@ -179,8 +189,22 @@ public class BSTree<T> {
             median = currentMedian;
         }
 
+
+
+//        inOrderData.forEach(a -> System.out.print(a.key + ","));
+//        System.out.println();
+//        levelOrder().forEach(a -> System.out.print(a.key + ","));
+//        System.out.println();
+//        if (true)return;
+//
+//        System.out.println();
+
+
         //bubble all others nodes until node reach balanced node
         for (Integer selectedMedian: medians) {
+//            System.out.println(selectedMedian);
+//            System.out.println(inOrderData.get(selectedMedian).key);
+//            System.out.println(findNode(inOrderData.get(selectedMedian).key).data.key);
             nodeToBubble = findNode(inOrderData.get(selectedMedian).key);
             if (nodeToBubble.isVisited != mark) {
                 for (; nodeToBubble.parent.isVisited != mark; nodeToBubble = nodeToBubble.parent) {

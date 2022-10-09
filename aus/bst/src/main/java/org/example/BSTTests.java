@@ -51,16 +51,21 @@ public class BSTTests {
         for(int seed = 0; seed < 999999; seed++) {
             Random rand = new Random(seed);
             BSTree<Integer> tree = new BSTree<>();
-            for (int i = 0; i < 10; i++) {
+            for (int i = 0; i < 50; i++) {
                 tree.insert(new Main.Element(rand.nextInt(100)));
             }
             int sizeBefore = tree.inOrder().size();
+            int heightBefore = tree.getHeight();
             tree.balanceTree();
             int sizeAfter = tree.inOrder().size();
-            if (sizeBefore < sizeAfter) System.out.println(seed + " " + sizeBefore + " " + sizeAfter);
-            //while (tree.getRoot() != null) {
-            //    tree.remove(tree.getRoot().key);
-            //}
+            int heightAfter = tree.getHeight();
+            if (sizeBefore != sizeAfter) System.out.println("error: " + seed + " " + sizeBefore + " " + sizeAfter);
+            //if (heightBefore < heightAfter) System.out.println("error: " + seed + " " + heightBefore + " " + heightAfter);
+            if (heightAfter == 9) System.out.println(seed);
+            while (tree.getRoot() != null) {
+                //System.out.println(seed);
+                tree.remove(tree.getRoot().key);
+            }
         }
         System.out.println("result: no errors");
         System.out.println("---------------------------------------------------");

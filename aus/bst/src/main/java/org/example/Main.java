@@ -23,23 +23,34 @@ public class Main {
 
 //        test.testInsertWithDuplicities();
 //        test.testInsert();
-        test.testInsertAndRemoveRoot();
+        //test.testInsertAndRemoveRoot();
 //        test.testRandomOperation(.5,.5, 0, 9999,100, 100);
 //        test.testFind();
 
-        //BSTree<Integer> tree = new BSTree<>();
-
-        Random rand = new Random(53);
         BSTree<Integer> tree = new BSTree<>();
-        for (int i = 0; i < 10; i++) {
-            tree.insert(new Main.Element(rand.nextInt(100)));
+        for (int i = 0; i < 100; i++) {
+           tree.insert(new Main.Element(i));
         }
-        int sizeBefore = tree.inOrder().size();
-        tree.levelOrder().forEach(a -> System.out.print(a.key + ","));
-        System.out.println();
+        int heightBefore = tree.getHeight();
         tree.balanceTree();
-        tree.levelOrder().forEach(a -> System.out.print(a.key + ","));
-        System.out.println();
+        int heightAfter = tree.getHeight();
+        System.out.println(heightBefore);
+        System.out.println(heightAfter);
+
+
+//        Random rand = new Random(2);
+//        BSTree<Integer> tree = new BSTree<>();
+//        for (int i = 0; i < 4; i++) {
+//            tree.insert(new Main.Element(rand.nextInt(100)));
+//        }
+//        int sizeBefore = tree.inOrder().size();
+//        tree.levelOrder().forEach(a -> System.out.print(a.key + ","));
+//        System.out.println();
+//        tree.balanceTree();
+//        tree.levelOrder().forEach(a -> System.out.print(a.key + ","));
+//        System.out.println();
+//        tree.inOrder().forEach(a -> System.out.print(a.key + ","));
+//        System.out.println();
 
 
 //        tree.insert(new Element(2));
