@@ -20,61 +20,43 @@ public class BSTTests {
         }
     }
 
-    public void testInsertWithDuplicities() {
-        Random rand = new Random(2);
-
-        int countElements = 0;
-        System.out.println("make 999999 inserts with value (0..99)");
-        System.out.println("expected result: 100");
-        BSTree<Integer> tree = new BSTree<>();
-        for (int i = 0; i < 999999; i++) {
-            countElements+=tree.insert(new Element(rand.nextInt(100))) ? 1 : 0;
-        }
-        System.out.println("result: " + countElements);
-//        System.out.println("---------------------------------------------------");
-//        System.out.println(tree.getHeight());
-//        tree.levelOrder().forEach(a -> System.out.print(a.key + ","));
-//        System.out.println();
-//        tree.balanceTree();
-//        tree.levelOrder().forEach(a -> System.out.print(a.key + ","));
-//        System.out.println();
-//        tree.inOrder().forEach(a -> System.out.print(a.key + ","));
-//        System.out.println();
-//        System.out.println(tree.inOrder().size());
-//        System.out.println(tree.getHeight());
-//        System.out.println("---------------------------------------------------");
-    }
-
-    public void testInsert() {
-        System.out.println("test create 999999 different trees with 10 elements");
-        System.out.println("expected result: no errors");
-        for(int seed = 0; seed < 999999; seed++) {
-            Random rand = new Random(seed);
-            BSTree<Integer> tree = new BSTree<>();
-            for (int i = 0; i < 10; i++) {
-                tree.insert(new Element(rand.nextInt(100)));
-            }
-        }
-        System.out.println("result: no errors");
-        System.out.println("---------------------------------------------------");
-    }
-
-    public void testInsertBalanceFindRemove() {
-        System.out.println("test create 999999 different trees with 10 elements");
+    public void testInsertBalanceFindRemove(int replications, int maxNumberOfElements, int maxInt) {
+        System.out.println("test: " + replications + " replications, max value: " + maxInt);
+        System.out.println(" - insert " + maxNumberOfElements + " number of elements");
+        System.out.println(" - balance tree");
+        System.out.println(" - find all inserted nodes");
+        System.out.println(" - remove tree from node");
         System.out.println("remove root until tree is null");
         System.out.println("expected result: no errors");
-        for(int seed = 0; seed < 999999; seed++) {
+        for(int seed = 0; seed < replications; seed++) {
             Random rand = new Random(seed);
             BSTree<Integer> tree = new BSTree<>();
-            for (int i = 0; i < 50; i++) {
-                tree.insert(new Element(rand.nextInt(100)));
+            ArrayList<BSData<Integer>> insertedElements = new ArrayList<>();
+
+            // create tree
+            for (int i = 0; i < maxNumberOfElements; i++) {
+                final Element element = new Element(rand.nextInt(maxInt));
+                if (tree.insert(element)) {
+                    insertedElements.add(element);
+                }
             }
+
+            // balance
             int sizeBefore = tree.inOrder().size();
             tree.balanceTree();
             int sizeAfter = tree.inOrder().size();
-            if (sizeBefore != sizeAfter) System.out.println("error lost nodes: " + seed + " " + sizeBefore + " " + sizeAfter);
+            if (sizeBefore != sizeAfter)
+                System.out.println("error lost nodes: " + seed + " " + sizeBefore + " " + sizeAfter);
+
+            // find inserted nodes
+            for (BSData<Integer> element: insertedElements) {
+                if (tree.find(element.key) == null) {
+                    System.out.println("error: lost element " + seed);
+                }
+            }
+
+            // remove tree
             while (tree.getRoot() != null) {
-                //System.out.println(seed);
                 tree.remove(tree.getRoot().key);
             }
         }
@@ -119,29 +101,6 @@ public class BSTTests {
 
     }
 
-    public void testFind() {
-        System.out.println("test find function by making tree, get levelOrder");
-        System.out.println("array and find every element from array");
-        System.out.println("expected result: no errors");
-
-        for(int seed = 0; seed < 999999; seed++) {
-            Random rand = new Random(seed);
-            BSTree<Integer> tree = new BSTree<>();
-            for (int i = 0; i < 10; i++) {
-                tree.insert(new Element(rand.nextInt(100)));
-            }
-            ArrayList<BSData<Integer>> insertedValues = tree.levelOrder();
-            insertedValues.forEach(
-                    element -> {
-                        if (tree.find(element.key) == null) {
-                            System.out.println("error: key not found");
-                        }
-                    }
-            );
-        }
-        System.out.println("result: no errors");
-        System.out.println("---------------------------------------------------");
-    }
 
 
 }
