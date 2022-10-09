@@ -3,7 +3,22 @@ package org.example;
 import java.util.ArrayList;
 import java.util.Random;
 
+
+
 public class BSTTests {
+
+    public static class Element extends BSData<Integer> {
+        Element(Integer key) {
+            super(key);
+        }
+
+        @Override
+        public Compare compare(BSData<Integer> data) {
+            if (data.key < this.key) return Compare.LESS;
+            if (data.key > this.key) return Compare.MORE;
+            return Compare.EQUAL;
+        }
+    }
 
     public void testInsertWithDuplicities() {
         Random rand = new Random(2);
@@ -13,7 +28,7 @@ public class BSTTests {
         System.out.println("expected result: 100");
         BSTree<Integer> tree = new BSTree<>();
         for (int i = 0; i < 999999; i++) {
-            countElements+=tree.insert(new Main.Element(rand.nextInt(100))) ? 1 : 0;
+            countElements+=tree.insert(new Element(rand.nextInt(100))) ? 1 : 0;
         }
         System.out.println("result: " + countElements);
 //        System.out.println("---------------------------------------------------");
@@ -37,14 +52,14 @@ public class BSTTests {
             Random rand = new Random(seed);
             BSTree<Integer> tree = new BSTree<>();
             for (int i = 0; i < 10; i++) {
-                tree.insert(new Main.Element(rand.nextInt(100)));
+                tree.insert(new Element(rand.nextInt(100)));
             }
         }
         System.out.println("result: no errors");
         System.out.println("---------------------------------------------------");
     }
 
-    public void testInsertAndRemoveRoot() {
+    public void testInsertBalanceFindRemove() {
         System.out.println("test create 999999 different trees with 10 elements");
         System.out.println("remove root until tree is null");
         System.out.println("expected result: no errors");
@@ -52,16 +67,12 @@ public class BSTTests {
             Random rand = new Random(seed);
             BSTree<Integer> tree = new BSTree<>();
             for (int i = 0; i < 50; i++) {
-                tree.insert(new Main.Element(rand.nextInt(100)));
+                tree.insert(new Element(rand.nextInt(100)));
             }
             int sizeBefore = tree.inOrder().size();
-            int heightBefore = tree.getHeight();
             tree.balanceTree();
             int sizeAfter = tree.inOrder().size();
-            int heightAfter = tree.getHeight();
-            if (sizeBefore != sizeAfter) System.out.println("error: " + seed + " " + sizeBefore + " " + sizeAfter);
-            //if (heightBefore < heightAfter) System.out.println("error: " + seed + " " + heightBefore + " " + heightAfter);
-            if (heightAfter == 9) System.out.println(seed);
+            if (sizeBefore != sizeAfter) System.out.println("error lost nodes: " + seed + " " + sizeBefore + " " + sizeAfter);
             while (tree.getRoot() != null) {
                 //System.out.println(seed);
                 tree.remove(tree.getRoot().key);
@@ -94,7 +105,7 @@ public class BSTTests {
                 Integer value = rand.nextInt(maxValue);
                 double operation = rand.nextFloat();
                 if (pInsert < operation) {
-                    tree.insert(new Main.Element(value));
+                    tree.insert(new Element(value));
                 } else if (pInsert + pRemove < operation) {
                     tree.remove(value);
                 } else {
@@ -117,7 +128,7 @@ public class BSTTests {
             Random rand = new Random(seed);
             BSTree<Integer> tree = new BSTree<>();
             for (int i = 0; i < 10; i++) {
-                tree.insert(new Main.Element(rand.nextInt(100)));
+                tree.insert(new Element(rand.nextInt(100)));
             }
             ArrayList<BSData<Integer>> insertedValues = tree.levelOrder();
             insertedValues.forEach(

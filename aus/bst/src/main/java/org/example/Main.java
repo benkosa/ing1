@@ -4,19 +4,6 @@ import java.util.Random;
 
 public class Main {
 
-    public static class Element extends BSData<Integer> {
-        Element(Integer key) {
-            super(key);
-        }
-
-        @Override
-        public Compare compare(BSData<Integer> data) {
-            if (data.key < this.key) return Compare.LESS;
-            if (data.key > this.key) return Compare.MORE;
-            return Compare.EQUAL;
-        }
-    }
-
     public static void main(String[] args) {
 
         BSTTests test = new BSTTests();
@@ -27,15 +14,15 @@ public class Main {
 //        test.testRandomOperation(.5,.5, 0, 9999,100, 100);
 //        test.testFind();
 
-        BSTree<Integer> tree = new BSTree<>();
-        for (int i = 0; i < 100; i++) {
-           tree.insert(new Main.Element(i));
-        }
-        int heightBefore = tree.getHeight();
-        tree.balanceTree();
-        int heightAfter = tree.getHeight();
-        System.out.println(heightBefore);
-        System.out.println(heightAfter);
+//        BSTree<Integer> tree = new BSTree<>();
+//        for (int i = 0; i < 100; i++) {
+//           tree.insert(new Main.Element(i));
+//        }
+//        int heightBefore = tree.getHeight();
+//        tree.balanceTree();
+//        int heightAfter = tree.getHeight();
+//        System.out.println(heightBefore);
+//        System.out.println(heightAfter);
 
 
 //        Random rand = new Random(2);
