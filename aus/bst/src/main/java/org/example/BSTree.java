@@ -173,19 +173,9 @@ public class BSTree<T> {
                 this.leftRotation(nodeToBubble.parent);
             }
         }
+
         nodeToBubble.isVisited = mark;
-        ArrayList<Integer> medians = new ArrayList<>(inOrderData.size());
-
-        //get array of all others medians
-        while (median > 0) {
-            int currentMedian = median/2;
-            medians.add(currentMedian);
-            for (int i = currentMedian+median; i < inOrderData.size(); i+= median) {
-                medians.add(i);
-            }
-            median = currentMedian;
-        }
-
+        ArrayList<Integer> medians = getMediansIndexes(inOrderData.size());
 
         //bubble all others nodes until node reach balanced node
         for (Integer selectedMedian: medians) {
@@ -360,7 +350,7 @@ public class BSTree<T> {
     }
 
     /**
-     * used to find inorder successor when removing node
+     * used to find inorder predecesor when removing node
      * @param startNode node to remove
      * @return successor
      */
@@ -464,5 +454,19 @@ public class BSTree<T> {
             }
         }
     }
+
+    public ArrayList<Integer> getMediansIndexes(int size) {
+        int median = size;
+        ArrayList<Integer> medians = new ArrayList<>();
+        while (median > 0) {
+            int newMedian = median/2;
+            medians.add(newMedian);
+            for (int i = newMedian+median; i < size; i+= median) {
+                if (!medians.contains(i)) medians.add(i);
+            }
+            median = newMedian;
+        }
+        return medians;
+    };
 
 }

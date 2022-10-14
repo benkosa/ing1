@@ -6,12 +6,16 @@ public class Main {
 
     public static void main(String[] args) {
 
+
+
+
         BSTTests test = new BSTTests();
+
 
         test.testInsertBalanceFindRemove(
                 99999,
-                100,
-                100
+                1000,
+                Integer.MAX_VALUE
         );
 
         test.testRandomOperation(
@@ -19,8 +23,8 @@ public class Main {
                 .25,
                 .25,
                 99999,
-                100,
-                100
+                300,
+                300
         );
     }
 }

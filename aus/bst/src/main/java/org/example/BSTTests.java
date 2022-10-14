@@ -12,6 +12,8 @@ public class BSTTests {
             super(key);
         }
 
+        int counter = 1;
+
         @Override
         public Compare compare(BSData<Integer> data) {
             if (data.key < this.key) return Compare.LESS;
@@ -28,6 +30,8 @@ public class BSTTests {
         System.out.println(" - remove tree from node");
         System.out.println("remove root until tree is null");
         System.out.println("expected result: no errors");
+        BSTree<Integer> treeHeights = new BSTree<>();
+
         for(int seed = 0; seed < replications; seed++) {
             Random rand = new Random(seed);
             BSTree<Integer> tree = new BSTree<>();
@@ -42,11 +46,22 @@ public class BSTTests {
             }
 
             // balance
+            int heightBefore = tree.getHeight();
             int sizeBefore = tree.inOrder().size();
             tree.balanceTree();
             int sizeAfter = tree.inOrder().size();
+            int heightAfter = tree.getHeight();
             if (sizeBefore != sizeAfter)
                 System.out.println("error lost nodes: " + seed + " " + sizeBefore + " " + sizeAfter);
+            System.out.print("\b\b\b\b\b");
+            System.out.print(Math.round(((float)seed/replications)*100) + " %");
+            Element height = (Element)treeHeights.find(heightAfter);
+            if (height == null) {
+                treeHeights.insert(new Element(heightAfter));
+            } else {
+                height.counter++;
+            }
+
 
             // find inserted nodes
             for (BSData<Integer> element: insertedElements) {
@@ -60,6 +75,11 @@ public class BSTTests {
                 tree.remove(tree.getRoot().key);
             }
         }
+        System.out.println();
+        treeHeights.inOrder().forEach(data -> {
+            Element element = (Element)data;
+            System.out.println("height: " + element.key + ", occurrences: " + element.counter);
+        });
         System.out.println("result: no errors");
         System.out.println("---------------------------------------------------");
     }
@@ -95,7 +115,12 @@ public class BSTTests {
                 }
 
             }
+
+            System.out.print("\b\b\b\b\b");
+            System.out.print(Math.round(((float)seed/replication)*100) + " %");
         }
+
+        System.out.println();
         System.out.println("result: no errors");
         System.out.println("---------------------------------------------------");
 
