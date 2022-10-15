@@ -1,0 +1,30 @@
+SELECT
+    ID_OKRESU, ROD_CISLO, MAX(SUM(SUMA)) FORM ...
+GROUP BY
+    ID_OKRESU, ROD_CISLO
+HAVING
+    SUM(SUMA) IN (
+    SELECT
+        );
+
+-- TODO  dorobit doma
+SELECT
+    MENO, PRIEZVISKO
+FROM
+    P_OSOBA
+WHERE
+    NOT EXISTS (
+        SELECT
+            'x'
+        FROM
+            P_ZTP USING (ROD_CISLO)
+        WHERE
+            P_OSOBA.ROD_CISLO = P_ZTP.ROD_CISLO
+    );
+
+SELECT
+    MOD(SUBSTR(ROD_CISLO, 3, 2), 50)
+FROM
+    OS_UDAJE
+ORDER BY
+    1;

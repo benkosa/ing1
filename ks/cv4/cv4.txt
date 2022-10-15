@@ -1,0 +1,8 @@
+iptables -A OUTPUT -p tcp –dport 443 -j DROP
+    zakazanie HTTPS
+iptables -A OUTPUT -p tcp –dport 22 -j DROP
+	zakazanie ssh
+
+
+iptables -A OUTPUT -d 8.8.8.8 -j REJECT
+iptables -A OUTPUT -d 31.13.84.36 -j REJECT
