@@ -1,5 +1,6 @@
 package org.example;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 public class Main {
@@ -12,8 +13,8 @@ public class Main {
         BSTTests test = new BSTTests();
 
         test.testInsertMultiple(
-                99,
-                50,
+                10,
+                1000000,
                 Integer.MAX_VALUE
         );
 

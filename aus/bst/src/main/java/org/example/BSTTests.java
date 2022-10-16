@@ -155,17 +155,12 @@ public class BSTTests {
             System.out.print(Math.round(((float)seed/replications)*100) + " %");
 
         }
+        System.out.println();
         System.out.println("best height: " + countBestHeight(maxNumberOfElements));
         treeHeights.inOrder().forEach(data -> {
             Element element = (Element)data;
             System.out.println("height: " + element.key + ", occurrences: " + element.counter);
         });
-
-        treeHeights.getMediansIndexes(maxNumberOfElements).forEach(a-> System.out.print(a + ","));
-        System.out.println();
-        System.out.println(treeHeights.getMediansIndexes(maxNumberOfElements).size());
-
-
     }
 
     private int countBestHeight(int numberOfElements) {

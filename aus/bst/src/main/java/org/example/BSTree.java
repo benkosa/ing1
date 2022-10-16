@@ -85,7 +85,8 @@ public class BSTree<T> {
             }
         });
 
-        ArrayList<Integer> medians = getMediansIndexes(elementsList.size());
+        ArrayList<Integer> medians = new ArrayList<>();
+        getMediansRecursive(medians, 0, elementsList.size() -1);
         int countInserted = 0;
         for (int median: medians ) {
             countInserted += insert(elementsList.get(median)) ? 1 : 0;
@@ -213,7 +214,10 @@ public class BSTree<T> {
         }
 
         nodeToBubble.isVisited = mark;
-        ArrayList<Integer> medians = getMediansIndexes(inOrderData.size());
+        //ArrayList<Integer> medians = getMediansIndexes(inOrderData.size());
+
+        ArrayList<Integer> medians = new ArrayList<>();
+        getMediansRecursive(medians, 0, inOrderData.size() -1);
 
         //bubble all others nodes until node reach balanced node
         for (Integer selectedMedian: medians) {
@@ -506,5 +510,21 @@ public class BSTree<T> {
         }
         return medians;
     };
+
+    ArrayList<Integer> medians = new ArrayList<>();
+    public void getMediansRecursive(ArrayList<Integer> arr, int start, int end) {
+
+        if (start > end) {
+            return;
+        }
+
+        int mid = (start + end) / 2;
+        arr.add(mid);
+
+        getMediansRecursive( arr, start, mid - 1);
+
+        getMediansRecursive( arr, mid + 1, end);
+
+    }
 
 }
