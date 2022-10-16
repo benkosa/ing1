@@ -8,7 +8,7 @@ FROM
     JOIN P_ZAMESTNAVATEL
     ON (P_ZAMESTNAVATEL.ICO = P_ZAMESTNANEC.ID_ZAMESTNAVATELA)
 WHERE
-    NAZOV = 'Tesco';
+    NAZOV = 'Tesco' and DAT_DO is not null;
 
 -- 2
 -- Ku každému veku vypíšte počet osôb, ktoré sú
@@ -65,6 +65,16 @@ WHERE
             TO_CHAR(EXTRACT(YEAR FROM POP.DAT_PLATBY)) = 2017
     );
 
+SELECT
+    MENO, PRIEZVISKO, SUMA
+FROM
+    P_OSOBA
+    LEFT JOIN P_POISTENIE
+    USING (ROD_CISLO)
+    LEFT JOIN P_ODVOD_PLATBA POP
+    ON P_POISTENIE.ID_POISTENCA = POP.ID_POISTENCA
+where TO_CHAR(EXTRACT(YEAR FROM POP.DAT_PLATBY)) = 2017;
+
 -- 5
 -- Ku každému človeku vypíšte aj meno jeho menovca
 -- (majú zhodné priezviská, ale sú to dve osoby)
@@ -113,7 +123,7 @@ GROUP BY
 -- Vypíšte zoznam osôb, ktoré boli/sú súčasne viackrát poistencami.
 -- (Riešte aj prekrívanie intervalov)
 SELECT
-    *
+    OS.MENO, OS.PRIEZVISKO
 FROM
     P_OSOBA OS
     JOIN P_POISTENIE PS1
@@ -122,7 +132,11 @@ FROM
 WHERE
     PS1.ROD_CISLO = PS2.ROD_CISLO
     AND PS1.DAT_OD <= PS2.DAT_DO
-    AND PS1.DAT_DO >= PS2.DAT_OD;
+    AND PS1.DAT_DO >= PS2.DAT_OD
+HAVING
+    COUNT(os.ROD_CISLO) > 1
+GROUP BY
+    OS.ROD_CISLO, MENO, PRIEZVISKO;
 
 --9
 SELECT

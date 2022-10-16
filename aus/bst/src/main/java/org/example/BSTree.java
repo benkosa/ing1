@@ -113,7 +113,6 @@ public class BSTree<T> {
 
     public void leftRotation(BSNode<T> root) {
         if (root.rightNode == null) {
-            System.out.println("rightRotation");
             return;
         }
         final BSNode<T> pivot = root.rightNode;
@@ -133,9 +132,7 @@ public class BSTree<T> {
     }
 
     public void rightRotation(BSNode<T> root) {
-        // no pivot
         if (root.leftNode == null) {
-            System.out.println("rightRotation");
             return;
         }
         final BSNode<T> pivot = root.leftNode;
