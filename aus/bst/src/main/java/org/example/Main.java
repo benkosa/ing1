@@ -11,20 +11,27 @@ public class Main {
 
         BSTTests test = new BSTTests();
 
-
-        test.testInsertBalanceFindRemove(
-                99999,
-                1000,
+        test.testInsertMultiple(
+                99,
+                50,
                 Integer.MAX_VALUE
         );
 
-        test.testRandomOperation(
-                .5,
-                .25,
-                .25,
-                99999,
-                300,
-                300
-        );
+
+
+//        test.testInsertBalanceFindRemove(
+//                99999,
+//                1000,
+//                Integer.MAX_VALUE
+//        );
+//
+//        test.testRandomOperation(
+//                .5,
+//                .25,
+//                .25,
+//                99999,
+//                300,
+//                300
+//        );
     }
 }
