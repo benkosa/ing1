@@ -75,6 +75,7 @@ public class BSTTests {
                 tree.remove(tree.getRoot().key);
             }
         }
+        System.out.println("best height: " + countBestHeight(maxNumberOfElements));
         System.out.println();
         treeHeights.inOrder().forEach(data -> {
             Element element = (Element)data;
@@ -126,6 +127,53 @@ public class BSTTests {
 
     }
 
+    public void testInsertMultiple(int replications, int maxNumberOfElements, int maxInt) {
+        BSTree<Integer> treeHeights = new BSTree<>();
 
+        System.out.println();
+
+        for(int seed = 0; seed < replications; seed++) {
+            Random rand = new Random(seed);
+            BSTree<Integer> tree = new BSTree<>();
+            ArrayList<BSData<Integer>> elementsToInsert = new ArrayList<>();
+
+            // create tree
+            for (int i = 0; i < maxNumberOfElements; i++) {
+                elementsToInsert.add(new Element(rand.nextInt(maxInt)));
+            }
+            tree.insertMultiple(elementsToInsert);
+            int heightAfter = tree.getHeight();
+
+            Element height = (Element)treeHeights.find(heightAfter);
+            if (height == null) {
+                treeHeights.insert(new Element(heightAfter));
+            } else {
+                height.counter++;
+            }
+
+            System.out.print("\b\b\b\b\b");
+            System.out.print(Math.round(((float)seed/replications)*100) + " %");
+
+        }
+        System.out.println("best height: " + countBestHeight(maxNumberOfElements));
+        treeHeights.inOrder().forEach(data -> {
+            Element element = (Element)data;
+            System.out.println("height: " + element.key + ", occurrences: " + element.counter);
+        });
+
+        treeHeights.getMediansIndexes(maxNumberOfElements).forEach(a-> System.out.print(a + ","));
+        System.out.println();
+        System.out.println(treeHeights.getMediansIndexes(maxNumberOfElements).size());
+
+
+    }
+
+    private int countBestHeight(int numberOfElements) {
+        int height = 0;
+        for (int i = 1; i <= numberOfElements; i*=2) {
+            height++;
+        }
+        return height;
+    }
 
 }

@@ -1,9 +1,27 @@
 package org.example;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Objects;
 
 public class BSTree<T> {
+
+    private class ArraylistComparator implements Comparator<BSData<T>> {
+
+        @Override
+        public int compare(BSData<T> o1, BSData<T> o2) {
+            switch (o1.compare(o2)) {
+                case LESS:
+                    return -1;
+                case MORE:
+                    return 1;
+                default:
+                    return 0;
+            }
+        }
+    }
+
     private BSNode<T> root;
 
     public BSData<T> getRoot() {
@@ -50,6 +68,29 @@ public class BSTree<T> {
                 }
             }
         }
+    }
+
+    public int insertMultiple(ArrayList<BSData<T>> elementsList) {
+        elementsList.sort(new Comparator<BSData<T>>() {
+            @Override
+            public int compare(BSData<T> o1, BSData<T> o2) {
+                switch (o1.compare(o2)) {
+                    case LESS:
+                        return 1;
+                    case MORE:
+                        return -1;
+                    default:
+                        return 0;
+                }
+            }
+        });
+
+        ArrayList<Integer> medians = getMediansIndexes(elementsList.size());
+        int countInserted = 0;
+        for (int median: medians ) {
+            countInserted += insert(elementsList.get(median)) ? 1 : 0;
+        }
+        return countInserted;
     }
 
     /**
