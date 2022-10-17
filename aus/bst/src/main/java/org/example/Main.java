@@ -17,8 +17,8 @@ public class Main {
 
         test.testInsertBalanceFindRemove(
                 99999,
-                20,
-                Integer.MAX_VALUE
+                10,
+                100
         );
 
         test.testRandomOperation(
