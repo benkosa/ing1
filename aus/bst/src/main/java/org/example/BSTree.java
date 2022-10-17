@@ -150,14 +150,6 @@ public class BSTree<T> {
         return getOrderData(inOrderNodes());
     }
 
-    /**
-     * iterative post order
-     * @return in order list of data
-     */
-    public ArrayList<BSData<T>> postOrder() {
-        return getOrderData(postOrderNodes());
-    }
-
     public void leftRotation(BSNode<T> root) {
         if (root.rightNode == null) {
             return;
@@ -199,7 +191,7 @@ public class BSTree<T> {
     }
 
     /**
-     * n+n/2*n/2+n
+     *
      */
     public void balanceTree() {
         ArrayList<BSData<T>> inOrderData = inOrder();
@@ -244,6 +236,12 @@ public class BSTree<T> {
         ).forEach(a -> a.isVisited = false);
 
     }
+
+    /**
+     * create array of data from array of nodes
+     * @param sortedNodes array of nodes
+     * @return array of data
+     */
     private ArrayList<BSData<T>> getOrderData(ArrayList<BSNode<T>> sortedNodes) {
         if (sortedNodes == null) return null;
         final ArrayList<BSData<T>> sortedData = new ArrayList<>(sortedNodes.size());
@@ -268,23 +266,6 @@ public class BSTree<T> {
         return inOrderList;
     }
 
-    /**
-     * @return post order list of nodes
-     */
-    private ArrayList<BSNode<T>> postOrderNodes () {
-        if (root == null) {
-            return null;
-        }
-        final ArrayList<BSNode<T>> inOrderList = new ArrayList<>();
-        BSNode<T> startNode = root;
-        boolean mark = !root.isVisited;
-
-        do {
-            startNode = postOrderMove(startNode, mark, inOrderList);
-        } while (startNode != null);
-
-        return inOrderList;
-    }
 
     /**
      * used in inOrderNodes to move to next node
@@ -311,28 +292,6 @@ public class BSTree<T> {
         return node.parent;
     }
 
-    /**
-     * used in postOrderNodes to move to next node
-     * and add to list of nodes
-     *
-     * @param node start node
-     * @param mark mark added node
-     * @param list sorted list of nodes
-     * @return node to move to
-     */
-    private BSNode<T> postOrderMove(BSNode<T> node, boolean mark, ArrayList<BSNode<T>> list) {
-        if (node.isVisited != mark) {
-            if (node.leftNode != null && node.leftNode.isVisited != mark) {
-                return  node.leftNode;
-            }
-            if (node.rightNode != null && node.rightNode.isVisited != mark) {
-                return  node.rightNode;
-            }
-            node.isVisited = mark;
-            list.add(node);
-        }
-        return node.parent;
-    }
 
     /**
      * iterative level order
@@ -481,12 +440,10 @@ public class BSTree<T> {
             final Compare compareResult = currentNode.data.compare(searchElement);
             //found duplicate
             if (compareResult == Compare.EQUAL) {
-                improve(currentNode);
                 return currentNode;
                 //leftNode
             } else if (compareResult == Compare.LESS) {
                 if (currentNode.leftNode == null) {
-                    improve(currentNode);
                     return null;
                 } else {
                     currentNode = currentNode.leftNode;
@@ -494,7 +451,6 @@ public class BSTree<T> {
                 //rightNode
             } else if (compareResult == Compare.MORE) {
                 if (currentNode.rightNode == null) {
-                    improve(currentNode);
                     return null;
                 } else {
                     currentNode = currentNode.rightNode;
