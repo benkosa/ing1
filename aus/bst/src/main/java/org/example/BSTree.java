@@ -38,6 +38,7 @@ public class BSTree<T> {
                 if (currentNode.leftNode == null) {
                     currentNode.leftNode = new BSNode<>(incomingNode);
                     currentNode.leftNode.parent = currentNode;
+                    this.improve(currentNode);
                     return true;
                 } else {
                     currentNode = currentNode.leftNode;
@@ -47,10 +48,29 @@ public class BSTree<T> {
                 if (currentNode.rightNode == null) {
                     currentNode.rightNode = new BSNode<>(incomingNode);
                     currentNode.rightNode.parent = currentNode;
+                    this.improve(currentNode);
                     return true;
                 } else {
                     currentNode = currentNode.rightNode;
                 }
+            }
+        }
+    }
+
+    public void improve(BSNode<T> node) {
+        if (node.parent == null || node.parent.parent == null) {
+            return;
+        }
+        final BSNode<T> pivot = node.parent;
+        final BSNode<T> root = pivot.parent;
+
+        // if pivot and root has only one child
+        if ((pivot.rightNode == null ^ pivot.leftNode == null) &&
+                (root.rightNode == null ^ root.leftNode == null)) {
+            if (pivot.rightNode!= null) {
+                this.leftRotation(pivot);
+            } else {
+                this.rightRotation(pivot);
             }
         }
     }
@@ -461,10 +481,12 @@ public class BSTree<T> {
             final Compare compareResult = currentNode.data.compare(searchElement);
             //found duplicate
             if (compareResult == Compare.EQUAL) {
+                improve(currentNode);
                 return currentNode;
                 //leftNode
             } else if (compareResult == Compare.LESS) {
                 if (currentNode.leftNode == null) {
+                    improve(currentNode);
                     return null;
                 } else {
                     currentNode = currentNode.leftNode;
@@ -472,6 +494,7 @@ public class BSTree<T> {
                 //rightNode
             } else if (compareResult == Compare.MORE) {
                 if (currentNode.rightNode == null) {
+                    improve(currentNode);
                     return null;
                 } else {
                     currentNode = currentNode.rightNode;

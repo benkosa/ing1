@@ -48,20 +48,12 @@ public class BSTTests {
             // balance
             int heightBefore = tree.getHeight();
             int sizeBefore = tree.inOrder().size();
-            tree.balanceTree();
+            //tree.balanceTree();
             int sizeAfter = tree.inOrder().size();
-            int heightAfter = tree.getHeight();
             if (sizeBefore != sizeAfter)
                 System.out.println("error lost nodes: " + seed + " " + sizeBefore + " " + sizeAfter);
             System.out.print("\b\b\b\b\b");
             System.out.print(Math.round(((float)seed/replications)*100) + " %");
-            Element height = (Element)treeHeights.find(heightAfter);
-            if (height == null) {
-                treeHeights.insert(new Element(heightAfter));
-            } else {
-                height.counter++;
-            }
-
 
             // find inserted nodes
             for (BSData<Integer> element: insertedElements) {
@@ -69,6 +61,15 @@ public class BSTTests {
                     System.out.println("error: lost element " + seed);
                 }
             }
+
+            int heightAfter = tree.getHeight();
+            Element height = (Element)treeHeights.find(heightAfter);
+            if (height == null) {
+                treeHeights.insert(new Element(heightAfter));
+            } else {
+                height.counter++;
+            }
+
 
             // remove tree
             while (tree.getRoot() != null) {
