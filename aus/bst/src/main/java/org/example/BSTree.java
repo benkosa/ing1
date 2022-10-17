@@ -57,6 +57,13 @@ public class BSTree<T> {
         }
     }
 
+    /**
+     * used in insert method after insertion
+     * look at parent of inserted node. if imbalance is found
+     * make improvement
+     *
+     * @param node node
+     */
     public void improve(BSNode<T> node) {
         if (node.parent == null || node.parent.parent == null) {
             return;
@@ -75,19 +82,17 @@ public class BSTree<T> {
         }
     }
 
+    /**
+     * insert array of elements into tree and create perfect tree
+     *
+     * @param elementsList unsorted list of elements
+     * @return number of inserted elements
+     */
     public int insertMultiple(ArrayList<BSData<T>> elementsList) {
-        elementsList.sort(new Comparator<BSData<T>>() {
-            @Override
-            public int compare(BSData<T> o1, BSData<T> o2) {
-                switch (o1.compare(o2)) {
-                    case LESS:
-                        return 1;
-                    case MORE:
-                        return -1;
-                    default:
-                        return 0;
-                }
-            }
+        elementsList.sort((o1, o2) -> switch (o1.compare(o2)) {
+            case LESS -> 1;
+            case MORE -> -1;
+            default -> 0;
         });
 
         ArrayList<Integer> medians = getMediansIndexes(elementsList.size());
@@ -126,7 +131,7 @@ public class BSTree<T> {
         if (oneChildNull(nodeToRemove)) return nodeToRemove.data;
 
         //both children
-        final BSNode<T> inorderSuccessor = findInorderSuccessor(nodeToRemove);
+        final BSNode<T> inorderSuccessor = findInorderPredecessor(nodeToRemove);
         bothChildNull(inorderSuccessor);
         oneChildNull(inorderSuccessor);
         final BSData<T> retData = nodeToRemove.data;
@@ -191,7 +196,9 @@ public class BSTree<T> {
     }
 
     /**
-     *
+     * balance tree
+     * - get array of all medians
+     * - find median in tree and rotate him to position
      */
     public void balanceTree() {
         ArrayList<BSData<T>> inOrderData = inOrder();
@@ -306,7 +313,9 @@ public class BSTree<T> {
         int endIndex = 1;
         int newEndIndex = 1;
         levelOrderList.add(root);
+        // while new elements were added to list
         while (startIndex != newEndIndex) {
+            // cycle through new elements
             for (; startIndex < endIndex; startIndex++) {
                 final BSNode<T> rightNode = levelOrderList.get(startIndex).rightNode;
                 final BSNode<T> leftNode = levelOrderList.get(startIndex).leftNode;
@@ -324,6 +333,10 @@ public class BSTree<T> {
         return levelOrderList;
     }
 
+    /**
+     * get overall height of tree by level order method
+     * @return height of tree
+     */
     public int getHeight() {
         if (root == null) {
             return 0;
@@ -334,8 +347,10 @@ public class BSTree<T> {
         int newEndIndex = 1;
         int height = 0;
         levelOrderList.add(root);
+        // while new elements were added to list
         while (startIndex != newEndIndex) {
             height++;
+            // cycle through new elements
             for (; startIndex < endIndex; startIndex++) {
                 final BSNode<T> rightNode = levelOrderList.get(startIndex).rightNode;
                 final BSNode<T> leftNode = levelOrderList.get(startIndex).leftNode;
@@ -354,11 +369,11 @@ public class BSTree<T> {
     }
 
     /**
-     * used to find inorder predecesor when removing node
+     * used to find inorder predecessor when removing node
      * @param startNode node to remove
      * @return successor
      */
-    private BSNode<T> findInorderSuccessor(BSNode<T> startNode) {
+    private BSNode<T> findInorderPredecessor(BSNode<T> startNode) {
         for (startNode = startNode.leftNode; startNode.rightNode != null; startNode = startNode.rightNode);
         return startNode;
     }
@@ -427,6 +442,7 @@ public class BSTree<T> {
             return null;
         }
 
+        // create tmp empty element from search key
         final BSData<T> searchElement = new BSData<>(searchKey) {
             @Override
             public Compare compare(BSData<T> data) {
@@ -459,6 +475,11 @@ public class BSTree<T> {
         }
     }
 
+    /**
+     * iterative generator of medians
+     * @param arrayLength length of array of medians
+     * @return array of medians
+     */
     public ArrayList<Integer> getMediansIndexes(int arrayLength) {
 
         if (arrayLength == 0) {
@@ -470,9 +491,9 @@ public class BSTree<T> {
                 this.end = end;
                 this.mid = (start + end) / 2;
             }
-            int start;
-            int end;
-            int mid;
+            final int start;
+            final int end;
+            final int mid;
         }
 
         ArrayList<Parameters> parametersList = new ArrayList<>(arrayLength);
@@ -482,14 +503,17 @@ public class BSTree<T> {
         int newEndIndex = 1;
         parametersList.add(new Parameters(0, arrayLength-1));
 
+        // while new parameters were added to list
         while (startIndex != newEndIndex) {
+            // cycle through new parameters
             for (; startIndex < endIndex; startIndex++) {
                 final Parameters parameters = parametersList.get(startIndex);
-
+                // right sub array
                 if (parameters.start <= parameters.mid - 1) {
                     parametersList.add(new Parameters(parameters.start, parameters.mid - 1));
                     newEndIndex++;
                 }
+                // left sub array
                 if (parameters.mid + 1 <= parameters.end) {
                     parametersList.add(new Parameters(parameters.mid + 1, parameters.end));
                     newEndIndex++;

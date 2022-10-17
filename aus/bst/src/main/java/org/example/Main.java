@@ -10,7 +10,7 @@ public class Main {
         BSTTests test = new BSTTests();
 
         test.testInsertMultiple(
-                100,
+                999999,
                 100,
                 Integer.MAX_VALUE
         );
@@ -20,14 +20,14 @@ public class Main {
                 100,
                 Integer.MAX_VALUE
         );
-//
-//        test.testRandomOperation(
-//                .5,
-//                .25,
-//                .25,
-//                99999,
-//                300,
-//                300
-//        );
+
+        test.testRandomOperation(
+                .5,
+                .25,
+                .25,
+                99999,
+                100,
+                Integer.MAX_VALUE
+        );
     }
 }
