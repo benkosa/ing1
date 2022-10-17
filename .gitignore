@@ -3,6 +3,8 @@
 # http://git-scm.com/docs/gitignore
 idea/
 target/
+build/
+out/
 *~
 *.sw[mnpcod]
 .tmp
