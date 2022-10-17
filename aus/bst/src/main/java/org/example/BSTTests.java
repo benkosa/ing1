@@ -23,6 +23,7 @@ public class BSTTests {
     }
 
     public void testInsertBalanceFindRemove(int replications, int maxNumberOfElements, int maxInt) {
+        if (replications == 0) return;
         System.out.println("test: " + replications + " replications, max value: " + maxInt);
         System.out.println(" - insert " + maxNumberOfElements + " number of elements");
         System.out.println(" - balance tree");
@@ -88,6 +89,7 @@ public class BSTTests {
     }
 
     public void testRandomOperation(double pInsert, double pRemove, double pFind, int replication, int maxNumberOfElements, int maxValue) {
+        if (replication == 0) return;
         System.out.println("Test random operations");
         System.out.println("pInsert: " + pInsert);
         System.out.println("pRemove: " + pRemove);
@@ -130,6 +132,7 @@ public class BSTTests {
     }
 
     public void testInsertMultiple(int replications, int maxNumberOfElements, int maxInt) {
+        if (replications == 0) return;
         BSTree<Integer> treeHeights = new BSTree<>();
 
         System.out.println();

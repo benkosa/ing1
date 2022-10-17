@@ -10,14 +10,14 @@ public class Main {
         BSTTests test = new BSTTests();
 
         test.testInsertMultiple(
-                999999,
+                0,
                 100,
                 Integer.MAX_VALUE
         );
 
         test.testInsertBalanceFindRemove(
                 99999,
-                100,
+                20,
                 Integer.MAX_VALUE
         );
 
@@ -25,7 +25,7 @@ public class Main {
                 .5,
                 .25,
                 .25,
-                99999,
+                0,
                 100,
                 Integer.MAX_VALUE
         );
