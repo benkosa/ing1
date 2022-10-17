@@ -7,21 +7,6 @@ import java.util.Objects;
 
 public class BSTree<T> {
 
-    private class ArraylistComparator implements Comparator<BSData<T>> {
-
-        @Override
-        public int compare(BSData<T> o1, BSData<T> o2) {
-            switch (o1.compare(o2)) {
-                case LESS:
-                    return -1;
-                case MORE:
-                    return 1;
-                default:
-                    return 0;
-            }
-        }
-    }
-
     private BSNode<T> root;
 
     public BSData<T> getRoot() {
@@ -85,8 +70,8 @@ public class BSTree<T> {
             }
         });
 
-        ArrayList<Integer> medians = new ArrayList<>();
-        getMediansRecursive(medians, 0, elementsList.size() -1);
+        ArrayList<Integer> medians = getMediansIndexes(elementsList.size());
+
         int countInserted = 0;
         for (int median: medians ) {
             countInserted += insert(elementsList.get(median)) ? 1 : 0;
@@ -214,10 +199,8 @@ public class BSTree<T> {
         }
 
         nodeToBubble.isVisited = mark;
-        //ArrayList<Integer> medians = getMediansIndexes(inOrderData.size());
 
-        ArrayList<Integer> medians = new ArrayList<>();
-        getMediansRecursive(medians, 0, inOrderData.size() -1);
+        ArrayList<Integer> medians = getMediansIndexes(inOrderData.size());
 
         //bubble all others nodes until node reach balanced node
         for (Integer selectedMedian: medians) {
@@ -497,34 +480,48 @@ public class BSTree<T> {
         }
     }
 
-    public ArrayList<Integer> getMediansIndexes(int size) {
-        int median = size;
-        ArrayList<Integer> medians = new ArrayList<>();
-        while (median > 0) {
-            int newMedian = median/2;
-            medians.add(newMedian);
-            for (int i = newMedian+median; i < size; i+= median) {
-                if (!medians.contains(i)) medians.add(i);
+    public ArrayList<Integer> getMediansIndexes(int arrayLength) {
+
+        if (arrayLength == 0) {
+            return null;
+        }
+        class Parameters {
+            Parameters(int start, int end) {
+                this.start = start;
+                this.end = end;
+                this.mid = (start + end) / 2;
             }
-            median = newMedian;
+            int start;
+            int end;
+            int mid;
         }
+
+        ArrayList<Parameters> parametersList = new ArrayList<>(arrayLength);
+
+        int startIndex = 0;
+        int endIndex = 1;
+        int newEndIndex = 1;
+        parametersList.add(new Parameters(0, arrayLength-1));
+
+        while (startIndex != newEndIndex) {
+            for (; startIndex < endIndex; startIndex++) {
+                final Parameters parameters = parametersList.get(startIndex);
+
+                if (parameters.start <= parameters.mid - 1) {
+                    parametersList.add(new Parameters(parameters.start, parameters.mid - 1));
+                    newEndIndex++;
+                }
+                if (parameters.mid + 1 <= parameters.end) {
+                    parametersList.add(new Parameters(parameters.mid + 1, parameters.end));
+                    newEndIndex++;
+                }
+            }
+            endIndex = newEndIndex;
+        }
+
+        final ArrayList<Integer> medians = new ArrayList<>(arrayLength);
+        parametersList.forEach(a -> medians.add(a.mid));
         return medians;
-    };
-
-    ArrayList<Integer> medians = new ArrayList<>();
-    public void getMediansRecursive(ArrayList<Integer> arr, int start, int end) {
-
-        if (start > end) {
-            return;
-        }
-
-        int mid = (start + end) / 2;
-        arr.add(mid);
-
-        getMediansRecursive( arr, start, mid - 1);
-
-        getMediansRecursive( arr, mid + 1, end);
-
     }
 
 }

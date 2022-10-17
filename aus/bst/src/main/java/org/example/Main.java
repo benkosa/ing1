@@ -7,24 +7,19 @@ public class Main {
 
     public static void main(String[] args) {
 
-
-
-
         BSTTests test = new BSTTests();
 
         test.testInsertMultiple(
-                10,
-                1000000,
+                100,
+                100,
                 Integer.MAX_VALUE
         );
 
-
-
-//        test.testInsertBalanceFindRemove(
-//                99999,
-//                1000,
-//                Integer.MAX_VALUE
-//        );
+        test.testInsertBalanceFindRemove(
+                99999,
+                100,
+                Integer.MAX_VALUE
+        );
 //
 //        test.testRandomOperation(
 //                .5,
