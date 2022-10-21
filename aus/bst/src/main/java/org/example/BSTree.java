@@ -378,6 +378,20 @@ public class BSTree<T> {
         return startNode;
     }
 
+    private BSNode<T> findInorderSuccessor(BSNode<T> startNode) {
+        if (startNode.rightNode != null) {
+            for (startNode = startNode.rightNode; startNode.leftNode != null; startNode = startNode.leftNode);
+            return startNode;
+        }
+
+        BSNode<T> parent = startNode.parent;
+        while (parent != null && startNode == parent.rightNode) {
+            startNode = parent;
+            parent = parent.parent;
+        }
+        return parent;
+    }
+
     /**
      *  used to remove node when booth children are null
      * @param nodeToRemove BSNode<T>
@@ -476,6 +490,40 @@ public class BSTree<T> {
     }
 
     /**
+     * < startKey, endKey )
+     *
+     * @param startKey must be present in tree
+     * @param endKey don't have to be present in tree
+     * @return interval of elements
+     */
+    public ArrayList<BSNode<T>> intervalSearchNode(T startKey, T endKey) {
+        BSNode<T> startNode = findNode(startKey);
+        if (startNode == null) {
+            return null;
+        }
+        final BSData<T> endElement = createTmpElement(endKey);
+
+        final ArrayList<BSNode<T>> interval = new ArrayList<>();
+
+        while (startNode != null && startNode.data.compare(endElement) != Compare.LESS) {
+            interval.add(startNode);
+            startNode = findInorderSuccessor(startNode);
+        }
+        return interval;
+    }
+
+    /**
+     * < startKey, endKey )
+     *
+     * @param startKey must be present in tree
+     * @param endKey don't have to be present in tree
+     * @return interval of elements
+     */
+    public ArrayList<BSData<T>> intervalSearch(T startKey, T endKey) {
+        return getOrderData(intervalSearchNode(startKey, endKey));
+    }
+
+    /**
      * iterative generator of medians
      * @param arrayLength length of array of medians
      * @return array of medians
@@ -525,6 +573,20 @@ public class BSTree<T> {
         final ArrayList<Integer> medians = new ArrayList<>(arrayLength);
         parametersList.forEach(a -> medians.add(a.mid));
         return medians;
+    }
+
+    /**
+     * create  empty element from compare purpose
+     * @param key
+     * @return
+     */
+    private BSData<T> createTmpElement (T key) {
+        return new BSData<>(key) {
+            @Override
+            public Compare compare(BSData<T> data) {
+                return null;
+            }
+        };
     }
 
 }

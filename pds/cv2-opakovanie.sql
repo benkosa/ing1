@@ -41,18 +41,37 @@ FROM
 END;
 /
 
+create or replace function GET_POCET_OPAKOVANI2
+(
+    v_os_cislo student.os_cislo%type
+)
+return integer AS v_pocet integer;
+
+begin
+SELECT COUNT(1) INTO v_pocet 
+ FROM( SELECT 'x' 
+       FROM zap_predmety
+       WHERE os_cislo = v_os_cislo
+       GROUP BY os_cislo, cis_predm
+       HAVING COUNT(cis_predm) > 1);
+ return v_pocet;
+end;
+/
+
 
 DECLARE
    N3 NUMBER(10);
 BEGIN
    n3:= GET_POCET_OPAKOVANI('501567');
    DBMS_OUTPUT.PUT_LINE(n3);
+   n3 := GET_POCET_OPAKOVANI2('501567');
+   DBMS_OUTPUT.PUT_LINE(n3);
 END;
 /
 
 /** 2.
  *  Vytvorte anonymný blok, ktorého parametrom bude číslo predmetu
- *  (vyžiadajte vrámci tela od používateľa). Na konzolu vypíštenázov 
+ *  (vyžiadajte vrámci tela od používateľa). Na konzolu vypíšte názov 
  *  predmetu. Použite príkaz Select... into. 
  *     a. Otestujte pre predmet BI06, BI08.
  *     b. Vyriešte problém:

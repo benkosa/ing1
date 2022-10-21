@@ -179,4 +179,16 @@ public class BSTTests {
         return height;
     }
 
+
+    public void testIntervalSearch() {
+        BSTree<Integer> tree = new BSTree<>();
+        for (int i = 0; i < 100; i++) {
+            tree.insert(new Element(i));
+        }
+        tree.balanceTree();
+        System.out.println(tree.intervalSearchNode(10, 20).size());
+        tree.intervalSearchNode(10, 20).forEach(a -> System.out.print(a.data.key +" "));
+        System.out.println();
+    }
+
 }
