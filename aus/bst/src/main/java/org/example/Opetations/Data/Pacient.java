@@ -2,12 +2,13 @@ package org.example.Opetations.Data;
 
 import org.example.BSData;
 import org.example.BSTree;
+import org.example.Shared.Comparators;
 import org.example.Shared.Compare;
 
 import java.util.ArrayList;
 import java.util.Date;
 
-public class Pacient {
+public class Pacient extends BSData<String> {
     private String rodneCislo;
     private String meno;
     private String priezvisko;
@@ -22,11 +23,18 @@ public class Pacient {
         String priezvisko,
         Date datumNarodenia,
         Poistovna poistovna) {
+        super(rodneCislo);
         this.rodneCislo = rodneCislo;
         this.meno = meno;
         this.priezvisko = priezvisko;
         this.datumNarodenia = datumNarodenia;
         this.poistovna = poistovna;
+    }
+
+    @Override
+    public Compare compare(BSData<String> data) {
+        Comparators comparators = new Comparators();
+        return comparators.stringCompare(data.key, this.key);
     }
 
     public static class PacientHosp extends BSData<String> {

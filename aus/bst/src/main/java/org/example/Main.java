@@ -24,9 +24,12 @@ public class Main {
 
         for (int i = 0; i < 10; i++) {
             oper.Operation_12(i+" ");
+            oper.Operation_6(i+" ", i+" ", i+" ", null, null);
         }
-
         oper.data.nemocnice.inOrder().forEach(a -> System.out.print(a.key));
+        System.out.println();
+        oper.data.pacienti.inOrder().forEach(a -> System.out.print(a.key));
+        System.out.println();
 
         BSTTests test = new BSTTests();
 

@@ -1,6 +1,10 @@
 package org.example.Opetations;
 
 import org.example.Opetations.Data.Data;
+import org.example.Opetations.Data.Pacient;
+import org.example.Opetations.Data.Poistovna;
+
+import java.util.Date;
 
 public class Operations {
     // 3, 4, 6, 8, 12
@@ -26,8 +30,20 @@ public class Operations {
     /**
      * pridanie pacienta
      */
-    public void Operation_6(String rcPacienta) {
+    public void Operation_6(
+            String rodneCislo,
+            String meno,
+            String priezvisko,
+            Date datumNarodenia,
+            Poistovna poistovna) {
 
+        data.addPacient(
+                rodneCislo,
+                meno,
+                priezvisko,
+                datumNarodenia,
+                poistovna
+        );
     }
 
     /**
