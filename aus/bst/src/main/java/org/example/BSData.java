@@ -1,5 +1,7 @@
 package org.example;
 
+import org.example.Shared.Compare;
+
 /**
  * used to warp element you want to insert into BSTree
  * tree is sorted by key parameter with compare function
@@ -7,7 +9,7 @@ package org.example;
  */
 public abstract class BSData<T> {
 
-    BSData(T key) {
+    public BSData(T key) {
         this.key = key;
     }
 
@@ -21,8 +23,3 @@ public abstract class BSData<T> {
     public abstract Compare compare(BSData<T> data);
 }
 
-enum Compare {
-    LESS,
-    EQUAL,
-    MORE
-}

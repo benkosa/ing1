@@ -1,5 +1,7 @@
 package org.example;
 
+import org.example.Opetations.Operations;
+
 import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Random;
@@ -8,13 +10,23 @@ public class Main {
 
     public static void main(String[] args) {
 
-        Gui gui = new Gui();
+//        Gui gui = new Gui();
+//
+//        gui.setContentPane(gui.getJPanel());
+//        gui.setTitle("hello");
+//        gui.setSize(300, 400);
+//        gui.setVisible(true);
+//        gui.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        gui.setContentPane(gui.getJPanel());
-        gui.setTitle("hello");
-        gui.setSize(300, 400);
-        gui.setVisible(true);
-        gui.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+
+        Operations oper = new Operations();
+
+        for (int i = 0; i < 10; i++) {
+            oper.Operation_12(i+" ");
+        }
+
+        oper.data.nemocnice.inOrder().forEach(a -> System.out.print(a.key));
 
         BSTTests test = new BSTTests();
 
@@ -28,8 +40,8 @@ public class Main {
 
         test.testInsertBalanceFindRemove(
                 0,
-                10,
-                100
+                50,
+                Integer.MAX_VALUE
         );
 
         test.testRandomOperation(

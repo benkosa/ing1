@@ -1,8 +1,8 @@
 package org.example;
 
+import org.example.Shared.Compare;
+
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Objects;
 
 public class BSTree<T> {

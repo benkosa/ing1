@@ -1,5 +1,7 @@
 package org.example;
 
+import org.example.Shared.Compare;
+
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -54,8 +56,8 @@ public class BSTTests {
             int sizeAfter = tree.inOrder().size();
             if (sizeBefore != sizeAfter)
                 System.out.println("error lost nodes: " + seed + " " + sizeBefore + " " + sizeAfter);
-            //System.out.print("\b\b\b\b\b");
-            //System.out.print(Math.round(((float)seed/replications)*100) + " %");
+            System.out.print("\b\b\b\b\b");
+            System.out.print(Math.round(((float)seed/replications)*100) + " %");
 
             // find inserted nodes
             for (BSData<Integer> element: insertedElements) {
@@ -71,10 +73,6 @@ public class BSTTests {
             } else {
                 height.counter++;
             }
-
-            tree.levelOrder().forEach(a -> System.out.print(a.key + ", "));
-            System.out.println();
-
 
             // remove tree
             while (tree.getRoot() != null) {
