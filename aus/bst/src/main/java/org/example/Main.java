@@ -22,31 +22,31 @@ public class Main {
 
 
 
-        Operations oper = new Operations();
-
-        for (int i = 0; i < 10; i++) {
-            oper.Operation_12(i+" ");
-            oper.Operation_addPoistovna(i+" ");
-        }
-        for (int i = 0; i < 10; i++) {
-            oper.Operation_6(
-                    i+" ",
-                    i+" ",
-                    i+" ",
-                    new Date(),
-                    (Poistovna) oper.data.poistovne.getRandomData());
-        }
-        oper.data.nemocnice.inOrder().forEach(a -> System.out.print(a.key));
-        System.out.println();
-        oper.data.pacienti.inOrder().forEach(a -> System.out.print(a.key));
-        System.out.println();
-        oper.data.poistovne.inOrder().forEach(a -> System.out.print(a.key));
-        System.out.println();
-
-        oper.Operation_3("0 ", "0 ");
-        oper.Operation_8("0 ");
-        oper.Operation_4("0 ", "0 ");
-        oper.Operation_8("0 ");
+//        Operations oper = new Operations();
+//
+//        for (int i = 0; i < 10; i++) {
+//            oper.Operation_12(i+" ");
+//            oper.Operation_addPoistovna(i+" ");
+//        }
+//        for (int i = 0; i < 10; i++) {
+//            oper.Operation_6(
+//                    i+" ",
+//                    i+" ",
+//                    i+" ",
+//                    new Date(),
+//                    (Poistovna) oper.data.poistovne.getRandomData());
+//        }
+//        oper.data.nemocnice.inOrder().forEach(a -> System.out.print(a.key));
+//        System.out.println();
+//        oper.data.pacienti.inOrder().forEach(a -> System.out.print(a.key));
+//        System.out.println();
+//        oper.data.poistovne.inOrder().forEach(a -> System.out.print(a.key));
+//        System.out.println();
+//
+//        oper.Operation_3("0 ", "0 ");
+//        oper.Operation_8("0 ");
+//        oper.Operation_4("0 ", "0 ");
+//        oper.Operation_8("0 ");
 ;
 
         BSTTests test = new BSTTests();
@@ -60,8 +60,8 @@ public class Main {
         );
 
         test.testInsertBalanceFindRemove(
-                0,
-                50,
+                999,
+                9999,
                 Integer.MAX_VALUE
         );
 

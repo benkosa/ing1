@@ -210,30 +210,15 @@ public class BSTree<T> {
     public void balanceTree() {
         ArrayList<BSData<T>> inOrderData = inOrder();
         boolean mark = !root.isVisited;
-        int median = inOrderData.size()/2;
-        BSNode<T> nodeToBubble = findNode(inOrderData.get(median).key);
-
-        if (nodeToBubble == null) return;
-
-        //move median to root
-        for (; nodeToBubble.parent != null; nodeToBubble = nodeToBubble.parent) {
-            if (nodeToBubble.parent.leftNode == nodeToBubble) {
-                this.rightRotation(nodeToBubble.parent);
-            } else {
-                this.leftRotation(nodeToBubble.parent);
-            }
-        }
-
-        nodeToBubble.isVisited = mark;
 
         ArrayList<Integer> medians = getMediansIndexes(inOrderData.size());
 
-        //bubble all others nodes until node reach balanced node
+        //bubble all nodes until node reach balanced node
         for (Integer selectedMedian: medians) {
-            nodeToBubble = findNode(inOrderData.get(selectedMedian).key);
+            BSNode<T> nodeToBubble = findNode(inOrderData.get(selectedMedian).key);
             if (nodeToBubble == null) return;
             if (nodeToBubble.isVisited != mark) {
-                for (; nodeToBubble.parent.isVisited != mark; nodeToBubble = nodeToBubble.parent) {
+                for (; nodeToBubble.parent != null && nodeToBubble.parent.isVisited != mark; nodeToBubble = nodeToBubble.parent) {
                     if (nodeToBubble.parent.leftNode == nodeToBubble) {
                         this.rightRotation(nodeToBubble.parent);
                     } else {
@@ -345,6 +330,10 @@ public class BSTree<T> {
      * @return height of tree
      */
     public int getHeight() {
+        return getHeightNode(root);
+    }
+
+    private int getHeightNode(BSNode<T> root) {
         if (root == null) {
             return 0;
         }
@@ -374,6 +363,22 @@ public class BSTree<T> {
         }
         return height;
     }
+
+    public void checkHeight() {
+        ArrayList<BSNode<T>> levelOrder = levelOrderNodes();
+        for (BSNode<T> tbsNode : levelOrder) {
+            int rightHeight = getHeightNode(tbsNode.rightNode);
+            int leftHeight = getHeightNode(tbsNode.leftNode);
+            if (Math.abs(rightHeight - leftHeight) > 1) {
+                System.out.println("rightHeight: " + rightHeight + " leftHeight " + leftHeight);
+                inOrderNodes().forEach(a-> System.out.print(a.data.key + ", "));
+                System.out.println();
+                levelOrderNodes().forEach(a-> System.out.print(a.data.key + ", "));
+                System.out.println();
+            }
+        }
+    }
+
 
     /**
      * used to find inorder predecessor when removing node
