@@ -9,6 +9,8 @@ public class Data {
 
     public final BSTree<String> pacienti = new BSTree<>();
 
+    public final BSTree<String> poistovne = new BSTree<>();
+
     public void addNemocnica(String name) {
         nemocnice.insert(new Nemocnica(name));
     }
@@ -29,5 +31,9 @@ public class Data {
                         poistovna
                 )
         );
+    }
+
+    public void addPoistovna(String name) {
+        poistovne.insert(new Poistovna(name));
     }
 }

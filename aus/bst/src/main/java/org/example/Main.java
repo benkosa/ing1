@@ -1,9 +1,11 @@
 package org.example;
 
+import org.example.Opetations.Data.Poistovna;
 import org.example.Opetations.Operations;
 
 import javax.swing.*;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Random;
 
 public class Main {
@@ -24,12 +26,25 @@ public class Main {
 
         for (int i = 0; i < 10; i++) {
             oper.Operation_12(i+" ");
-            oper.Operation_6(i+" ", i+" ", i+" ", null, null);
+            oper.Operation_addPoistovna(i+" ");
+        }
+        for (int i = 0; i < 10; i++) {
+            oper.Operation_6(
+                    i+" ",
+                    i+" ",
+                    i+" ",
+                    new Date(),
+                    (Poistovna) oper.data.poistovne.getRandomData());
         }
         oper.data.nemocnice.inOrder().forEach(a -> System.out.print(a.key));
         System.out.println();
         oper.data.pacienti.inOrder().forEach(a -> System.out.print(a.key));
         System.out.println();
+        oper.data.poistovne.inOrder().forEach(a -> System.out.print(a.key));
+        System.out.println();
+
+        oper.Operation_3("0 ", "0 ");
+        oper.Operation_4("0 ", "0 ");
 
         BSTTests test = new BSTTests();
 

@@ -6,6 +6,7 @@ import org.example.Shared.Comparators;
 import org.example.Shared.Compare;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 public class Pacient extends BSData<String> {
@@ -37,6 +38,8 @@ public class Pacient extends BSData<String> {
         return comparators.stringCompare(data.key, this.key);
     }
 
+    public Poistovna getPoistovna() { return this.poistovna;};
+
     public static class PacientHosp extends BSData<String> {
 
         // key is name of hospital
@@ -53,7 +56,8 @@ public class Pacient extends BSData<String> {
 
         @Override
         public Compare compare(BSData<String> data) {
-            return null;
+            Comparators comparators = new Comparators();
+            return comparators.stringCompare(data.key, this.key);
         }
     }
 
@@ -67,6 +71,19 @@ public class Pacient extends BSData<String> {
         } else {
             this.hospitalizacie.insert(new PacientHosp(nazovNem, hosp));
         }
+    }
+
+    public Hospitalizacia getNeukoncenaHosp(String nazovNem) {
+        PacientHosp nemocnica = (PacientHosp)hospitalizacie.find(nazovNem);
+        if (nemocnica == null) {
+            return null;
+        }
+        for (int i = 0; i < nemocnica.hospitalizacie.size(); i++) {
+            if (nemocnica.hospitalizacie.get(i).getKoniecHosp() == null) {
+                return nemocnica.hospitalizacie.get(i);
+            }
+        }
+        return null;
     }
 
 }

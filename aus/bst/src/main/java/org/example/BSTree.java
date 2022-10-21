@@ -4,6 +4,7 @@ import org.example.Shared.Compare;
 
 import java.util.ArrayList;
 import java.util.Objects;
+import java.util.Random;
 
 public class BSTree<T> {
 
@@ -15,6 +16,12 @@ public class BSTree<T> {
 
     public BSNode<T> getRootNode() {
         return root;
+    }
+
+    public BSData<T> getRandomData() {
+        ArrayList<BSNode<T>> data = levelOrderNodes();
+        Random rand = new Random();
+        return data.get(rand.nextInt(data.size())).data;
     }
 
     /**
@@ -460,6 +467,7 @@ public class BSTree<T> {
         final BSData<T> searchElement = new BSData<>(searchKey) {
             @Override
             public Compare compare(BSData<T> data) {
+                System.out.println("bol som tu");
                 return null;
             }
         };
