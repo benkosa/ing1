@@ -44,7 +44,10 @@ public class Main {
         System.out.println();
 
         oper.Operation_3("0 ", "0 ");
+        oper.Operation_8("0 ");
         oper.Operation_4("0 ", "0 ");
+        oper.Operation_8("0 ");
+;
 
         BSTTests test = new BSTTests();
 

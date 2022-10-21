@@ -1,7 +1,9 @@
 package org.example.Opetations;
 
+import org.example.BSData;
 import org.example.Opetations.Data.*;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 public class Operations {
@@ -90,6 +92,24 @@ public class Operations {
      * (identifikovaná svojím názvom)
      */
     public void Operation_8(String nazovNemocnice) {
+        Nemocnica nemocnica = (Nemocnica)data.nemocnice.find(nazovNemocnice);
+        if (nemocnica == null) {
+            System.out.println("nemocnica neezistuje");
+            return;
+        }
+
+        ArrayList<Hospitalizacia> neukonceneHosp = new ArrayList<>();
+
+        for (BSData<Date> dateBSData : nemocnica.hospitalizacie.levelOrder()) {
+            Hospitalizacia hosp = (Hospitalizacia)dateBSData;
+            if (hosp.getKoniecHosp() == null) {
+                neukonceneHosp.add(hosp);
+            }
+        }
+
+        neukonceneHosp.forEach(a -> System.out.println(a.key.toString()));
+        System.out.println();
+
 
     }
 
