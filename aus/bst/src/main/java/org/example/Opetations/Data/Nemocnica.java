@@ -11,6 +11,8 @@ public class Nemocnica  extends BSData<String> {
 
     public final BSTree<String> pacienti = new BSTree<>();
 
+    public final BSTree<Pacient> pacientiMena = new BSTree<>();
+
     public final BSTree<String> poistovne = new BSTree<>();
 
     public final BSTree<Date> hospitalizacie = new BSTree<>();
@@ -28,6 +30,7 @@ public class Nemocnica  extends BSData<String> {
 
     public void addPacient(Pacient pacient) {
         pacienti.insert(pacient);
+        pacientiMena.insert(new PacientContainer(pacient));
     }
 
     public void addPoistovna(Poistovna poistovna) {

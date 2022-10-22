@@ -16,14 +16,20 @@ public class Pacient extends BSData<String> {
     private Date datumNarodenia;
     private Poistovna poistovna;
 
+    public String getRodneCislo () { return rodneCislo; }
+    public String getMeno () { return meno; }
+    public String getPriezvisko () { return priezvisko; }
+
+
+
     private BSTree<String> hospitalizacie = new BSTree<>();
 
-    Pacient(
-        String rodneCislo,
-        String meno,
-        String priezvisko,
-        Date datumNarodenia,
-        Poistovna poistovna) {
+    public Pacient(
+            String rodneCislo,
+            String meno,
+            String priezvisko,
+            Date datumNarodenia,
+            Poistovna poistovna) {
         super(rodneCislo);
         this.rodneCislo = rodneCislo;
         this.meno = meno;

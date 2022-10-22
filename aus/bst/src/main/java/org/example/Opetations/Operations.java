@@ -15,6 +15,27 @@ public class Operations {
     public Data data = new Data();
 
     /**
+     * vyhľadanie záznamov pacienta/ov v zadanej nemocnici (identifikovaná
+     * svojím názvom) podľa mena a priezviska. Po nájdení pacienta/ov je
+     * potrebné zobraziť všetky evidované údaje zo zadanej nemocnice
+     * rozčlenené po pacientoch.
+     */
+    public void Operation_2(String nazovNemocnice, String meno, String priezvisko) {
+        //get nemocnica
+        Nemocnica nemocnica = (Nemocnica)data.nemocnice.find(nazovNemocnice);
+        if (nemocnica == null) {
+            System.out.println("nemocnica neezistuje");
+            return;
+        }
+
+        Pacient minPacient = new Pacient("0 ", meno, priezvisko, null, null);
+        Pacient maxPacient = new Pacient("999999999/999999999", meno, priezvisko, null, null);
+
+        nemocnica.pacientiMena.intervalSearch(minPacient, maxPacient).forEach(a-> System.out.println(a.key.getMeno()));
+
+    }
+
+    /**
      * vykonanie záznamu o začiatku hospitalizácie pacienta (identifikovaný
      * svojím rodným číslom) v nemocnici(identifikovaná svojím názvom)
      */

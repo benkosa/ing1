@@ -1,5 +1,6 @@
 package org.example;
 
+import org.example.Shared.Comparators;
 import org.example.Shared.Compare;
 
 import java.util.ArrayList;
@@ -18,9 +19,8 @@ public class BSTTests {
 
         @Override
         public Compare compare(BSData<Integer> data) {
-            if (data.key < this.key) return Compare.LESS;
-            if (data.key > this.key) return Compare.MORE;
-            return Compare.EQUAL;
+            Comparators comparators = new Comparators();
+            return comparators.intCompare(data.key, this.key);
         }
     }
 
