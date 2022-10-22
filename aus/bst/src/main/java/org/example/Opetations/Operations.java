@@ -28,7 +28,7 @@ public class Operations {
             return;
         }
 
-        Pacient minPacient = new Pacient("0 ", meno, priezvisko, null, null);
+        Pacient minPacient = new Pacient("", meno, priezvisko, null, null);
         Pacient maxPacient = new Pacient("999999999/999999999", meno, priezvisko, null, null);
 
         nemocnica.pacientiMena.intervalSearch(minPacient, maxPacient).forEach(a-> System.out.println(a.key.getMeno()));

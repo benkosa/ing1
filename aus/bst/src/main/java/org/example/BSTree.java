@@ -121,6 +121,7 @@ public class BSTree<T> {
         return element == null ? null : element.data;
     }
 
+
     /**
      * used to remove node from BSTree
      * @param key T
@@ -472,7 +473,6 @@ public class BSTree<T> {
         final BSData<T> searchElement = new BSData<>(searchKey) {
             @Override
             public Compare compare(BSData<T> data) {
-                System.out.println("bol som tu");
                 return null;
             }
         };
@@ -503,6 +503,49 @@ public class BSTree<T> {
     }
 
     /**
+     * used to find the closest data
+     * @param searchKey BSNode<T>
+     * @return node
+     */
+    private BSNode<T> findClosest(T searchKey)  {
+        if (root == null) {
+            return null;
+        }
+
+        // create tmp empty element from search key
+        final BSData<T> searchElement = new BSData<>(searchKey) {
+            @Override
+            public Compare compare(BSData<T> data) {
+                return null;
+            }
+        };
+
+        BSNode<T>currentNode = root;
+
+        while (true) {
+            final Compare compareResult = currentNode.data.compare(searchElement);
+            //found duplicate
+            if (compareResult == Compare.EQUAL) {
+                return currentNode;
+                //leftNode
+            } else if (compareResult == Compare.LESS) {
+                if (currentNode.leftNode == null) {
+                    return currentNode;
+                } else {
+                    currentNode = currentNode.leftNode;
+                }
+                //rightNode
+            } else if (compareResult == Compare.MORE) {
+                if (currentNode.rightNode == null) {
+                    return currentNode;
+                } else {
+                    currentNode = currentNode.rightNode;
+                }
+            }
+        }
+    }
+
+    /**
      * < startKey, endKey )
      *
      * @param startKey must be present in tree
@@ -510,7 +553,7 @@ public class BSTree<T> {
      * @return interval of elements
      */
     public ArrayList<BSNode<T>> intervalSearchNode(T startKey, T endKey) {
-        BSNode<T> startNode = findNode(startKey);
+        BSNode<T> startNode = findClosest(startKey);
         if (startNode == null) {
             return null;
         }
