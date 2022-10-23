@@ -82,13 +82,13 @@ public class Main {
         test.testIntervalSearch();
 
         test.testInsertMultiple(
-                0,
+                100,
                 100,
                 Integer.MAX_VALUE
         );
 
         test.testInsertBalanceFindRemove(
-                0,
+                100,
                 9999,
                 Integer.MAX_VALUE
         );
@@ -97,8 +97,8 @@ public class Main {
                 .5,
                 .25,
                 .25,
-                0,
-                100,
+                100000,
+                1000,
                 Integer.MAX_VALUE
         );
     }

@@ -117,7 +117,7 @@ public class BSTree<T> {
      * @return data
      */
     public BSData<T> find(T searchKey) {
-        final BSNode<T> element = this.findNode(searchKey);
+        final BSNode<T> element = this.findNode(searchKey, true);
         return element == null ? null : element.data;
     }
 
@@ -128,15 +128,21 @@ public class BSTree<T> {
      * @return removed data
      */
     public BSData<T> remove(T key) {
-        final BSNode<T> nodeToRemove = this.findNode(key);
+        final BSNode<T> nodeToRemove = this.findNode(key, false);
         if (nodeToRemove == null) {
             return null;
         }
         //both children null
-        if (bothChildNull(nodeToRemove)) return nodeToRemove.data;
+        if (bothChildNull(nodeToRemove)) {
+            improve(nodeToRemove);
+            return nodeToRemove.data;
+        }
 
         //one child null
-        if (oneChildNull(nodeToRemove)) return nodeToRemove.data;
+        if (oneChildNull(nodeToRemove)) {
+            improve(nodeToRemove);
+            return nodeToRemove.data;
+        }
 
         //both children
         final BSNode<T> inorderSuccessor = findInorderPredecessor(nodeToRemove);
@@ -144,6 +150,7 @@ public class BSTree<T> {
         oneChildNull(inorderSuccessor);
         final BSData<T> retData = nodeToRemove.data;
         nodeToRemove.data = inorderSuccessor.data;
+        improve(nodeToRemove);
         return retData;
     }
 
@@ -216,7 +223,7 @@ public class BSTree<T> {
 
         //bubble all nodes until node reach balanced node
         for (Integer selectedMedian: medians) {
-            BSNode<T> nodeToBubble = findNode(inOrderData.get(selectedMedian).key);
+            BSNode<T> nodeToBubble = findNode(inOrderData.get(selectedMedian).key, false);
             if (nodeToBubble == null) return;
             if (nodeToBubble.isVisited != mark) {
                 for (; nodeToBubble.parent != null && nodeToBubble.parent.isVisited != mark; nodeToBubble = nodeToBubble.parent) {
@@ -464,7 +471,7 @@ public class BSTree<T> {
      * @param searchKey BSNode<T>
      * @return node
      */
-    private BSNode<T> findNode(T searchKey)  {
+    private BSNode<T> findNode(T searchKey, boolean withImprovement)  {
         if (root == null) {
             return null;
         }
@@ -483,10 +490,12 @@ public class BSTree<T> {
             final Compare compareResult = currentNode.data.compare(searchElement);
             //found duplicate
             if (compareResult == Compare.EQUAL) {
+                if (withImprovement) improve(currentNode);
                 return currentNode;
                 //leftNode
             } else if (compareResult == Compare.LESS) {
                 if (currentNode.leftNode == null) {
+                    if (withImprovement) improve(currentNode);
                     return null;
                 } else {
                     currentNode = currentNode.leftNode;
@@ -494,6 +503,7 @@ public class BSTree<T> {
                 //rightNode
             } else if (compareResult == Compare.MORE) {
                 if (currentNode.rightNode == null) {
+                    if (withImprovement) improve(currentNode);
                     return null;
                 } else {
                     currentNode = currentNode.rightNode;
