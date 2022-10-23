@@ -2,7 +2,10 @@ package org.example.Opetations;
 
 import org.example.BSData;
 import org.example.Opetations.Data.*;
+import org.example.Shared.Response;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -13,6 +16,19 @@ public class Operations {
     private int countTime = 0;
 
     public Data data = new Data();
+
+    SimpleDateFormat formatter2=new SimpleDateFormat("dd-MM-yyyy");
+
+
+    public Response setActualTime(String time) {
+        try {
+            actualTime = formatter2.parse(time);
+        } catch (ParseException e) {
+            return new Response<String>(1, "Zly format alebo datum" ,null);
+        }
+        return new Response<String>(0, "" ,null);
+    }
+
 
     /**
      * vyhľadanie záznamov pacienta/ov v zadanej nemocnici (identifikovaná
@@ -39,18 +55,16 @@ public class Operations {
      * vykonanie záznamu o začiatku hospitalizácie pacienta (identifikovaný
      * svojím rodným číslom) v nemocnici(identifikovaná svojím názvom)
      */
-    public void Operation_3(String rcPacienta, String nazovNemocnice) {
+    public Response Operation_3(String rcPacienta, String nazovNemocnice) {
         //get pacient
         Pacient pacient = (Pacient)data.pacienti.find(rcPacienta);
         if (pacient == null) {
-            System.out.println("pacient neezistuje");
-            return;
+            return new Response(1, "Pacient neexistuje", null);
         }
         //get nemocnica
         Nemocnica nemocnica = (Nemocnica)data.nemocnice.find(nazovNemocnice);
         if (nemocnica == null) {
-            System.out.println("nemocnica neezistuje");
-            return;
+            return new Response(1, "Nemocnica neexistuje", null);
         }
         //vytvorit hosp
         Hospitalizacia newHosp = new Hospitalizacia(
@@ -67,45 +81,73 @@ public class Operations {
         nemocnica.addPoistovna(pacient.getPoistovna());
         //pridat do poistovne
         pacient.getPoistovna().addHosp(newHosp);
+
+        return new Response(0, "", null);
     }
 
     /**
      * vykonanie záznamu o ukončení hospitalizácie pacienta (identifikovaný
      * svojím rodným číslom) v nemocnici (identifikovaná svojím názvom)
      */
-    public void Operation_4(String rcPacienta, String nazovNemocnice) {
+    public Response Operation_4(String rcPacienta, String nazovNemocnice) {
         Pacient pacient = (Pacient)data.pacienti.find(rcPacienta);
         if (pacient == null) {
-            System.out.println("pacient neezistuje");
-            return;
+            return new Response(1, "Pacient neexistuje", null);
         }
 
         Hospitalizacia hosp = pacient.getNeukoncenaHosp(nazovNemocnice);
         if (hosp == null) {
-            System.out.println("hosp neezistuje");
+            return new Response(1, "Hospitalizacia neexistuje", null);
         } else {
             hosp.setKoniecHosp();
         }
 
+        return new Response(0, "", null);
     }
 
     /**
      * pridanie pacienta
      */
-    public void Operation_6(
+    public Response Operation_6(
             String rodneCislo,
             String meno,
             String priezvisko,
-            Date datumNarodenia,
-            Poistovna poistovna) {
+            String datumNarodenia,
+            String kodPoistovne) {
 
-        data.addPacient(
+        Poistovna poistovna;
+
+        // ak je null vybereme nahodne z poistovni
+        if (kodPoistovne == null) {
+            poistovna = (Poistovna) data.poistovne.getRandomData();
+        } else {
+            poistovna = (Poistovna) data.poistovne.find(kodPoistovne);
+        }
+
+        if (poistovna == null) {
+            System.out.println("hosp neezistuje");
+            return new Response(1, "Poistovna neexistuje", null);
+        }
+
+        Date date;
+
+        try {
+            date = formatter2.parse(datumNarodenia);
+        } catch (ParseException e) {
+            return new Response<String>(1, "Zly format alebo datum" ,null);
+        }
+
+        if (data.addPacient(
                 rodneCislo,
                 meno,
                 priezvisko,
-                datumNarodenia,
+                date,
                 poistovna
-        );
+        ) == false) {
+            return new Response<String>(1, "Pacien uz existuje" ,null);
+        }
+
+        return new Response<String>(0, "" ,null);
     }
 
     /**
@@ -137,14 +179,20 @@ public class Operations {
     /**
      * pridanie nemocnice
      */
-    public void Operation_12(String nazovNemocnice) {
-        data.addNemocnica(nazovNemocnice);
+    public Response Operation_12(String nazovNemocnice) {
+        if (!data.addNemocnica(nazovNemocnice)) {
+            return new Response(1, "Nemocnica uz existuje", null);
+        }
+        return new Response(0, "", null);
     }
 
     /**
      * pridanie poistovne
      */
-    public void Operation_addPoistovna(String nazovPoistovne) {
-        data.addPoistovna(nazovPoistovne);
+    public Response Operation_addPoistovna(String nazovPoistovne) {
+        if (!data.addPoistovna(nazovPoistovne)) {
+            return new Response(1, "Poistovna uz existuje", null);
+        }
+        return new Response(0, "", null);
     }
 }

@@ -1,42 +1,485 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="org.example.Gui">
-  <grid id="27dc6" binding="panelMain" layout-manager="GridLayoutManager" row-count="2" column-count="4" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+  <grid id="27dc6" binding="panelMain" layout-manager="GridLayoutManager" row-count="2" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
     <margin top="0" left="0" bottom="0" right="0"/>
     <constraints>
-      <xy x="20" y="20" width="500" height="400"/>
+      <xy x="20" y="20" width="970" height="351"/>
     </constraints>
     <properties/>
     <border type="none"/>
     <children>
-      <component id="54945" class="javax.swing.JButton" binding="setTimeButton" default-binding="true">
+      <tabbedpane id="81219" binding="tabbedPane1" default-binding="true">
         <constraints>
-          <grid row="0" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-        </constraints>
-        <properties>
-          <text value="Set time"/>
-        </properties>
-      </component>
-      <vspacer id="ae1fc">
-        <constraints>
-          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
-        </constraints>
-      </vspacer>
-      <component id="8bb48" class="javax.swing.JLabel" binding="label1">
-        <constraints>
-          <grid row="0" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-        </constraints>
-        <properties>
-          <text value="DDMMYYYY"/>
-        </properties>
-      </component>
-      <component id="11fe1" class="javax.swing.JTextField" binding="inputTime">
-        <constraints>
-          <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
-            <preferred-size width="150" height="-1"/>
+          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="2" indent="0" use-parent-layout="false">
+            <preferred-size width="200" height="200"/>
           </grid>
         </constraints>
+        <properties/>
+        <border type="none"/>
+        <children>
+          <grid id="35e9e" binding="tabBase" layout-manager="GridLayoutManager" row-count="7" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+            <margin top="0" left="0" bottom="0" right="0"/>
+            <constraints>
+              <tabbedpane title="Správa"/>
+            </constraints>
+            <properties/>
+            <border type="none"/>
+            <children>
+              <component id="72084" class="javax.swing.JButton" binding="baseSetTime">
+                <constraints>
+                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value="Nastavit cas"/>
+                </properties>
+              </component>
+              <component id="fbf6d" class="javax.swing.JTextField" binding="baseTimeInput">
+                <constraints>
+                  <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                    <preferred-size width="150" height="-1"/>
+                  </grid>
+                </constraints>
+                <properties>
+                  <text value="21-10-2020"/>
+                  <toolTipText value="DDMMYYYY"/>
+                </properties>
+              </component>
+              <component id="d1a78" class="javax.swing.JButton" binding="addHospital">
+                <constraints>
+                  <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value="Pridat nemocnicu"/>
+                </properties>
+              </component>
+              <component id="6d70d" class="javax.swing.JTextField" binding="addHospitalInput">
+                <constraints>
+                  <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                    <preferred-size width="150" height="-1"/>
+                  </grid>
+                </constraints>
+                <properties>
+                  <text value="nazov_nemocnice"/>
+                  <toolTipText value="nazov nemocnice"/>
+                </properties>
+              </component>
+              <component id="62cd7" class="javax.swing.JButton" binding="pridatPoistovnuButton" default-binding="true">
+                <constraints>
+                  <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value="Pridat poistovnu"/>
+                </properties>
+              </component>
+              <component id="e9f3" class="javax.swing.JButton" binding="zacatHospitalizaciuButton" default-binding="true">
+                <constraints>
+                  <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value="Zacat hospitalizaciu"/>
+                </properties>
+              </component>
+              <component id="cf28c" class="javax.swing.JButton" binding="ukoncitHospitalizacuButton" default-binding="true">
+                <constraints>
+                  <grid row="5" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value="Ukoncit hospitalizacu"/>
+                </properties>
+              </component>
+              <component id="1f10" class="javax.swing.JTextField" binding="nazov_poistovneTextField" default-binding="true">
+                <constraints>
+                  <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                    <preferred-size width="150" height="-1"/>
+                  </grid>
+                </constraints>
+                <properties>
+                  <text value="nazov_poistovne"/>
+                  <toolTipText value="nazov poistovne"/>
+                </properties>
+              </component>
+              <grid id="1d5c0" layout-manager="GridLayoutManager" row-count="1" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                <margin top="0" left="0" bottom="0" right="0"/>
+                <constraints>
+                  <grid row="4" column="1" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties/>
+                <border type="none"/>
+                <children>
+                  <component id="b5dbb" class="javax.swing.JTextField" binding="nemocnicaTextField" default-binding="true">
+                    <constraints>
+                      <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                        <preferred-size width="150" height="-1"/>
+                      </grid>
+                    </constraints>
+                    <properties>
+                      <text value="nemocnica"/>
+                    </properties>
+                  </component>
+                  <component id="505f" class="javax.swing.JTextField" binding="rodneCisloTextField" default-binding="true">
+                    <constraints>
+                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                        <preferred-size width="150" height="-1"/>
+                      </grid>
+                    </constraints>
+                    <properties>
+                      <text value="rodne/cislo"/>
+                    </properties>
+                  </component>
+                </children>
+              </grid>
+              <component id="a3fd0" class="javax.swing.JButton" binding="pridatPacientaButton" default-binding="true">
+                <constraints>
+                  <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value="Pridat pacienta"/>
+                </properties>
+              </component>
+              <grid id="e5b92" layout-manager="GridLayoutManager" row-count="1" column-count="5" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                <margin top="0" left="0" bottom="0" right="0"/>
+                <constraints>
+                  <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties/>
+                <border type="none"/>
+                <children>
+                  <component id="38a4" class="javax.swing.JTextField" binding="narodenie_ddHhYyyyTextField" default-binding="true">
+                    <constraints>
+                      <grid row="0" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                        <preferred-size width="150" height="-1"/>
+                      </grid>
+                    </constraints>
+                    <properties>
+                      <text value="narodenie_dd-hh-yyyy"/>
+                    </properties>
+                  </component>
+                  <component id="6ea5b" class="javax.swing.JTextField" binding="menoTextField1" default-binding="true">
+                    <constraints>
+                      <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                        <preferred-size width="150" height="-1"/>
+                      </grid>
+                    </constraints>
+                    <properties>
+                      <text value="meno"/>
+                    </properties>
+                  </component>
+                  <component id="61f31" class="javax.swing.JTextField" binding="priezviskoTextField1" default-binding="true">
+                    <constraints>
+                      <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                        <preferred-size width="150" height="-1"/>
+                      </grid>
+                    </constraints>
+                    <properties>
+                      <text value="priezvisko"/>
+                    </properties>
+                  </component>
+                  <component id="63798" class="javax.swing.JTextField" binding="rodneCisloTextField3" default-binding="true">
+                    <constraints>
+                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                        <preferred-size width="150" height="-1"/>
+                      </grid>
+                    </constraints>
+                    <properties>
+                      <text value="rodne/cislo"/>
+                    </properties>
+                  </component>
+                  <component id="47762" class="javax.swing.JTextField" binding="poistovnaTextField" default-binding="true">
+                    <constraints>
+                      <grid row="0" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                        <preferred-size width="150" height="-1"/>
+                      </grid>
+                    </constraints>
+                    <properties>
+                      <text value="poistovna"/>
+                    </properties>
+                  </component>
+                </children>
+              </grid>
+              <grid id="cde79" layout-manager="GridLayoutManager" row-count="1" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                <margin top="0" left="0" bottom="0" right="0"/>
+                <constraints>
+                  <grid row="5" column="1" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties/>
+                <border type="none"/>
+                <children>
+                  <component id="e5a41" class="javax.swing.JTextField" binding="rodneCisloTextField1">
+                    <constraints>
+                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                        <preferred-size width="150" height="-1"/>
+                      </grid>
+                    </constraints>
+                    <properties>
+                      <text value="rodne/cislo"/>
+                    </properties>
+                  </component>
+                  <component id="8bbc5" class="javax.swing.JTextField" binding="nemocnicaTextField1" default-binding="true">
+                    <constraints>
+                      <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                        <preferred-size width="150" height="-1"/>
+                      </grid>
+                    </constraints>
+                    <properties>
+                      <text value="nemocnica"/>
+                    </properties>
+                  </component>
+                </children>
+              </grid>
+              <vspacer id="e6452">
+                <constraints>
+                  <grid row="6" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+                </constraints>
+              </vspacer>
+              <vspacer id="af3b0">
+                <constraints>
+                  <grid row="6" column="1" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+                </constraints>
+              </vspacer>
+            </children>
+          </grid>
+          <grid id="cb70f" binding="tab1" layout-manager="GridLayoutManager" row-count="2" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+            <margin top="0" left="0" bottom="0" right="0"/>
+            <constraints>
+              <tabbedpane title="1"/>
+            </constraints>
+            <properties/>
+            <border type="none"/>
+            <children>
+              <component id="97d31" class="javax.swing.JLabel" binding="tab1Label">
+                <constraints>
+                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <requestFocusEnabled value="true"/>
+                  <text value="&lt;html&gt;vyhľadanie záznamov pacienta (identifikovaný svojím rodným číslom) v &lt;br&gt;zadanej nemocnici (identifikovaná svojím názvom). Po nájdení pacienta je &lt;br&gt;potrebné zobraziť všetky evidované údaje. "/>
+                </properties>
+                <clientProperties>
+                  <html.disable class="java.lang.Boolean" value="false"/>
+                </clientProperties>
+              </component>
+              <vspacer id="59e4d">
+                <constraints>
+                  <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+                </constraints>
+              </vspacer>
+            </children>
+          </grid>
+          <grid id="81805" binding="tab2" layout-manager="GridLayoutManager" row-count="2" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+            <margin top="0" left="0" bottom="0" right="0"/>
+            <constraints>
+              <tabbedpane title="2"/>
+            </constraints>
+            <properties>
+              <toolTipText value=""/>
+            </properties>
+            <border type="none"/>
+            <children>
+              <component id="9c3be" class="javax.swing.JLabel" binding="tab2InfoLabel">
+                <constraints>
+                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value="&lt;html&gt;vyhľadanie záznamov pacienta/ov v zadanej nemocnici (identifikovaná svojím &lt;br&gt;názvom) podľa mena a priezviska. Po nájdení pacienta/ov je potrebné zobraziť &lt;br&gt;všetky evidované údaje zo zadanej nemocnice rozčlenené po pacientoch. "/>
+                </properties>
+              </component>
+              <vspacer id="4d874">
+                <constraints>
+                  <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+                </constraints>
+              </vspacer>
+            </children>
+          </grid>
+          <grid id="89fd0" binding="tab5" layout-manager="GridLayoutManager" row-count="2" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+            <margin top="0" left="0" bottom="0" right="0"/>
+            <constraints>
+              <tabbedpane title="5"/>
+            </constraints>
+            <properties/>
+            <border type="none"/>
+            <children>
+              <component id="d3f91" class="javax.swing.JLabel">
+                <constraints>
+                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value="&lt;html&gt;výpis hospitalizovaných pacientov v nemocnici (identifikovaná svojím názvom)&lt;br&gt; v zadanom časovom období (od, do) "/>
+                </properties>
+              </component>
+              <vspacer id="89d36">
+                <constraints>
+                  <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+                </constraints>
+              </vspacer>
+            </children>
+          </grid>
+          <grid id="dd903" binding="tab7" layout-manager="GridLayoutManager" row-count="2" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+            <margin top="0" left="0" bottom="0" right="0"/>
+            <constraints>
+              <tabbedpane title="7"/>
+            </constraints>
+            <properties/>
+            <border type="none"/>
+            <children>
+              <component id="5bf15" class="javax.swing.JLabel">
+                <constraints>
+                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value="&lt;html&gt;vytvorenie podkladov pre účtovné oddelenie na tvorbu faktúr pre zdravotné poisťovne &lt;br&gt;za zadaný mesiac. Pre každú poisťovňu, ktorej pacient (pacienti) bol v zadaný S1, Strana 1 &lt;br&gt;kalendárny mesiac hospitalizovaní aspoň jeden deň je potrebné pripraviť podklady obsahujúce: &lt;br&gt;• kód zdravotnej poisťovne &lt;br&gt;• počet dní hospitalizácii (za všetkých pacientov – napr. 98 dní) &lt;br&gt;• výpis hospitalizovaných pacientov v jednotlivé dni mesiaca spolu s diagnózami"/>
+                </properties>
+              </component>
+              <vspacer id="c35ae">
+                <constraints>
+                  <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+                </constraints>
+              </vspacer>
+            </children>
+          </grid>
+          <grid id="ef5e5" binding="tab8" layout-manager="GridLayoutManager" row-count="2" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+            <margin top="0" left="0" bottom="0" right="0"/>
+            <constraints>
+              <tabbedpane title="8"/>
+            </constraints>
+            <properties/>
+            <border type="none"/>
+            <children>
+              <component id="68bda" class="javax.swing.JLabel">
+                <constraints>
+                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value="výpis aktuálne hospitalizovaných pacientov vnemocnici (identifikovaná svojím názvom)l"/>
+                </properties>
+              </component>
+              <grid id="b91cd" layout-manager="GridLayoutManager" row-count="2" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                <margin top="0" left="0" bottom="0" right="0"/>
+                <constraints>
+                  <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties/>
+                <border type="none"/>
+                <children>
+                  <grid id="14697" layout-manager="GridLayoutManager" row-count="1" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                    <margin top="0" left="0" bottom="0" right="0"/>
+                    <constraints>
+                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                    <properties/>
+                    <border type="none"/>
+                    <children>
+                      <component id="5faf8" class="javax.swing.JButton" binding="vypisButton" default-binding="true">
+                        <constraints>
+                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                        </constraints>
+                        <properties>
+                          <text value="Vypis"/>
+                        </properties>
+                      </component>
+                      <component id="b88ef" class="javax.swing.JTextField" binding="nazovNemocniceTextField" default-binding="true">
+                        <constraints>
+                          <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                            <preferred-size width="150" height="-1"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <text value="nazovNemocnice"/>
+                        </properties>
+                      </component>
+                    </children>
+                  </grid>
+                  <component id="4b4b3" class="javax.swing.JTable" binding="table8">
+                    <constraints>
+                      <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                        <preferred-size width="150" height="50"/>
+                      </grid>
+                    </constraints>
+                    <properties/>
+                  </component>
+                </children>
+              </grid>
+            </children>
+          </grid>
+          <grid id="25a03" binding="tab9" layout-manager="GridLayoutManager" row-count="2" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+            <margin top="0" left="0" bottom="0" right="0"/>
+            <constraints>
+              <tabbedpane title="9"/>
+            </constraints>
+            <properties/>
+            <border type="none"/>
+            <children>
+              <component id="fafc0" class="javax.swing.JLabel">
+                <constraints>
+                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value="&lt;html&gt;výpis aktuálne hospitalizovaných pacientov vnemocnici (identifikovaná svojím názvom), ktorí  &lt;br&gt;sú poistencami zadanej zdravotnej poisťovne (identifikovaná svojím kódom)"/>
+                </properties>
+              </component>
+              <vspacer id="653b7">
+                <constraints>
+                  <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+                </constraints>
+              </vspacer>
+            </children>
+          </grid>
+          <grid id="d1dfb" binding="tab10" layout-manager="GridLayoutManager" row-count="2" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+            <margin top="0" left="0" bottom="0" right="0"/>
+            <constraints>
+              <tabbedpane title="10"/>
+            </constraints>
+            <properties/>
+            <border type="none"/>
+            <children>
+              <component id="dd80f" class="javax.swing.JLabel">
+                <constraints>
+                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value="&lt;html&gt;výpis aktuálne hospitalizovaných pacientov v nemocnici (identifikovaná  &lt;br&gt;svojím názvom) zotriedený podľa rodných čísel, ktorý sú poistencami zadanej  &lt;br&gt;zdravotnej poisťovne (identifikovaná svojím kódom)"/>
+                </properties>
+              </component>
+              <vspacer id="e5160">
+                <constraints>
+                  <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+                </constraints>
+              </vspacer>
+            </children>
+          </grid>
+          <grid id="22a23" binding="tab13" layout-manager="GridLayoutManager" row-count="2" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+            <margin top="0" left="0" bottom="0" right="0"/>
+            <constraints>
+              <tabbedpane title="13"/>
+            </constraints>
+            <properties/>
+            <border type="none"/>
+            <children>
+              <component id="8d751" class="javax.swing.JLabel">
+                <constraints>
+                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value="výpis nemocníc usporiadaných podľa názvov"/>
+                </properties>
+              </component>
+              <vspacer id="59507">
+                <constraints>
+                  <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+                </constraints>
+              </vspacer>
+            </children>
+          </grid>
+        </children>
+      </tabbedpane>
+      <component id="83657" class="javax.swing.JLabel" binding="errorSprava">
+        <constraints>
+          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
         <properties>
-          <text value="20102022"/>
+          <background color="-11138810"/>
+          <font style="1"/>
+          <foreground color="-6805228"/>
+          <text value=""/>
         </properties>
       </component>
     </children>

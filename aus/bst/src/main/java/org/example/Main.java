@@ -12,14 +12,12 @@ public class Main {
 
     public static void main(String[] args) {
 
-//        Gui gui = new Gui();
-//
-//        gui.setContentPane(gui.getJPanel());
-//        gui.setTitle("hello");
-//        gui.setSize(300, 400);
-//        gui.setVisible(true);
-//        gui.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        Gui gui = new Gui();
 
+        gui.start();
+
+
+        if (true) return;
 
         Operations oper = new Operations();
 
@@ -32,28 +30,28 @@ public class Main {
                     i+" ",
                     i+" ",
                     i+" ",
-                    new Date(),
-                    (Poistovna) oper.data.poistovne.getRandomData());
+                    "01-08-1997",
+                    null);
         }
 
         oper.Operation_6(
                 99+" ",
                 0+" ",
                 0+" ",
-                new Date(),
-                (Poistovna) oper.data.poistovne.getRandomData());
+                "01-08-1997",
+                null);
         oper.Operation_6(
                 98+" ",
                 0+" ",
                 0+" ",
-                new Date(),
-                (Poistovna) oper.data.poistovne.getRandomData());
+                "01-08-1997",
+                null);
         oper.Operation_6(
                 97+" ",
                 0+" ",
                 0+" ",
-                new Date(),
-                (Poistovna) oper.data.poistovne.getRandomData());
+                "01-08-1997",
+                null);
 
 
         oper.data.nemocnice.inOrder().forEach(a -> System.out.print(a.key));
@@ -79,16 +77,16 @@ public class Main {
 
         BSTTests test = new BSTTests();
 
-        test.testIntervalSearch();
+        //test.testIntervalSearch();
 
         test.testInsertMultiple(
-                100,
+                0,
                 100,
                 Integer.MAX_VALUE
         );
 
         test.testInsertBalanceFindRemove(
-                100,
+                0,
                 9999,
                 Integer.MAX_VALUE
         );
@@ -97,7 +95,7 @@ public class Main {
                 .5,
                 .25,
                 .25,
-                100000,
+                0,
                 1000,
                 Integer.MAX_VALUE
         );

@@ -11,18 +11,18 @@ public class Data {
 
     public final BSTree<String> poistovne = new BSTree<>();
 
-    public void addNemocnica(String name) {
-        nemocnice.insert(new Nemocnica(name));
+    public boolean addNemocnica(String name) {
+        return nemocnice.insert(new Nemocnica(name));
     }
 
-    public void addPacient(
+    public boolean addPacient(
             String rodneCislo,
             String meno,
             String priezvisko,
             Date datumNarodenia,
             Poistovna poistovna) {
 
-        pacienti.insert(
+        return pacienti.insert(
                 new Pacient(
                         rodneCislo,
                         meno,
@@ -33,7 +33,7 @@ public class Data {
         );
     }
 
-    public void addPoistovna(String name) {
-        poistovne.insert(new Poistovna(name));
+    public boolean addPoistovna(String name) {
+        return poistovne.insert(new Poistovna(name));
     }
 }
