@@ -9,7 +9,25 @@ import java.util.Date;
 public class Hospitalizacia extends BSData<Date> {
     private Date zaciatokHosp;
     private Date koniecHosp;
+
+    public Date getZaciatokHosp() {
+        return zaciatokHosp;
+    }
+
+    public String getZaciatokHospString() {
+        return zaciatokHosp.toString();
+    }
+
+    public String getDiagnoza() {
+        return diagnoza;
+    }
+
     private String diagnoza;
+
+    public Pacient getPacient() {
+        return pacient;
+    }
+
     private Pacient pacient;
 
     public Hospitalizacia(

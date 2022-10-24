@@ -73,6 +73,7 @@ public class Operations {
                 "",
                 pacient
         );
+        countTime+=1;
         //pridat pacientovi
         pacient.addHosp(nazovNemocnice, newHosp);
         //pridat do nemocnice
@@ -154,26 +155,26 @@ public class Operations {
      * výpis aktuálne hospitalizovaných pacientov vnemocnici
      * (identifikovaná svojím názvom)
      */
-    public void Operation_8(String nazovNemocnice) {
+    public Response<ArrayList<Hospitalizacia>> Operation_8(String nazovNemocnice) {
         Nemocnica nemocnica = (Nemocnica)data.nemocnice.find(nazovNemocnice);
         if (nemocnica == null) {
             System.out.println("nemocnica neezistuje");
-            return;
+            return new Response(1, "Nemocnica neexistuje", null);
         }
 
         ArrayList<Hospitalizacia> neukonceneHosp = new ArrayList<>();
 
-        for (BSData<Date> dateBSData : nemocnica.hospitalizacie.levelOrder()) {
-            Hospitalizacia hosp = (Hospitalizacia)dateBSData;
-            if (hosp.getKoniecHosp() == null) {
-                neukonceneHosp.add(hosp);
+        ArrayList<BSData<Date>> hospitalizacie = nemocnica.hospitalizacie.levelOrder();
+        if (hospitalizacie != null) {
+            for (BSData<Date> dateBSData : nemocnica.hospitalizacie.levelOrder()) {
+                Hospitalizacia hosp = (Hospitalizacia) dateBSData;
+                if (hosp.getKoniecHosp() == null) {
+                    neukonceneHosp.add(hosp);
+                }
             }
         }
 
-        neukonceneHosp.forEach(a -> System.out.println(a.key.toString()));
-        System.out.println();
-
-
+        return new Response(0, "", neukonceneHosp);
     }
 
     /**
