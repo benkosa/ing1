@@ -30,16 +30,24 @@ public class Hospitalizacia extends BSData<Date> {
 
     private Pacient pacient;
 
+    public Nemocnica getNemocnica() {
+        return nemocnica;
+    }
+
+    private Nemocnica nemocnica;
+
     public Hospitalizacia(
             Date zaciatokHosp,
             Date koniecHosp,
             String diagnoza,
-            Pacient pacient) {
+            Pacient pacient,
+            Nemocnica nemocnica) {
         super(zaciatokHosp);
         this.zaciatokHosp = zaciatokHosp;
         this.koniecHosp = koniecHosp;
         this.diagnoza = diagnoza;
         this.pacient = pacient;
+        this.nemocnica = nemocnica;
     }
 
 

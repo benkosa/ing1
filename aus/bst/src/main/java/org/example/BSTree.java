@@ -564,9 +564,17 @@ public class BSTree<T> {
      */
     public ArrayList<BSNode<T>> intervalSearchNode(T startKey, T endKey) {
         BSNode<T> startNode = findClosest(startKey);
-        if (startNode == null) {
-            return null;
-        }
+//        if (startNode == null) {
+//            startNode = findClosest(startKey);
+//            if (startNode == null) {
+//                return null;
+//            }
+//            startNode = findInorderSuccessor(startNode);
+//            if (startNode == null) {
+//                return null;
+//            }
+//        }
+
         final BSData<T> endElement = createTmpElement(endKey);
 
         final ArrayList<BSNode<T>> interval = new ArrayList<>();

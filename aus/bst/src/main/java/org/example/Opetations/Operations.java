@@ -71,7 +71,8 @@ public class Operations {
                 new Date(actualTime.getTime() + countTime),
                 null,
                 "",
-                pacient
+                pacient,
+                nemocnica
         );
         countTime+=1;
         //pridat pacientovi
@@ -100,7 +101,9 @@ public class Operations {
         if (hosp == null) {
             return new Response(1, "Hospitalizacia neexistuje", null);
         } else {
+            System.out.println(hosp.getNemocnica().removeHosp(hosp));
             hosp.setKoniecHosp();
+            hosp.getNemocnica().insertEdited(hosp);
         }
 
         return new Response(0, "", null);
@@ -162,17 +165,21 @@ public class Operations {
             return new Response(1, "Nemocnica neexistuje", null);
         }
 
-        ArrayList<Hospitalizacia> neukonceneHosp = new ArrayList<>();
+        ArrayList<Hospitalizacia> neukonceneHosp =nemocnica.getNeukonceneHosp();
 
-        ArrayList<BSData<Date>> hospitalizacie = nemocnica.hospitalizacie.levelOrder();
-        if (hospitalizacie != null) {
-            for (BSData<Date> dateBSData : nemocnica.hospitalizacie.levelOrder()) {
-                Hospitalizacia hosp = (Hospitalizacia) dateBSData;
-                if (hosp.getKoniecHosp() == null) {
-                    neukonceneHosp.add(hosp);
-                }
-            }
-        }
+
+
+//        ArrayList<BSData<Date>> hospitalizacie = nemocnica.hospitalizacie.levelOrder();
+//        if (hospitalizacie != null) {
+//            for (BSData<Date> dateBSData : nemocnica.hospitalizacie.levelOrder()) {
+//                Hospitalizacia hosp = (Hospitalizacia) dateBSData;
+//                if (hosp.getKoniecHosp() == null) {
+//                    neukonceneHosp.add(hosp);
+//                }
+//            }
+//        }
+
+        //neukonceneHosp.forEach(a -> System.out.println(a.getKoniecHosp().toString()));
 
         return new Response(0, "", neukonceneHosp);
     }
