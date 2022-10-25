@@ -10,18 +10,21 @@ import java.util.Date;
 
 public class Nemocnica  extends BSData<String> {
 
-    public final BSTree<String> pacienti = new BSTree<>();
+    private final BSTree<String> pacienti = new BSTree<>();
+    private final BSTree<Pacient> pacientiMena = new BSTree<>();
 
-    public final BSTree<Pacient> pacientiMena = new BSTree<>();
+    private final BSTree<String> poistovne = new BSTree<>();
 
-    public final BSTree<String> poistovne = new BSTree<>();
+    private final BSTree<Date> hospitalizacie = new BSTree<>();
 
-    public final BSTree<Date> hospitalizacie = new BSTree<>();
-
-    public final BSTree<Hospitalizacia> hospitalizacieDate = new BSTree<>();
+    private final BSTree<Hospitalizacia> hospitalizacieDate = new BSTree<>();
 
     public Nemocnica(String key) {
         super(key);
+    }
+
+    public BSTree<Pacient> getPacientiMena() {
+        return pacientiMena;
     }
 
     @Override

@@ -5,11 +5,23 @@ import org.example.BSTree;
 import java.util.Date;
 
 public class Data {
-    public final BSTree<String> nemocnice = new BSTree<>();
+    public BSTree<String> getNemocnice() {
+        return nemocnice;
+    }
 
-    public final BSTree<String> pacienti = new BSTree<>();
+    public BSTree<String> getPacienti() {
+        return pacienti;
+    }
 
-    public final BSTree<String> poistovne = new BSTree<>();
+    public BSTree<String> getPoistovne() {
+        return poistovne;
+    }
+
+    private final BSTree<String> nemocnice = new BSTree<>();
+
+    private final BSTree<String> pacienti = new BSTree<>();
+
+    private final BSTree<String> poistovne = new BSTree<>();
 
     public boolean addNemocnica(String name) {
         return nemocnice.insert(new Nemocnica(name));

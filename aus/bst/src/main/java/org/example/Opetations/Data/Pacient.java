@@ -13,6 +13,8 @@ public class Pacient extends BSData<String> {
     private String rodneCislo;
     private String meno;
     private String priezvisko;
+    private Date datumNarodenia;
+    private Poistovna poistovna;
 
     public Date getDatumNarodenia() {
         return datumNarodenia;
@@ -21,9 +23,6 @@ public class Pacient extends BSData<String> {
     public String getDatumNarodeniaString() {
         return datumNarodenia.toString();
     }
-
-    private Date datumNarodenia;
-    private Poistovna poistovna;
 
     public String getRodneCislo () { return rodneCislo; }
     public String getMeno () { return meno; }

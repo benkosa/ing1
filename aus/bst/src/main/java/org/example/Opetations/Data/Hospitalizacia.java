@@ -9,6 +9,9 @@ import java.util.Date;
 public class Hospitalizacia extends BSData<Date> {
     private Date zaciatokHosp;
     private Date koniecHosp;
+    private String diagnoza;
+    private Pacient pacient;
+    private Nemocnica nemocnica;
 
     public Date getZaciatokHosp() {
         return zaciatokHosp;
@@ -22,19 +25,13 @@ public class Hospitalizacia extends BSData<Date> {
         return diagnoza;
     }
 
-    private String diagnoza;
-
     public Pacient getPacient() {
         return pacient;
     }
 
-    private Pacient pacient;
-
     public Nemocnica getNemocnica() {
         return nemocnica;
     }
-
-    private Nemocnica nemocnica;
 
     public Hospitalizacia(
             Date zaciatokHosp,

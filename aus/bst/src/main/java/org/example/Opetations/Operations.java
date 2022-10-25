@@ -15,9 +15,9 @@ public class Operations {
     private Date actualTime = new Date();
     private int countTime = 0;
 
-    public Data data = new Data();
+    private Data data = new Data();
 
-    SimpleDateFormat formatter2=new SimpleDateFormat("dd-MM-yyyy");
+    private SimpleDateFormat formatter2=new SimpleDateFormat("dd-MM-yyyy");
 
 
     public Response setActualTime(String time) {
@@ -38,7 +38,7 @@ public class Operations {
      */
     public void Operation_2(String nazovNemocnice, String meno, String priezvisko) {
         //get nemocnica
-        Nemocnica nemocnica = (Nemocnica)data.nemocnice.find(nazovNemocnice);
+        Nemocnica nemocnica = (Nemocnica)data.getNemocnice().find(nazovNemocnice);
         if (nemocnica == null) {
             System.out.println("nemocnica neezistuje");
             return;
@@ -47,7 +47,7 @@ public class Operations {
         Pacient minPacient = new Pacient("", meno, priezvisko, null, null);
         Pacient maxPacient = new Pacient("999999999/999999999", meno, priezvisko, null, null);
 
-        nemocnica.pacientiMena.intervalSearch(minPacient, maxPacient).forEach(a-> System.out.println(a.key.getMeno()));
+        nemocnica.getPacientiMena().intervalSearch(minPacient, maxPacient).forEach(a-> System.out.println(a.key.getMeno()));
 
     }
 
@@ -57,12 +57,12 @@ public class Operations {
      */
     public Response Operation_3(String rcPacienta, String nazovNemocnice) {
         //get pacient
-        Pacient pacient = (Pacient)data.pacienti.find(rcPacienta);
+        Pacient pacient = (Pacient)data.getPacienti().find(rcPacienta);
         if (pacient == null) {
             return new Response(1, "Pacient neexistuje", null);
         }
         //get nemocnica
-        Nemocnica nemocnica = (Nemocnica)data.nemocnice.find(nazovNemocnice);
+        Nemocnica nemocnica = (Nemocnica)data.getPacienti().find(nazovNemocnice);
         if (nemocnica == null) {
             return new Response(1, "Nemocnica neexistuje", null);
         }
@@ -92,7 +92,7 @@ public class Operations {
      * svojím rodným číslom) v nemocnici (identifikovaná svojím názvom)
      */
     public Response Operation_4(String rcPacienta, String nazovNemocnice) {
-        Pacient pacient = (Pacient)data.pacienti.find(rcPacienta);
+        Pacient pacient = (Pacient)data.getPacienti().find(rcPacienta);
         if (pacient == null) {
             return new Response(1, "Pacient neexistuje", null);
         }
@@ -123,9 +123,9 @@ public class Operations {
 
         // ak je null vybereme nahodne z poistovni
         if (kodPoistovne == null) {
-            poistovna = (Poistovna) data.poistovne.getRandomData();
+            poistovna = (Poistovna) data.getPoistovne().getRandomData();
         } else {
-            poistovna = (Poistovna) data.poistovne.find(kodPoistovne);
+            poistovna = (Poistovna) data.getPoistovne().find(kodPoistovne);
         }
 
         if (poistovna == null) {
@@ -159,7 +159,7 @@ public class Operations {
      * (identifikovaná svojím názvom)
      */
     public Response<ArrayList<Hospitalizacia>> Operation_8(String nazovNemocnice) {
-        Nemocnica nemocnica = (Nemocnica)data.nemocnice.find(nazovNemocnice);
+        Nemocnica nemocnica = (Nemocnica)data.getNemocnice().find(nazovNemocnice);
         if (nemocnica == null) {
             System.out.println("nemocnica neezistuje");
             return new Response(1, "Nemocnica neexistuje", null);

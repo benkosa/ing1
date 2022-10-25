@@ -72,6 +72,7 @@ public class BSTree<T> {
      * @param node node
      */
     public void improve(BSNode<T> node) {
+        //if (true) return;
         if (node.parent == null || node.parent.parent == null) {
             return;
         }
@@ -170,7 +171,7 @@ public class BSTree<T> {
         return getOrderData(inOrderNodes());
     }
 
-    public void leftRotation(BSNode<T> root) {
+    private void leftRotation(BSNode<T> root) {
         if (root.rightNode == null) {
             return;
         }
@@ -190,7 +191,7 @@ public class BSTree<T> {
         pivot.leftNode = C;
     }
 
-    public void rightRotation(BSNode<T> root) {
+    private void rightRotation(BSNode<T> root) {
         if (root.leftNode == null) {
             return;
         }
@@ -562,7 +563,7 @@ public class BSTree<T> {
      * @param endKey don't have to be present in tree
      * @return interval of elements
      */
-    public ArrayList<BSNode<T>> intervalSearchNode(T startKey, T endKey) {
+    private ArrayList<BSNode<T>> intervalSearchNode(T startKey, T endKey) {
         BSNode<T> startNode = findClosest(startKey);
 //        if (startNode == null) {
 //            startNode = findClosest(startKey);
