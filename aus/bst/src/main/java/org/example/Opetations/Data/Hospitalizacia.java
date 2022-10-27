@@ -21,6 +21,10 @@ public class Hospitalizacia extends BSData<Date> {
         return zaciatokHosp.toString();
     }
 
+    public String getKoniecHospString() {
+        return koniecHosp == null ? "" : koniecHosp.toString();
+    }
+
     public String getDiagnoza() {
         return diagnoza;
     }

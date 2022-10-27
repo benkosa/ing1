@@ -51,7 +51,7 @@ public class BSTTests {
             // balance
             int heightBefore = tree.getHeight();
             int sizeBefore = tree.inOrder().size();
-            //tree.balanceTree();
+            tree.balanceTree();
             int heightAfter = tree.getHeight();
             int sizeAfter = tree.inOrder().size();
             if (sizeBefore != sizeAfter)
@@ -62,11 +62,11 @@ public class BSTTests {
             //tree.checkHeight();
 
             // find inserted nodes
-//            for (BSData<Integer> element: insertedElements) {
-//                if (tree.find(element.key) == null) {
-//                    System.out.println("error: lost element " + seed);
-//                }
-//            }
+            for (BSData<Integer> element: insertedElements) {
+                if (tree.find(element.key) == null) {
+                    System.out.println("error: lost element " + seed);
+                }
+            }
 
 
             Element height = (Element)treeHeights.find(heightAfter);
@@ -77,9 +77,9 @@ public class BSTTests {
             }
 
             // remove tree
-//            while (tree.getRoot() != null) {
-//                tree.remove(tree.getRoot().key);
-//            }
+            while (tree.getRoot() != null) {
+                tree.remove(tree.getRoot().key);
+            }
         }
         System.out.println("best height: " + countBestHeight(maxNumberOfElements));
         System.out.println();
@@ -90,7 +90,7 @@ public class BSTTests {
             System.out.println("height: " + element.key + ", occurrences: " + element.counter);
             sum+=element.key*element.counter;
         }
-        System.out.println("average size: " + Math.ceil((double)sum/replications*100)/100);
+        System.out.println("average height: " + Math.ceil((double)sum/replications*100)/100);
         System.out.println("result: no errors");
         System.out.println("---------------------------------------------------");
     }
@@ -172,6 +172,7 @@ public class BSTTests {
         treeHeights.inOrder().forEach(data -> {
             Element element = (Element)data;
             System.out.println("height: " + element.key + ", occurrences: " + element.counter);
+            System.out.println("---------------------------------------------------");
         });
     }
 

@@ -64,8 +64,8 @@ public class Pacient extends BSData<String> {
 
         private ArrayList<Hospitalizacia> hospitalizacie = new ArrayList<>();
 
-        public void addHosp(Hospitalizacia hospitalizacia) {
-            hospitalizacie.add(hospitalizacia);
+        public boolean addHosp(Hospitalizacia hospitalizacia) {
+            return hospitalizacie.add(hospitalizacia);
         }
 
         @Override
@@ -75,15 +75,15 @@ public class Pacient extends BSData<String> {
         }
     }
 
-    public void addHosp(String nazovNem, Hospitalizacia hosp) {
+    public boolean addHosp(String nazovNem, Hospitalizacia hosp) {
         PacientHosp pacientHosp = (PacientHosp)this.hospitalizacie.find(nazovNem);
 
         //uz existuje nemocnica
         if (pacientHosp != null) {
-            pacientHosp.addHosp(hosp);
+            return pacientHosp.addHosp(hosp);
         // este neexistuje nemocnica
         } else {
-            this.hospitalizacie.insert(new PacientHosp(nazovNem, hosp));
+            return this.hospitalizacie.insert(new PacientHosp(nazovNem, hosp));
         }
     }
 

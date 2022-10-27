@@ -43,9 +43,12 @@ public class Nemocnica  extends BSData<String> {
         poistovne.insert(poistovna);
     }
 
-    public void addHosp(Hospitalizacia hosp) {
-        hospitalizacie.insert(hosp);
+    public boolean addHosp(Hospitalizacia hosp) {
+        if (hospitalizacie.insert(hosp) == false) {
+            return false;
+        };
         hospitalizacieDate.insert(new HospitalizaciaContainer(hosp));
+        return true;
     }
 
     public ArrayList<Hospitalizacia> getNeukonceneHosp() {

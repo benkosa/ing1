@@ -192,7 +192,7 @@ END;
 
    cursor grades (p_os_cislo in number)
    IS select *
-      from ZAP_PREDMETY 
+      from ZAP_PREDMETY
       where OS_CISLO = p_os_cislo 
          and VYSLEDOK is not null;
 
@@ -207,8 +207,8 @@ END;
 
       for gradesRow in grades(studentsRow.OS_CISLO)
       LOOP
-         average := average + getZnamka(gradesRow.VYSLEDOK);  
-         gradesCount := gradesCount +1;     
+         average := average + getZnamka(gradesRow.VYSLEDOK);
+         gradesCount := gradesCount +1;
       end loop;
 
       if gradesCount != 0 THEN

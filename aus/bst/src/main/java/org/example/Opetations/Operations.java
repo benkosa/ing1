@@ -15,6 +15,10 @@ public class Operations {
     private Date actualTime = new Date();
     private int countTime = 0;
 
+    public Data getData() {
+        return data;
+    }
+
     private Data data = new Data();
 
     private SimpleDateFormat formatter2=new SimpleDateFormat("dd-MM-yyyy");
@@ -62,7 +66,7 @@ public class Operations {
             return new Response(1, "Pacient neexistuje", null);
         }
         //get nemocnica
-        Nemocnica nemocnica = (Nemocnica)data.getPacienti().find(nazovNemocnice);
+        Nemocnica nemocnica = (Nemocnica)data.getNemocnice().find(nazovNemocnice);
         if (nemocnica == null) {
             return new Response(1, "Nemocnica neexistuje", null);
         }
@@ -81,6 +85,30 @@ public class Operations {
         nemocnica.addHosp(newHosp);
         nemocnica.addPacient(pacient);
         nemocnica.addPoistovna(pacient.getPoistovna());
+        //pridat do poistovne
+        pacient.getPoistovna().addHosp(newHosp);
+
+        return new Response(0, "", null);
+    }
+
+    public Response Operation_3(Pacient pacient, Nemocnica nemocnica, Date datumZaciatku, String diagnoza) {
+
+        //vytvorit hosp
+        Hospitalizacia newHosp = new Hospitalizacia(
+                datumZaciatku,
+                null,
+                diagnoza,
+                pacient,
+                nemocnica
+        );
+        //pridat do nemocnice
+        if (nemocnica.addHosp(newHosp) == false) {
+            return new Response<String>(1, "Hospitalizacia uz existuje" ,null);
+        }
+        nemocnica.addPacient(pacient);
+        nemocnica.addPoistovna(pacient.getPoistovna());
+        //pridat pacientovi
+        pacient.addHosp(nemocnica.key, newHosp);
         //pridat do poistovne
         pacient.getPoistovna().addHosp(newHosp);
 
