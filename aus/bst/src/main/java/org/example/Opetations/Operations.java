@@ -47,13 +47,25 @@ public class Operations {
             return new Response<>(1, "nemocnica neexistuje" ,null);
         }
 
-        Pacient minPacient = new Pacient("", meno, priezvisko, null, null);
-        Pacient maxPacient = new Pacient("999999999/999999999", meno, priezvisko, null, null);
-        return new Response<>(0, "" ,
-                nemocnica
-                        .getPacientiMena()
-                        .intervalSearch(minPacient, maxPacient)
-        );
+        String minString = "";
+        String maxString = "";
+        for (int i = 0; i < 11; i++) {
+            minString += Character.MIN_VALUE;
+            maxString+=Character.MAX_VALUE;
+        }
+
+
+        Pacient minPacient = new Pacient(minString, meno, priezvisko, null, null);
+        Pacient maxPacient = new Pacient(maxString, meno, priezvisko, null, null);
+
+        //nemocnica.getPacientiMena().levelOrder().forEach(a-> System.out.println(a.key.getMeno()));
+
+        ArrayList<BSData<Pacient>> pacienti = nemocnica
+                .getPacientiMena()
+                .intervalSearch(minPacient, maxPacient);
+
+        if (pacienti == null) pacienti = new ArrayList<>();
+        return new Response<>(0, "" , pacienti);
 
     }
 
@@ -140,7 +152,6 @@ public class Operations {
         if (hosp == null) {
             return new Response(1, "Hospitalizacia neexistuje", null);
         } else {
-            System.out.println(hosp.getNemocnica().removeHosp(hosp));
             hosp.setKoniecHosp();
             hosp.getNemocnica().insertEdited(hosp);
         }
@@ -205,7 +216,6 @@ public class Operations {
         }
 
         if (poistovna == null) {
-            System.out.println("hosp neezistuje");
             return new Response(1, "Poistovna neexistuje", null);
         }
 
@@ -237,7 +247,6 @@ public class Operations {
     public Response<ArrayList<Hospitalizacia>> Operation_8(String nazovNemocnice) {
         Nemocnica nemocnica = (Nemocnica)data.getNemocnice().find(nazovNemocnice);
         if (nemocnica == null) {
-            System.out.println("nemocnica neezistuje");
             return new Response(1, "Nemocnica neexistuje", null);
         }
 

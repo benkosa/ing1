@@ -18,7 +18,7 @@ public class Main {
 
         BSTTests test = new BSTTests();
 
-        test.testIntervalSearch();
+        //test.testIntervalSearch();
 
         test.testInsertMultiple(
                 0,

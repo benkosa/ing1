@@ -15,6 +15,8 @@ public class Pacient extends BSData<String> {
     private String priezvisko;
     private Date datumNarodenia;
     private Poistovna poistovna;
+    private BSTree<String> hospitalizacie = new BSTree<>();
+
 
     public Date getDatumNarodenia() {
         return datumNarodenia;
@@ -28,9 +30,16 @@ public class Pacient extends BSData<String> {
     public String getMeno () { return meno; }
     public String getPriezvisko () { return priezvisko; }
 
+    public ArrayList<Hospitalizacia> getHospotalizacie(String nemocnica) {
+
+        PacientHosp pacientHosp = (PacientHosp)hospitalizacie.find(nemocnica);
+        if (pacientHosp == null) return null;
+
+        return pacientHosp.hospitalizacie;
+    }
 
 
-    private BSTree<String> hospitalizacie = new BSTree<>();
+
 
     public Pacient(
             String rodneCislo,

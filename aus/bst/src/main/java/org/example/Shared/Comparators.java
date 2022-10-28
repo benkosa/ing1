@@ -20,23 +20,6 @@ public class Comparators {
         return maxDate;
     }
 
-    public Date getMaxDateOd() {
-        Date maxDate = new Date();
-        try {
-            maxDate = formatter2.parse("01-01-9998");
-        } catch (ParseException e) { }
-
-        return maxDate;
-    }
-    public Date getMaxDateDo() {
-        Date maxDate = new Date();
-        try {
-            maxDate = formatter2.parse("01-01-99999");
-        } catch (ParseException e) { }
-
-        return maxDate;
-    }
-
     public Date getMinDate() {
         Date maxDate = new Date();
         try {

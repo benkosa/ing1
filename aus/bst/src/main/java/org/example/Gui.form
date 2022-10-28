@@ -281,7 +281,7 @@
                       </grid>
                     </constraints>
                     <properties>
-                      <text value="100"/>
+                      <text value="10"/>
                     </properties>
                   </component>
                   <component id="4e48b" class="javax.swing.JButton" binding="generovatPoistovneButton" default-binding="true">
@@ -472,7 +472,7 @@
                       </grid>
                     </constraints>
                     <properties>
-                      <text value="01_nemocnica"/>
+                      <text value="1_nemocnica"/>
                     </properties>
                   </component>
                   <component id="b8bc5" class="javax.swing.JTextField" binding="menoTextField" default-binding="true">
@@ -482,7 +482,7 @@
                       </grid>
                     </constraints>
                     <properties>
-                      <text value="meno"/>
+                      <text value="_meno"/>
                     </properties>
                   </component>
                   <component id="47b46" class="javax.swing.JTextField" binding="priezviskoTextField" default-binding="true">
@@ -492,7 +492,7 @@
                       </grid>
                     </constraints>
                     <properties>
-                      <text value="priezvisko"/>
+                      <text value="_priezvisko"/>
                     </properties>
                   </component>
                 </children>
@@ -653,7 +653,7 @@
                           </grid>
                         </constraints>
                         <properties>
-                          <text value="nazov_nemocnice"/>
+                          <text value="1_nemocnica"/>
                         </properties>
                       </component>
                       <component id="29e72" class="javax.swing.JButton" binding="vypisButton" default-binding="true">

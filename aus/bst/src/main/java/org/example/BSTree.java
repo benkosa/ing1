@@ -373,21 +373,6 @@ public class BSTree<T> {
         return height;
     }
 
-    public void checkHeight() {
-        ArrayList<BSNode<T>> levelOrder = levelOrderNodes();
-        for (BSNode<T> tbsNode : levelOrder) {
-            int rightHeight = getHeightNode(tbsNode.rightNode);
-            int leftHeight = getHeightNode(tbsNode.leftNode);
-            if (Math.abs(rightHeight - leftHeight) > 1) {
-                System.out.println("rightHeight: " + rightHeight + " leftHeight " + leftHeight);
-                inOrderNodes().forEach(a-> System.out.print(a.data.key + ", "));
-                System.out.println();
-                levelOrderNodes().forEach(a-> System.out.print(a.data.key + ", "));
-                System.out.println();
-            }
-        }
-    }
-
 
     /**
      * used to find inorder predecessor when removing node
@@ -565,16 +550,6 @@ public class BSTree<T> {
      */
     private ArrayList<BSNode<T>> intervalSearchNode(T startKey, T endKey) {
         BSNode<T> startNode = findClosest(startKey);
-//        if (startNode == null) {
-//            startNode = findClosest(startKey);
-//            if (startNode == null) {
-//                return null;
-//            }
-//            startNode = findInorderSuccessor(startNode);
-//            if (startNode == null) {
-//                return null;
-//            }
-//        }
 
         final BSData<T> endElement = createTmpElement(endKey);
 

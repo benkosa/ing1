@@ -9,6 +9,7 @@ import org.example.Shared.Response;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.lang.reflect.Array;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -93,8 +94,6 @@ public class Gui extends JFrame {
         long randomMillisSinceEpoch = ThreadLocalRandom
                 .current()
                 .nextLong(startMillis, endMillis);
-
-        System.out.println(randomMillisSinceEpoch);
 
         return new Date(randomMillisSinceEpoch);
     }
@@ -242,7 +241,7 @@ public class Gui extends JFrame {
                 int pocetPacientov = Integer.parseInt(a10000TextField.getText());
                 for (int i = 0; i < pocetPacientov; i++) {
                     operation.Operation_6(
-                            gen.nextInt(999999)+"/"+gen.nextInt(9999),
+                            (gen.nextInt(100000)+899999)+"/"+(gen.nextInt(1000)+8999),
                             i+"_meno",
                             i+"_priezvisko",
                             (gen.nextInt(27)+1)+"-"+
@@ -343,26 +342,44 @@ public class Gui extends JFrame {
                         "Priezvisko",
                         "Rodne Cislo",
                         "Datum narodenia",
-                        "poistovna"
+                        "Poistovna",
+                        "Diagnoza",
+                        "Zaciatok hospitalizacie",
+                        "Koniec hospitalizacie"
                 };
 
-                String tableValues[][] = new String[response.data.size()][tableHeader.length];
-
+                ArrayList<String[]> tableValues = new ArrayList<>();
 
                 for (int i = 0; i < response.data.size(); i++) {
-                    final Pacient pacient = response.data.get(i);
-                    tableValues[i] = new String[]{
-                            pacient.getMeno(),
-                            pacient.getPriezvisko(),
-                            pacient.getRodneCislo(),
-                            pacient.getDatumNarodeniaString(),
-                            pacient.getPoistovna().key,
-                    };
+                    final Pacient pacient = response.data.get(i).key;
+                    if (!(pacient.getMeno().equals(menoTextField.getText()) && pacient.getPriezvisko().equals(priezviskoTextField.getText()))) {
+                        continue;
+                    }
+
+                    final ArrayList<Hospitalizacia> hospitalizacie = pacient.getHospotalizacie(a01_nemocnicaTextField.getText());
+                    if (hospitalizacie != null) {
+                        for (int j = 0; j < hospitalizacie.size(); j++) {
+                            final Hospitalizacia hosp = hospitalizacie.get(j);
+                            tableValues.add(new String[]{
+                                    pacient.getMeno(),
+                                    pacient.getPriezvisko(),
+                                    pacient.getRodneCislo(),
+                                    pacient.getDatumNarodeniaString(),
+                                    pacient.getPoistovna().key,
+                                    hosp.getDiagnoza(),
+                                    hosp.getZaciatokHospString(),
+                                    hosp.getKoniecHospString()
+                            });
+
+                        }
+                    }
                 }
 
-                table1 = new JTable(tableValues, tableHeader);
-                table1.setEnabled(false);
-                scrollPane1.setViewportView(table1);
+                String tableValuesArr[][] = new String[tableValues.size()][tableHeader.length];
+                tableValuesArr = tableValues.toArray(tableValuesArr);
+                table2 = new JTable(tableValuesArr, tableHeader);
+                table2.setEnabled(false);
+                scrollPane2.setViewportView(table2);
             }
         });
     }
