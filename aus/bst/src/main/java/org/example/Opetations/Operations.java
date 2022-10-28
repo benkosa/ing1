@@ -40,18 +40,20 @@ public class Operations {
      * potrebné zobraziť všetky evidované údaje zo zadanej nemocnice
      * rozčlenené po pacientoch.
      */
-    public void Operation_2(String nazovNemocnice, String meno, String priezvisko) {
+    public Response<ArrayList<BSData<Pacient>>> Operation_2(String nazovNemocnice, String meno, String priezvisko) {
         //get nemocnica
         Nemocnica nemocnica = (Nemocnica)data.getNemocnice().find(nazovNemocnice);
         if (nemocnica == null) {
-            System.out.println("nemocnica neezistuje");
-            return;
+            return new Response<>(1, "nemocnica neexistuje" ,null);
         }
 
         Pacient minPacient = new Pacient("", meno, priezvisko, null, null);
         Pacient maxPacient = new Pacient("999999999/999999999", meno, priezvisko, null, null);
-
-        nemocnica.getPacientiMena().intervalSearch(minPacient, maxPacient).forEach(a-> System.out.println(a.key.getMeno()));
+        return new Response<>(0, "" ,
+                nemocnica
+                        .getPacientiMena()
+                        .intervalSearch(minPacient, maxPacient)
+        );
 
     }
 
@@ -79,6 +81,10 @@ public class Operations {
                 nemocnica
         );
         countTime+=1;
+        //pridate do vsetkych
+        if (data.addHospitalizacia(newHosp) == false) {
+            return new Response(1, "Chyba, opakuj pridanie", null);
+        }
         //pridat pacientovi
         pacient.addHosp(nazovNemocnice, newHosp);
         //pridat do nemocnice
@@ -91,6 +97,9 @@ public class Operations {
         return new Response(0, "", null);
     }
 
+    /**
+     * pzaciatok hospitalizacie pre generovanie
+     */
     public Response Operation_3(Pacient pacient, Nemocnica nemocnica, Date datumZaciatku, String diagnoza) {
 
         //vytvorit hosp
@@ -101,10 +110,12 @@ public class Operations {
                 pacient,
                 nemocnica
         );
-        //pridat do nemocnice
-        if (nemocnica.addHosp(newHosp) == false) {
-            return new Response<String>(1, "Hospitalizacia uz existuje" ,null);
+        //pridate do vsetkych
+        if (data.addHospitalizacia(newHosp) == false) {
+            return new Response(1, "Hospitalizacia uz existuje", null);
         }
+        //pridat do nemocnice
+        nemocnica.addHosp(newHosp);
         nemocnica.addPacient(pacient);
         nemocnica.addPoistovna(pacient.getPoistovna());
         //pridat pacientovi
@@ -137,6 +148,43 @@ public class Operations {
         return new Response(0, "", null);
     }
 
+    /**
+     *  výpis hospitalizovaných pacientov v nemocnici (identifikovaná svojím
+     *  názvom) v zadanom časovom období (od, do)
+     */
+    public Response<ArrayList<Pacient>> Operation_5(String nazovNemocnice, String strOd, String strDo) {
+        //get nemocnica
+        Nemocnica nemocnica = (Nemocnica)data.getNemocnice().find(nazovNemocnice);
+        if (nemocnica == null) {
+            return new Response<>(1, "Nemocnica neexistuje", null);
+        }
+        // parse dates
+        Date dateOd;
+        Date dateDo;
+        Date minDate;
+        try {
+            dateOd = formatter2.parse(strOd);
+            dateDo = formatter2.parse(strDo);
+            minDate = formatter2.parse("01-01-0001");
+        } catch (ParseException e) {
+            return new Response<>(1, "Zly format alebo datum" ,null);
+        }
+        if (dateDo.compareTo(dateOd) < 0) {
+            return new Response<>(1, "DatumOd > datumDo" ,null);
+        }
+        ArrayList<BSData<Date>> hospitalizovany = nemocnica.getHospitalizacie().intervalSearch(minDate, dateDo);
+
+        ArrayList<Pacient> pacienti = new ArrayList<>();
+
+        for (BSData<Date> dateBSData : hospitalizovany) {
+            Hospitalizacia hosp = (Hospitalizacia)dateBSData;
+            if (hosp.getKoniecHosp() == null || hosp.getKoniecHosp().compareTo(dateOd) > 0) {
+                pacienti.add(hosp.getPacient());
+            }
+        }
+
+        return new Response<>(0, "" ,pacienti);
+    }
     /**
      * pridanie pacienta
      */

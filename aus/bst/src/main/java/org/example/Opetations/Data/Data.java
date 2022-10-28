@@ -23,6 +23,8 @@ public class Data {
 
     private final BSTree<String> poistovne = new BSTree<>();
 
+    private final BSTree<Date> hospitalizacie = new BSTree<>();
+
     public boolean addNemocnica(String name) {
         return nemocnice.insert(new Nemocnica(name));
     }
@@ -47,5 +49,9 @@ public class Data {
 
     public boolean addPoistovna(String name) {
         return poistovne.insert(new Poistovna(name));
+    }
+
+    public boolean addHospitalizacia(Hospitalizacia hosp) {
+        return hospitalizacie.insert(hosp);
     }
 }

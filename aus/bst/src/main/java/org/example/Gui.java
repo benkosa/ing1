@@ -66,6 +66,18 @@ public class Gui extends JFrame {
     private JTextField a1000TextField;
     private JTextField a21102022TextField;
     private JTextField a01012020TextField;
+    private JButton vypisButton1;
+    private JTextField a1_nemocnicaTextField;
+    private JTextField a01052021TextField;
+    private JTextField a01062021TextField;
+    private JTable table1;
+    private JScrollPane scrollPane1;
+    private JButton vyhladajButton;
+    private JTextField a01_nemocnicaTextField;
+    private JTextField menoTextField;
+    private JTextField priezviskoTextField;
+    private JTable table2;
+    private JScrollPane scrollPane2;
     private JTable table8;
 
     public JPanel getJPanel () {
@@ -267,6 +279,90 @@ public class Gui extends JFrame {
                             i+"diagnoza"
                     );
                 }
+            }
+        });
+        vypisButton1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Response<ArrayList<Pacient>> response = operation.Operation_5(
+                        a1_nemocnicaTextField.getText(),
+                        a01052021TextField.getText(),
+                        a01062021TextField.getText()
+                );
+                errorSprava.setText(response.message);
+
+                if (response.code != 0) {
+                    return;
+                }
+
+
+                String tableHeader[] = {
+                        "Meno",
+                        "Priezvisko",
+                        "Rodne Cislo",
+                        "Datum narodenia",
+                        "poistovna"
+                };
+
+                String tableValues[][] = new String[response.data.size()][tableHeader.length];
+
+
+                for (int i = 0; i < response.data.size(); i++) {
+                    final Pacient pacient = response.data.get(i);
+                    tableValues[i] = new String[]{
+                            pacient.getMeno(),
+                            pacient.getPriezvisko(),
+                            pacient.getRodneCislo(),
+                            pacient.getDatumNarodeniaString(),
+                            pacient.getPoistovna().key,
+                    };
+                }
+
+                table1 = new JTable(tableValues, tableHeader);
+                table1.setEnabled(false);
+                scrollPane1.setViewportView(table1);
+            }
+        });
+        vyhladajButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Response<ArrayList<BSData<Pacient>>> response = operation.Operation_2(
+                        a01_nemocnicaTextField.getText(),
+                        menoTextField.getText(),
+                        priezviskoTextField.getText()
+                );
+                errorSprava.setText(response.message);
+
+                if (response.code != 0) {
+                    return;
+                }
+
+
+                String tableHeader[] = {
+                        "Meno",
+                        "Priezvisko",
+                        "Rodne Cislo",
+                        "Datum narodenia",
+                        "poistovna"
+                };
+
+                String tableValues[][] = new String[response.data.size()][tableHeader.length];
+
+
+                for (int i = 0; i < response.data.size(); i++) {
+                    final Pacient pacient = response.data.get(i);
+                    tableValues[i] = new String[]{
+                            pacient.getMeno(),
+                            pacient.getPriezvisko(),
+                            pacient.getRodneCislo(),
+                            pacient.getDatumNarodeniaString(),
+                            pacient.getPoistovna().key,
+                    };
+                }
+
+                table1 = new JTable(tableValues, tableHeader);
+                table1.setEnabled(false);
+                scrollPane1.setViewportView(table1);
             }
         });
     }
