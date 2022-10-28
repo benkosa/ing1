@@ -10,9 +10,9 @@ import java.util.Date;
 public class Poistovna extends BSData<String> {
     private String kod;
 
-    public final BSTree<Date> hospitalizacie = new BSTree<>();
+    public final BSTree<Hospitalizacia> hospitalizacie = new BSTree<>();
 
-    Poistovna(String kod) {
+    public Poistovna(String kod) {
         super(kod);
         this.kod = kod;
     }
@@ -24,6 +24,6 @@ public class Poistovna extends BSData<String> {
     }
 
     public void addHosp(Hospitalizacia hosp) {
-        hospitalizacie.insert(hosp);
+        hospitalizacie.insert(new HospitalizaciaContainer(hosp));
     }
 }

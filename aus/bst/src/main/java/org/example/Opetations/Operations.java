@@ -241,6 +241,43 @@ public class Operations {
     }
 
     /**
+     * vytvorenie podkladov pre účtovné oddelenie na tvorbu faktúr pre zdravotné poisťovne
+     * za zadaný mesiac. Pre každú poisťovňu, ktorej pacient (pacienti) bol v zadaný
+     * kalendárny mesiac hospitalizovaní aspoň jeden deň je potrebné pripraviť podklady obsahujúce:
+     * • kód zdravotnej poisťovne
+     * • počet dní hospitalizácii (za všetkých pacientov – napr. 98 dní)
+     * • výpis hospitalizovaných pacientov v jednotlivé dni mesiaca spolu s diagnózami
+     *
+     *          {
+     *             "nazovNemocnice": [
+     *                 "kodPoistovne": {
+     *                     "celkovyPocetDniHospitalizacii": 98,
+     *                     "kalendar": {
+     *                         "1": [],
+     *                         "2": [],
+     *                         "3": [],
+     *                     }
+     *                 }
+     *             ]
+     *          }
+     */
+    public Response<String> Operation_7 (String nazovNemocnice, String kodPoistovne, String mesiac ) {
+        Nemocnica nemocnica = (Nemocnica)data.getNemocnice().find(nazovNemocnice);
+        if (nemocnica == null) {
+            return new Response<>(1, "Nemocnica neexistuje", null);
+        }
+
+        Poistovna poistovna = (Poistovna)data.getPoistovne().find(kodPoistovne);
+        if (poistovna == null) {
+            return new Response<>(1, "Poistovna neexistuje", null);
+        }
+        //TODO zaclenit hospitalizacie v poistovni po nemocnici
+
+
+
+        return null;
+    }
+    /**
      * výpis aktuálne hospitalizovaných pacientov vnemocnici
      * (identifikovaná svojím názvom)
      */

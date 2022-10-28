@@ -9,7 +9,6 @@ import org.example.Shared.Response;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.lang.reflect.Array;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -79,6 +78,11 @@ public class Gui extends JFrame {
     private JTextField priezviskoTextField;
     private JTable table2;
     private JScrollPane scrollPane2;
+    private JButton vypisButton2;
+    private JTextField nemocnicaTextField2;
+    private JTextField poistovnaTextField1;
+    private JTabbedPane tabbedPane2;
+    private JTree tree1;
     private JTable table8;
 
     public JPanel getJPanel () {
@@ -379,7 +383,21 @@ public class Gui extends JFrame {
                 tableValuesArr = tableValues.toArray(tableValuesArr);
                 table2 = new JTable(tableValuesArr, tableHeader);
                 table2.setEnabled(false);
-                scrollPane2.setViewportView(table2);
+            }
+        });
+        vypisButton2.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String tableHeader[] = {
+                        "nemocnica",
+                        "poistovna",
+                        "celkovy pocet dni",
+                        "den",
+                        "meno",
+                        "priezvisko",
+                        "rodne cislo",
+                        "diagnoza"
+                };
             }
         });
     }

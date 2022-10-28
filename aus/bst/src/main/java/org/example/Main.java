@@ -2,6 +2,8 @@ package org.example;
 
 import org.example.Opetations.Data.Poistovna;
 import org.example.Opetations.Operations;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import javax.swing.*;
 import java.util.ArrayList;
@@ -14,11 +16,13 @@ public class Main {
 
         Gui gui = new Gui();
 
+
+
         gui.start();
 
         BSTTests test = new BSTTests();
 
-        //test.testIntervalSearch();
+        test.testIntervalSearch();
 
         test.testInsertMultiple(
                 0,
