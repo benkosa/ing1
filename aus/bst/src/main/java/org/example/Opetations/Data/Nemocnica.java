@@ -13,6 +13,10 @@ public class Nemocnica  extends BSData<String> {
     private final BSTree<String> pacienti = new BSTree<>();
     private final BSTree<Pacient> pacientiMena = new BSTree<>();
 
+    public BSTree<String> getPoistovne() {
+        return poistovne;
+    }
+
     private final BSTree<String> poistovne = new BSTree<>();
 
     public BSTree<Date> getHospitalizacie() {

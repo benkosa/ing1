@@ -81,7 +81,9 @@ public class Gui extends JFrame {
     private JButton vypisButton2;
     private JTextField nemocnicaTextField2;
     private JTextField poistovnaTextField1;
-    private JTabbedPane tabbedPane2;
+    private JTable table3;
+    private JTextField a1TextField;
+    private JScrollPane scrollPane3;
     private JTree tree1;
     private JTable table8;
 
@@ -155,7 +157,8 @@ public class Gui extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 Response<String> response = operation.Operation_3(
                         rodneCisloTextField.getText(),
-                        nemocnicaTextField.getText()
+                        nemocnicaTextField.getText(),
+                        null
                 );
                 errorSprava.setText(response.message);
             }
@@ -275,12 +278,13 @@ public class Gui extends JFrame {
                     Pacient pacient = (Pacient) operation.getData().getPacienti().getRandomData();
                     Nemocnica nemocnica = (Nemocnica) operation.getData().getNemocnice().getRandomData();
                     Date datumHospitalizacie = between(date1, date2);
-                    operation.Operation_3(
-                            pacient,
-                            nemocnica,
-                            datumHospitalizacie,
-                            i+"diagnoza"
-                    );
+                    operation.Operation_3(pacient.key, nemocnica.key, datumHospitalizacie);
+//                    operation.Operation_3(
+//                            pacient,
+//                            nemocnica,
+//                            datumHospitalizacie,
+//                            i+"diagnoza"
+//                    );
                 }
             }
         });
@@ -383,11 +387,24 @@ public class Gui extends JFrame {
                 tableValuesArr = tableValues.toArray(tableValuesArr);
                 table2 = new JTable(tableValuesArr, tableHeader);
                 table2.setEnabled(false);
+                scrollPane2.setViewportView(table2);
             }
         });
         vypisButton2.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                Response<ArrayList<String[]>> response = operation.Operation_7(
+                        nemocnicaTextField2.getText(), //nemocnicaTextField2
+                        poistovnaTextField1.getText(), //poistovnaTextField1
+                        a1TextField.getText() //a1TextField
+                );
+                errorSprava.setText(response.message);
+                if (response.code != 0) {
+                    return;
+                }
+
+                ArrayList<String[]> tableValues = response.data;
+
                 String tableHeader[] = {
                         "nemocnica",
                         "poistovna",
@@ -398,6 +415,11 @@ public class Gui extends JFrame {
                         "rodne cislo",
                         "diagnoza"
                 };
+                String tableValuesArr[][] = new String[tableValues.size()][tableHeader.length];
+                tableValuesArr = tableValues.toArray(tableValuesArr);
+                table3 = new JTable(tableValuesArr, tableHeader);
+                table3.setEnabled(false);
+                scrollPane3.setViewportView(table3);
             }
         });
     }

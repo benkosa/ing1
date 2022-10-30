@@ -5,12 +5,15 @@ import org.example.BSTree;
 import org.example.Shared.Comparators;
 import org.example.Shared.Compare;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 public class Poistovna extends BSData<String> {
     private String kod;
 
-    public final BSTree<Hospitalizacia> hospitalizacie = new BSTree<>();
+    //private BSTree<String> hospitalizacie = new BSTree<>();
+
+    private BSTree<String> nemocniceHosp = new BSTree<>();
 
     public Poistovna(String kod) {
         super(kod);
@@ -23,7 +26,39 @@ public class Poistovna extends BSData<String> {
         return comparators.stringCompare(data.key, this.key);
     }
 
-    public void addHosp(Hospitalizacia hosp) {
-        hospitalizacie.insert(new HospitalizaciaContainer(hosp));
+    public ArrayList<Hospitalizacia> getHospotalizacie(String nemocnica, Date odDate, Date doDate) {
+
+        ArrayList<Hospitalizacia> retHosp = new ArrayList<>();
+
+        NemocnicaHospOdDo nemocnicaHospOdDo = (NemocnicaHospOdDo)this.nemocniceHosp.find(nemocnica);
+        if (nemocnicaHospOdDo == null) return retHosp;
+
+        nemocnicaHospOdDo.getHospitalizacie().levelOrder().forEach(a -> {
+            Hospitalizacia aa = (Hospitalizacia)a;
+            System.out.println(a.key + aa.getNemocnica().key + aa.getPacient().key + aa.getPacient().getPoistovna().key);
+        });
+
+        for (BSData<Date> dataDate : nemocnicaHospOdDo.getHospitalizacie().intervalSearch(odDate, doDate)) {
+            retHosp.add((Hospitalizacia) dataDate);
+        }
+
+        return retHosp;
+    }
+
+    public boolean addHosp(Hospitalizacia hosp) {
+        String nazovNem = hosp.getNemocnica().key;
+        NemocnicaHospOdDo nemocnicaHospOdDo =
+                (NemocnicaHospOdDo)this.nemocniceHosp.find(nazovNem);
+
+        // uz existuje nemocnica
+        if (nemocnicaHospOdDo != null) {
+            //TODO  skontrolovat
+            return nemocnicaHospOdDo.addHosp(hosp);
+        // este neexistuje nemocnica
+        } else {
+            return nemocniceHosp.insert(new NemocnicaHospOdDo(hosp));
+        }
+
+
     }
 }

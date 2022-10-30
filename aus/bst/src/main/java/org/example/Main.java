@@ -2,8 +2,6 @@ package org.example;
 
 import org.example.Opetations.Data.Poistovna;
 import org.example.Opetations.Operations;
-import org.json.JSONArray;
-import org.json.JSONObject;
 
 import javax.swing.*;
 import java.util.ArrayList;

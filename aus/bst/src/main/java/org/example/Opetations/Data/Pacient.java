@@ -6,7 +6,6 @@ import org.example.Shared.Comparators;
 import org.example.Shared.Compare;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 
 public class Pacient extends BSData<String> {
@@ -32,10 +31,10 @@ public class Pacient extends BSData<String> {
 
     public ArrayList<Hospitalizacia> getHospotalizacie(String nemocnica) {
 
-        PacientHosp pacientHosp = (PacientHosp)hospitalizacie.find(nemocnica);
-        if (pacientHosp == null) return null;
+        NemocnicaHosp nemocnicaHosp = (NemocnicaHosp)hospitalizacie.find(nemocnica);
+        if (nemocnicaHosp == null) return null;
 
-        return pacientHosp.hospitalizacie;
+        return nemocnicaHosp.getHospitalizacie();
     }
 
 
@@ -63,47 +62,26 @@ public class Pacient extends BSData<String> {
 
     public Poistovna getPoistovna() { return this.poistovna;};
 
-    public static class PacientHosp extends BSData<String> {
-
-        // key is name of hospital
-        PacientHosp(String key, Hospitalizacia hospitalizacia) {
-            super(key);
-            addHosp(hospitalizacia);
-        }
-
-        private ArrayList<Hospitalizacia> hospitalizacie = new ArrayList<>();
-
-        public boolean addHosp(Hospitalizacia hospitalizacia) {
-            return hospitalizacie.add(hospitalizacia);
-        }
-
-        @Override
-        public Compare compare(BSData<String> data) {
-            Comparators comparators = new Comparators();
-            return comparators.stringCompare(data.key, this.key);
-        }
-    }
-
     public boolean addHosp(String nazovNem, Hospitalizacia hosp) {
-        PacientHosp pacientHosp = (PacientHosp)this.hospitalizacie.find(nazovNem);
+        NemocnicaHosp nemocnicaHosp = (NemocnicaHosp)this.hospitalizacie.find(nazovNem);
 
         //uz existuje nemocnica
-        if (pacientHosp != null) {
-            return pacientHosp.addHosp(hosp);
+        if (nemocnicaHosp != null) {
+            return nemocnicaHosp.addHosp(hosp);
         // este neexistuje nemocnica
         } else {
-            return this.hospitalizacie.insert(new PacientHosp(nazovNem, hosp));
+            return this.hospitalizacie.insert(new NemocnicaHosp(hosp));
         }
     }
 
     public Hospitalizacia getNeukoncenaHosp(String nazovNem) {
-        PacientHosp nemocnica = (PacientHosp)hospitalizacie.find(nazovNem);
+        NemocnicaHosp nemocnica = (NemocnicaHosp)hospitalizacie.find(nazovNem);
         if (nemocnica == null) {
             return null;
         }
-        for (int i = 0; i < nemocnica.hospitalizacie.size(); i++) {
-            if (nemocnica.hospitalizacie.get(i).getKoniecHosp() == null) {
-                return nemocnica.hospitalizacie.get(i);
+        for (int i = 0; i < nemocnica.getHospitalizacie().size(); i++) {
+            if (nemocnica.getHospitalizacie().get(i).getKoniecHosp() == null) {
+                return nemocnica.getHospitalizacie().get(i);
             }
         }
         return null;

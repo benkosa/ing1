@@ -4,9 +4,11 @@ import org.example.BSData;
 import org.example.Opetations.Data.*;
 import org.example.Shared.Response;
 
+import java.lang.reflect.Array;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 public class Operations {
@@ -22,6 +24,18 @@ public class Operations {
     private Data data = new Data();
 
     private SimpleDateFormat formatter2=new SimpleDateFormat("dd-MM-yyyy");
+
+    //https://stackoverflow.com/questions/428918/how-can-i-increment-a-date-by-one-day-in-java
+    /*
+     * Calendar.DATE
+     */
+    private static Date addDATE(Date date, int unit, int days)
+    {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        cal.add(unit, days); //minus number would decrement the days
+        return cal.getTime();
+    }
 
 
     public Response setActualTime(String time) {
@@ -64,6 +78,8 @@ public class Operations {
                 .getPacientiMena()
                 .intervalSearch(minPacient, maxPacient);
 
+        //pacienti.forEach(a-> System.out.println(a.key.getMeno()));
+
         if (pacienti == null) pacienti = new ArrayList<>();
         return new Response<>(0, "" , pacienti);
 
@@ -73,7 +89,7 @@ public class Operations {
      * vykonanie záznamu o začiatku hospitalizácie pacienta (identifikovaný
      * svojím rodným číslom) v nemocnici(identifikovaná svojím názvom)
      */
-    public Response Operation_3(String rcPacienta, String nazovNemocnice) {
+    public Response Operation_3(String rcPacienta, String nazovNemocnice, Date datumHosp) {
         //get pacient
         Pacient pacient = (Pacient)data.getPacienti().find(rcPacienta);
         if (pacient == null) {
@@ -84,9 +100,11 @@ public class Operations {
         if (nemocnica == null) {
             return new Response(1, "Nemocnica neexistuje", null);
         }
+
+        if (datumHosp == null) datumHosp = new Date(actualTime.getTime() + countTime);
         //vytvorit hosp
         Hospitalizacia newHosp = new Hospitalizacia(
-                new Date(actualTime.getTime() + countTime),
+                datumHosp,
                 null,
                 "",
                 pacient,
@@ -261,21 +279,116 @@ public class Operations {
      *             ]
      *          }
      */
-    public Response<String> Operation_7 (String nazovNemocnice, String kodPoistovne, String mesiac ) {
+    public Response<ArrayList<String[]>> Operation_7 (String nazovNemocnice, String kodPoistovne, String mesiac ) {
+
+        ArrayList<String[]> tableValues = new ArrayList<>();
+
+        for (BSData<String> stringBSData : data.getNemocnice().levelOrder()) {
+            Nemocnica nemocnica = (Nemocnica) stringBSData;
+            for (BSData<String> bsData : nemocnica.getPoistovne().levelOrder()) {
+                Poistovna poistovna = (Poistovna) bsData;
+
+            }
+        }
+
         Nemocnica nemocnica = (Nemocnica)data.getNemocnice().find(nazovNemocnice);
         if (nemocnica == null) {
             return new Response<>(1, "Nemocnica neexistuje", null);
         }
 
-        Poistovna poistovna = (Poistovna)data.getPoistovne().find(kodPoistovne);
+        Poistovna poistovna = (Poistovna) nemocnica.getPoistovne().find(kodPoistovne);
         if (poistovna == null) {
             return new Response<>(1, "Poistovna neexistuje", null);
         }
-        //TODO zaclenit hospitalizacie v poistovni po nemocnici
+
+        //hospitalizacias.forEach(a -> System.out.println(a.key));
+
+        Date datumOd;
+        Date datumDo;
+        Date minDate;
+
+        String dateString = "01-"+mesiac;
+
+        try {
+            datumOd = addDATE(formatter2.parse(dateString), Calendar.DATE, -1);
+            datumDo = addDATE(formatter2.parse(dateString), Calendar.MONTH, 1);
+            //datumDo = addDATE(datumDo, Calendar.DATE, -1);
+            minDate = formatter2.parse("01-01-0001");
+        } catch (ParseException e) {
+            return new Response<>(1, "Zly format alebo datum" ,null);
+        }
+
+
+        ArrayList<Hospitalizacia> hospitalizacias =
+                poistovna.getHospotalizacie(nazovNemocnice, minDate, datumDo);
+        if (hospitalizacias == null) {
+            return new Response<>(1, "niesu hospitalizacie", null);
+        }
+
+        System.out.println(datumOd.toString());
+        System.out.println(datumDo.toString());
+
+        ArrayList<Hospitalizacia> filteredHospitalizacias = new ArrayList<>();
+        for (Hospitalizacia hospitalizacia : hospitalizacias) {
+            if (hospitalizacia.getKoniecHosp() == null ||
+                    hospitalizacia.getKoniecHosp().compareTo(datumOd) > 0) {
+                filteredHospitalizacias.add(hospitalizacia);
+            }
+        }
+        filteredHospitalizacias.forEach(a -> System.out.println(a.key + a.getNemocnica().key + a.getPacient().key + a.getPacient().getPoistovna().key));
+        System.out.println("------");
+
+        int sumDays = 0;
+        ArrayList<ArrayList<Hospitalizacia>> hospitalizacieDni = new ArrayList<>(31);
+        for (int i = 0; i < 32; i++) {
+            hospitalizacieDni.add(new ArrayList<>());
+        }
+
+
+        for (Hospitalizacia hospitalizacia : filteredHospitalizacias) {
+            Date startDate =
+                    hospitalizacia.getZaciatokHosp().compareTo(datumOd) > 0 ?
+                        hospitalizacia.getZaciatokHosp() : addDATE(datumOd, Calendar.DATE, 1);
+            Date endDate = hospitalizacia.getKoniecHosp() == null ?
+                    datumDo : hospitalizacia.getKoniecHosp();
+
+            for ( ; startDate.compareTo(endDate) < 0; startDate = addDATE(startDate, Calendar.DATE, 1)) {
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTime(startDate);
+                int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
+                hospitalizacieDni.get(dayOfMonth).add(hospitalizacia);
+                sumDays++;
+            }
+        }
 
 
 
-        return null;
+        tableValues.add(new String[] {
+                nazovNemocnice,
+                poistovna.key,
+                sumDays+"",
+                "","","","",""
+        });
+
+        for (int i = 0; i < hospitalizacieDni.size(); i++) {
+            for (Hospitalizacia hospitalizacia : hospitalizacieDni.get(i)) {
+                System.out.println(i + " " + hospitalizacia.key + " " +hospitalizacia.getPacient().key);
+                tableValues.add(new String[] {
+                        "",
+                        "",
+                        "",
+                        i+"",
+                        hospitalizacia.getPacient().getMeno(),
+                        hospitalizacia.getPacient().getPriezvisko(),
+                        hospitalizacia.getPacient().getRodneCislo(),
+                        hospitalizacia.getDiagnoza()
+                });
+            }
+        }
+
+
+
+        return new Response<>(0, "" ,tableValues);
     }
     /**
      * výpis aktuálne hospitalizovaných pacientov vnemocnici
