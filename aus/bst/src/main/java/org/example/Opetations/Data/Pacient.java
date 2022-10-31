@@ -41,6 +41,25 @@ public class Pacient extends BSData<String> {
         return nemocnicaHosp.getHospitalizacie();
     }
 
+    /**
+     * pozor ak este nieje zmeneny pointer na nemocnicu v hospitalizacii
+     */
+    public void merge(String nemocnica1, String nemocnica2) {
+
+        //get hospitalizacie
+        ArrayList<Hospitalizacia> hospitalizacias = getHospotalizacie(nemocnica1);
+
+        //migrate
+        for (Hospitalizacia hospitalizacia : hospitalizacias) {
+            addHosp(nemocnica2, hospitalizacia);
+        }
+
+        //remove
+        hospitalizacie.remove(nemocnica1);
+
+    }
+
+
 
 
 

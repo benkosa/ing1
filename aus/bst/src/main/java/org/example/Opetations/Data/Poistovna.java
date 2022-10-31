@@ -19,6 +19,16 @@ public class Poistovna extends BSData<String> {
         nemocniceHosp.balanceTree();
     }
 
+    public void migrate(String oldHospital, String newHospital) {
+        ArrayList<Hospitalizacia> hospitalizacias = getAllHospotalizacie(oldHospital);
+        if (hospitalizacias == null) return;
+
+        for (Hospitalizacia hospitalizacia : hospitalizacias) {
+            addHosp(hospitalizacia);
+        }
+        nemocniceHosp.remove(oldHospital);
+    }
+
     public Poistovna(String kod) {
         super(kod);
         this.kod = kod;

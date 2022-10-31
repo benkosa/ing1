@@ -438,6 +438,36 @@ public class Operations {
 
         return new Response(0, "", poistovna.getAllHospotalizacie(nazovNemocnice));
     }
+
+    /**
+     * optimalizácia uloženia dát, ktorá všetky stromové štruktúry vyváži
+     */
+    public void Operation_11() {
+
+        data.getPoistovne().balanceTree();
+        data.getNemocnice().balanceTree();
+        data.getPacienti().balanceTree();
+        data.getHospitalizacie().balanceTree();
+
+        if (data.getPoistovne().inOrder() != null)
+            for (BSData<String> stringBSData : data.getPoistovne().inOrder()) {
+                Poistovna poistovna = (Poistovna) stringBSData;
+                poistovna.balance();
+            }
+
+        if (data.getNemocnice().inOrder() != null)
+            for (BSData<String> stringBSData : data.getNemocnice().inOrder()) {
+                Nemocnica nemocnica = (Nemocnica) stringBSData;
+                nemocnica.balance();
+            }
+
+        if (data.getPacienti().inOrder() != null)
+            for (BSData<String> stringBSData : data.getPacienti().inOrder()) {
+                Pacient pacient = (Pacient) stringBSData;
+                pacient.balance();
+            }
+    }
+
     /**
      * pridanie nemocnice
      */
@@ -455,30 +485,61 @@ public class Operations {
         return new Response(0, "", data.getNemocnice().inOrder());
     }
 
-    public void Operation_11() {
-
-        data.getPoistovne().balanceTree();
-        data.getNemocnice().balanceTree();
-        data.getPacienti().balanceTree();
-        data.getHospitalizacie().balanceTree();
-
-        if (data.getPoistovne().inOrder() != null)
-        for (BSData<String> stringBSData : data.getPoistovne().inOrder()) {
-            Poistovna poistovna = (Poistovna) stringBSData;
-            poistovna.balance();
+    /**
+     * zrušenie nemocnice (celá agenda sa presunie do inej nemocnice, ktorú špecifikuje
+     * používateľ (identifikovaná svojím názvom), vrátane pacientov a historických záznamov)
+     */
+    public Response Operation_14(String oldnemocnica, String newNemocnica) {
+        Nemocnica nemocnicaZmazanie = (Nemocnica)data.getNemocnice().find(oldnemocnica);
+        if (nemocnicaZmazanie == null) {
+            return new Response(1, "Nemocnica na zmazanie neexistuje", null);
+        }
+        Nemocnica nemocnicaDest = (Nemocnica)data.getNemocnice().find(newNemocnica);
+        if (nemocnicaZmazanie == null) {
+            return new Response(1, "Nemocnica na vlozenie neexistuje", null);
         }
 
-        if (data.getNemocnice().inOrder() != null)
-        for (BSData<String> stringBSData : data.getNemocnice().inOrder()) {
-            Nemocnica nemocnica = (Nemocnica) stringBSData;
-            nemocnica.balance();
+        // zmenit vsetkym hospitalizaciam pointer na staru nemocnicu
+        for (BSData<Date> dateBSData : nemocnicaZmazanie.getHospitalizacie().inOrder()) {
+            Hospitalizacia hosp = (Hospitalizacia) dateBSData;
+            hosp.changeHospital(nemocnicaDest);
         }
 
-        if (data.getPacienti().inOrder() != null)
-        for (BSData<String> stringBSData : data.getPacienti().inOrder()) {
-            Pacient pacient = (Pacient) stringBSData;
-            pacient.balance();
+        //migracia pacientom
+        for (BSData<String> dateBSData : nemocnicaZmazanie.getPacienti().inOrder()) {
+            Pacient pacient = (Pacient) dateBSData;
+            pacient.merge(oldnemocnica, newNemocnica);
         }
+
+        //migracia poistovniam
+        for (BSData<String> dateBSData : nemocnicaZmazanie.getPoistovne().inOrder()) {
+            Poistovna poistovna = (Poistovna) dateBSData;
+            poistovna.migrate(oldnemocnica, newNemocnica);
+        }
+
+        //pridat hospitalizacie do novej nemocnice
+        for (BSData<Date> dateBSData : nemocnicaZmazanie.getHospitalizacie().inOrder()) {
+            Hospitalizacia hosp = (Hospitalizacia) dateBSData;
+            nemocnicaDest.addHosp(hosp);
+        }
+
+        //pridat poistovne do novej nemocnice
+        for (BSData<String> dateBSData : nemocnicaZmazanie.getPoistovne().inOrder()) {
+            Poistovna poistovna = (Poistovna) dateBSData;
+            nemocnicaDest.addPoistovna(poistovna);
+        }
+
+        //pridat pacientov do novej nemocnice
+        for (BSData<String> dateBSData : nemocnicaZmazanie.getPacienti().inOrder()) {
+            Pacient pacient = (Pacient) dateBSData;
+            nemocnicaDest.addPacient(pacient);
+        }
+
+        data.getNemocnice().remove(oldnemocnica);
+
+
+        return new Response(0, "Sucess", null);
+
     }
 
     /**

@@ -63,5 +63,9 @@ public class Hospitalizacia extends BSData<Date> {
     public void setKoniecHosp() {
         this.koniecHosp = new Date();
     };
+
+    public void changeHospital(Nemocnica newHosp) {
+        this.nemocnica = newHosp;
+    }
 }
 
