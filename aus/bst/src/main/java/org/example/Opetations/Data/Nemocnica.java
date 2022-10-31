@@ -29,6 +29,14 @@ public class Nemocnica  extends BSData<String> {
 
     private final BSTree<Date> hospitalizacie = new BSTree<>();
 
+    public void balance() {
+        hospitalizacie.balanceTree();
+        pacientiMena.balanceTree();
+        pacienti.balanceTree();
+        poistovne.balanceTree();
+    }
+
+
     private final BSTree<Hospitalizacia> hospitalizacieDate = new BSTree<>();
 
     public Nemocnica(String key) {

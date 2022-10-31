@@ -3,6 +3,7 @@ package org.example;
 import org.example.Opetations.Data.Hospitalizacia;
 import org.example.Opetations.Data.Nemocnica;
 import org.example.Opetations.Data.Pacient;
+import org.example.Opetations.Data.Poistovna;
 import org.example.Opetations.Operations;
 import org.example.Shared.Response;
 
@@ -102,6 +103,11 @@ public class Gui extends JFrame {
     private JTable table7;
     private JScrollPane scrollPane7;
     private JLabel zaznamy;
+    private JPanel tabNastavenia;
+    private JButton vyvazitButton;
+    private JButton migrovatButton;
+    private JTextField textField1;
+    private JTextField textField2;
     private JTree tree1;
     private JTable table8;
 
@@ -616,6 +622,19 @@ public class Gui extends JFrame {
                 table7.setEnabled(false);
                 scrollPane7.setViewportView(table7);
 
+
+            }
+        });
+        vyvazitButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                operation.Operation_11();
+            }
+        });
+        migrovatButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
 
             }
         });

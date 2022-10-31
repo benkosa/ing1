@@ -16,6 +16,10 @@ public class Pacient extends BSData<String> {
     private Poistovna poistovna;
     private BSTree<String> hospitalizacie = new BSTree<>();
 
+    public void balance() {
+        hospitalizacie.balanceTree();
+    }
+
 
     public Date getDatumNarodenia() {
         return datumNarodenia;

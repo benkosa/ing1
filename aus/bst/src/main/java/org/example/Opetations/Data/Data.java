@@ -23,6 +23,10 @@ public class Data {
 
     private final BSTree<String> poistovne = new BSTree<>();
 
+    public BSTree<Date> getHospitalizacie() {
+        return hospitalizacie;
+    }
+
     private final BSTree<Date> hospitalizacie = new BSTree<>();
 
     public boolean addNemocnica(String name) {

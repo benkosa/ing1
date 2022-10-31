@@ -15,6 +15,10 @@ public class Poistovna extends BSData<String> {
 
     private BSTree<String> nemocniceHosp = new BSTree<>();
 
+    public void balance() {
+        nemocniceHosp.balanceTree();
+    }
+
     public Poistovna(String kod) {
         super(kod);
         this.kod = kod;

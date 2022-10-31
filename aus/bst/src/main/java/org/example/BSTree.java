@@ -217,6 +217,7 @@ public class BSTree<T> {
      * - find median in tree and rotate him to position
      */
     public void balanceTree() {
+        if (root == null) return;
         ArrayList<BSData<T>> inOrderData = inOrder();
         boolean mark = !root.isVisited;
 

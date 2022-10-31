@@ -455,6 +455,32 @@ public class Operations {
         return new Response(0, "", data.getNemocnice().inOrder());
     }
 
+    public void Operation_11() {
+
+        data.getPoistovne().balanceTree();
+        data.getNemocnice().balanceTree();
+        data.getPacienti().balanceTree();
+        data.getHospitalizacie().balanceTree();
+
+        if (data.getPoistovne().inOrder() != null)
+        for (BSData<String> stringBSData : data.getPoistovne().inOrder()) {
+            Poistovna poistovna = (Poistovna) stringBSData;
+            poistovna.balance();
+        }
+
+        if (data.getNemocnice().inOrder() != null)
+        for (BSData<String> stringBSData : data.getNemocnice().inOrder()) {
+            Nemocnica nemocnica = (Nemocnica) stringBSData;
+            nemocnica.balance();
+        }
+
+        if (data.getPacienti().inOrder() != null)
+        for (BSData<String> stringBSData : data.getPacienti().inOrder()) {
+            Pacient pacient = (Pacient) stringBSData;
+            pacient.balance();
+        }
+    }
+
     /**
      * pridanie poistovne
      */
