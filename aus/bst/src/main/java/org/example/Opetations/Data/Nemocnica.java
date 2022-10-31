@@ -10,6 +10,10 @@ import java.util.Date;
 
 public class Nemocnica  extends BSData<String> {
 
+    public BSTree<String> getPacienti() {
+        return pacienti;
+    }
+
     private final BSTree<String> pacienti = new BSTree<>();
     private final BSTree<Pacient> pacientiMena = new BSTree<>();
 

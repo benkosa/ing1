@@ -12,6 +12,7 @@ import java.awt.event.ActionListener;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
@@ -79,11 +80,27 @@ public class Gui extends JFrame {
     private JTable table2;
     private JScrollPane scrollPane2;
     private JButton vypisButton2;
-    private JTextField nemocnicaTextField2;
-    private JTextField poistovnaTextField1;
     private JTable table3;
     private JTextField a1TextField;
     private JScrollPane scrollPane3;
+    private JButton vyhladajButton1;
+    private JTextField rodneCisloTextField2;
+    private JTextField a1_nemocnicaTextField1;
+    private JTable table4;
+    private JScrollPane scrollPane4;
+    private JButton vypisButton3;
+    private JTextField a1_poistovnaTextField;
+    private JTextField a1_nemocnicaTextField2;
+    private JTable table5;
+    private JScrollPane scrollPane5;
+    private JTable table6;
+    private JButton vypisButton4;
+    private JTextField a1_poistovnaTextField1;
+    private JTextField a1_nemocnicaTextField3;
+    private JScrollPane scrollPane6;
+    private JButton vypisButton5;
+    private JTable table7;
+    private JScrollPane scrollPane7;
     private JTree tree1;
     private JTable table8;
 
@@ -394,8 +411,6 @@ public class Gui extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Response<ArrayList<String[]>> response = operation.Operation_7(
-                        nemocnicaTextField2.getText(), //nemocnicaTextField2
-                        poistovnaTextField1.getText(), //poistovnaTextField1
                         a1TextField.getText() //a1TextField
                 );
                 errorSprava.setText(response.message);
@@ -420,6 +435,179 @@ public class Gui extends JFrame {
                 table3 = new JTable(tableValuesArr, tableHeader);
                 table3.setEnabled(false);
                 scrollPane3.setViewportView(table3);
+            }
+        });
+        vyhladajButton1.addActionListener(new ActionListener() {
+
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Response<ArrayList<Hospitalizacia>> response = operation.Operation_1(
+                        rodneCisloTextField2.getText(),
+                        a1_nemocnicaTextField1.getText()
+
+                );
+                errorSprava.setText(response.message);
+
+                if (response.code != 0) {
+                    return;
+                }
+                if (response.data == null) {
+                    errorSprava.setText("ziadne zaznamy");
+                    return;
+                }
+
+                String tableHeader[] = {
+                        "Meno",
+                        "Priezvisko",
+                        "Rodne Cislo",
+                        "Poistovna",
+                        "Diagnoza",
+                        "Zaciatok hospitalizacie",
+                        "Koniec hospitalizacie"
+                };
+
+                String tableValues[][] = new String[response.data.size()][tableHeader.length];
+
+                for (int i = 0; i < response.data.size(); i++) {
+                    Hospitalizacia hosp = response.data.get(i);
+                    tableValues[i] = new String[]{
+                            hosp.getPacient().getMeno(),
+                            hosp.getPacient().getPriezvisko(),
+                            hosp.getPacient().getRodneCislo(),
+                            hosp.getPacient().getPoistovna().key,
+                            hosp.getDiagnoza(),
+                            hosp.getZaciatokHospString(),
+                            hosp.getKoniecHospString()
+                    };
+                }
+
+                table4 = new JTable(tableValues, tableHeader);
+                table4.setEnabled(false);
+                scrollPane4.setViewportView(table4);
+
+
+            }
+        });
+        vypisButton3.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Response<ArrayList<Hospitalizacia>> response = operation.Operation_10(
+                        a1_nemocnicaTextField2.getText(),
+                        a1_poistovnaTextField.getText()
+
+                );
+                errorSprava.setText(response.message);
+
+                if (response.code != 0) {
+                    return;
+                }
+
+                String tableHeader[] = {
+                        "Meno",
+                        "Priezvisko",
+                        "Rodne Cislo",
+                        "Poistovna",
+                        "Diagnoza",
+                        "Zaciatok hospitalizacie",
+                        "Koniec hospitalizacie"
+                };
+
+                response.data.sort(Comparator.comparing(o -> o.getPacient().key));
+
+                String tableValues[][] = new String[response.data.size()][tableHeader.length];
+
+                for (int i = 0; i < response.data.size(); i++) {
+                    Hospitalizacia hosp = response.data.get(i);
+                    tableValues[i] = new String[]{
+                            hosp.getPacient().getMeno(),
+                            hosp.getPacient().getPriezvisko(),
+                            hosp.getPacient().getRodneCislo(),
+                            hosp.getPacient().getPoistovna().key,
+                            hosp.getDiagnoza(),
+                            hosp.getZaciatokHospString(),
+                            hosp.getKoniecHospString()
+                    };
+                }
+
+                table5 = new JTable(tableValues, tableHeader);
+                table5.setEnabled(false);
+                scrollPane5.setViewportView(table5);
+
+            }
+        });
+        vypisButton4.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Response<ArrayList<Hospitalizacia>> response = operation.Operation_10(
+                        a1_nemocnicaTextField3.getText(),
+                        a1_poistovnaTextField1.getText()
+
+                );
+                errorSprava.setText(response.message);
+
+                if (response.code != 0) {
+                    return;
+                }
+
+                String tableHeader[] = {
+                        "Meno",
+                        "Priezvisko",
+                        "Rodne Cislo",
+                        "Poistovna",
+                        "Diagnoza",
+                        "Zaciatok hospitalizacie",
+                        "Koniec hospitalizacie"
+                };
+
+                String tableValues[][] = new String[response.data.size()][tableHeader.length];
+
+                for (int i = 0; i < response.data.size(); i++) {
+                    Hospitalizacia hosp = response.data.get(i);
+                    tableValues[i] = new String[]{
+                            hosp.getPacient().getMeno(),
+                            hosp.getPacient().getPriezvisko(),
+                            hosp.getPacient().getRodneCislo(),
+                            hosp.getPacient().getPoistovna().key,
+                            hosp.getDiagnoza(),
+                            hosp.getZaciatokHospString(),
+                            hosp.getKoniecHospString()
+                    };
+                }
+
+                table6 = new JTable(tableValues, tableHeader);
+                table6.setEnabled(false);
+                scrollPane6.setViewportView(table6);
+
+            }
+        });
+        vypisButton5.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Response<ArrayList<Nemocnica>> response = operation.Operation_13();
+                errorSprava.setText(response.message);
+
+                if (response.code != 0) {
+                    return;
+                }
+
+                String tableHeader[] = {
+                        "Nazov nemocnice"
+                };
+
+                String tableValues[][] = new String[response.data.size()][tableHeader.length];
+
+                for (int i = 0; i < response.data.size(); i++) {
+                    Nemocnica nemocnica = response.data.get(i);
+                    tableValues[i] = new String[]{
+                            nemocnica.key,
+                    };
+                }
+
+                table7 = new JTable(tableValues, tableHeader);
+                table7.setEnabled(false);
+                scrollPane7.setViewportView(table7);
+
             }
         });
     }

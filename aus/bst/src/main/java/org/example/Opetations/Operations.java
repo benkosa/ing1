@@ -47,6 +47,27 @@ public class Operations {
         return new Response<String>(0, "" ,null);
     }
 
+    /**
+     * vyhľadanie záznamov pacienta (identifikovaný svojím rodným číslom) v zadanej nemocnici
+     * (identifikovaná svojím názvom). Po nájdení pacienta je potrebné zobraziť všetky
+     * evidované údaje.
+     */
+    public Response<ArrayList<Hospitalizacia>> Operation_1(String rcPacient, String nazovNemocnice) {
+        //get nemocnica
+        Nemocnica nemocnica = (Nemocnica)data.getNemocnice().find(nazovNemocnice);
+        if (nemocnica == null) {
+            return new Response(1, "Nemocnica neexistuje", null);
+        }
+
+        //get pacient
+        Pacient pacient = (Pacient)nemocnica.getPacienti().find(rcPacient);
+        if (pacient == null) {
+            return new Response(1, "Pacient neexistuje", null);
+        }
+
+        return new Response(0, "", pacient.getHospotalizacie(nazovNemocnice));
+    }
+
 
     /**
      * vyhľadanie záznamov pacienta/ov v zadanej nemocnici (identifikovaná
@@ -279,114 +300,99 @@ public class Operations {
      *             ]
      *          }
      */
-    public Response<ArrayList<String[]>> Operation_7 (String nazovNemocnice, String kodPoistovne, String mesiac ) {
+    public Response<ArrayList<String[]>> Operation_7 ( String mesiac ) {
 
         ArrayList<String[]> tableValues = new ArrayList<>();
 
-        for (BSData<String> stringBSData : data.getNemocnice().levelOrder()) {
+        for (BSData<String> stringBSData : data.getNemocnice().inOrder()) {
             Nemocnica nemocnica = (Nemocnica) stringBSData;
-            for (BSData<String> bsData : nemocnica.getPoistovne().levelOrder()) {
+            for (BSData<String> bsData : nemocnica.getPoistovne().inOrder()) {
                 Poistovna poistovna = (Poistovna) bsData;
+                Date datumOd;
+                Date datumDo;
+                Date minDate;
 
-            }
-        }
+                String dateString = "01-"+mesiac;
 
-        Nemocnica nemocnica = (Nemocnica)data.getNemocnice().find(nazovNemocnice);
-        if (nemocnica == null) {
-            return new Response<>(1, "Nemocnica neexistuje", null);
-        }
-
-        Poistovna poistovna = (Poistovna) nemocnica.getPoistovne().find(kodPoistovne);
-        if (poistovna == null) {
-            return new Response<>(1, "Poistovna neexistuje", null);
-        }
-
-        //hospitalizacias.forEach(a -> System.out.println(a.key));
-
-        Date datumOd;
-        Date datumDo;
-        Date minDate;
-
-        String dateString = "01-"+mesiac;
-
-        try {
-            datumOd = addDATE(formatter2.parse(dateString), Calendar.DATE, -1);
-            datumDo = addDATE(formatter2.parse(dateString), Calendar.MONTH, 1);
-            //datumDo = addDATE(datumDo, Calendar.DATE, -1);
-            minDate = formatter2.parse("01-01-0001");
-        } catch (ParseException e) {
-            return new Response<>(1, "Zly format alebo datum" ,null);
-        }
+                try {
+                    datumOd = addDATE(formatter2.parse(dateString), Calendar.DATE, -1);
+                    datumDo = addDATE(formatter2.parse(dateString), Calendar.MONTH, 1);
+                    //datumDo = addDATE(datumDo, Calendar.DATE, -1);
+                    minDate = formatter2.parse("01-01-0001");
+                } catch (ParseException e) {
+                    return new Response<>(1, "Zly format alebo datum" ,null);
+                }
 
 
-        ArrayList<Hospitalizacia> hospitalizacias =
-                poistovna.getHospotalizacie(nazovNemocnice, minDate, datumDo);
-        if (hospitalizacias == null) {
-            return new Response<>(1, "niesu hospitalizacie", null);
-        }
+                ArrayList<Hospitalizacia> hospitalizacias =
+                        poistovna.getHospotalizacie(nemocnica.key, minDate, datumDo);
+                if (hospitalizacias == null) {
+                    return new Response<>(1, "niesu hospitalizacie", null);
+                }
 
-        System.out.println(datumOd.toString());
-        System.out.println(datumDo.toString());
+                System.out.println(datumOd.toString());
+                System.out.println(datumDo.toString());
 
-        ArrayList<Hospitalizacia> filteredHospitalizacias = new ArrayList<>();
-        for (Hospitalizacia hospitalizacia : hospitalizacias) {
-            if (hospitalizacia.getKoniecHosp() == null ||
-                    hospitalizacia.getKoniecHosp().compareTo(datumOd) > 0) {
-                filteredHospitalizacias.add(hospitalizacia);
-            }
-        }
-        filteredHospitalizacias.forEach(a -> System.out.println(a.key + a.getNemocnica().key + a.getPacient().key + a.getPacient().getPoistovna().key));
-        System.out.println("------");
+                ArrayList<Hospitalizacia> filteredHospitalizacias = new ArrayList<>();
+                for (Hospitalizacia hospitalizacia : hospitalizacias) {
+                    if (hospitalizacia.getKoniecHosp() == null ||
+                            hospitalizacia.getKoniecHosp().compareTo(datumOd) > 0) {
+                        filteredHospitalizacias.add(hospitalizacia);
+                    }
+                }
+                filteredHospitalizacias.forEach(a -> System.out.println(a.key + a.getNemocnica().key + a.getPacient().key + a.getPacient().getPoistovna().key));
+                System.out.println("------");
 
-        int sumDays = 0;
-        ArrayList<ArrayList<Hospitalizacia>> hospitalizacieDni = new ArrayList<>(31);
-        for (int i = 0; i < 32; i++) {
-            hospitalizacieDni.add(new ArrayList<>());
-        }
+                int sumDays = 0;
+                ArrayList<ArrayList<Hospitalizacia>> hospitalizacieDni = new ArrayList<>(31);
+                for (int i = 0; i < 32; i++) {
+                    hospitalizacieDni.add(new ArrayList<>());
+                }
 
 
-        for (Hospitalizacia hospitalizacia : filteredHospitalizacias) {
-            Date startDate =
-                    hospitalizacia.getZaciatokHosp().compareTo(datumOd) > 0 ?
-                        hospitalizacia.getZaciatokHosp() : addDATE(datumOd, Calendar.DATE, 1);
-            Date endDate = hospitalizacia.getKoniecHosp() == null ?
-                    datumDo : hospitalizacia.getKoniecHosp();
+                for (Hospitalizacia hospitalizacia : filteredHospitalizacias) {
+                    Date startDate =
+                            hospitalizacia.getZaciatokHosp().compareTo(datumOd) > 0 ?
+                                    hospitalizacia.getZaciatokHosp() : addDATE(datumOd, Calendar.DATE, 1);
+                    Date endDate = hospitalizacia.getKoniecHosp() == null ?
+                            datumDo : hospitalizacia.getKoniecHosp();
 
-            for ( ; startDate.compareTo(endDate) < 0; startDate = addDATE(startDate, Calendar.DATE, 1)) {
-                Calendar calendar = Calendar.getInstance();
-                calendar.setTime(startDate);
-                int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
-                hospitalizacieDni.get(dayOfMonth).add(hospitalizacia);
-                sumDays++;
-            }
-        }
+                    for ( ; startDate.compareTo(endDate) < 0; startDate = addDATE(startDate, Calendar.DATE, 1)) {
+                        Calendar calendar = Calendar.getInstance();
+                        calendar.setTime(startDate);
+                        int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
+                        hospitalizacieDni.get(dayOfMonth).add(hospitalizacia);
+                        sumDays++;
+                    }
+                }
 
 
 
-        tableValues.add(new String[] {
-                nazovNemocnice,
-                poistovna.key,
-                sumDays+"",
-                "","","","",""
-        });
-
-        for (int i = 0; i < hospitalizacieDni.size(); i++) {
-            for (Hospitalizacia hospitalizacia : hospitalizacieDni.get(i)) {
-                System.out.println(i + " " + hospitalizacia.key + " " +hospitalizacia.getPacient().key);
                 tableValues.add(new String[] {
-                        "",
-                        "",
-                        "",
-                        i+"",
-                        hospitalizacia.getPacient().getMeno(),
-                        hospitalizacia.getPacient().getPriezvisko(),
-                        hospitalizacia.getPacient().getRodneCislo(),
-                        hospitalizacia.getDiagnoza()
+                        nemocnica.key,
+                        poistovna.key,
+                        sumDays+"",
+                        "","","","",""
                 });
+
+                for (int i = 0; i < hospitalizacieDni.size(); i++) {
+                    for (Hospitalizacia hospitalizacia : hospitalizacieDni.get(i)) {
+                        System.out.println(i + " " + hospitalizacia.key + " " +hospitalizacia.getPacient().key);
+                        tableValues.add(new String[] {
+                                "",
+                                "",
+                                "",
+                                i+"",
+                                hospitalizacia.getPacient().getMeno(),
+                                hospitalizacia.getPacient().getPriezvisko(),
+                                hospitalizacia.getPacient().getRodneCislo(),
+                                hospitalizacia.getDiagnoza()
+                        });
+                    }
+                }
+
             }
         }
-
-
 
         return new Response<>(0, "" ,tableValues);
     }
@@ -420,6 +426,19 @@ public class Operations {
     }
 
     /**
+     * výpis aktuálne hospitalizovaných pacientov v nemocnici (identifikovaná
+     * svojím názvom) zotriedený podľa rodných čísel, ktorý sú poistencami
+     * zadanej zdravotnej poisťovne (identifikovaná svojím kódom)
+     */
+    public Response<ArrayList<Hospitalizacia>> Operation_10(String nazovNemocnice, String kodPoistovne) {
+        Poistovna poistovna = (Poistovna) data.getPoistovne().find(kodPoistovne);
+        if (poistovna == null) {
+            return new Response(1, "Poistovna neexistuje", null);
+        }
+
+        return new Response(0, "", poistovna.getAllHospotalizacie(nazovNemocnice));
+    }
+    /**
      * pridanie nemocnice
      */
     public Response Operation_12(String nazovNemocnice) {
@@ -427,6 +446,13 @@ public class Operations {
             return new Response(1, "Nemocnica uz existuje", null);
         }
         return new Response(0, "", null);
+    }
+
+    /**
+     * výpis nemocníc usporiadaných podľa názvov
+     */
+    public Response Operation_13() {
+        return new Response(0, "", data.getNemocnice().inOrder());
     }
 
     /**

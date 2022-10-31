@@ -45,6 +45,21 @@ public class Poistovna extends BSData<String> {
         return retHosp;
     }
 
+    public ArrayList<Hospitalizacia> getAllHospotalizacie(String nemocnica) {
+
+        ArrayList<Hospitalizacia> retHosp = new ArrayList<>();
+
+        NemocnicaHospOdDo nemocnicaHospOdDo = (NemocnicaHospOdDo)this.nemocniceHosp.find(nemocnica);
+        if (nemocnicaHospOdDo == null) return retHosp;
+
+        nemocnicaHospOdDo.getHospitalizacie().inOrder().forEach(a -> {
+            retHosp.add((Hospitalizacia)a);
+            //System.out.println(a.key + aa.getNemocnica().key + aa.getPacient().key + aa.getPacient().getPoistovna().key);
+        });
+
+        return retHosp;
+    }
+
     public boolean addHosp(Hospitalizacia hosp) {
         String nazovNem = hosp.getNemocnica().key;
         NemocnicaHospOdDo nemocnicaHospOdDo =
