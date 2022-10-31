@@ -101,6 +101,7 @@ public class Gui extends JFrame {
     private JButton vypisButton5;
     private JTable table7;
     private JScrollPane scrollPane7;
+    private JLabel zaznamy;
     private JTree tree1;
     private JTable table8;
 
@@ -234,6 +235,7 @@ public class Gui extends JFrame {
                 }
 
                 table = new JTable(tableValues, tableHeader);
+                zaznamy.setText(tableValues.length+"");
                 table.setEnabled(false);
                 scrollPane.setViewportView(table);
 
@@ -343,6 +345,7 @@ public class Gui extends JFrame {
                 }
 
                 table1 = new JTable(tableValues, tableHeader);
+                zaznamy.setText(tableValues.length+"");
                 table1.setEnabled(false);
                 scrollPane1.setViewportView(table1);
             }
@@ -403,6 +406,7 @@ public class Gui extends JFrame {
                 String tableValuesArr[][] = new String[tableValues.size()][tableHeader.length];
                 tableValuesArr = tableValues.toArray(tableValuesArr);
                 table2 = new JTable(tableValuesArr, tableHeader);
+                zaznamy.setText(tableValuesArr.length+"");
                 table2.setEnabled(false);
                 scrollPane2.setViewportView(table2);
             }
@@ -433,6 +437,7 @@ public class Gui extends JFrame {
                 String tableValuesArr[][] = new String[tableValues.size()][tableHeader.length];
                 tableValuesArr = tableValues.toArray(tableValuesArr);
                 table3 = new JTable(tableValuesArr, tableHeader);
+                zaznamy.setText(tableValuesArr.length+"");
                 table3.setEnabled(false);
                 scrollPane3.setViewportView(table3);
             }
@@ -483,6 +488,7 @@ public class Gui extends JFrame {
                 }
 
                 table4 = new JTable(tableValues, tableHeader);
+                zaznamy.setText(tableValues.length+"");
                 table4.setEnabled(false);
                 scrollPane4.setViewportView(table4);
 
@@ -529,8 +535,8 @@ public class Gui extends JFrame {
                             hosp.getKoniecHospString()
                     };
                 }
-
                 table5 = new JTable(tableValues, tableHeader);
+                zaznamy.setText(tableValues.length+"");
                 table5.setEnabled(false);
                 scrollPane5.setViewportView(table5);
 
@@ -575,6 +581,7 @@ public class Gui extends JFrame {
                     };
                 }
 
+                zaznamy.setText(tableValues.length+"");
                 table6 = new JTable(tableValues, tableHeader);
                 table6.setEnabled(false);
                 scrollPane6.setViewportView(table6);
@@ -604,9 +611,11 @@ public class Gui extends JFrame {
                     };
                 }
 
+                zaznamy.setText(tableValues.length+"");
                 table7 = new JTable(tableValues, tableHeader);
                 table7.setEnabled(false);
                 scrollPane7.setViewportView(table7);
+
 
             }
         });
