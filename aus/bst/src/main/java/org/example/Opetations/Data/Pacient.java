@@ -44,7 +44,7 @@ public class Pacient extends BSData<String> {
     /**
      * pozor ak este nieje zmeneny pointer na nemocnicu v hospitalizacii
      */
-    public void merge(String nemocnica1, String nemocnica2) {
+    public  void merge(String nemocnica1, String nemocnica2) {
 
         //get hospitalizacie
         ArrayList<Hospitalizacia> hospitalizacias = getHospotalizacie(nemocnica1);

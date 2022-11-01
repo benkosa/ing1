@@ -107,6 +107,10 @@ public class Gui extends JFrame {
     private JButton migrovatButton;
     private JTextField a1_nemocnicaTextField4;
     private JTextField a0_nemocnciaTextField;
+    private JButton ulozitButton;
+    private JButton nacitatButton;
+    private JTextField nazov_suboruTextField;
+    private JTextField nazov_suboruTextField1;
     private JTree tree1;
     private JTable table8;
 
@@ -170,7 +174,8 @@ public class Gui extends JFrame {
                         menoTextField1.getText(),
                         priezviskoTextField1.getText(),
                         narodenie_ddHhYyyyTextField.getText(),
-                        poistovnaTextField.getText()
+                        poistovnaTextField.getText(),
+                        false
                 );
                 errorSprava.setText(response.message);
             }
@@ -638,6 +643,20 @@ public class Gui extends JFrame {
                         a1_nemocnicaTextField4.getText()
                 );
                 errorSprava.setText(response.message);
+            }
+        });
+        ulozitButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //nazov_suboruTextField
+                operation.Operation_saveToFile(nazov_suboruTextField.getText());
+            }
+        });
+        nacitatButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //nazov_suboruTextField1
+                operation.Operation_loadFromFile(nazov_suboruTextField1.getText());
             }
         });
     }

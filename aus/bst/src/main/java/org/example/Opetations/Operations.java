@@ -4,12 +4,14 @@ import org.example.BSData;
 import org.example.Opetations.Data.*;
 import org.example.Shared.Response;
 
+import java.io.*;
 import java.lang.reflect.Array;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Scanner;
 
 public class Operations {
     // 3, 4, 6, 8, 12
@@ -151,26 +153,42 @@ public class Operations {
     /**
      * pzaciatok hospitalizacie pre generovanie
      */
-    public Response Operation_3(Pacient pacient, Nemocnica nemocnica, Date datumZaciatku, String diagnoza) {
+    public Response Operation_3(int zaciatok, Integer koniec, String diagnozaStr, String nemocnicaStr, String pacientStr){
+        //get pacient
+        Pacient pacient = (Pacient)data.getPacienti().find(pacientStr);
+        if (pacient == null) {
+            return new Response(1, "Pacient neexistuje", null);
+        }
+        //get nemocnica
+        Nemocnica nemocnica = (Nemocnica)data.getNemocnice().find(nemocnicaStr);
+        if (nemocnica == null) {
+            return new Response(1, "Nemocnica neexistuje", null);
+        }
 
+        Date datumHosp = new Date(zaciatok);
+        Date koniecHosp = null;
+
+        if (koniec == null) {
+            koniecHosp = new Date(koniec);
+        }
         //vytvorit hosp
         Hospitalizacia newHosp = new Hospitalizacia(
-                datumZaciatku,
-                null,
-                diagnoza,
+                datumHosp,
+                koniecHosp,
+                diagnozaStr,
                 pacient,
                 nemocnica
         );
         //pridate do vsetkych
         if (data.addHospitalizacia(newHosp) == false) {
-            return new Response(1, "Hospitalizacia uz existuje", null);
+            return new Response(1, "Chyba, opakuj pridanie", null);
         }
+        //pridat pacientovi
+        pacient.addHosp(nemocnicaStr, newHosp);
         //pridat do nemocnice
         nemocnica.addHosp(newHosp);
         nemocnica.addPacient(pacient);
         nemocnica.addPoistovna(pacient.getPoistovna());
-        //pridat pacientovi
-        pacient.addHosp(nemocnica.key, newHosp);
         //pridat do poistovne
         pacient.getPoistovna().addHosp(newHosp);
 
@@ -243,7 +261,8 @@ public class Operations {
             String meno,
             String priezvisko,
             String datumNarodenia,
-            String kodPoistovne) {
+            String kodPoistovne,
+            Boolean fromFile) {
 
         Poistovna poistovna;
 
@@ -260,10 +279,14 @@ public class Operations {
 
         Date date;
 
-        try {
-            date = formatter2.parse(datumNarodenia);
-        } catch (ParseException e) {
-            return new Response<String>(1, "Zly format alebo datum" ,null);
+        if (fromFile) {
+            date = new Date(Integer.parseInt(datumNarodenia));
+        } else {
+            try {
+                date = formatter2.parse(datumNarodenia);
+            } catch (ParseException e) {
+                return new Response<String>(1, "Zly format alebo datum", null);
+            }
         }
 
         if (data.addPacient(
@@ -542,6 +565,87 @@ public class Operations {
 
     }
 
+    // https://stackoverflow.com/questions/50257374/how-do-i-write-multiple-lines-to-a-text-file-in-java
+    public Response Operation_saveToFile(String fileName) {
+        ArrayList<String> poistovneArr = new ArrayList<>();
+        for (BSData stringBSData : data.getPoistovne().inOrder()) {
+            Poistovna poistovna = (Poistovna) stringBSData;
+            poistovneArr.add( poistovna.key );
+        }
+        saveToFile(fileName+"_poistovne", poistovneArr);
+
+        ArrayList<String> nemocniceArr = new ArrayList<>();
+        for (BSData stringBSData : data.getNemocnice().inOrder()) {
+            Nemocnica nemocnica = (Nemocnica) stringBSData;
+            nemocniceArr.add(
+                    nemocnica.key
+            );
+        }
+        saveToFile(fileName+"_nemocnice", nemocniceArr);
+
+        ArrayList<String> pacientArr = new ArrayList<>();
+        for (BSData stringBSData : data.getPacienti().inOrder()) {
+            Pacient pacient = (Pacient) stringBSData;
+            pacientArr.add(
+                    pacient.key+";"+
+                    pacient.getMeno()+";"+
+                    pacient.getPriezvisko()+";"+
+                    (pacient.getDatumNarodenia() == null ? "" : pacient.getDatumNarodenia().getTime())+";"+
+                    pacient.getPoistovna().key
+
+            );
+        }
+        saveToFile(fileName+"_pacienti", pacientArr);
+
+        ArrayList<String> hospArr = new ArrayList<>();
+        for (BSData stringBSData : data.getHospitalizacie().inOrder()) {
+            Hospitalizacia hosp = (Hospitalizacia) stringBSData;
+            hospArr.add(
+                    hosp.getZaciatokHosp().getTime()+";"+
+                            (hosp.getKoniecHosp() == null ? "" : hosp.getKoniecHosp().getTime())+";"+
+                            hosp.getDiagnoza()+";"+
+                            hosp.getNemocnica().key+";"+
+                            hosp.getPacient().key
+
+            );
+        }
+        saveToFile(fileName+"_hospitalizacie", hospArr);
+
+        return null;
+    }
+    //https://www.codegrepper.com/code-examples/java/read+multiple+lines+from+file+in+java
+    public Response Operation_loadFromFile(String fileName) {
+        for (String s : loadFile(fileName + "_poistovne")) {
+            Operation_addPoistovna(s);
+        }
+        for (String s : loadFile(fileName + "_nemocnice")) {
+            Operation_12(s);
+        }
+        for (String s : loadFile(fileName + "_pacienti")) {
+            String[] words = s.split(";");
+            Operation_6(
+                    words[0],//rc
+                    words[1],//meno
+                    words[2],//priezvisko
+                    words[3],//datum narodenia
+                    words[4],//poistovna
+                    true
+            );
+        }
+        for (String s : loadFile(fileName + "_hospitalizacie")) {
+            String[] words = s.split(";");
+            Operation_3(
+                    words[0],//zaciatok
+                    words[1],//koniec
+                    words[2],//diagnoza
+                    words[3],//nemocnica
+                    words[4] //pacient
+            );
+        }
+
+        return null;
+    }
+
     /**
      * pridanie poistovne
      */
@@ -550,5 +654,38 @@ public class Operations {
             return new Response(1, "Poistovna uz existuje", null);
         }
         return new Response(0, "", null);
+    }
+
+    private void saveToFile(String fileName, ArrayList<String> data) {
+        try (FileWriter fstream = new FileWriter("save/"+fileName+".txt");
+             BufferedWriter info = new BufferedWriter(fstream)) {
+            for (String line : data) {
+                info.write(String.format(line+"%n"));
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private ArrayList<String> loadFile(String filename) {
+        ArrayList<String> ret = new ArrayList<>();
+        Scanner sc = null;
+        try {
+            File file = new File("save/"+filename + ".txt"); // java.io.File
+            sc = new Scanner(file);     // java.util.Scanner
+            String line;
+            while (sc.hasNextLine()) {
+                line = sc.nextLine();
+                ret.add(line);
+            }
+        }
+        catch(FileNotFoundException e)
+        {
+            e.printStackTrace();
+        }
+        finally {
+            if (sc != null) sc.close();
+        }
+        return ret;
     }
 }
