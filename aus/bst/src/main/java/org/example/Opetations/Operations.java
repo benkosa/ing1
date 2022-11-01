@@ -28,7 +28,7 @@ public class Operations {
     /*
      * Calendar.DATE
      */
-    private static Date addDATE(Date date, int unit, int days)
+    public static Date addDATE(Date date, int unit, int days)
     {
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
@@ -92,13 +92,9 @@ public class Operations {
         Pacient minPacient = new Pacient(minString, meno, priezvisko, null, null);
         Pacient maxPacient = new Pacient(maxString, meno, priezvisko, null, null);
 
-        //nemocnica.getPacientiMena().levelOrder().forEach(a-> System.out.println(a.key.getMeno()));
-
         ArrayList<BSData<Pacient>> pacienti = nemocnica
                 .getPacientiMena()
                 .intervalSearch(minPacient, maxPacient);
-
-        //pacienti.forEach(a-> System.out.println(a.key.getMeno()));
 
         if (pacienti == null) pacienti = new ArrayList<>();
         return new Response<>(0, "" , pacienti);
@@ -109,7 +105,7 @@ public class Operations {
      * vykonanie záznamu o začiatku hospitalizácie pacienta (identifikovaný
      * svojím rodným číslom) v nemocnici(identifikovaná svojím názvom)
      */
-    public Response Operation_3(String rcPacienta, String nazovNemocnice, Date datumHosp) {
+    public Response Operation_3(String rcPacienta, String nazovNemocnice, Date datumHosp, Date koniecHosp) {
         //get pacient
         Pacient pacient = (Pacient)data.getPacienti().find(rcPacienta);
         if (pacient == null) {
@@ -125,7 +121,7 @@ public class Operations {
         //vytvorit hosp
         Hospitalizacia newHosp = new Hospitalizacia(
                 datumHosp,
-                null,
+                koniecHosp,
                 "",
                 pacient,
                 nemocnica
@@ -350,9 +346,6 @@ public class Operations {
                     return new Response<>(1, "niesu hospitalizacie", null);
                 }
 
-                System.out.println(datumOd.toString());
-                System.out.println(datumDo.toString());
-
                 ArrayList<Hospitalizacia> filteredHospitalizacias = new ArrayList<>();
                 for (Hospitalizacia hospitalizacia : hospitalizacias) {
                     if (hospitalizacia.getKoniecHosp() == null ||
@@ -360,8 +353,6 @@ public class Operations {
                         filteredHospitalizacias.add(hospitalizacia);
                     }
                 }
-                filteredHospitalizacias.forEach(a -> System.out.println(a.key + a.getNemocnica().key + a.getPacient().key + a.getPacient().getPoistovna().key));
-                System.out.println("------");
 
                 int sumDays = 0;
                 ArrayList<ArrayList<Hospitalizacia>> hospitalizacieDni = new ArrayList<>(31);
@@ -397,7 +388,6 @@ public class Operations {
 
                 for (int i = 0; i < hospitalizacieDni.size(); i++) {
                     for (Hospitalizacia hospitalizacia : hospitalizacieDni.get(i)) {
-                        System.out.println(i + " " + hospitalizacia.key + " " +hospitalizacia.getPacient().key);
                         tableValues.add(new String[] {
                                 "",
                                 "",
@@ -465,6 +455,9 @@ public class Operations {
             if (Objects.equals(a.getPacient().getPoistovna().key, kodPoistovne))
                 neukonceneHosp.add(a);
         });
+
+        neukonceneHosp.sort(Comparator.comparing(o -> o.getPacient().key));
+
 
         return new Response(0, "", neukonceneHosp);
     }

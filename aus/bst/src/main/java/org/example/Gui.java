@@ -11,10 +11,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.Random;
+import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Gui extends JFrame {
@@ -186,6 +183,7 @@ public class Gui extends JFrame {
                 Response<String> response = operation.Operation_3(
                         rodneCisloTextField.getText(),
                         nemocnicaTextField.getText(),
+                        null,
                         null
                 );
                 errorSprava.setText(response.message);
@@ -295,6 +293,7 @@ public class Gui extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 Date date1;
                 Date date2;
+                Random rand = new Random();
 
                 try {
                     date1 = formatter.parse(a01012020TextField.getText());
@@ -308,13 +307,10 @@ public class Gui extends JFrame {
                     Pacient pacient = (Pacient) operation.getData().getPacienti().getRandomData();
                     Nemocnica nemocnica = (Nemocnica) operation.getData().getNemocnice().getRandomData();
                     Date datumHospitalizacie = between(date1, date2);
-                    operation.Operation_3(pacient.key, nemocnica.key, datumHospitalizacie);
-//                    operation.Operation_3(
-//                            pacient,
-//                            nemocnica,
-//                            datumHospitalizacie,
-//                            i+"diagnoza"
-//                    );
+                    Date koniecHosp = new Date(datumHospitalizacie.getTime());
+                    koniecHosp = Operations.addDATE(koniecHosp, Calendar.DATE, rand.nextInt(40));
+                    if (koniecHosp.compareTo(date2) > 0) koniecHosp = null;
+                    operation.Operation_3(pacient.key, nemocnica.key, datumHospitalizacie, koniecHosp);
                 }
             }
         });
@@ -530,7 +526,6 @@ public class Gui extends JFrame {
                         "Koniec hospitalizacie"
                 };
 
-                response.data.sort(Comparator.comparing(o -> o.getPacient().key));
 
                 String tableValues[][] = new String[response.data.size()][tableHeader.length];
 
