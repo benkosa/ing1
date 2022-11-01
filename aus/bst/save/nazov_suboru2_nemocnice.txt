@@ -1,0 +1,10 @@
+0_nemocnica
+2_nemocnica
+1_nemocnica
+3_nemocnica
+5_nemocnica
+4_nemocnica
+6_nemocnica
+8_nemocnica
+7_nemocnica
+9_nemocnica
