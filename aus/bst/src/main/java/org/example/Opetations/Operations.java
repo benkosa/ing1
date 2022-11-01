@@ -51,7 +51,7 @@ public class Operations {
      * (identifikovaná svojím názvom). Po nájdení pacienta je potrebné zobraziť všetky
      * evidované údaje.
      */
-    public Response<ArrayList<Hospitalizacia>> Operation_1(String rcPacient, String nazovNemocnice) {
+    public Response<String[][]> Operation_1(String rcPacient, String nazovNemocnice) {
         //get nemocnica
         Nemocnica nemocnica = (Nemocnica)data.getNemocnice().find(nazovNemocnice);
         if (nemocnica == null) {
@@ -64,7 +64,24 @@ public class Operations {
             return new Response(1, "Pacient neexistuje", null);
         }
 
-        return new Response(0, "", pacient.getHospotalizacie(nazovNemocnice));
+        ArrayList<Hospitalizacia> hospitalizacias = pacient.getHospotalizacie(nazovNemocnice);
+
+        String tableValues[][] = new String[hospitalizacias.size()][7];
+
+        for (int i = 0; i < hospitalizacias.size(); i++) {
+            Hospitalizacia hosp = hospitalizacias.get(i);
+            tableValues[i] = new String[]{
+                    hosp.getPacient().getMeno(),
+                    hosp.getPacient().getPriezvisko(),
+                    hosp.getPacient().getRodneCislo(),
+                    hosp.getPacient().getPoistovna().key,
+                    hosp.getDiagnoza(),
+                    hosp.getZaciatokHospString(),
+                    hosp.getKoniecHospString()
+            };
+        }
+
+        return new Response(0, "", tableValues);
     }
 
 
@@ -74,7 +91,7 @@ public class Operations {
      * potrebné zobraziť všetky evidované údaje zo zadanej nemocnice
      * rozčlenené po pacientoch.
      */
-    public Response<ArrayList<BSData<Pacient>>> Operation_2(String nazovNemocnice, String meno, String priezvisko) {
+    public Response<ArrayList<String[]>> Operation_2(String nazovNemocnice, String meno, String priezvisko) {
         //get nemocnica
         Nemocnica nemocnica = (Nemocnica)data.getNemocnice().find(nazovNemocnice);
         if (nemocnica == null) {
@@ -97,8 +114,36 @@ public class Operations {
                 .intervalSearch(minPacient, maxPacient);
 
         if (pacienti == null) pacienti = new ArrayList<>();
-        return new Response<>(0, "" , pacienti);
 
+
+
+        ArrayList<String[]> tableValues = new ArrayList<>();
+
+        for (int i = 0; i < pacienti.size(); i++) {
+            final Pacient pacient = pacienti.get(i).key;
+            if (!(pacient.getMeno().equals(meno) && pacient.getPriezvisko().equals(priezvisko))) {
+                continue;
+            }
+
+            final ArrayList<Hospitalizacia> hospitalizacie = pacient.getHospotalizacie(nazovNemocnice);
+            if (hospitalizacie != null) {
+                for (int j = 0; j < hospitalizacie.size(); j++) {
+                    final Hospitalizacia hosp = hospitalizacie.get(j);
+                    tableValues.add(new String[]{
+                            pacient.getMeno(),
+                            pacient.getPriezvisko(),
+                            pacient.getRodneCislo(),
+                            pacient.getDatumNarodeniaString(),
+                            pacient.getPoistovna().key,
+                            hosp.getDiagnoza(),
+                            hosp.getZaciatokHospString(),
+                            hosp.getKoniecHospString()
+                    });
+
+                }
+            }
+        }
+        return new Response<>(0, "" , tableValues);
     }
 
     /**
@@ -213,7 +258,7 @@ public class Operations {
      *  výpis hospitalizovaných pacientov v nemocnici (identifikovaná svojím
      *  názvom) v zadanom časovom období (od, do)
      */
-    public Response<ArrayList<Pacient>> Operation_5(String nazovNemocnice, String strOd, String strDo) {
+    public Response<String[][]> Operation_5(String nazovNemocnice, String strOd, String strDo) {
         //get nemocnica
         Nemocnica nemocnica = (Nemocnica)data.getNemocnice().find(nazovNemocnice);
         if (nemocnica == null) {
@@ -244,7 +289,21 @@ public class Operations {
             }
         }
 
-        return new Response<>(0, "" ,pacienti);
+        String tableValues[][] = new String[pacienti.size()][5];
+
+
+        for (int i = 0; i < pacienti.size(); i++) {
+            final Pacient pacient = pacienti.get(i);
+            tableValues[i] = new String[]{
+                    pacient.getMeno(),
+                    pacient.getPriezvisko(),
+                    pacient.getRodneCislo(),
+                    pacient.getDatumNarodeniaString(),
+                    pacient.getPoistovna().key,
+            };
+        }
+
+        return new Response<>(0, "" ,tableValues);
     }
     /**
      * pridanie pacienta
@@ -410,7 +469,7 @@ public class Operations {
      * výpis aktuálne hospitalizovaných pacientov vnemocnici
      * (identifikovaná svojím názvom)
      */
-    public Response<ArrayList<Hospitalizacia>> Operation_8(String nazovNemocnice) {
+    public Response<String[][]> Operation_8(String nazovNemocnice) {
         Nemocnica nemocnica = (Nemocnica)data.getNemocnice().find(nazovNemocnice);
         if (nemocnica == null) {
             return new Response(1, "Nemocnica neexistuje", null);
@@ -418,11 +477,29 @@ public class Operations {
 
         ArrayList<Hospitalizacia> neukonceneHosp =nemocnica.getNeukonceneHosp();
 
+        String tableValues[][] = new String[neukonceneHosp.size()][8];
 
-        return new Response(0, "", neukonceneHosp);
+
+        for (int i = 0; i < neukonceneHosp.size(); i++) {
+            final Hospitalizacia hosp = neukonceneHosp.get(i);
+            final Pacient pacient = hosp.getPacient();
+            tableValues[i] = new String[]{
+                    pacient.getMeno(),
+                    pacient.getPriezvisko(),
+                    pacient.getRodneCislo(),
+                    pacient.getDatumNarodeniaString(),
+                    pacient.getPoistovna().key,
+                    hosp.getDiagnoza(),
+                    hosp.getZaciatokHospString(),
+                    hosp.getKoniecHospString()
+            };
+        }
+
+
+        return new Response(0, "", tableValues);
     }
 
-    public Response<ArrayList<Hospitalizacia>> Operation_9(String nazovNemocnice, String kodPoistovne) {
+    public Response<String[][]> Operation_9(String nazovNemocnice, String kodPoistovne) {
         Nemocnica nemocnica = (Nemocnica)data.getNemocnice().find(nazovNemocnice);
         if (nemocnica == null) {
             return new Response(1, "Nemocnica neexistuje", null);
@@ -435,7 +512,22 @@ public class Operations {
                 neukonceneHosp.add(a);
         });
 
-        return new Response(0, "", neukonceneHosp);
+        String tableValues[][] = new String[neukonceneHosp.size()][7];
+
+        for (int i = 0; i < neukonceneHosp.size(); i++) {
+            Hospitalizacia hosp = neukonceneHosp.get(i);
+            tableValues[i] = new String[]{
+                    hosp.getPacient().getMeno(),
+                    hosp.getPacient().getPriezvisko(),
+                    hosp.getPacient().getRodneCislo(),
+                    hosp.getPacient().getPoistovna().key,
+                    hosp.getDiagnoza(),
+                    hosp.getZaciatokHospString(),
+                    hosp.getKoniecHospString()
+            };
+        }
+
+        return new Response(0, "", tableValues);
     }
 
     /**
@@ -443,7 +535,7 @@ public class Operations {
      * svojím názvom) zotriedený podľa rodných čísel, ktorý sú poistencami
      * zadanej zdravotnej poisťovne (identifikovaná svojím kódom)
      */
-    public Response<ArrayList<Hospitalizacia>> Operation_10(String nazovNemocnice, String kodPoistovne) {
+    public Response<String[][]> Operation_10(String nazovNemocnice, String kodPoistovne) {
         Nemocnica nemocnica = (Nemocnica)data.getNemocnice().find(nazovNemocnice);
         if (nemocnica == null) {
             return new Response(1, "Nemocnica neexistuje", null);
@@ -458,8 +550,22 @@ public class Operations {
 
         neukonceneHosp.sort(Comparator.comparing(o -> o.getPacient().key));
 
+        String tableValues[][] = new String[neukonceneHosp.size()][7];
 
-        return new Response(0, "", neukonceneHosp);
+        for (int i = 0; i < neukonceneHosp.size(); i++) {
+            Hospitalizacia hosp = neukonceneHosp.get(i);
+            tableValues[i] = new String[]{
+                    hosp.getPacient().getMeno(),
+                    hosp.getPacient().getPriezvisko(),
+                    hosp.getPacient().getRodneCislo(),
+                    hosp.getPacient().getPoistovna().key,
+                    hosp.getDiagnoza(),
+                    hosp.getZaciatokHospString(),
+                    hosp.getKoniecHospString()
+            };
+        }
+
+        return new Response(0, "", tableValues);
     }
 
     /**
@@ -504,8 +610,20 @@ public class Operations {
     /**
      * výpis nemocníc usporiadaných podľa názvov
      */
-    public Response Operation_13() {
-        return new Response(0, "", data.getNemocnice().inOrder());
+    public Response<String[][]> Operation_13() {
+
+        ArrayList<BSData<String>> nemocnicas = data.getNemocnice().inOrder();
+
+
+        String tableValues[][] = new String[nemocnicas.size()][1];
+
+        for (int i = 0; i < nemocnicas.size(); i++) {
+            Nemocnica nemocnica = (Nemocnica) nemocnicas.get(i);
+            tableValues[i] = new String[]{
+                    nemocnica.key,
+            };
+        }
+        return new Response(0, "", tableValues);
     }
 
     /**

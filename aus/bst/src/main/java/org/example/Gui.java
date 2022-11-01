@@ -203,7 +203,7 @@ public class Gui extends JFrame {
         vypisButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Response<ArrayList<Hospitalizacia>> response = operation.Operation_8(
+                Response<String[][]> response = operation.Operation_8(
                         nazovNemocniceTextField.getText()
                 );
                 errorSprava.setText(response.message);
@@ -211,7 +211,6 @@ public class Gui extends JFrame {
                 if (response.code != 0) {
                     return;
                 }
-
 
                 String tableHeader[] = {
                         "Meno",
@@ -224,23 +223,7 @@ public class Gui extends JFrame {
                         "Koniec hospitalizacie"
                 };
 
-                String tableValues[][] = new String[response.data.size()][tableHeader.length];
-
-
-                for (int i = 0; i < response.data.size(); i++) {
-                    final Hospitalizacia hosp = response.data.get(i);
-                    final Pacient pacient = hosp.getPacient();
-                    tableValues[i] = new String[]{
-                            pacient.getMeno(),
-                            pacient.getPriezvisko(),
-                            pacient.getRodneCislo(),
-                            pacient.getDatumNarodeniaString(),
-                            pacient.getPoistovna().key,
-                            hosp.getDiagnoza(),
-                            hosp.getZaciatokHospString(),
-                            hosp.getKoniecHospString()
-                    };
-                }
+                String tableValues[][] = response.data;
 
                 table = new JTable(tableValues, tableHeader);
                 zaznamy.setText(tableValues.length+"");
@@ -317,7 +300,7 @@ public class Gui extends JFrame {
         vypisButton1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Response<ArrayList<Pacient>> response = operation.Operation_5(
+                Response<String[][]> response = operation.Operation_5(
                         a1_nemocnicaTextField.getText(),
                         a01052021TextField.getText(),
                         a01062021TextField.getText()
@@ -337,19 +320,7 @@ public class Gui extends JFrame {
                         "poistovna"
                 };
 
-                String tableValues[][] = new String[response.data.size()][tableHeader.length];
-
-
-                for (int i = 0; i < response.data.size(); i++) {
-                    final Pacient pacient = response.data.get(i);
-                    tableValues[i] = new String[]{
-                            pacient.getMeno(),
-                            pacient.getPriezvisko(),
-                            pacient.getRodneCislo(),
-                            pacient.getDatumNarodeniaString(),
-                            pacient.getPoistovna().key,
-                    };
-                }
+                String tableValues[][] = response.data;
 
                 table1 = new JTable(tableValues, tableHeader);
                 zaznamy.setText(tableValues.length+"");
@@ -360,7 +331,7 @@ public class Gui extends JFrame {
         vyhladajButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Response<ArrayList<BSData<Pacient>>> response = operation.Operation_2(
+                Response<ArrayList<String[]>> response = operation.Operation_2(
                         a01_nemocnicaTextField.getText(),
                         menoTextField.getText(),
                         priezviskoTextField.getText()
@@ -383,32 +354,7 @@ public class Gui extends JFrame {
                         "Koniec hospitalizacie"
                 };
 
-                ArrayList<String[]> tableValues = new ArrayList<>();
-
-                for (int i = 0; i < response.data.size(); i++) {
-                    final Pacient pacient = response.data.get(i).key;
-                    if (!(pacient.getMeno().equals(menoTextField.getText()) && pacient.getPriezvisko().equals(priezviskoTextField.getText()))) {
-                        continue;
-                    }
-
-                    final ArrayList<Hospitalizacia> hospitalizacie = pacient.getHospotalizacie(a01_nemocnicaTextField.getText());
-                    if (hospitalizacie != null) {
-                        for (int j = 0; j < hospitalizacie.size(); j++) {
-                            final Hospitalizacia hosp = hospitalizacie.get(j);
-                            tableValues.add(new String[]{
-                                    pacient.getMeno(),
-                                    pacient.getPriezvisko(),
-                                    pacient.getRodneCislo(),
-                                    pacient.getDatumNarodeniaString(),
-                                    pacient.getPoistovna().key,
-                                    hosp.getDiagnoza(),
-                                    hosp.getZaciatokHospString(),
-                                    hosp.getKoniecHospString()
-                            });
-
-                        }
-                    }
-                }
+                ArrayList<String[]> tableValues = response.data;
 
                 String tableValuesArr[][] = new String[tableValues.size()][tableHeader.length];
                 tableValuesArr = tableValues.toArray(tableValuesArr);
@@ -454,7 +400,7 @@ public class Gui extends JFrame {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                Response<ArrayList<Hospitalizacia>> response = operation.Operation_1(
+                Response<String[][]> response = operation.Operation_1(
                         rodneCisloTextField2.getText(),
                         a1_nemocnicaTextField1.getText()
 
@@ -479,20 +425,7 @@ public class Gui extends JFrame {
                         "Koniec hospitalizacie"
                 };
 
-                String tableValues[][] = new String[response.data.size()][tableHeader.length];
-
-                for (int i = 0; i < response.data.size(); i++) {
-                    Hospitalizacia hosp = response.data.get(i);
-                    tableValues[i] = new String[]{
-                            hosp.getPacient().getMeno(),
-                            hosp.getPacient().getPriezvisko(),
-                            hosp.getPacient().getRodneCislo(),
-                            hosp.getPacient().getPoistovna().key,
-                            hosp.getDiagnoza(),
-                            hosp.getZaciatokHospString(),
-                            hosp.getKoniecHospString()
-                    };
-                }
+                String tableValues[][] = response.data;
 
                 table4 = new JTable(tableValues, tableHeader);
                 zaznamy.setText(tableValues.length+"");
@@ -505,7 +438,7 @@ public class Gui extends JFrame {
         vypisButton3.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Response<ArrayList<Hospitalizacia>> response = operation.Operation_9(
+                Response<String[][]> response = operation.Operation_9(
                         a1_nemocnicaTextField2.getText(),
                         a1_poistovnaTextField.getText()
 
@@ -527,20 +460,7 @@ public class Gui extends JFrame {
                 };
 
 
-                String tableValues[][] = new String[response.data.size()][tableHeader.length];
-
-                for (int i = 0; i < response.data.size(); i++) {
-                    Hospitalizacia hosp = response.data.get(i);
-                    tableValues[i] = new String[]{
-                            hosp.getPacient().getMeno(),
-                            hosp.getPacient().getPriezvisko(),
-                            hosp.getPacient().getRodneCislo(),
-                            hosp.getPacient().getPoistovna().key,
-                            hosp.getDiagnoza(),
-                            hosp.getZaciatokHospString(),
-                            hosp.getKoniecHospString()
-                    };
-                }
+                String tableValues[][] = response.data;
                 table5 = new JTable(tableValues, tableHeader);
                 zaznamy.setText(tableValues.length+"");
                 table5.setEnabled(false);
@@ -551,7 +471,7 @@ public class Gui extends JFrame {
         vypisButton4.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Response<ArrayList<Hospitalizacia>> response = operation.Operation_10(
+                Response<String[][]> response = operation.Operation_10(
                         a1_nemocnicaTextField3.getText(),
                         a1_poistovnaTextField1.getText()
 
@@ -572,20 +492,7 @@ public class Gui extends JFrame {
                         "Koniec hospitalizacie"
                 };
 
-                String tableValues[][] = new String[response.data.size()][tableHeader.length];
-
-                for (int i = 0; i < response.data.size(); i++) {
-                    Hospitalizacia hosp = response.data.get(i);
-                    tableValues[i] = new String[]{
-                            hosp.getPacient().getMeno(),
-                            hosp.getPacient().getPriezvisko(),
-                            hosp.getPacient().getRodneCislo(),
-                            hosp.getPacient().getPoistovna().key,
-                            hosp.getDiagnoza(),
-                            hosp.getZaciatokHospString(),
-                            hosp.getKoniecHospString()
-                    };
-                }
+                String tableValues[][] = response.data;
 
                 zaznamy.setText(tableValues.length+"");
                 table6 = new JTable(tableValues, tableHeader);
@@ -597,7 +504,7 @@ public class Gui extends JFrame {
         vypisButton5.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Response<ArrayList<Nemocnica>> response = operation.Operation_13();
+                Response<String[][]> response = operation.Operation_13();
                 errorSprava.setText(response.message);
 
                 if (response.code != 0) {
@@ -608,14 +515,7 @@ public class Gui extends JFrame {
                         "Nazov nemocnice"
                 };
 
-                String tableValues[][] = new String[response.data.size()][tableHeader.length];
-
-                for (int i = 0; i < response.data.size(); i++) {
-                    Nemocnica nemocnica = response.data.get(i);
-                    tableValues[i] = new String[]{
-                            nemocnica.key,
-                    };
-                }
+                String tableValues[][] = response.data;
 
                 zaznamy.setText(tableValues.length+"");
                 table7 = new JTable(tableValues, tableHeader);

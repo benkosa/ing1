@@ -49,7 +49,6 @@ public class Poistovna extends BSData<String> {
 
         nemocnicaHospOdDo.getHospitalizacie().levelOrder().forEach(a -> {
             Hospitalizacia aa = (Hospitalizacia)a;
-            System.out.println(a.key + aa.getNemocnica().key + aa.getPacient().key + aa.getPacient().getPoistovna().key);
         });
 
         for (BSData<Date> dataDate : nemocnicaHospOdDo.getHospitalizacie().intervalSearch(odDate, doDate)) {
@@ -69,7 +68,6 @@ public class Poistovna extends BSData<String> {
         nemocnicaHospOdDo.getHospitalizacie().levelOrder().forEach(a -> {
             retHosp.add((Hospitalizacia)a);
             Hospitalizacia aa = (Hospitalizacia)a;
-            System.out.println(a.key + aa.getNemocnica().key + aa.getPacient().key + aa.getPacient().getPoistovna().key);
         });
 
         return retHosp;
