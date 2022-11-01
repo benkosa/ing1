@@ -115,19 +115,6 @@ public class Gui extends JFrame {
         return this.panelMain;
     }
 
-    private SimpleDateFormat formatter=new SimpleDateFormat("dd-MM-yyyy");
-
-    //https://www.baeldung.com/java-random-dates
-    public Date between(Date startInclusive, Date endExclusive) {
-        long startMillis = startInclusive.getTime();
-        long endMillis = endExclusive.getTime();
-        long randomMillisSinceEpoch = ThreadLocalRandom
-                .current()
-                .nextLong(startMillis, endMillis);
-
-        return new Date(randomMillisSinceEpoch);
-    }
-
     public void start() {
         this.setContentPane(this.getJPanel());
         this.setTitle("hello");
@@ -254,47 +241,17 @@ public class Gui extends JFrame {
         generovatPacientovButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Random gen = new Random();
-                int pocetPacientov = Integer.parseInt(a10000TextField.getText());
-                for (int i = 0; i < pocetPacientov; i++) {
-                    operation.Operation_6(
-                            (gen.nextInt(100000)+899999)+"/"+(gen.nextInt(1000)+8999),
-                            i+"_meno",
-                            i+"_priezvisko",
-                            (gen.nextInt(27)+1)+"-"+
-                                    (gen.nextInt(11)+1)+"-"+
-                                    (gen.nextInt(120)+1900)
-                            ,
-                            operation.getData().getPoistovne().getRandomData().key,
-                            false
-                    );
-                }
+                operation.generujPacientov(a10000TextField.getText());
             }
         });
         priraditHospitalizacieButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Date date1;
-                Date date2;
-                Random rand = new Random();
-
-                try {
-                    date1 = formatter.parse(a01012020TextField.getText());
-                    date2 = formatter.parse(a21102022TextField.getText());
-                } catch (ParseException ee) {
-                    return;
-                }
-
-                int pocetHospitalizacii = Integer.parseInt(a1000TextField.getText());
-                for (int i = 0; i < pocetHospitalizacii; i++) {
-                    Pacient pacient = (Pacient) operation.getData().getPacienti().getRandomData();
-                    Nemocnica nemocnica = (Nemocnica) operation.getData().getNemocnice().getRandomData();
-                    Date datumHospitalizacie = between(date1, date2);
-                    Date koniecHosp = new Date(datumHospitalizacie.getTime());
-                    koniecHosp = Operations.addDATE(koniecHosp, Calendar.DATE, rand.nextInt(40));
-                    if (koniecHosp.compareTo(date2) > 0) koniecHosp = null;
-                    operation.Operation_3(pacient.key, nemocnica.key, datumHospitalizacie, koniecHosp);
-                }
+                operation.generujHospitalizacie(
+                        a1000TextField.getText(),
+                        a01012020TextField.getText(),
+                        a21102022TextField.getText()
+                );
             }
         });
         vypisButton1.addActionListener(new ActionListener() {

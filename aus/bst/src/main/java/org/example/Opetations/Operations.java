@@ -9,6 +9,7 @@ import java.lang.reflect.Array;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class Operations {
     // 3, 4, 6, 8, 12
@@ -34,6 +35,19 @@ public class Operations {
         cal.setTime(date);
         cal.add(unit, days); //minus number would decrement the days
         return cal.getTime();
+    }
+
+    private SimpleDateFormat formatter=new SimpleDateFormat("dd-MM-yyyy");
+
+    //https://www.baeldung.com/java-random-dates
+    public Date between(Date startInclusive, Date endExclusive) {
+        long startMillis = startInclusive.getTime();
+        long endMillis = endExclusive.getTime();
+        long randomMillisSinceEpoch = ThreadLocalRandom
+                .current()
+                .nextLong(startMillis, endMillis);
+
+        return new Date(randomMillisSinceEpoch);
     }
 
 
@@ -770,6 +784,48 @@ public class Operations {
             return new Response(1, "Poistovna uz existuje", null);
         }
         return new Response(0, "", null);
+    }
+
+    public void generujHospitalizacie(String pocet, String odS, String doS) {
+        Date date1;
+        Date date2;
+        Random rand = new Random();
+
+        try {
+            date1 = formatter.parse(odS);
+            date2 = formatter.parse(doS);
+        } catch (ParseException ee) {
+            return;
+        }
+
+        int pocetHospitalizacii = Integer.parseInt(pocet);
+        for (int i = 0; i < pocetHospitalizacii; i++) {
+            Pacient pacient = (Pacient) getData().getPacienti().getRandomData();
+            Nemocnica nemocnica = (Nemocnica) getData().getNemocnice().getRandomData();
+            Date datumHospitalizacie = between(date1, date2);
+            Date koniecHosp = new Date(datumHospitalizacie.getTime());
+            koniecHosp = Operations.addDATE(koniecHosp, Calendar.DATE, rand.nextInt(40));
+            if (koniecHosp.compareTo(date2) > 0) koniecHosp = null;
+            Operation_3(pacient.key, nemocnica.key, datumHospitalizacie, koniecHosp);
+        }
+    }
+
+    public void generujPacientov(String pocet) {
+        Random gen = new Random();
+        int pocetPacientov = Integer.parseInt(pocet);
+        for (int i = 0; i < pocetPacientov; i++) {
+            Operation_6(
+                    (gen.nextInt(100000)+899999)+"/"+(gen.nextInt(1000)+8999),
+                    i+"_meno",
+                    i+"_priezvisko",
+                    (gen.nextInt(27)+1)+"-"+
+                            (gen.nextInt(11)+1)+"-"+
+                            (gen.nextInt(120)+1900)
+                    ,
+                    getData().getPoistovne().getRandomData().key,
+                    false
+            );
+        }
     }
 
     private void saveToFile(String fileName, ArrayList<String> data) {

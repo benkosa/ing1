@@ -14,13 +14,11 @@ public class Main {
 
         Gui gui = new Gui();
 
-
-
         gui.start();
 
         BSTTests test = new BSTTests();
 
-        test.testIntervalSearch();
+        //test.testIntervalSearch();
 
         test.testInsertMultiple(
                 0,
