@@ -8,10 +8,7 @@ import java.io.*;
 import java.lang.reflect.Array;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Scanner;
+import java.util.*;
 
 public class Operations {
     // 3, 4, 6, 8, 12
@@ -151,9 +148,9 @@ public class Operations {
     }
 
     /**
-     * pzaciatok hospitalizacie pre generovanie
+     * zaciatok hospitalizacie pre nacitanie zo suboru
      */
-    public Response Operation_3(int zaciatok, Integer koniec, String diagnozaStr, String nemocnicaStr, String pacientStr){
+    public Response Operation_3(long zaciatok, Long koniec, String diagnozaStr, String nemocnicaStr, String pacientStr){
         //get pacient
         Pacient pacient = (Pacient)data.getPacienti().find(pacientStr);
         if (pacient == null) {
@@ -168,7 +165,7 @@ public class Operations {
         Date datumHosp = new Date(zaciatok);
         Date koniecHosp = null;
 
-        if (koniec == null) {
+        if (koniec != null) {
             koniecHosp = new Date(koniec);
         }
         //vytvorit hosp
@@ -280,7 +277,7 @@ public class Operations {
         Date date;
 
         if (fromFile) {
-            date = new Date(Integer.parseInt(datumNarodenia));
+            date = new Date(Long.parseLong(datumNarodenia));
         } else {
             try {
                 date = formatter2.parse(datumNarodenia);
@@ -432,18 +429,21 @@ public class Operations {
         ArrayList<Hospitalizacia> neukonceneHosp =nemocnica.getNeukonceneHosp();
 
 
+        return new Response(0, "", neukonceneHosp);
+    }
 
-//        ArrayList<BSData<Date>> hospitalizacie = nemocnica.hospitalizacie.levelOrder();
-//        if (hospitalizacie != null) {
-//            for (BSData<Date> dateBSData : nemocnica.hospitalizacie.levelOrder()) {
-//                Hospitalizacia hosp = (Hospitalizacia) dateBSData;
-//                if (hosp.getKoniecHosp() == null) {
-//                    neukonceneHosp.add(hosp);
-//                }
-//            }
-//        }
+    public Response<ArrayList<Hospitalizacia>> Operation_9(String nazovNemocnice, String kodPoistovne) {
+        Nemocnica nemocnica = (Nemocnica)data.getNemocnice().find(nazovNemocnice);
+        if (nemocnica == null) {
+            return new Response(1, "Nemocnica neexistuje", null);
+        }
 
-        //neukonceneHosp.forEach(a -> System.out.println(a.getKoniecHosp().toString()));
+        ArrayList<Hospitalizacia> neukonceneHosp = new ArrayList<>();
+
+        nemocnica.getNeukonceneHosp().forEach(a -> {
+            if (Objects.equals(a.getPacient().getPoistovna().key, kodPoistovne))
+                neukonceneHosp.add(a);
+        });
 
         return new Response(0, "", neukonceneHosp);
     }
@@ -454,12 +454,19 @@ public class Operations {
      * zadanej zdravotnej poisťovne (identifikovaná svojím kódom)
      */
     public Response<ArrayList<Hospitalizacia>> Operation_10(String nazovNemocnice, String kodPoistovne) {
-        Poistovna poistovna = (Poistovna) data.getPoistovne().find(kodPoistovne);
-        if (poistovna == null) {
-            return new Response(1, "Poistovna neexistuje", null);
+        Nemocnica nemocnica = (Nemocnica)data.getNemocnice().find(nazovNemocnice);
+        if (nemocnica == null) {
+            return new Response(1, "Nemocnica neexistuje", null);
         }
 
-        return new Response(0, "", poistovna.getAllHospotalizacie(nazovNemocnice));
+        ArrayList<Hospitalizacia> neukonceneHosp = new ArrayList<>();
+
+        nemocnica.getNeukonceneHosp().forEach(a -> {
+            if (Objects.equals(a.getPacient().getPoistovna().key, kodPoistovne))
+                neukonceneHosp.add(a);
+        });
+
+        return new Response(0, "", neukonceneHosp);
     }
 
     /**
@@ -568,23 +575,21 @@ public class Operations {
     // https://stackoverflow.com/questions/50257374/how-do-i-write-multiple-lines-to-a-text-file-in-java
     public Response Operation_saveToFile(String fileName) {
         ArrayList<String> poistovneArr = new ArrayList<>();
-        for (BSData stringBSData : data.getPoistovne().inOrder()) {
+        for (BSData stringBSData : data.getPoistovne().levelOrder()) {
             Poistovna poistovna = (Poistovna) stringBSData;
             poistovneArr.add( poistovna.key );
         }
         saveToFile(fileName+"_poistovne", poistovneArr);
 
         ArrayList<String> nemocniceArr = new ArrayList<>();
-        for (BSData stringBSData : data.getNemocnice().inOrder()) {
+        for (BSData stringBSData : data.getNemocnice().levelOrder()) {
             Nemocnica nemocnica = (Nemocnica) stringBSData;
-            nemocniceArr.add(
-                    nemocnica.key
-            );
+            nemocniceArr.add(nemocnica.key);
         }
         saveToFile(fileName+"_nemocnice", nemocniceArr);
 
         ArrayList<String> pacientArr = new ArrayList<>();
-        for (BSData stringBSData : data.getPacienti().inOrder()) {
+        for (BSData stringBSData : data.getPacienti().levelOrder()) {
             Pacient pacient = (Pacient) stringBSData;
             pacientArr.add(
                     pacient.key+";"+
@@ -598,7 +603,7 @@ public class Operations {
         saveToFile(fileName+"_pacienti", pacientArr);
 
         ArrayList<String> hospArr = new ArrayList<>();
-        for (BSData stringBSData : data.getHospitalizacie().inOrder()) {
+        for (BSData stringBSData : data.getHospitalizacie().levelOrder()) {
             Hospitalizacia hosp = (Hospitalizacia) stringBSData;
             hospArr.add(
                     hosp.getZaciatokHosp().getTime()+";"+
@@ -635,8 +640,8 @@ public class Operations {
         for (String s : loadFile(fileName + "_hospitalizacie")) {
             String[] words = s.split(";");
             Operation_3(
-                    words[0],//zaciatok
-                    words[1],//koniec
+                    Long.parseLong(words[0]),//zaciatok
+                    words[1] == "" ? null : Long.parseLong(words[1]),//koniec
                     words[2],//diagnoza
                     words[3],//nemocnica
                     words[4] //pacient

@@ -284,7 +284,8 @@ public class Gui extends JFrame {
                                     (gen.nextInt(11)+1)+"-"+
                                     (gen.nextInt(120)+1900)
                             ,
-                            operation.getData().getPoistovne().getRandomData().key
+                            operation.getData().getPoistovne().getRandomData().key,
+                            false
                     );
                 }
             }
@@ -508,7 +509,7 @@ public class Gui extends JFrame {
         vypisButton3.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Response<ArrayList<Hospitalizacia>> response = operation.Operation_10(
+                Response<ArrayList<Hospitalizacia>> response = operation.Operation_9(
                         a1_nemocnicaTextField2.getText(),
                         a1_poistovnaTextField.getText()
 
