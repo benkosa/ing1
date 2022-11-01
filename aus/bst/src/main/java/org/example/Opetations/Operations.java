@@ -828,8 +828,19 @@ public class Operations {
         }
     }
 
+    public void drop() {
+        this.data = new Data();
+    }
+
     private void saveToFile(String fileName, ArrayList<String> data) {
-        try (FileWriter fstream = new FileWriter("save/"+fileName+".txt");
+        String path = "save/"+fileName+".txt";
+        //delete file content
+        try {
+            PrintWriter pw = new PrintWriter(path);
+            pw.close();
+        } catch(IOException e) {}
+
+        try (FileWriter fstream = new FileWriter(path);
              BufferedWriter info = new BufferedWriter(fstream)) {
             for (String line : data) {
                 info.write(String.format(line+"%n"));

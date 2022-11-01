@@ -1,18 +1,12 @@
 package org.example;
 
-import org.example.Opetations.Data.Hospitalizacia;
-import org.example.Opetations.Data.Nemocnica;
-import org.example.Opetations.Data.Pacient;
 import org.example.Opetations.Operations;
 import org.example.Shared.Response;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.concurrent.ThreadLocalRandom;
 
 public class Gui extends JFrame {
     private JButton setTimeButton;
@@ -108,6 +102,7 @@ public class Gui extends JFrame {
     private JButton nacitatButton;
     private JTextField nazov_suboruTextField;
     private JTextField nazov_suboruTextField1;
+    private JButton zmazatVsetkoButton;
     private JTree tree1;
     private JTable table8;
 
@@ -327,6 +322,9 @@ public class Gui extends JFrame {
                 Response<ArrayList<String[]>> response = operation.Operation_7(
                         a1TextField.getText() //a1TextField
                 );
+                response = operation.Operation_7(
+                        a1TextField.getText() //a1TextField
+                );
                 errorSprava.setText(response.message);
                 if (response.code != 0) {
                     return;
@@ -510,6 +508,12 @@ public class Gui extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 //nazov_suboruTextField1
                 operation.Operation_loadFromFile(nazov_suboruTextField1.getText());
+            }
+        });
+        zmazatVsetkoButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                operation.drop();
             }
         });
     }
