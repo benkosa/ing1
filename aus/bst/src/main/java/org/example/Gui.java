@@ -104,8 +104,13 @@ public class Gui extends JFrame {
     private JTextField nazov_suboruTextField1;
     private JButton zmazatVsetkoButton;
     private JTextField diagnozaTextField;
+    private JPanel tab15;
+    private JButton vypisButton6;
+    private JTextField a1_poistovnaTextField2;
+    private JTextField a1_nemocnicaTextField5;
     private JTree tree1;
     private JTable table8;
+    private JScrollPane scrollPane8;
 
     public JPanel getJPanel () {
         return this.panelMain;
@@ -395,7 +400,7 @@ public class Gui extends JFrame {
         vypisButton3.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Response<String[][]> response = operation.Operation_9(
+                Response<String[][]> response = operation.Operation_10(
                         a1_nemocnicaTextField2.getText(),
                         a1_poistovnaTextField.getText()
 
@@ -428,7 +433,7 @@ public class Gui extends JFrame {
         vypisButton4.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Response<String[][]> response = operation.Operation_10(
+                Response<String[][]> response = operation.Operation_9(
                         a1_nemocnicaTextField3.getText(),
                         a1_poistovnaTextField1.getText()
 
@@ -516,6 +521,39 @@ public class Gui extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 operation.drop();
+            }
+        });
+        vypisButton6.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Response<String[][]> response = operation.Operation_15(
+                        a1_nemocnicaTextField5.getText(),
+                        a1_poistovnaTextField2.getText()
+
+                );
+                errorSprava.setText(response.message);
+
+                if (response.code != 0) {
+                    return;
+                }
+
+                String tableHeader[] = {
+                        "Meno",
+                        "Priezvisko",
+                        "Rodne Cislo",
+                        "Poistovna",
+                        "Diagnoza",
+                        "Zaciatok hospitalizacie",
+                        "Koniec hospitalizacie"
+                };
+
+
+                String tableValues[][] = response.data;
+                table8 = new JTable(tableValues, tableHeader);
+                zaznamy.setText(tableValues.length+"");
+                table8.setEnabled(false);
+                scrollPane8.setViewportView(table8);
+
             }
         });
     }

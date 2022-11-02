@@ -85,4 +85,41 @@ public class Comparators {
 
         return Compare.EQUAL;
     }
+
+
+    public Compare hospCompareRc(Hospitalizacia h1, Hospitalizacia h2) {
+        Pacient p1 = h1.getPacient();
+        Pacient p2 = h2.getPacient();
+        int compareRCResult = p1.getRodneCislo().compareTo(p2.getRodneCislo());
+
+        if (compareRCResult < 0) return Compare.LESS;
+        if (compareRCResult > 0) return Compare.MORE;
+
+        return Compare.EQUAL;
+    }
+
+    public Compare hospComparePriezvisko(Hospitalizacia h1, Hospitalizacia h2) {
+        Pacient p1 = h1.getPacient();
+        Pacient p2 = h2.getPacient();
+
+        int compareSurnameResult = p1.getPriezvisko().compareTo(p2.getPriezvisko());
+        int compareNameResult = p1.getMeno().compareTo(p2.getMeno());
+        int compareRCResult = p1.getRodneCislo().compareTo(p2.getRodneCislo());
+
+        if (compareSurnameResult < 0) return Compare.LESS;
+        if (compareSurnameResult > 0) return Compare.MORE;
+        if (compareSurnameResult == 0) {
+            if (compareNameResult < 0) return Compare.LESS;
+            if (compareNameResult > 0) return Compare.MORE;
+            if (compareNameResult == 0) {
+                if (compareRCResult < 0) return Compare.LESS;
+                if (compareRCResult > 0) return Compare.MORE;
+                if (compareRCResult == 0) {
+                    return Compare.EQUAL;
+                }
+            }
+        }
+
+        return Compare.EQUAL;
+    }
 }

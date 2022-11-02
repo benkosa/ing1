@@ -1,6 +1,7 @@
 package org.example.Opetations;
 
 import org.example.BSData;
+import org.example.BSTree;
 import org.example.Opetations.Data.*;
 import org.example.Shared.Response;
 
@@ -555,14 +556,17 @@ public class Operations {
             return new Response(1, "Nemocnica neexistuje", null);
         }
 
-        ArrayList<Hospitalizacia> neukonceneHosp = new ArrayList<>();
+        BSTree<Hospitalizacia> tree = new BSTree<>();
 
         nemocnica.getNeukonceneHosp().forEach(a -> {
-            if (Objects.equals(a.getPacient().getPoistovna().key, kodPoistovne))
-                neukonceneHosp.add(a);
+            if (Objects.equals(a.getPacient().getPoistovna().key, kodPoistovne)) {
+                tree.insert(new HospContainerRc(a));
+            }
         });
 
-        neukonceneHosp.sort(Comparator.comparing(o -> o.getPacient().key));
+        ArrayList<Hospitalizacia> neukonceneHosp = new ArrayList<>();
+        tree.inOrder().forEach(a -> neukonceneHosp.add(a.key));
+
 
         String tableValues[][] = new String[neukonceneHosp.size()][7];
 
@@ -582,6 +586,40 @@ public class Operations {
         return new Response(0, "", tableValues);
     }
 
+    public Response<String[][]> Operation_15(String nazovNemocnice, String kodPoistovne) {
+        Nemocnica nemocnica = (Nemocnica)data.getNemocnice().find(nazovNemocnice);
+        if (nemocnica == null) {
+            return new Response(1, "Nemocnica neexistuje", null);
+        }
+
+        BSTree<Hospitalizacia> tree = new BSTree<>();
+
+        nemocnica.getNeukonceneHosp().forEach(a -> {
+            if (Objects.equals(a.getPacient().getPoistovna().key, kodPoistovne)) {
+                tree.insert(new HospContainerPriezvisko(a));
+            }
+        });
+
+        ArrayList<Hospitalizacia> neukonceneHosp = new ArrayList<>();
+        tree.inOrder().forEach(a -> neukonceneHosp.add(a.key));
+
+        String tableValues[][] = new String[neukonceneHosp.size()][7];
+
+        for (int i = 0; i < neukonceneHosp.size(); i++) {
+            Hospitalizacia hosp = neukonceneHosp.get(i);
+            tableValues[i] = new String[]{
+                    hosp.getPacient().getMeno(),
+                    hosp.getPacient().getPriezvisko(),
+                    hosp.getPacient().getRodneCislo(),
+                    hosp.getPacient().getPoistovna().key,
+                    hosp.getDiagnoza(),
+                    hosp.getZaciatokHospString(),
+                    hosp.getKoniecHospString()
+            };
+        }
+
+        return new Response(0, "", tableValues);
+    }
     /**
      * optimalizácia uloženia dát, ktorá všetky stromové štruktúry vyváži
      */
