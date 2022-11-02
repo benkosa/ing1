@@ -103,6 +103,7 @@ public class Gui extends JFrame {
     private JTextField nazov_suboruTextField;
     private JTextField nazov_suboruTextField1;
     private JButton zmazatVsetkoButton;
+    private JTextField diagnozaTextField;
     private JTree tree1;
     private JTable table8;
 
@@ -165,6 +166,7 @@ public class Gui extends JFrame {
                 Response<String> response = operation.Operation_3(
                         rodneCisloTextField.getText(),
                         nemocnicaTextField.getText(),
+                        diagnozaTextField.getText(),
                         null,
                         null
                 );

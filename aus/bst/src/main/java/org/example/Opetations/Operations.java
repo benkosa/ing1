@@ -164,7 +164,7 @@ public class Operations {
      * vykonanie záznamu o začiatku hospitalizácie pacienta (identifikovaný
      * svojím rodným číslom) v nemocnici(identifikovaná svojím názvom)
      */
-    public Response Operation_3(String rcPacienta, String nazovNemocnice, Date datumHosp, Date koniecHosp) {
+    public Response Operation_3(String rcPacienta, String nazovNemocnice, String diagnoza, Date datumHosp, Date koniecHosp) {
         //get pacient
         Pacient pacient = (Pacient)data.getPacienti().find(rcPacienta);
         if (pacient == null) {
@@ -181,7 +181,7 @@ public class Operations {
         Hospitalizacia newHosp = new Hospitalizacia(
                 datumHosp,
                 koniecHosp,
-                "",
+                diagnoza,
                 pacient,
                 nemocnica
         );
@@ -806,7 +806,7 @@ public class Operations {
             Date koniecHosp = new Date(datumHospitalizacie.getTime());
             koniecHosp = Operations.addDATE(koniecHosp, Calendar.DATE, rand.nextInt(40));
             if (koniecHosp.compareTo(date2) > 0) koniecHosp = null;
-            Operation_3(pacient.key, nemocnica.key, datumHospitalizacie, koniecHosp);
+            Operation_3(pacient.key, nemocnica.key, i+"_diagnoza", datumHospitalizacie, koniecHosp);
         }
     }
 
