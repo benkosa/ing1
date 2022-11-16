@@ -54,8 +54,13 @@ public class Hashing<T extends IData> {
     public boolean insert (T data) {
         //TODO file najdi adresu bloku
         // file nacitaj blok
-        Block<T> b;
-        b = new Block<>(blockFactor, data.getClass());
+        Block<T> b = new Block<>(blockFactor, data.getClass());
+        try {
+            file.write(data.toByteArray());
+        } catch (IOException ex) {
+            Logger.getLogger(Hashing.class.getName())
+                    .log(Level.SEVERE, null, ex);
+        }
 
         return true;
     }
@@ -65,6 +70,16 @@ public class Hashing<T extends IData> {
         b = new Block<>(blockFactor, data.getClass());
 
         return true;
+    }
+
+    public long fileSize() {
+        try {
+            return file.length();
+        } catch (IOException ex) {
+            Logger.getLogger(Hashing.class.getName())
+                    .log(Level.SEVERE, null, ex);
+        }
+        return -1;
     }
 
 

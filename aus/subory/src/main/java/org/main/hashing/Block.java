@@ -40,7 +40,7 @@ public class Block <T extends IData> implements IRecord {
         this.records = new ArrayList<T>(blockFacktor);
 
         for (int i = 0; i < blockFacktor; i++) {
-            //TODO treba upravit aby to pridalo do araylistu len valid count
+            // TODO treba upravit aby to pridalo do arraylistu len valid count
             // TODO ziskat valid count z bloku
             try {
                 this.records.add((T) this.classType.newInstance().createClass());
