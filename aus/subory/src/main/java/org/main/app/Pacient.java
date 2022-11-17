@@ -8,11 +8,11 @@ import java.util.BitSet;
 
 public class Pacient implements IData {
     private String meno;
-    private int menoMax = 15;
+    private final int menoMax = 15;
     private String priezvisko;
-    private int priezviskoMax = 20;
+    private final int priezviskoMax = 20;
     private String rodneCislo;
-    private int rodneCisloMax = 10;
+    private final int rodneCisloMax = 10;
     private int poistovna;
 
     public Pacient(String meno, String priezvisko, String rodneCislo, int poistovna) {
@@ -37,7 +37,7 @@ public class Pacient implements IData {
 
     @Override
     public BitSet getHash() {
-        return null;
+        return BitSet.valueOf(rodneCislo.getBytes());
     }
 
     @Override
@@ -47,7 +47,7 @@ public class Pacient implements IData {
 
     @Override
     public Object createClass() {
-        return new Pacient("meno", "priezvisko", "rodnecislo", 0);
+        return new Pacient("", "", "", 0);
     }
 
     @Override

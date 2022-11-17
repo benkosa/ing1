@@ -15,7 +15,7 @@ public class Hashing<T extends IData> {
     private RandomAccessFile file;
     private Class classType;
 
-    public Hashing( String fileName, int blockFactor, int numberOfBlocks, Class classType) {
+    public Hashing( String fileName, int blockFactor, int numberOfBlocks, Class classType, boolean readOnly) {
         this.blockFactor = blockFactor;
         this.numberOfBlocks = numberOfBlocks;
         this.classType = classType;
@@ -29,14 +29,16 @@ public class Hashing<T extends IData> {
         }
 
         // alocate file
-        Block<T> emptyBlock = new Block<>(blockFactor, classType);
-        try {
-            for (int i = 0; i < numberOfBlocks; i++) {
-                file.write(emptyBlock.toByteArray());
+        if (!readOnly) {
+            Block<T> emptyBlock = new Block<>(blockFactor, classType);
+            try {
+                for (int i = 0; i < numberOfBlocks; i++) {
+                    file.write(emptyBlock.toByteArray());
+                }
+            } catch (IOException ex) {
+                Logger.getLogger(Hashing.class.getName())
+                        .log(Level.SEVERE, null, ex);
             }
-        } catch (IOException ex) {
-            Logger.getLogger(Hashing.class.getName())
-                    .log(Level.SEVERE, null, ex);
         }
     }
 
@@ -70,15 +72,37 @@ public class Hashing<T extends IData> {
 
 
     public boolean insert (T data) {
-        //TODO file najdi adresu bloku
+
         // file nacitaj blok
         Block<T> b = new Block<>(blockFactor, data.getClass());
+        int adress =(bitSetToInt(data.getHash()) % numberOfBlocks)* b.getSize();
+
+        byte[] blockFile = new byte[b.getSize()];
         try {
-            file.write(b.toByteArray());
-        } catch (IOException ex) {
-            Logger.getLogger(Hashing.class.getName())
-                    .log(Level.SEVERE, null, ex);
+            file.seek(adress);
+            file.read(blockFile);
+            b.fromByteArray(blockFile);
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
+
+        if (b.validCount >= blockFactor) {
+            return false;
+        }
+
+        // pridaj do recordov a uloz do suboru
+        b.insert(data);
+        try {
+            file.seek(adress);
+            file.write(b.toByteArray());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+//        System.out.println("Block: " + b);
+//        System.out.println("Valid count: " + b.validCount);
+//        b.getRecords().forEach(a -> System.out.println(a.toString()));
 
         return true;
     }
@@ -126,6 +150,16 @@ public class Hashing<T extends IData> {
             System.out.println("Valid count: " + newBlock.validCount);
             newBlock.getRecords().forEach(a -> System.out.println(a.toString()));
         }
+    }
+
+
+    //https://stackoverflow.com/questions/2473597/bitset-to-and-from-integer-long
+    public static int bitSetToInt(BitSet bits) {
+        long value = 0L;
+        for (int i = 0; i < bits.length(); ++i) {
+            value += bits.get(i) ? (1L << i) : 0L;
+        }
+        return (int) value;
     }
 
 

@@ -40,7 +40,7 @@ public class Block <T extends IData> implements IRecord {
 
         for (int i = 0; i < blockFacktor; i++) {
             try {
-                //TODO MUSI BYT JEDNPOARAMETRICKY KONSTRUKTOR DIVNE
+                //TODO MUSI BYT EXISTOVAT KONSTRUKTOR DIVNE
                 this.records.add((T) this.classType.newInstance().createClass());
             } catch (InstantiationException ex) {
                 Logger.getLogger(Block.class.getName())
@@ -127,6 +127,11 @@ public class Block <T extends IData> implements IRecord {
 
     public ArrayList<T> getRecords() {
         return records;
+    }
+
+    public void insert(T data) {
+        this.records.add(validCount, data);
+        validCount+=1;
     }
 
 

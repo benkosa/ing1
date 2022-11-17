@@ -4,6 +4,11 @@ import org.main.app.Pacient;
 import org.main.hashing.Hashing;
 import org.main.shared.StringStore;
 
+import java.io.ByteArrayInputStream;
+import java.io.DataInputStream;
+import java.io.IOException;
+import java.util.BitSet;
+
 
 public class Main {
     public static void main(String[] args) {
@@ -11,14 +16,17 @@ public class Main {
         Hashing<Pacient> test = new Hashing<>(
                 "file.dat",
                 10,
-                100,
-                Pacient.class
+                10,
+                Pacient.class,
+                true
         );
 
-        test.readWholeFile();
+        Pacient pacient = new Pacient("meno", "preizvisko", "45", 0);
 
-        //Nemocnica nemocnica = new Nemocnica(70);
+        test.insert(pacient);
 
-        //test.insert(nemocnica);
+        System.out.println("---------------------------------------------");
+
+        //test.readWholeFile();
     }
 }
