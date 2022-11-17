@@ -13,6 +13,15 @@ public class Nemocnica implements IData {
         this.testData = testData;
     }
 
+    public Nemocnica() {
+        this.testData = 0;
+    }
+
+    @Override
+    public String toString() {
+        return "Nemocnica: "+ testData;
+    }
+
 
     @Override
     public BitSet getHash() {
@@ -26,7 +35,7 @@ public class Nemocnica implements IData {
 
     @Override
     public Object createClass() {
-        return null;
+        return new Nemocnica(0);
     }
 
     @Override
@@ -56,6 +65,6 @@ public class Nemocnica implements IData {
 
     @Override
     public int getSize() {
-        return 0;
+        return Integer.BYTES;
     }
 }

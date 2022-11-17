@@ -1,9 +1,8 @@
 package org.main.hashing;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
+import org.main.App.Nemocnica;
+
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.logging.Level;
@@ -17,7 +16,7 @@ public class Block <T extends IData> implements IRecord {
      * poznacim si ich v bloku
      * prve zazanmy v bloku su vzdy platne
      */
-    private final int validCount;
+    public int validCount;
 
     /**
      * v bloku mam pole recrdov, arraylist generickych tried
@@ -40,9 +39,8 @@ public class Block <T extends IData> implements IRecord {
         this.records = new ArrayList<T>(blockFacktor);
 
         for (int i = 0; i < blockFacktor; i++) {
-            // TODO treba upravit aby to pridalo do arraylistu len valid count
-            // TODO ziskat valid count z bloku
             try {
+                //TODO MUSI BYT JEDNPOARAMETRICKY KONSTRUKTOR DIVNE
                 this.records.add((T) this.classType.newInstance().createClass());
             } catch (InstantiationException ex) {
                 Logger.getLogger(Block.class.getName())
@@ -71,19 +69,43 @@ public class Block <T extends IData> implements IRecord {
         ByteArrayOutputStream hlpByteArrayOutputStream = new ByteArrayOutputStream();
         DataOutputStream hlOutputStream = new DataOutputStream(hlpByteArrayOutputStream);
 
+        try{
+            hlOutputStream.writeInt(validCount);
+            for (int i = 0; i < blockFacktor; i++) {
+                hlOutputStream.write(records.get(i).toByteArray());
+            }
+            return hlpByteArrayOutputStream.toByteArray();
+        }catch (IOException e){
+            throw new IllegalStateException("Error during conversion to byte array.");
+        }
+
         //TODO hlpByteArrayOutputStream.write(dummy.ToByteArray());
-        return new byte[0];
     }
 
     @Override
     public void fromByteArray(byte[] paArray) {
-        //TODO validcount
+        // TODO validcount
         ByteArrayInputStream hlpByteArrayInputStream = new ByteArrayInputStream(paArray);
         DataInputStream hlInputStream = new DataInputStream(hlpByteArrayInputStream);
 
+        // load valint count
+        try {
+            validCount = hlInputStream.readInt();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        // split array to array of only records
+        byte[] objectsBytes = Arrays.copyOfRange(
+                paArray,
+                Integer.BYTES,
+                paArray.length
+        );
+
+        // load records
         for (int i = 0; i < blockFacktor; i++) {
             byte[] n = Arrays.copyOfRange(
-                    paArray,
+                    objectsBytes,
                     i * records.get(i).getSize(),
                     (i + 1) * records.get(i).getSize()
             );

@@ -9,10 +9,17 @@ public class Main {
         System.out.println("Hello world!");
 
 
-        Hashing<Nemocnica> test = new Hashing<Nemocnica>("file.dat", 10);
+        Hashing<Nemocnica> test = new Hashing<>(
+                "file.dat",
+                10,
+                10,
+                Nemocnica.class
+        );
 
-        Nemocnica nemocnica = new Nemocnica(69);
+        test.readWholeFile();
 
-        test.insert(nemocnica);
+        //Nemocnica nemocnica = new Nemocnica(70);
+
+        //test.insert(nemocnica);
     }
 }

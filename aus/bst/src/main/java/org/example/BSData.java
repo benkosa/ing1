@@ -13,6 +13,10 @@ public abstract class BSData<T> {
         this.key = key;
     }
 
+    public BSData() {
+
+    }
+
     public T key;
 
     /**
