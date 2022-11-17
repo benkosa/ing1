@@ -1,6 +1,6 @@
 package org.main.hashing;
 
-import org.main.App.Nemocnica;
+import org.main.shared.StringStore;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -87,8 +87,7 @@ public class Block <T extends IData> implements IRecord {
         // TODO validcount
         ByteArrayInputStream hlpByteArrayInputStream = new ByteArrayInputStream(paArray);
         DataInputStream hlInputStream = new DataInputStream(hlpByteArrayInputStream);
-
-        // load valint count
+        // load valid count
         try {
             validCount = hlInputStream.readInt();
         } catch (IOException e) {

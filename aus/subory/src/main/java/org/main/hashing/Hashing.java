@@ -1,7 +1,5 @@
 package org.main.hashing;
 
-import org.main.App.Nemocnica;
-
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;

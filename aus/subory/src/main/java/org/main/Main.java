@@ -1,19 +1,18 @@
 package org.main;
 
-import org.main.App.Nemocnica;
+import org.main.app.Pacient;
 import org.main.hashing.Hashing;
+import org.main.shared.StringStore;
 
 
 public class Main {
     public static void main(String[] args) {
-        System.out.println("Hello world!");
 
-
-        Hashing<Nemocnica> test = new Hashing<>(
+        Hashing<Pacient> test = new Hashing<>(
                 "file.dat",
                 10,
-                10,
-                Nemocnica.class
+                100,
+                Pacient.class
         );
 
         test.readWholeFile();
