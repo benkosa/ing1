@@ -54,16 +54,6 @@ public class Block <T extends IData> implements IRecord {
         validCount = 0;
     }
 
-    /**
-     * prida novy record do arraylistu records
-     * @param pNew
-     * @return
-     */
-    public boolean insertRecord(T pNew) {
-
-        return true;
-    }
-
     @Override
     public byte[] toByteArray() {
         ByteArrayOutputStream hlpByteArrayOutputStream = new ByteArrayOutputStream();
@@ -135,6 +125,28 @@ public class Block <T extends IData> implements IRecord {
         }
         this.records.add(validCount, data);
         validCount+=1;
+    }
+
+    public T find (T recordToFind) {
+        for (int i = 0; i < validCount; i++) {
+            T record = records.get(i);
+            if (record.myEqual(recordToFind)) {
+                return record;
+            }
+        }
+        return null;
+    }
+
+    public boolean remove (T recordToFind) {
+        for (int i = 0; i < validCount; i++) {
+            T record = records.get(i);
+            if (record.myEqual(recordToFind)) {
+                records.add(records.remove(i));
+                validCount-=1;
+                return true;
+            }
+        }
+        return false;
     }
 
 

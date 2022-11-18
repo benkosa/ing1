@@ -20,13 +20,19 @@ public class Main {
                 10,
                 10,
                 Pacient.class,
-                true
+                false
         );
 
         Pacient pacient = new Pacient("meno", "preizvisko", "  ", 0, new Date());
         pacient.testSize();
 
         test.insert(pacient);
+
+        System.out.println(test.find(pacient).toString());
+
+        test.delete(pacient);
+
+        //System.out.println(test.find(pacient).toString());
 
 
 
