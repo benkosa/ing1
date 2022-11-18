@@ -66,7 +66,8 @@ public class Pacient extends IData {
 
     @Override
     public boolean myEqual(Object data) {
-        return false;
+        Pacient pacient2 = (Pacient) data;
+        return this.rodneCislo.equals(pacient2.rodneCislo);
     }
 
     @Override

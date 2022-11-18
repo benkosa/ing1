@@ -127,6 +127,12 @@ public class Block <T extends IData> implements IRecord {
     }
 
     public void insert(T data) {
+        for (int i = 0; i < validCount; i++) {
+            T record = records.get(i);
+            if (record.myEqual(data)) {
+                return;
+            }
+        }
         this.records.add(validCount, data);
         validCount+=1;
     }

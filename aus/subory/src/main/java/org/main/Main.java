@@ -20,10 +20,10 @@ public class Main {
                 10,
                 10,
                 Pacient.class,
-                false
+                true
         );
 
-        Pacient pacient = new Pacient("meno", "preizvisko", "45", 0, new Date());
+        Pacient pacient = new Pacient("meno", "preizvisko", "  ", 0, new Date());
         pacient.testSize();
 
         test.insert(pacient);
