@@ -7,12 +7,7 @@ import java.io.*;
 import java.util.BitSet;
 import java.util.Date;
 
-// • id hospitalizácie – neunikátne náhodné celé kladné číslo,
-//      ktoré je unikátne pre pacienta
-// • dátum začiatku hospitalizácie
-// • dátum konca hospitalizácie
-// • diagnózu s ktorou bol prijatý – reťazec [max. 20 znakov]
-public class Hospitalizacia implements IData {
+public class Hospitalizacia extends IData {
 
     private int idHospitalizacie;
     private Date datumZaciatku;
@@ -92,6 +87,9 @@ public class Hospitalizacia implements IData {
 
     @Override
     public int getSize() {
-        return Character.BYTES * (diagnozaMax) + Integer.BYTES * 2 + Long.BYTES * 2;
+        return
+                Character.BYTES * (diagnozaMax) + Integer.BYTES  //diagnoza
+                        + Integer.BYTES //id hospitalizacie
+                        + Long.BYTES * 2; //datumy
     }
 }

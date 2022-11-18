@@ -2,14 +2,14 @@ package org.main.hashing;
 
 import java.util.BitSet;
 
-public interface IData<T> extends IRecord<T> {
+public abstract class IData<T> implements IRecord<T> {
     /**
      * pole bytov si mozem previest na co potrebujem cislo alebo
      * podla neho traverzovat v strome
      *
      * @return pole bytov
      */
-    BitSet getHash();
+    public abstract BitSet getHash();
 
     /**
      * porovna dva prvky
@@ -17,11 +17,19 @@ public interface IData<T> extends IRecord<T> {
      * nemozem porovnavat vysledok getHash pretoze dva rozne prvky mozu mat rovnaky
      * vysledok hash funkcie
      */
-    boolean myEqual(T data);
+    public abstract boolean myEqual(T data);
 
     /**
      * ? nieco ako kopirovaci konstruktor, nieco co mi tu triedu namnozi
      * @return
      */
-    T createClass();
+    public abstract T createClass();
+
+    public void testSize() {
+        if (this.toByteArray().length != this.getSize()) {
+            System.out.println("ERROR: wrong size");
+            System.out.println("getSize: " + this.getSize());
+            System.out.println("toByteArray: " +this.toByteArray().length);
+        }
+    }
 }

@@ -28,11 +28,12 @@ public class Hashing<T extends IData> {
                     .log(Level.SEVERE, null, ex);
         }
 
+
         // alocate file
         if (!readOnly) {
-            Block<T> emptyBlock = new Block<>(blockFactor, classType);
             try {
                 for (int i = 0; i < numberOfBlocks; i++) {
+                    Block<T> emptyBlock = new Block<>(blockFactor, classType);
                     file.write(emptyBlock.toByteArray());
                 }
             } catch (IOException ex) {
@@ -99,10 +100,6 @@ public class Hashing<T extends IData> {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
-//        System.out.println("Block: " + b);
-//        System.out.println("Valid count: " + b.validCount);
-//        b.getRecords().forEach(a -> System.out.println(a.toString()));
 
         return true;
     }

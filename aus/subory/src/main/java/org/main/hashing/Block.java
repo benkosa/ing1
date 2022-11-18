@@ -40,7 +40,7 @@ public class Block <T extends IData> implements IRecord {
 
         for (int i = 0; i < blockFacktor; i++) {
             try {
-                //TODO MUSI BYT EXISTOVAT KONSTRUKTOR DIVNE
+                //TODO MUSI EXISTOVAT BEZPARAMETRICKY KONSTRUKTOR DIVNE
                 this.records.add((T) this.classType.newInstance().createClass());
             } catch (InstantiationException ex) {
                 Logger.getLogger(Block.class.getName())
@@ -78,13 +78,10 @@ public class Block <T extends IData> implements IRecord {
         }catch (IOException e){
             throw new IllegalStateException("Error during conversion to byte array.");
         }
-
-        //TODO hlpByteArrayOutputStream.write(dummy.ToByteArray());
     }
 
     @Override
     public void fromByteArray(byte[] paArray) {
-        // TODO validcount
         ByteArrayInputStream hlpByteArrayInputStream = new ByteArrayInputStream(paArray);
         DataInputStream hlInputStream = new DataInputStream(hlpByteArrayInputStream);
         // load valid count

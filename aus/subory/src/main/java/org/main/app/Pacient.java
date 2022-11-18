@@ -1,13 +1,15 @@
 package org.main.app;
 
 import org.main.hashing.IData;
+import org.main.shared.ArrayStore;
 import org.main.shared.StringStore;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.BitSet;
 import java.util.Date;
 
-public class Pacient implements IData {
+public class Pacient extends IData {
     private String meno;
     private final int menoMax = 15;
     private String priezvisko;
@@ -16,6 +18,8 @@ public class Pacient implements IData {
     private final int rodneCisloMax = 10;
     private int poistovna;
     private Date datumNarodenia;
+    private ArrayList<Hospitalizacia> hospitalizacie= new ArrayList();
+    private int hospitalizacieMax = 10;
 
     public Pacient(String meno, String priezvisko, String rodneCislo, int poistovna, Date datumNarodenia) {
         this.poistovna = poistovna;
@@ -47,7 +51,11 @@ public class Pacient implements IData {
 
     @Override
     public String toString() {
-        return "Pacient: " + meno + " " + priezvisko + " " + rodneCislo + " " + poistovna + " " + datumNarodenia.toString();
+        String ret = "Pacient: " + meno + " " + priezvisko + " " + rodneCislo + " " + poistovna + " " + datumNarodenia.toString();
+        for (Hospitalizacia hospitalizacia : hospitalizacie) {
+            ret += "\n      " + hospitalizacia.toString();
+        }
+        return ret;
     }
 
 
@@ -71,6 +79,7 @@ public class Pacient implements IData {
         ByteArrayOutputStream hlpByteArrayOutputStream= new ByteArrayOutputStream();
         DataOutputStream hlpOutStream = new DataOutputStream(hlpByteArrayOutputStream);
         StringStore ss = new StringStore();
+        ArrayStore<Hospitalizacia> as = new ArrayStore();
         try{
             ss.writeString(hlpOutStream, meno, menoMax);
             ss.writeString(hlpOutStream, priezvisko, priezviskoMax);
@@ -78,6 +87,7 @@ public class Pacient implements IData {
 
             hlpOutStream.writeInt(this.poistovna);
             hlpOutStream.writeLong(datumNarodenia.getTime());
+            as.writeArray(hlpOutStream, hospitalizacie, hospitalizacieMax, new Hospitalizacia());
             return hlpByteArrayOutputStream.toByteArray();
         }catch (IOException e){
             throw new IllegalStateException("Error during conversion to byte array.");
@@ -89,6 +99,7 @@ public class Pacient implements IData {
         ByteArrayInputStream hlpByteArrayInputStream = new ByteArrayInputStream(paArray);
         DataInputStream hlpInStream = new DataInputStream(hlpByteArrayInputStream);
         StringStore ss = new StringStore();
+        ArrayStore<Hospitalizacia> as = new ArrayStore();
 
         try {
             this.meno = ss.loadString(hlpInStream, menoMax);
@@ -96,6 +107,7 @@ public class Pacient implements IData {
             this.rodneCislo = ss.loadString(hlpInStream, rodneCisloMax);
             this.poistovna = hlpInStream.readInt();
             this.datumNarodenia = new Date(hlpInStream.readLong());
+            this.hospitalizacie = as.loadArray(hlpInStream, hospitalizacieMax, new Hospitalizacia());
         } catch (IOException e) {
             throw new IllegalStateException("Error during conversion from byte array.");
         }
@@ -103,6 +115,11 @@ public class Pacient implements IData {
 
     @Override
     public int getSize() {
-        return Character.BYTES * (menoMax + priezviskoMax + rodneCisloMax) + Integer.BYTES * 4 + Long.BYTES;
+        Hospitalizacia emptyHosp = new Hospitalizacia();
+        return
+                Character.BYTES * (menoMax + priezviskoMax + rodneCisloMax) + Integer.BYTES * 3 //stringy
+                        + Integer.BYTES //poistovna
+                        + Long.BYTES //datum
+                        + hospitalizacieMax * (emptyHosp.getSize()) + Integer.BYTES; //hospitalizacie
     }
 }
