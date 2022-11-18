@@ -8,6 +8,7 @@ import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.util.BitSet;
+import java.util.Date;
 
 
 public class Main {
@@ -21,12 +22,12 @@ public class Main {
                 true
         );
 
-        Pacient pacient = new Pacient("meno", "preizvisko", "45", 0);
+        Pacient pacient = new Pacient("meno", "preizvisko", "45", 0, new Date());
 
         test.insert(pacient);
 
         System.out.println("---------------------------------------------");
 
-        //test.readWholeFile();
+        test.readWholeFile();
     }
 }

@@ -5,6 +5,7 @@ import org.main.shared.StringStore;
 
 import java.io.*;
 import java.util.BitSet;
+import java.util.Date;
 
 public class Pacient implements IData {
     private String meno;
@@ -14,12 +15,26 @@ public class Pacient implements IData {
     private String rodneCislo;
     private final int rodneCisloMax = 10;
     private int poistovna;
+    private Date datumNarodenia;
 
-    public Pacient(String meno, String priezvisko, String rodneCislo, int poistovna) {
+    public Pacient(String meno, String priezvisko, String rodneCislo, int poistovna, Date datumNarodenia) {
         this.poistovna = poistovna;
-        this.meno = meno;
-        this.priezvisko = priezvisko;
-        this.rodneCislo = rodneCislo;
+        this.datumNarodenia = datumNarodenia;
+        try {
+            this.meno = meno.substring(0, menoMax);
+        } catch (StringIndexOutOfBoundsException ex) {
+            this.meno = meno;
+        }
+        try {
+            this.priezvisko = priezvisko.substring(0, priezviskoMax);
+        } catch (StringIndexOutOfBoundsException ex) {
+            this.priezvisko = priezvisko;
+        }
+        try {
+            this.rodneCislo = rodneCislo.substring(0, rodneCisloMax);
+        } catch (StringIndexOutOfBoundsException ex) {
+            this.rodneCislo = rodneCislo;
+        }
     }
 
     public Pacient() {
@@ -27,11 +42,12 @@ public class Pacient implements IData {
         this.meno = "";
         this.priezvisko = "";
         this.rodneCislo = "";
+        this.datumNarodenia = new Date();
     }
 
     @Override
     public String toString() {
-        return "Pacient: " + meno + " " + priezvisko + " " + rodneCislo + " " + poistovna;
+        return "Pacient: " + meno + " " + priezvisko + " " + rodneCislo + " " + poistovna + " " + datumNarodenia.toString();
     }
 
 
@@ -47,7 +63,7 @@ public class Pacient implements IData {
 
     @Override
     public Object createClass() {
-        return new Pacient("", "", "", 0);
+        return new Pacient("", "", "", 0, new Date());
     }
 
     @Override
@@ -61,6 +77,7 @@ public class Pacient implements IData {
             ss.writeString(hlpOutStream, rodneCislo, rodneCisloMax);
 
             hlpOutStream.writeInt(this.poistovna);
+            hlpOutStream.writeLong(datumNarodenia.getTime());
             return hlpByteArrayOutputStream.toByteArray();
         }catch (IOException e){
             throw new IllegalStateException("Error during conversion to byte array.");
@@ -78,6 +95,7 @@ public class Pacient implements IData {
             this.priezvisko = ss.loadString(hlpInStream, priezviskoMax);
             this.rodneCislo = ss.loadString(hlpInStream, rodneCisloMax);
             this.poistovna = hlpInStream.readInt();
+            this.datumNarodenia = new Date(hlpInStream.readLong());
         } catch (IOException e) {
             throw new IllegalStateException("Error during conversion from byte array.");
         }
@@ -85,6 +103,6 @@ public class Pacient implements IData {
 
     @Override
     public int getSize() {
-        return Character.BYTES * (menoMax + priezviskoMax + rodneCisloMax) + Integer.BYTES * 4;
+        return Character.BYTES * (menoMax + priezviskoMax + rodneCisloMax) + Integer.BYTES * 4 + Long.BYTES;
     }
 }
