@@ -1,5 +1,6 @@
 package org.main;
 
+import org.main.app.Gui;
 import org.main.app.Hospitalizacia;
 import org.main.app.Pacient;
 import org.main.hashing.Hashing;
@@ -16,18 +17,22 @@ import java.util.Date;
 public class Main {
     public static void main(String[] args) {
 
-        Tests tests = new Tests();
-        tests.testSize();
-        tests.testRandomOperation(
-                .5,
-                .25,
-                .25,
-                10,
-                100,
-                100,
-                10,
-                10000
-        );
+        Gui gui = new Gui();
+
+        gui.start();
+
+//        Tests tests = new Tests();
+//        tests.testSize();
+//        tests.testRandomOperation(
+//                .5,
+//                .25,
+//                .25,
+//                10,
+//                100,
+//                100,
+//                10,
+//                10000
+//        );
 
 //        Hashing<Pacient> test = new Hashing<>(
 //                "file.dat",

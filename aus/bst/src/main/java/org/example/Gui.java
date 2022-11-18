@@ -122,7 +122,6 @@ public class Gui extends JFrame {
         this.setSize(1000, 1500);
         this.setVisible(true);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
     }
 
     Operations operation = new Operations();
