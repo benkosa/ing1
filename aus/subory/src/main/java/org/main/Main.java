@@ -4,6 +4,7 @@ import org.main.app.Hospitalizacia;
 import org.main.app.Pacient;
 import org.main.hashing.Hashing;
 import org.main.shared.StringStore;
+import org.main.shared.Tests;
 
 import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
@@ -15,30 +16,45 @@ import java.util.Date;
 public class Main {
     public static void main(String[] args) {
 
-        Hashing<Pacient> test = new Hashing<>(
-                "file.dat",
+        Tests tests = new Tests();
+        tests.testSize();
+        tests.testRandomOperation(
+                .5,
+                .25,
+                .25,
                 10,
+                100,
+                100,
                 10,
-                Pacient.class,
-                false
+                10000
         );
 
-        Pacient pacient = new Pacient("meno", "preizvisko", "  ", 0, new Date());
-        pacient.testSize();
+//        Hashing<Pacient> test = new Hashing<>(
+//                "file.dat",
+//                10,
+//                10,
+//                Pacient.class
+//        );
 
-        test.insert(pacient);
-
-        System.out.println(test.find(pacient).toString());
-
-        test.delete(pacient);
-
-        //System.out.println(test.find(pacient).toString());
-
-
-
-        System.out.println("---------------------------------------------");
-
-        test.readWholeFile();
+//        Hashing<Pacient> test = new Hashing<>(
+//                "file.dat",
+//                Pacient.class
+//        );
+//
+//
+//        Pacient pacient = new Pacient("meno", "preizvisko", "  ", 0, new Date());
+//
+//        test.insert(pacient);
+//
+//        System.out.println(test.find(pacient).toString());
+//
+//        test.delete(pacient);
+//
+//
+//
+//        System.out.println("---------------------------------------------");
+//
+//        test.readWholeFile();
 
 //        Hashing<Hospitalizacia> test2 = new Hashing<>(
 //                "file2.dat",

@@ -113,18 +113,19 @@ public class Block <T extends IData> implements IRecord {
     }
 
     public ArrayList<T> getRecords() {
-        return records;
+        return new ArrayList<>( records.subList(0, validCount));
     }
 
-    public void insert(T data) {
+    public boolean insert(T data) {
         for (int i = 0; i < validCount; i++) {
             T record = records.get(i);
             if (record.myEqual(data)) {
-                return;
+                return false;
             }
         }
         this.records.add(validCount, data);
         validCount+=1;
+        return true;
     }
 
     public T find (T recordToFind) {

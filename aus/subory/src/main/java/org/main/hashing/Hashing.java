@@ -3,6 +3,7 @@ package org.main.hashing;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.BitSet;
 import java.util.logging.Level;
@@ -15,7 +16,7 @@ public class Hashing<T extends IData> {
     private RandomAccessFile file;
     private Class classType;
 
-    public Hashing( String fileName, int blockFactor, int numberOfBlocks, Class classType, boolean readOnly) {
+    public Hashing( String fileName, int blockFactor, int numberOfBlocks, Class classType) {
         this.blockFactor = blockFactor;
         this.numberOfBlocks = numberOfBlocks;
         this.classType = classType;
@@ -30,17 +31,34 @@ public class Hashing<T extends IData> {
 
 
         // alocate file
-        if (!readOnly) {
-            try {
-                for (int i = 0; i < numberOfBlocks; i++) {
-                    Block<T> emptyBlock = new Block<>(blockFactor, classType);
-                    file.write(emptyBlock.toByteArray());
-                }
-            } catch (IOException ex) {
-                Logger.getLogger(Hashing.class.getName())
-                        .log(Level.SEVERE, null, ex);
+        try {
+            for (int i = 0; i < numberOfBlocks; i++) {
+                Block<T> emptyBlock = new Block<>(blockFactor, classType);
+                file.write(emptyBlock.toByteArray());
             }
+            file.writeInt(blockFactor);
+            file.writeInt(numberOfBlocks);
+        } catch (IOException ex) {
+            Logger.getLogger(Hashing.class.getName())
+                    .log(Level.SEVERE, null, ex);
         }
+    }
+
+    public Hashing( String fileName, Class classType) {
+        this.classType = classType;
+        // open file
+        try {
+            this.file = new RandomAccessFile(fileName, "rw");
+            file.seek(fileSize()-Integer.BYTES*2);
+            this.blockFactor = file.readInt();
+            this.numberOfBlocks = file.readInt();
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(Hashing.class.getName())
+                    .log(Level.SEVERE, null, ex);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
     }
 
     public T find (T data) {
@@ -61,7 +79,9 @@ public class Hashing<T extends IData> {
         int adress =(bitSetToInt(data.getHash()) % numberOfBlocks)* b.getSize();
 
         // pridaj do recordov a uloz do suboru
-        b.insert(data);
+        if (!b.insert(data)) {
+            return false;
+        }
         try {
             file.seek(adress);
             file.write(b.toByteArray());
@@ -126,6 +146,35 @@ public class Hashing<T extends IData> {
             System.out.println("Valid count: " + newBlock.validCount);
             newBlock.getRecords().forEach(a -> System.out.println(a.toString()));
         }
+    }
+
+    public ArrayList<T> getWholeFile() {
+        ArrayList<T> ret = new ArrayList<>();
+        byte[] fullFile;
+        int fileLength;
+        try {
+            fileLength = (int)file.length();
+            fullFile = new byte[fileLength];
+            file.seek(0);
+            file.read(fullFile);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+
+        for (int i = 0; i < numberOfBlocks; i++) {
+            final Block<T> newBlock = new Block<>(blockFactor, classType);
+            byte[] n = Arrays.copyOfRange(
+                    fullFile,
+                    i * newBlock.getSize(),
+                    (i + 1) * newBlock.getSize()
+            );
+            newBlock.fromByteArray(n);
+
+            ret.addAll(newBlock.getRecords());
+        }
+
+        return ret;
     }
 
 
