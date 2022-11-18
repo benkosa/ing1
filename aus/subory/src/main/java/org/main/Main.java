@@ -1,5 +1,6 @@
 package org.main;
 
+import org.main.app.Hospitalizacia;
 import org.main.app.Pacient;
 import org.main.hashing.Hashing;
 import org.main.shared.StringStore;
@@ -29,5 +30,21 @@ public class Main {
         System.out.println("---------------------------------------------");
 
         test.readWholeFile();
+
+//        Hashing<Hospitalizacia> test2 = new Hashing<>(
+//                "file2.dat",
+//                10,
+//                10,
+//                Hospitalizacia.class,
+//                true
+//        );
+//
+//        Hospitalizacia hospitalizacia = new Hospitalizacia(0, new Date(), new Date(), "sdffsd");
+//
+//        test2.insert(hospitalizacia);
+//
+//        System.out.println("---------------------------------------------");
+//
+//        test2.readWholeFile();
     }
 }
