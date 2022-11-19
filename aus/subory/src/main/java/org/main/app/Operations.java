@@ -66,6 +66,22 @@ public class Operations {
             };
         }
 
+        // nema hospitalizacie zobrazi len pacienta
+        if (tableValues.length == 0) {
+            tableValues = new String[1][9];
+            tableValues[0] = new String[]{
+                    pacient.getMeno(),
+                    pacient.getPriezvisko(),
+                    pacient.getRodneCislo(),
+                    pacient.getDatumNarodenia().toString(),
+                    pacient.getPoistovna()+"",
+                    "",
+                    "",
+                    "",
+                    ""
+            };
+        }
+
         return new Response<>(0, "success", tableValues);
     }
     /**
@@ -85,10 +101,11 @@ public class Operations {
 
         String tableValues[][] = new String[hospitalizacie.size()][9];
 
+        int j = 0;
         for (int i = 0; i < hospitalizacie.size(); i++) {
             Hospitalizacia hosp = hospitalizacie.get(i);
             if (hosp.getIdHospitalizacie() == idHospitalizacie) {
-                tableValues[i] = new String[]{
+                tableValues[j] = new String[]{
                         pacient.getMeno(),
                         pacient.getPriezvisko(),
                         pacient.getRodneCislo(),
@@ -96,9 +113,10 @@ public class Operations {
                         pacient.getPoistovna() + "",
                         hosp.getIdHospitalizacie() + "",
                         hosp.getDatumZaciatku().toString(),
-                        hosp.getDatumKonca().toString(),
+                        hosp.getDatumKonca() == null ? "" : hosp.getDatumKonca().toString(),
                         hosp.getDiagnoza()
                 };
+                j++;
             }
         }
 
