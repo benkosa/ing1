@@ -8,7 +8,10 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class DateFormat {
 
-    public SimpleDateFormat format=new SimpleDateFormat("dd-MM-yyyy");
+
+    final static String PATTERN = "dd-MM-yyyy";
+
+    public SimpleDateFormat format=new SimpleDateFormat(PATTERN);
 
     //https://stackoverflow.com/questions/428918/how-can-i-increment-a-date-by-one-day-in-java
     /*
@@ -40,5 +43,10 @@ public class DateFormat {
         } catch (ParseException ee) {
             return null;
         }
+    }
+
+    // https://stackoverflow.com/questions/5683728/convert-java-util-date-to-string
+    public String dateToString(Date date) {
+        return format.format(date);
     }
 }

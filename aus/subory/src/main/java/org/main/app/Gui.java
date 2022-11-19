@@ -53,6 +53,9 @@ public class Gui extends JFrame {
     private JButton vymazHospitalizaciuButton;
     private JTextField rodnecisloTextField3;
     private JTextField a0TextField3;
+    private JButton nastavitCasButton;
+    private JTextField a19112022TextField;
+    private JScrollPane scrollPane2;
 
     private void displayResponse(Response response) {
         if (response.code == 0) {
@@ -69,6 +72,8 @@ public class Gui extends JFrame {
 
         Operations operations = new Operations();
         DateFormat df = new DateFormat();
+
+        a19112022TextField.setText(operations.getDate());
         nacitajButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -164,10 +169,10 @@ public class Gui extends JFrame {
 
 
                 String tableValues[][] = response.data;
-                table1 = new JTable(tableValues, tableHeader);
+                table2 = new JTable(tableValues, tableHeader);
                 //zaznamy.setText(tableValues.length+"");
-                table1.setEnabled(false);
-                scrollPane1.setViewportView(table1);
+                table2.setEnabled(false);
+                scrollPane2.setViewportView(table2);
             }
         });
         pridajHospitalizaciuButton.addActionListener(new ActionListener() {
@@ -206,6 +211,16 @@ public class Gui extends JFrame {
                         Integer.parseInt(a0TextField3.getText())
                 );
                 displayResponse(response);
+            }
+        });
+        nastavitCasButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Response<String[][]> response = operations.setDate(
+                        a19112022TextField.getText()
+                );
+                displayResponse(response);
+                a19112022TextField.setText(operations.getDate());
             }
         });
     }

@@ -1,12 +1,15 @@
 package org.main.app;
 
 
+import org.main.shared.DateFormat;
 import org.main.shared.Response;
 
 import java.util.ArrayList;
 import java.util.Date;
 
 public class Operations {
+
+    private Date actualDate = new Date();
 
     Data data;
     public Response opStart (String fileName, String blockFacktor, String blockNumber) {
@@ -229,6 +232,22 @@ public class Operations {
         } else {
             return new Response(2, "pacient neexistuje", null);
         }
+    }
+
+    public Response setDate(String time) {
+        DateFormat df = new DateFormat();
+        Date date = df.formatToDate( time);
+        if (date == null) {
+            return new Response(3, "zly format datumu", null);
+        }
+        this.actualDate = date;
+
+        return new Response(0, "cas nastaveny", null);
+    }
+
+    public String getDate() {
+        DateFormat df = new DateFormat();
+        return df.dateToString(this.actualDate);
     }
 
 }
