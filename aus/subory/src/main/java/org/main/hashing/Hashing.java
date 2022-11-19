@@ -120,6 +120,9 @@ public class Hashing<T extends IData> {
         return -1;
     }
 
+    /**
+     * write all vlid data to console
+     */
     public void readWholeFile() {
         byte[] fullFile;
         int fileLength;
@@ -145,6 +148,37 @@ public class Hashing<T extends IData> {
             System.out.println("Block: " + newBlock);
             System.out.println("Valid count: " + newBlock.validCount);
             newBlock.getRecords().forEach(a -> System.out.println(a.toString()));
+        }
+    }
+
+    /**
+     * write every data to console even invalid data
+     */
+    public void readWholeFileNoValid() {
+        byte[] fullFile;
+        int fileLength;
+        try {
+            fileLength = (int)file.length();
+            fullFile = new byte[fileLength];
+            file.seek(0);
+            file.read(fullFile);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+
+        for (int i = 0; i < numberOfBlocks; i++) {
+            final Block<T> newBlock = new Block<>(blockFactor, classType);
+            byte[] n = Arrays.copyOfRange(
+                    fullFile,
+                    i * newBlock.getSize(),
+                    (i + 1) * newBlock.getSize()
+            );
+            newBlock.fromByteArray(n);
+
+            System.out.println("Block: " + newBlock);
+            System.out.println("Valid count: " + newBlock.validCount);
+            newBlock.getNoValidRecords().forEach(a -> System.out.println(a.toString()));
         }
     }
 

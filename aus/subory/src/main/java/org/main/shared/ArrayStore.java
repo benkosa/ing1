@@ -73,4 +73,35 @@ public class ArrayStore<T extends IData> {
         return new ArrayList<>(ret.subList(0, realLength));
     }
 
+    /**
+     * ONLY FOR TESTING
+     *
+     * used to read array from file for testing
+     */
+    public ArrayList<T> loadArrayNoValid(DataInputStream hlInputStream, int maxLength, T emptyElement) {
+        // load real length of array
+        int realLength;
+        try {
+            realLength = hlInputStream.readInt();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        // load array
+        ArrayList<T> ret = new ArrayList<>();
+        for (int i = 0; i < maxLength; i++) {
+            try {
+                T element = (T)emptyElement.createClass();
+                byte n[] = new byte[element.getSize()];
+                hlInputStream.read(n);
+                element.fromByteArray(n);
+                ret.add(element);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        return new ArrayList<>(ret.subList(0, maxLength));
+    }
+
 }

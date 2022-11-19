@@ -116,6 +116,10 @@ public class Block <T extends IData> implements IRecord {
         return new ArrayList<>( records.subList(0, validCount));
     }
 
+    public ArrayList<T> getNoValidRecords() {
+        return records;
+    }
+
     public boolean insert(T data) {
         for (int i = 0; i < validCount; i++) {
             T record = records.get(i);

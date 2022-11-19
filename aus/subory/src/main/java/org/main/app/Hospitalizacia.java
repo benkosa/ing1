@@ -52,7 +52,7 @@ public class Hospitalizacia extends IData {
 
     @Override
     public String toString() {
-        return "Hospitalizacia: " + datumZaciatku.toString() + " " + datumKonca.toString() + " " + diagnoza;
+        return "Hospitalizacia: " + datumZaciatku.toString() + " " + (datumKonca == null ? "" : datumKonca.toString()) + " " + diagnoza;
     }
 
     @Override

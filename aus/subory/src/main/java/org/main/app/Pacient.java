@@ -6,6 +6,7 @@ import org.main.shared.StringStore;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.BitSet;
 import java.util.Date;
 
@@ -45,6 +46,8 @@ public class Pacient extends IData {
 
     private ArrayList<Hospitalizacia> hospitalizacie= new ArrayList();
 
+    private ArrayList<Hospitalizacia> hospitalizacieNotValid= new ArrayList();
+
     public int getHospitalizacieMax() {
         return hospitalizacieMax;
     }
@@ -82,7 +85,8 @@ public class Pacient extends IData {
     @Override
     public String toString() {
         String ret = "Pacient: " + meno + " " + priezvisko + " " + rodneCislo + " " + poistovna + " " + datumNarodenia.toString();
-        for (Hospitalizacia hospitalizacia : hospitalizacie) {
+        ret += "\n      valid hosp: " + hospitalizacie.size();
+        for (Hospitalizacia hospitalizacia : hospitalizacieNotValid) {
             ret += "\n      " + hospitalizacia.toString();
         }
         return ret;
@@ -142,6 +146,21 @@ public class Pacient extends IData {
         } catch (IOException e) {
             throw new IllegalStateException("Error during conversion from byte array.");
         }
+
+        // this part is for testing to store invalid data
+        byte[] n = Arrays.copyOfRange(
+                paArray,
+                Character.BYTES * (menoMax + priezviskoMax + rodneCisloMax) + Integer.BYTES * 3 //stringy
+                        + Integer.BYTES //poistovna
+                        + Long.BYTES, //datum
+                paArray.length
+        );
+
+        ByteArrayInputStream hlpByteArrayInputStream2 = new ByteArrayInputStream(n);
+        DataInputStream hlpInStream2 = new DataInputStream(hlpByteArrayInputStream2);
+        this.hospitalizacieNotValid = as.loadArrayNoValid(hlpInStream2, hospitalizacieMax, new Hospitalizacia());
+        //end of testing part
+
     }
 
     @Override
