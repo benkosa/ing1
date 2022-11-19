@@ -14,10 +14,12 @@
             <preferred-size width="200" height="200"/>
           </grid>
         </constraints>
-        <properties/>
+        <properties>
+          <toolTipText value="rodne cislo"/>
+        </properties>
         <border type="none"/>
         <children>
-          <grid id="24471" binding="tabSprava" layout-manager="GridLayoutManager" row-count="10" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+          <grid id="24471" binding="tabSprava" layout-manager="GridLayoutManager" row-count="9" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
             <margin top="0" left="0" bottom="0" right="0"/>
             <constraints>
               <tabbedpane title="Sprava"/>
@@ -76,11 +78,6 @@
                   </component>
                 </children>
               </grid>
-              <vspacer id="6cf12">
-                <constraints>
-                  <grid row="9" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
-                </constraints>
-              </vspacer>
               <grid id="cd96b" layout-manager="GridLayoutManager" row-count="1" column-count="6" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
                 <margin top="0" left="0" bottom="0" right="0"/>
                 <constraints>
@@ -105,6 +102,7 @@
                     </constraints>
                     <properties>
                       <text value="rodnecislo"/>
+                      <toolTipText value="rodne cislo"/>
                     </properties>
                   </component>
                   <component id="6f5a9" class="javax.swing.JTextField" binding="menoTextField" default-binding="true">
@@ -115,6 +113,7 @@
                     </constraints>
                     <properties>
                       <text value="meno"/>
+                      <toolTipText value="meno"/>
                     </properties>
                   </component>
                   <component id="a9f6e" class="javax.swing.JTextField" binding="priezviskoTextField" default-binding="true">
@@ -125,6 +124,7 @@
                     </constraints>
                     <properties>
                       <text value="priezvisko"/>
+                      <toolTipText value="priezvisko"/>
                     </properties>
                   </component>
                   <component id="361bf" class="javax.swing.JTextField" binding="poistovnaTextField" default-binding="true">
@@ -135,6 +135,7 @@
                     </constraints>
                     <properties>
                       <text value="0"/>
+                      <toolTipText value="id poistovne - int"/>
                     </properties>
                   </component>
                   <component id="9028e" class="javax.swing.JTextField" binding="a24101997TextField" default-binding="true">
@@ -145,6 +146,7 @@
                     </constraints>
                     <properties>
                       <text value="24-10-1997"/>
+                      <toolTipText value="datum narodenia"/>
                     </properties>
                   </component>
                 </children>
@@ -173,6 +175,7 @@
                     </constraints>
                     <properties>
                       <text value="rodnecislo"/>
+                      <toolTipText value="rodne cislo"/>
                     </properties>
                   </component>
                   <hspacer id="37212">
@@ -206,6 +209,7 @@
                     </constraints>
                     <properties>
                       <text value="rodnecislo"/>
+                      <toolTipText value="rodne cislo"/>
                     </properties>
                   </component>
                   <component id="72b6a" class="javax.swing.JTextField" binding="a0TextField1" default-binding="true">
@@ -216,6 +220,7 @@
                     </constraints>
                     <properties>
                       <text value="0"/>
+                      <toolTipText value="id hospitalizacie"/>
                     </properties>
                   </component>
                   <component id="473fe" class="javax.swing.JTextField" binding="a12102022TextField" default-binding="true">
@@ -226,6 +231,7 @@
                     </constraints>
                     <properties>
                       <text value="12-10-2022"/>
+                      <toolTipText value="datum zaciatku hospitaliacie"/>
                     </properties>
                   </component>
                   <component id="604f9" class="javax.swing.JTextField" binding="diagnozaTextField" default-binding="true">
@@ -236,6 +242,7 @@
                     </constraints>
                     <properties>
                       <text value="diagnoza"/>
+                      <toolTipText value="diagnoza"/>
                     </properties>
                   </component>
                 </children>
@@ -269,6 +276,7 @@
                     </constraints>
                     <properties>
                       <text value="rodnecislo"/>
+                      <toolTipText value="rodne cislo"/>
                     </properties>
                   </component>
                   <component id="99ce3" class="javax.swing.JTextField" binding="a0TextField" default-binding="true">
@@ -279,11 +287,12 @@
                     </constraints>
                     <properties>
                       <text value="0"/>
+                      <toolTipText value="id hospitalizacie"/>
                     </properties>
                   </component>
                 </children>
               </grid>
-              <grid id="69e0f" layout-manager="GridLayoutManager" row-count="1" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+              <grid id="69e0f" layout-manager="GridLayoutManager" row-count="1" column-count="5" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
                 <margin top="0" left="0" bottom="0" right="0"/>
                 <constraints>
                   <grid row="7" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
@@ -296,14 +305,9 @@
                       <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                     </constraints>
                     <properties>
-                      <text value="Generovat pacientov"/>
+                      <text value="Generovat"/>
                     </properties>
                   </component>
-                  <hspacer id="c1c51">
-                    <constraints>
-                      <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-                    </constraints>
-                  </hspacer>
                   <component id="1c3d3" class="javax.swing.JTextField" binding="a100TextField" default-binding="true">
                     <constraints>
                       <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
@@ -312,54 +316,40 @@
                     </constraints>
                     <properties>
                       <text value="100"/>
-                    </properties>
-                  </component>
-                </children>
-              </grid>
-              <grid id="f542c" layout-manager="GridLayoutManager" row-count="1" column-count="4" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-                <margin top="0" left="0" bottom="0" right="0"/>
-                <constraints>
-                  <grid row="8" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
-                </constraints>
-                <properties/>
-                <border type="none"/>
-                <children>
-                  <component id="81347" class="javax.swing.JButton" binding="generovatHospitalizacieButton" default-binding="true">
-                    <constraints>
-                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-                    </constraints>
-                    <properties>
-                      <text value="Generovat hospitalizacie"/>
+                      <toolTipText value="pocet pacientov"/>
                     </properties>
                   </component>
                   <component id="98faa" class="javax.swing.JTextField" binding="a1000TextField" default-binding="true">
-                    <constraints>
-                      <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
-                        <preferred-size width="150" height="-1"/>
-                      </grid>
-                    </constraints>
-                    <properties>
-                      <text value="1000"/>
-                    </properties>
-                  </component>
-                  <component id="fe72c" class="javax.swing.JTextField" binding="a01012020TextField" default-binding="true">
                     <constraints>
                       <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                         <preferred-size width="150" height="-1"/>
                       </grid>
                     </constraints>
                     <properties>
-                      <text value="01-01-2020"/>
+                      <text value="1000"/>
+                      <toolTipText value="pocet hospitalizacii"/>
                     </properties>
                   </component>
-                  <component id="434c9" class="javax.swing.JTextField" binding="a18112022TextField" default-binding="true">
+                  <component id="fe72c" class="javax.swing.JTextField" binding="a01012020TextField" default-binding="true">
                     <constraints>
                       <grid row="0" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                         <preferred-size width="150" height="-1"/>
                       </grid>
                     </constraints>
                     <properties>
+                      <text value="01-01-2020"/>
+                      <toolTipText value="medzi datumami"/>
+                    </properties>
+                  </component>
+                  <component id="434c9" class="javax.swing.JTextField" binding="a18112022TextField" default-binding="true">
+                    <constraints>
+                      <grid row="0" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                        <preferred-size width="150" height="-1"/>
+                      </grid>
+                    </constraints>
+                    <properties>
                       <text value="18-11-2022"/>
+                      <toolTipText value="medzi datumami"/>
                     </properties>
                   </component>
                 </children>
@@ -393,6 +383,7 @@
                     </constraints>
                     <properties>
                       <text value="rodnecislo"/>
+                      <toolTipText value="rodne cislo"/>
                     </properties>
                   </component>
                   <component id="f6fb5" class="javax.swing.JTextField" binding="a0TextField3" default-binding="true">
@@ -403,6 +394,7 @@
                     </constraints>
                     <properties>
                       <text value="0"/>
+                      <toolTipText value="id hospitalizacie"/>
                     </properties>
                   </component>
                 </children>
@@ -436,10 +428,24 @@
                     </constraints>
                     <properties>
                       <text value=""/>
+                      <toolTipText value="aktualny cas"/>
                     </properties>
                   </component>
                 </children>
               </grid>
+              <scrollpane id="5ccdc" binding="scrollPane3">
+                <constraints>
+                  <grid row="8" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties/>
+                <border type="none"/>
+                <children>
+                  <component id="1f585" class="javax.swing.JTable" binding="table3" default-binding="true">
+                    <constraints/>
+                    <properties/>
+                  </component>
+                </children>
+              </scrollpane>
             </children>
           </grid>
           <grid id="1d188" binding="tabPacient" layout-manager="GridLayoutManager" row-count="3" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
@@ -519,7 +525,7 @@
           <grid id="af5c1" binding="tabHosp" layout-manager="GridLayoutManager" row-count="3" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
             <margin top="0" left="0" bottom="0" right="0"/>
             <constraints>
-              <tabbedpane title="Vyhladanie hospitalizacie"/>
+              <tabbedpane title="Vyhladanie hospitalizaciu"/>
             </constraints>
             <properties/>
             <border type="none"/>
@@ -548,6 +554,7 @@
                     </constraints>
                     <properties>
                       <text value="rodnecislo"/>
+                      <toolTipText value="rodne cislo"/>
                     </properties>
                   </component>
                   <component id="bd153" class="javax.swing.JTextField" binding="a0TextField2" default-binding="true">
@@ -558,6 +565,7 @@
                     </constraints>
                     <properties>
                       <text value="0"/>
+                      <toolTipText value="id hospitalizacie"/>
                     </properties>
                   </component>
                 </children>

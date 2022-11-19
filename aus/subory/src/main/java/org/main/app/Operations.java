@@ -5,7 +5,9 @@ import org.main.shared.DateFormat;
 import org.main.shared.Response;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.Random;
 
 public class Operations {
 
@@ -59,7 +61,7 @@ public class Operations {
                     pacient.getPoistovna()+"",
                     hosp.getIdHospitalizacie()+"",
                     hosp.getDatumZaciatku().toString(),
-                    hosp.getDatumKonca().toString(),
+                    hosp.getDatumKonca() == null ? "" : hosp.getDatumKonca().toString(),
                     hosp.getDiagnoza()
             };
         }
@@ -106,7 +108,7 @@ public class Operations {
      * 3. Vykonanie záznamu o začiatku hospitalizácie pacienta (identifikovaný svojím rodným
      * číslom).
      */
-    Response op3(String rodneCislo, int idHosp, Date zaciatok, String diagonza) {
+    Response op3(String rodneCislo, int idHosp, Date zaciatok, Date koniec, String diagonza) {
         //najdenie pacient
         Pacient pacient = data.getPacient(
                 new Pacient("", "", rodneCislo, 0, new Date())
@@ -121,7 +123,7 @@ public class Operations {
             return new Response<>(647, "bol dosiahnuty max pocet zazanmov hospitalizacii", null);
         }
 
-        Hospitalizacia newHosp = new Hospitalizacia(idHosp, zaciatok, zaciatok, diagonza);
+        Hospitalizacia newHosp = new Hospitalizacia(idHosp, zaciatok, koniec, diagonza);
 
         for (Hospitalizacia hospitalizacia : hospitalizacie) {
             if (hospitalizacia.getIdHospitalizacie() == newHosp.getIdHospitalizacie()) {
@@ -248,6 +250,54 @@ public class Operations {
     public String getDate() {
         DateFormat df = new DateFormat();
         return df.dateToString(this.actualDate);
+    }
+
+    public Response generate(int pocetPacientov, int pocetHosp, Date datumOd, Date datumDo) {
+        DateFormat df = new DateFormat();
+        ArrayList<Pacient> insertedPacients = new ArrayList<>();
+
+        Random rand = new Random();
+
+        for (int i = 0; i < pocetPacientov; i++) {
+            Pacient pacient = new Pacient("meno_"+i, "priezvisko_"+i, rand.nextInt(Integer.MAX_VALUE)+"", i, df.between(new Date(0), new Date()));
+            if (data.addPacient(pacient)) {
+                insertedPacients.add(pacient);
+            }
+        }
+
+        int countAddedHosp = 0;
+
+        for (int i = 0; i < pocetHosp; i++) {
+            Pacient pacient = insertedPacients.get(rand.nextInt(insertedPacients.size()));
+            Date startDate = df.between(datumOd, datumDo);
+            Date endDate = df.addDATE(startDate, Calendar.DATE, rand.nextInt(60)+1);
+            if (endDate.compareTo(datumDo) > 0) {
+                endDate = null;
+            }
+            if(op3(pacient.getRodneCislo(), i, startDate, endDate, "diagnoza_"+i).code == 0) {
+                countAddedHosp++;
+            }
+
+        }
+
+        String tableValues[][] = new String[insertedPacients.size()][5];
+
+        for (int i = 0; i < insertedPacients.size(); i++) {
+            Pacient pacient = insertedPacients.get(i);
+            tableValues[i] = new String[]{
+                    pacient.getMeno(),
+                    pacient.getPriezvisko(),
+                    pacient.getRodneCislo(),
+                    pacient.getDatumNarodenia().toString(),
+                    pacient.getPoistovna()+""
+            };
+        }
+
+        return new Response(
+                0,
+                "prodanych pacientov: "+insertedPacients.size()+"\npridanych hospitalizacii: "+countAddedHosp,
+                tableValues
+        );
     }
 
 }

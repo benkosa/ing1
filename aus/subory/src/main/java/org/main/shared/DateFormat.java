@@ -17,7 +17,7 @@ public class DateFormat {
     /*
      * Calendar.DATE
      */
-    public static Date addDATE(Date date, int unit, int days)
+    public Date addDATE(Date date, int unit, int days)
     {
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);

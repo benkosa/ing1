@@ -35,7 +35,6 @@ public class Gui extends JFrame {
     private JTextField diagnozaTextField;
     private JButton generovatPacientovButton;
     private JTextField a100TextField;
-    private JButton generovatHospitalizacieButton;
     private JTextField a1000TextField;
     private JTextField a01012020TextField;
     private JTextField a18112022TextField;
@@ -56,6 +55,8 @@ public class Gui extends JFrame {
     private JButton nastavitCasButton;
     private JTextField a19112022TextField;
     private JScrollPane scrollPane2;
+    private JTable table3;
+    private JScrollPane scrollPane3;
 
     private void displayResponse(Response response) {
         if (response.code == 0) {
@@ -188,6 +189,7 @@ public class Gui extends JFrame {
                         rodnecisloTextField.getText(),
                         Integer.parseInt(a0TextField1.getText()),
                         datumZacaitku,
+                        null,
                         diagnozaTextField.getText()
                 );
                 displayResponse(response);
@@ -221,6 +223,33 @@ public class Gui extends JFrame {
                 );
                 displayResponse(response);
                 a19112022TextField.setText(operations.getDate());
+            }
+        });
+        generovatPacientovButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Response<String[][]> response = operations.generate(
+                        Integer.parseInt(a100TextField.getText()),
+                        Integer.parseInt(a1000TextField.getText()),
+                        df.formatToDate(a01012020TextField.getText()),
+                        df.formatToDate(a18112022TextField.getText())
+                );
+                displayResponse(response);
+
+                String tableHeader[] = {
+                        "Meno",
+                        "Priezvisko",
+                        "Rodne Cislo",
+                        "datum narodenia",
+                        "Poistovna"
+                };
+
+
+                String tableValues[][] = response.data;
+                table3 = new JTable(tableValues, tableHeader);
+                //zaznamy.setText(tableValues.length+"");
+                //table3.setEnabled(false);
+                scrollPane3.setViewportView(table3);
             }
         });
     }
