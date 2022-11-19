@@ -141,7 +141,7 @@ public class Gui extends JFrame {
                 String tableValues[][] = response.data;
                 table1 = new JTable(tableValues, tableHeader);
                 //zaznamy.setText(tableValues.length+"");
-                table1.setEnabled(false);
+
                 scrollPane1.setViewportView(table1);
             }
         });
@@ -172,7 +172,6 @@ public class Gui extends JFrame {
                 String tableValues[][] = response.data;
                 table2 = new JTable(tableValues, tableHeader);
                 //zaznamy.setText(tableValues.length+"");
-                table2.setEnabled(false);
                 scrollPane2.setViewportView(table2);
             }
         });
@@ -248,7 +247,6 @@ public class Gui extends JFrame {
                 String tableValues[][] = response.data;
                 table3 = new JTable(tableValues, tableHeader);
                 //zaznamy.setText(tableValues.length+"");
-                //table3.setEnabled(false);
                 scrollPane3.setViewportView(table3);
             }
         });
