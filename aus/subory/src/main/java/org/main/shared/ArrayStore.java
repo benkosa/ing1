@@ -55,12 +55,15 @@ public class ArrayStore<T extends IData> {
         for (int i = 0; i < maxLength; i++) {
             try {
                 T element = (T)emptyElement.createClass();
-                hlInputStream.read(element.toByteArray());
-                ret.add(emptyElement);
+                byte n[] = new byte[element.getSize()];
+                hlInputStream.read(n);
+                element.fromByteArray(n);
+                ret.add(element);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
         }
+
         return new ArrayList<>(ret.subList(0, realLength));
     }
 

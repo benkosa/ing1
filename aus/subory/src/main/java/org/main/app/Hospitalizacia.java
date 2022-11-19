@@ -10,6 +10,23 @@ import java.util.Date;
 public class Hospitalizacia extends IData {
 
     private int idHospitalizacie;
+
+    public int getIdHospitalizacie() {
+        return idHospitalizacie;
+    }
+
+    public Date getDatumZaciatku() {
+        return datumZaciatku;
+    }
+
+    public Date getDatumKonca() {
+        return datumKonca;
+    }
+
+    public String getDiagnoza() {
+        return diagnoza;
+    }
+
     private Date datumZaciatku;
     private Date datumKonca;
     private String diagnoza;
@@ -29,7 +46,7 @@ public class Hospitalizacia extends IData {
     public Hospitalizacia() {
         this.idHospitalizacie = 0;
         this.datumZaciatku = new Date();
-        this.datumKonca = new Date();
+        this.datumKonca = new Date(0);
         this.diagnoza = "";
     }
 
@@ -51,7 +68,7 @@ public class Hospitalizacia extends IData {
 
     @Override
     public Object createClass() {
-        return new Hospitalizacia(0, new Date(), new Date(), "");
+        return new Hospitalizacia(0, new Date(), new Date(0), "");
     }
 
     @Override
@@ -63,7 +80,7 @@ public class Hospitalizacia extends IData {
             ss.writeString(hlpOutStream, diagnoza, diagnozaMax);
             hlpOutStream.writeInt(this.idHospitalizacie);
             hlpOutStream.writeLong(datumZaciatku.getTime());
-            hlpOutStream.writeLong(datumKonca.getTime());
+            hlpOutStream.writeLong(datumKonca == null ? 0 : datumKonca.getTime());
             return hlpByteArrayOutputStream.toByteArray();
         }catch (IOException e){
             throw new IllegalStateException("Error during conversion to byte array.");
@@ -81,6 +98,9 @@ public class Hospitalizacia extends IData {
             this.idHospitalizacie = hlpInStream.readInt();
             this.datumZaciatku = new Date(hlpInStream.readLong());
             this.datumKonca = new Date(hlpInStream.readLong());
+            if (this.datumKonca.getTime() == 0) {
+                this.datumKonca = null;
+            }
         } catch (IOException e) {
             throw new IllegalStateException("Error during conversion from byte array.");
         }
@@ -92,5 +112,9 @@ public class Hospitalizacia extends IData {
                 Character.BYTES * (diagnozaMax) + Integer.BYTES  //diagnoza
                         + Integer.BYTES //id hospitalizacie
                         + Long.BYTES * 2; //datumy
+    }
+
+    public void ukonci(Date endDate) {
+        this.datumKonca = endDate;
     }
 }

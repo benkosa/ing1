@@ -12,5 +12,16 @@ public class Data {
     public Data(String fileName) {
         hashing = new Hashing<>(fileName, Pacient.class);
     }
+    public boolean addPacient(Pacient pacient) {
+        return hashing.insert(pacient);
+    }
+
+    public boolean removePacient(Pacient pacient) {
+        return hashing.delete(pacient);
+    }
+
+    public Pacient getPacient(Pacient pacient) {
+        return hashing.find(pacient);
+    }
 
 }

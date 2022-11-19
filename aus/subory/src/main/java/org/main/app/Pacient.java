@@ -10,6 +10,26 @@ import java.util.BitSet;
 import java.util.Date;
 
 public class Pacient extends IData {
+    public String getMeno() {
+        return meno;
+    }
+
+    public String getPriezvisko() {
+        return priezvisko;
+    }
+
+    public String getRodneCislo() {
+        return rodneCislo;
+    }
+
+    public int getPoistovna() {
+        return poistovna;
+    }
+
+    public Date getDatumNarodenia() {
+        return datumNarodenia;
+    }
+
     private String meno;
     private final int menoMax = 15;
     private String priezvisko;
@@ -18,7 +38,17 @@ public class Pacient extends IData {
     private final int rodneCisloMax = 10;
     private int poistovna;
     private Date datumNarodenia;
+
+    public ArrayList<Hospitalizacia> getHospitalizacie() {
+        return hospitalizacie;
+    }
+
     private ArrayList<Hospitalizacia> hospitalizacie= new ArrayList();
+
+    public int getHospitalizacieMax() {
+        return hospitalizacieMax;
+    }
+
     private int hospitalizacieMax = 10;
 
     public Pacient(String meno, String priezvisko, String rodneCislo, int poistovna, Date datumNarodenia) {
