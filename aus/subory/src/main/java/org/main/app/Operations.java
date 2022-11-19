@@ -238,7 +238,7 @@ public class Operations {
 
     public Response setDate(String time) {
         DateFormat df = new DateFormat();
-        Date date = df.formatToDate( time);
+        Date date = df.stringToDate( time);
         if (date == null) {
             return new Response(3, "zly format datumu", null);
         }

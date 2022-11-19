@@ -13,9 +13,11 @@ public class DateFormat {
 
     public SimpleDateFormat format=new SimpleDateFormat(PATTERN);
 
-    //https://stackoverflow.com/questions/428918/how-can-i-increment-a-date-by-one-day-in-java
-    /*
-     * Calendar.DATE
+    /**
+     * add number of unit to date
+     *
+     * https://stackoverflow.com/questions/428918/how-can-i-increment-a-date-by-one-day-in-java
+     * Calendar.DATE - day unit
      */
     public Date addDATE(Date date, int unit, int days)
     {
@@ -26,7 +28,12 @@ public class DateFormat {
     }
 
 
-    //https://www.baeldung.com/java-random-dates
+
+
+    /**
+     * generate random date between dates
+     * //https://www.baeldung.com/java-random-dates
+     */
     public Date between(Date startInclusive, Date endExclusive) {
         long startMillis = startInclusive.getTime();
         long endMillis = endExclusive.getTime();
@@ -37,7 +44,10 @@ public class DateFormat {
         return new Date(randomMillisSinceEpoch);
     }
 
-    public Date formatToDate(String date) {
+    /**
+     * format string dd-MM-yyyy to date
+     */
+    public Date stringToDate(String date) {
         try {
             return this.format.parse(date);
         } catch (ParseException ee) {
@@ -46,6 +56,12 @@ public class DateFormat {
     }
 
     // https://stackoverflow.com/questions/5683728/convert-java-util-date-to-string
+
+    /**
+     * format date to string dd-MM-yyyy
+     *
+     * https://stackoverflow.com/questions/5683728/convert-java-util-date-to-string
+     */
     public String dateToString(Date date) {
         return format.format(date);
     }

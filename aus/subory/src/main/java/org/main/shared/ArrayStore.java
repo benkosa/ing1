@@ -9,6 +9,9 @@ import java.util.ArrayList;
 
 public class ArrayStore<T extends IData> {
 
+    /**
+     * used to store array to file
+     */
     public void writeArray(DataOutputStream hlpOutStream, ArrayList<T> arrayIn, int maxLength, T emptyElement) {
         // write real length
         ArrayList<T> array = new ArrayList<>(arrayIn);
@@ -41,6 +44,9 @@ public class ArrayStore<T extends IData> {
         }
     }
 
+    /**
+     * used to read array from file
+     */
     public ArrayList<T> loadArray(DataInputStream hlInputStream, int maxLength, T emptyElement) {
         // load real length of array
         int realLength;

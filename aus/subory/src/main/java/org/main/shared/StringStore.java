@@ -5,6 +5,10 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 
 public class StringStore {
+
+    /**
+     * used to store string to file
+     */
     public void writeString(DataOutputStream hlpOutStream, String string, int maxLength) {
         // write length
         try {
@@ -34,6 +38,9 @@ public class StringStore {
         }
     }
 
+    /**
+     * used to load string from file
+     */
     public String loadString(DataInputStream hlInputStream, int maxString) {
         // load real length of string
         int realLength;

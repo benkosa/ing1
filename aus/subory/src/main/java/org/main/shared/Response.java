@@ -3,7 +3,7 @@ package org.main.shared;
 /**
  * codes:
  *  0 - success
- *  1 - error
+ *  !0 - error
  * @param <T> type of response data
  */
 public class Response<T> {

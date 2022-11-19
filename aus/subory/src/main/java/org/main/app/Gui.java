@@ -90,7 +90,7 @@ public class Gui extends JFrame {
         pridajPacientaButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Date datumNarodenia = df.formatToDate( a24101997TextField.getText());
+                Date datumNarodenia = df.stringToDate( a24101997TextField.getText());
                 if (datumNarodenia == null) {
                     displayResponse(new Response(3, "zly format datumu", null));
                     return;
@@ -179,7 +179,7 @@ public class Gui extends JFrame {
         pridajHospitalizaciuButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Date datumZacaitku = df.formatToDate( a12102022TextField.getText());
+                Date datumZacaitku = df.stringToDate( a12102022TextField.getText());
                 if (datumZacaitku == null) {
                     displayResponse(new Response(3, "zly format datumu", null));
                     return;
@@ -231,8 +231,8 @@ public class Gui extends JFrame {
                 Response<String[][]> response = operations.generate(
                         Integer.parseInt(a100TextField.getText()),
                         Integer.parseInt(a1000TextField.getText()),
-                        df.formatToDate(a01012020TextField.getText()),
-                        df.formatToDate(a18112022TextField.getText())
+                        df.stringToDate(a01012020TextField.getText()),
+                        df.stringToDate(a18112022TextField.getText())
                 );
                 displayResponse(response);
 
