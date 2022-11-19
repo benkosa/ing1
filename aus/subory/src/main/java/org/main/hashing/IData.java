@@ -25,6 +25,9 @@ public abstract class IData<T> implements IRecord<T> {
      */
     public abstract T createClass();
 
+    /**
+     * FOR TESTING, compare toByteArray().length with this.getSize()
+     */
     public void testSize() {
         if (this.toByteArray().length != this.getSize()) {
             System.out.println("ERROR: wrong size");
