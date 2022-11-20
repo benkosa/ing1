@@ -84,7 +84,7 @@ public class Pacient extends IData {
 
     @Override
     public String toString() {
-        String ret = "Pacient: " + meno + " " + priezvisko + " " + rodneCislo + " " + poistovna + " " + datumNarodenia.toString();
+        String ret = "Pacient: " + meno + " | " + priezvisko + " | " + rodneCislo + " | " + poistovna + " | " + datumNarodenia.toString();
         ret += "\n      valid hosp: " + hospitalizacie.size();
         for (Hospitalizacia hospitalizacia : hospitalizacieNotValid) {
             ret += "\n      " + hospitalizacia.toString();

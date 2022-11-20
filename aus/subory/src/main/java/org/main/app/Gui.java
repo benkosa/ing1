@@ -57,6 +57,10 @@ public class Gui extends JFrame {
     private JScrollPane scrollPane2;
     private JTable table3;
     private JScrollPane scrollPane3;
+    private JButton zobrzitButton;
+    private JTextArea textArea1;
+    private JScrollPane scrollPane4;
+    private JPanel tabData;
 
     private void displayResponse(Response response) {
         if (response.code == 0) {
@@ -248,6 +252,14 @@ public class Gui extends JFrame {
                 table3 = new JTable(tableValues, tableHeader);
                 //zaznamy.setText(tableValues.length+"");
                 scrollPane3.setViewportView(table3);
+            }
+        });
+        zobrzitButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Response<String> response = operations.opDisplatEverithing();
+                textArea1 = new JTextArea(response.data);
+                scrollPane4.setViewportView(textArea1);
             }
         });
     }

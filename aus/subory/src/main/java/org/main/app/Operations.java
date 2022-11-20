@@ -4,6 +4,8 @@ package org.main.app;
 import org.main.shared.DateFormat;
 import org.main.shared.Response;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -252,6 +254,32 @@ public class Operations {
         } else {
             return new Response(2, "pacient neexistuje", null);
         }
+    }
+
+    /**
+     * https://stackoverflow.com/questions/8708342/redirect-console-output-to-string-in-java
+     * @return
+     */
+    Response opDisplatEverithing() {
+        // Create a stream to hold the output
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        PrintStream ps = new PrintStream(baos);
+        // IMPORTANT: Save the old System.out!
+        PrintStream old = System.out;
+        // Tell Java to use your special stream
+        System.setOut(ps);
+        // Print some output: goes to your special stream
+
+        data.hashing.readWholeFileNoValid();
+
+        // Put things back
+        System.out.flush();
+        System.setOut(old);
+        // Show what happened
+        //System.out.println("Here: " + baos.toString());
+
+        return new Response(0, "", baos.toString());
+
     }
 
     public Response setDate(String time) {
