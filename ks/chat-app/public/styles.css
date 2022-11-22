@@ -1,0 +1,46 @@
+.container {
+	width: 100%;
+	height: 100%;
+}
+
+.messages {
+	width: 100%;
+	height: 100%;
+}
+
+.input_container {
+	position: absolute;
+    bottom: 0;
+	padding: 10px 5px;
+	left: 50%;
+    transform: translate(-50%, -50%);
+	
+}
+
+.sent_message_container {
+	width: fit-content;
+    background: lightblue;
+    padding: 5px 10px;
+    border-radius: 10px;
+}
+
+.receive_message_container {
+	width: fit-content;
+    background: lightgray;
+    padding: 5px 10px;
+    border-radius: 10px;
+	margin: 0 0 0 auto;
+	text-align: right;
+}
+
+.join_message {
+	width: fit-content;
+    background: wheat;
+    padding: 5px 10px;
+    border-radius: 10px;
+	margin: 0 auto;
+}
+
+.message_time {
+	font-size: 8px;
+}
