@@ -11,15 +11,22 @@ import java.util.logging.Logger;
 
 public class Hashing<T extends IData> {
 
-    private int blockFactor;
-    private int numberOfBlocks;
-    private RandomAccessFile file;
-    private Class classType;
+    protected int blockFactor;
+    protected int numberOfBlocks;
+    protected RandomAccessFile file;
+    protected Class classType;
+
+    public int getBlockSize() {
+        return blockSize;
+    }
+
+    private int blockSize = 0;
 
     public Hashing( String fileName, int blockFactor, int numberOfBlocks, Class classType) {
         this.blockFactor = blockFactor;
         this.numberOfBlocks = numberOfBlocks;
         this.classType = classType;
+        this.blockSize = new Block<>(blockFactor, classType).getSize();
 
         // open file
         try {
@@ -63,7 +70,8 @@ public class Hashing<T extends IData> {
 
     public T find (T data) {
         // file nacitaj blok
-        return loadBlock(data).find(data);
+        int adress =(bitSetToInt(data.getHash()) % numberOfBlocks)* blockSize;
+        return loadBlock(data, adress).find(data);
     }
 
 
@@ -71,42 +79,32 @@ public class Hashing<T extends IData> {
     public boolean insert (T data) {
 
         // file nacitaj blok
-        Block<T> b = loadBlock(data);
+        int adress =(bitSetToInt(data.getHash()) % numberOfBlocks)* blockSize;
+        Block<T> b = loadBlock(data, adress);
 
         if (b.validCount >= blockFactor) {
             return false;
         }
-        int adress =(bitSetToInt(data.getHash()) % numberOfBlocks)* b.getSize();
 
         // pridaj do recordov a uloz do suboru
         if (!b.insert(data)) {
             return false;
         }
-        try {
-            file.seek(adress);
-            file.write(b.toByteArray());
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
+        reWriteBloc(b, adress);
         return true;
     }
 
     public boolean delete (T data) {
         // vymaz z records
-        Block<T> b = loadBlock(data);
+
+        int adress =(bitSetToInt(data.getHash()) % numberOfBlocks)* blockSize;
+        Block<T> b = loadBlock(data, adress);
         if (!b.remove(data)) {
             return false;
         }
 
         //sync so suborom
-        int adress =(bitSetToInt(data.getHash()) % numberOfBlocks)* b.getSize();
-        try {
-            file.seek(adress);
-            file.write(b.toByteArray());
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        reWriteBloc(b, adress);
         return true;
     }
 
@@ -221,10 +219,9 @@ public class Hashing<T extends IData> {
         return (int) value;
     }
 
-    private Block<T> loadBlock(T data) {
+    protected Block<T> loadBlock(T data, int adress) {
         // file nacitaj blok
         Block<T> b = new Block<>(blockFactor, data.getClass());
-        int adress =(bitSetToInt(data.getHash()) % numberOfBlocks)* b.getSize();
 
         byte[] blockFile = new byte[b.getSize()];
         try {
@@ -236,6 +233,15 @@ public class Hashing<T extends IData> {
             throw new RuntimeException(e);
         }
         return b;
+    }
+
+    protected void reWriteBloc(Block b, int adress) {
+        try {
+            file.seek(adress);
+            file.write(b.toByteArray());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 
