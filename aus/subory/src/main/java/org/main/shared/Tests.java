@@ -39,6 +39,8 @@ public class Tests {
         System.out.println("replication: " + replication);
         System.out.println("maxNumberOfElements: " + maxNumberOfElements);
         System.out.println("maxValue: " + maxValue);
+        System.out.println("blockSize: " + blockSize);
+        System.out.println("blockNumber: " + blockNumber);
 
         if (pInsert + pRemove + pFind > 1) {
             System.out.println("error: p > 1");
@@ -93,9 +95,10 @@ public class Tests {
 
             }
 
-            ArrayList<Pacient> fromHash = hashing.getWholeFile();
 
             // check if number of inserted elements is valid
+            ArrayList<Pacient> fromHash = hashing.getWholeFile();
+
             if (fromHash.size() != insertedPacients.size()) {
                 System.out.println("error: " + fromHash.size() + " != " + insertedPacients.size());
             }
