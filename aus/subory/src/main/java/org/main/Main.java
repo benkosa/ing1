@@ -18,11 +18,21 @@ public class Main {
         DynamicHashing<Pacient> dh =
                 new DynamicHashing("dynamic.dat", 2, Pacient.class);
 
+
         dh.insert(pacient);
         dh.insert(pacient2);
         dh.insert(pacient3);
 
         dh.readWholeFileNoValid();
+
+        System.out.println(dh.find(pacient).getRodneCislo());
+        System.out.println(dh.find(pacient2).getRodneCislo());
+        System.out.println(dh.find(pacient3).getRodneCislo());
+
+        //dh.delete(pacient);
+        //dh.delete(pacient2);
+
+        //dh.readWholeFileNoValid();
 
 //        trie.insert(BitSet.valueOf(new long[]{69}));
 

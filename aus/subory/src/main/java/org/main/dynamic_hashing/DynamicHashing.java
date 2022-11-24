@@ -72,18 +72,19 @@ public class DynamicHashing<T extends IData> extends Hashing<T> {
 
         final BitSet dataHash = data.getHash();
         int actualHeight = 0;
+        Node actualNode;
+        if (dataHash.get(actualHeight)) {
+            actualNode = root.rightNode;
+        } else {
+            actualNode = root.leftNode;
+        }
 
         while (true) {
-            Node actualNode;
-            if (dataHash.get(actualHeight)) {
-                actualNode = root.rightNode;
-            } else {
-                actualNode = root.leftNode;
-            }
+
+
+
             // ak je root externy
             if (actualNode instanceof ExternalNode) {
-                System.out.println("som v externom");
-                //if(true)return false;
 
 
                 final ExternalNode actualExternalNode = ((ExternalNode) actualNode);
@@ -108,7 +109,7 @@ public class DynamicHashing<T extends IData> extends Hashing<T> {
                             newExternal
                     );
 
-                    actualExternalNode.parent = newInternal;
+                    //actualExternalNode.parent = newInternal;
                     newExternal.parent = newInternal;
                     // som lavy
                     if (actualNode.parent.leftNode == actualNode) {
@@ -117,6 +118,7 @@ public class DynamicHashing<T extends IData> extends Hashing<T> {
                     } else {
                         actualNode.parent.rightNode = newInternal;
                     }
+                    newInternal.parent = actualNode.parent;
                     actualNode.parent = newInternal;
 
                     //prerozdelenie
@@ -127,6 +129,12 @@ public class DynamicHashing<T extends IData> extends Hashing<T> {
                     reWriteBloc(newBlock, newAdress);
 
                     //opakujem pridanie
+                    actualHeight = 0;
+                    if (dataHash.get(actualHeight)) {
+                        actualNode = root.rightNode;
+                    } else {
+                        actualNode = root.leftNode;
+                    }
                 } else {
 
                     // kontrola originality kluca
@@ -148,6 +156,7 @@ public class DynamicHashing<T extends IData> extends Hashing<T> {
                 } else {
                     actualNode = actualNode.leftNode;
                 }
+
             }
 
         }
@@ -155,12 +164,84 @@ public class DynamicHashing<T extends IData> extends Hashing<T> {
 
     @Override
     public boolean delete(T data) {
-        return super.delete(data);
+        if (root instanceof ExternalNode) {
+            final ExternalNode actualExternalNode = ((ExternalNode) root);
+            final int adress = bitSetToInt(actualExternalNode.adress);
+            Block<T> b = loadBlock(data, adress);
+
+            // blok je plny
+            if (b.validCount <= 0) {
+                return false;
+            } else {
+
+                // kontrola originality kluca
+                if (!b.remove(data)) {
+                    return false;
+                }
+
+                // uspesne zmazanie
+                reWriteBloc(b, adress);
+                return true;
+
+            }
+        }
+
+        return false;
     }
 
     @Override
     public T find(T data) {
-        return super.find(data);
+
+        if (root instanceof ExternalNode) {
+            final ExternalNode actualExternalNode = ((ExternalNode) root);
+            final int adress = bitSetToInt(actualExternalNode.adress);
+            Block<T> b = loadBlock(data, adress);
+            return b.find(data);
+        }
+
+        final BitSet dataHash = data.getHash();
+        int actualHeight = 0;
+        Node actualNode;
+        if (dataHash.get(actualHeight)) {
+            actualNode = root.rightNode;
+        } else {
+            actualNode = root.leftNode;
+        }
+
+        while (true) {
+
+            // ak je root externy
+            if (actualNode instanceof ExternalNode) {
+
+                final ExternalNode actualExternalNode = ((ExternalNode) actualNode);
+
+
+//                actualHeight++;
+//                if (dataHash.get(actualHeight)) {
+//                    actualNode = actualNode.rightNode;
+//                } else {
+//                    actualNode = actualNode.leftNode;
+//                }
+//                if (actualNode != null) {
+//                    continue;
+//                }
+
+                final int adress = bitSetToInt(actualExternalNode.adress);
+                Block<T> b = loadBlock(data, adress);
+
+                return b.find(data);
+
+            // node je interny
+            } else {
+                actualHeight++;
+                if (dataHash.get(actualHeight)) {
+                    actualNode = actualNode.rightNode;
+                } else {
+                    actualNode = actualNode.leftNode;
+                }
+            }
+
+        }
     }
 
 
