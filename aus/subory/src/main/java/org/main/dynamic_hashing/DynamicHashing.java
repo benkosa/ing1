@@ -61,17 +61,12 @@ public class DynamicHashing<T extends IData> extends Hashing<T> {
 
                 }
 
-                //vytovrenie internal node
+                //swap pointers
                 final Node newInternal = new InternalNode(
                         actualExternalNode,
                         newExternal
                 );
 
-                //swap pointers
-                if (actualExternalNode != null)
-                    actualExternalNode.parent = newInternal;
-                if (newExternal != null)
-                    newExternal.parent = newInternal;
                 root = newInternal;
 
                 //zapis
@@ -82,7 +77,6 @@ public class DynamicHashing<T extends IData> extends Hashing<T> {
                     reWriteBloc(newBlock, newAdress);
                 }
 
-                //opakujem pridanie
             } else {
 
                 // kontrola originality kluca
@@ -150,16 +144,12 @@ public class DynamicHashing<T extends IData> extends Hashing<T> {
                             );
                             actualExternalNode = null;
                         }
-                        // ak je novy node prazdny
-//                    if (newBlock.validCount <= 0) {
-//                        newBlock = null;
-//                    }
 
                     }
 
                     //swap pointers
                     final Node parent = actualNode.parent;
-                    //vytovrenie internal node
+
                     final Node newInternal = new InternalNode(
                             actualExternalNode,
                             newExternal
@@ -171,22 +161,6 @@ public class DynamicHashing<T extends IData> extends Hashing<T> {
                         parent.rightNode = newInternal;
                     }
                     newInternal.parent = parent;
-
-//                    //swap pointers
-//                    if (newExternal != null)
-//                        newExternal.parent = newInternal;
-//                    // som lavy
-//                    if (actualExternalNode != null)
-//                        if (actualExternalNode.parent.leftNode == actualExternalNode) {
-//                            actualExternalNode.parent.leftNode = newInternal;
-//                            // som pravy
-//                        } else {
-//                            actualExternalNode.parent.rightNode = newInternal;
-//                        }
-//
-//                    newInternal.parent = actualNode.parent;
-//                    actualNode.parent = newInternal;
-
 
                     //zapis
                     if (b.validCount > 0) {
