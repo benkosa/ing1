@@ -39,7 +39,7 @@ public class Main {
                 System.out.println("Error: inserted pacient not deleted");
             }
         }
-
+        System.out.println(hashing.fileSize());
         hashing.readWholeFileNoValid();
 
         if (true) return;
@@ -91,8 +91,8 @@ public class Main {
 //
 //        gui.start();
 //
-//        Tests tests = new Tests();
-//        tests.testSize();
+        Tests tests = new Tests();
+////        tests.testSize();
 //
 //        tests.testInsertOperationDynamic(
 //                1000,
@@ -111,15 +111,15 @@ public class Main {
 //                2,
 //                1000
 //        );
-//        tests.testRandomOperationDynamic(
-//                .5,
-//                .25,
-//                .25,
-//                1000,
-//                100,
-//                1000,
-//                10
-//        );
+        tests.testRandomOperationDynamic(
+                .5,
+                .25,
+                .25,
+                100,
+                100,
+                1000,
+                10
+        );
 
 
 //

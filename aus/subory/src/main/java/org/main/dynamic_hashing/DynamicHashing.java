@@ -534,8 +534,16 @@ public class DynamicHashing<T extends IData> extends Hashing<T> {
     }
 
     private void alocateSingleExternal(T data, Node parent, int actualHeight, BitSet hash) {
-        increaseFile();
-        final int newAdress = (numberOfBlocks - 1) * getBlockSize();
+        int newAdress;
+
+        if (emptyMemoryManager.size() != 0) {
+            newAdress = emptyMemoryManager.poll();
+        } else {
+            increaseFile();
+            newAdress = (numberOfBlocks - 1) * getBlockSize();
+        }
+
+
         Block b = new Block(blockFactor, classType);
         b.insert(data);
         reWriteBloc(b, newAdress);
@@ -597,7 +605,6 @@ public class DynamicHashing<T extends IData> extends Hashing<T> {
         } catch (IOException e) {
             System.out.println("Error initializing stream");
         } catch (ClassNotFoundException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
