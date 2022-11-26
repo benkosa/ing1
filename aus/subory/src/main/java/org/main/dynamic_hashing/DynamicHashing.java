@@ -177,6 +177,10 @@ public class DynamicHashing<T extends IData> extends Hashing<T> {
                     } else {
                         actualNode = root.leftNode;
                     }
+                    if(actualNode == null) {
+                        alocateSingleExternal(data, root, actualHeight, dataHash);
+                        return true;
+                    }
                 } else {
 
                     // kontrola originality kluca
@@ -191,7 +195,9 @@ public class DynamicHashing<T extends IData> extends Hashing<T> {
                 }
 
             // node je null
-            } else {
+
+
+            }  else {
                 actualHeight++;
                 final Node parent;
                 if (dataHash.get(actualHeight)) {
@@ -204,6 +210,7 @@ public class DynamicHashing<T extends IData> extends Hashing<T> {
 
                 if(actualNode == null) {
                     alocateSingleExternal(data, parent, actualHeight, dataHash);
+                    return true;
                 }
 
             }
@@ -213,6 +220,10 @@ public class DynamicHashing<T extends IData> extends Hashing<T> {
 
     @Override
     public boolean delete(T data) {
+        //hladany element neexistuje
+        if (find(data) == null) {
+            return false;
+        }
         final ExternalNode nodeToRemove = findNode(data);
 
         final int removeAdress = bitSetToInt(nodeToRemove.adress);
@@ -229,18 +240,24 @@ public class DynamicHashing<T extends IData> extends Hashing<T> {
             //blok je prazdny
             if (removeBlock.validCount <= 0) {
                 // skratit strom o prazdne internal
-
+                manageMemory(removeAdress);
                 // node is nulll node is root
-                if (nodeToRemove.parent.parent == null) {
-                    root = nodeToRemove;
-                    nodeToRemove.parent = null;
-                    return true;
-                }
+//                if (nodeToRemove.parent.parent == null) {
+//                    root = nodeToRemove;
+//                    nodeToRemove.parent = null;
+//                    return true;
+//                }
 
                 Node node;
                 for ( node = nodeToRemove;
                      (node.parent instanceof InternalNode) && getBrother(node.parent) == null;
                      node = node.parent);
+
+                if (node == root) {
+                    root = nodeToRemove;
+                    nodeToRemove.parent = null;
+                    return true;
+                }
 
                 if (node == nodeToRemove) {
                     if (getBrother(node.parent) != null) {
@@ -272,6 +289,7 @@ public class DynamicHashing<T extends IData> extends Hashing<T> {
         //brat je internal
         if (brotherNode instanceof InternalNode) {
             //blok je prazdny
+            manageMemory(removeAdress);
             if (removeBlock.validCount <= 0) {
                 if (nodeToRemove.parent.leftNode == nodeToRemove) {
                     nodeToRemove.parent.leftNode = null;
@@ -296,7 +314,7 @@ public class DynamicHashing<T extends IData> extends Hashing<T> {
                 // uvolnit blok
                 ExternalNode fullNode;
                 if (removeBlock.validCount == 0) {
-                    this.emptyMemoryManager.add(removeAdress);
+                    manageMemory(removeAdress);
                     fullNode = externalBrotherNode;
 
                     //vymazat pointer na prazdneho brata
@@ -306,7 +324,7 @@ public class DynamicHashing<T extends IData> extends Hashing<T> {
                         nodeToRemove.parent.rightNode = null;
                     }
                 } else {
-                    this.emptyMemoryManager.add(brotherAdress);
+                    manageMemory(brotherAdress);
                     fullNode = nodeToRemove;
 
                     //vymazat pointer na prazdneho brata
@@ -320,16 +338,22 @@ public class DynamicHashing<T extends IData> extends Hashing<T> {
                 //skartit strom o prazdne internal
 
                 // node is nulll node is root
-                if (fullNode.parent.parent == null) {
-                    root = fullNode;
-                    fullNode.parent = null;
-                    return true;
-                }
+//                if (fullNode.parent.parent == null) {
+//                    root = fullNode;
+//                    fullNode.parent = null;
+//                    return true;
+//                }
 
                 Node node;
                 for ( node = fullNode;
                       (node.parent instanceof InternalNode) && getBrother(node.parent) == null;
                       node = node.parent);
+
+                if (node == root) {
+                    root = fullNode;
+                    fullNode.parent = null;
+                    return true;
+                }
 
                 if (node.parent.leftNode == node) {
                     node.parent.leftNode = fullNode;
@@ -361,6 +385,9 @@ public class DynamicHashing<T extends IData> extends Hashing<T> {
     @Override
     public T find(T data) {
         final ExternalNode actualExternalNode = findNode(data);
+        if (actualExternalNode == null) {
+            return null;
+        }
         final int adress = bitSetToInt(actualExternalNode.adress);
         Block<T> b = loadBlock(data, adress);
         return b.find(data);
@@ -414,6 +441,10 @@ public class DynamicHashing<T extends IData> extends Hashing<T> {
                 // node je interny
             } else {
                 actualHeight++;
+                // element neexistuje
+                if (actualNode == null) {
+                    return null;
+                }
                 if (dataHash.get(actualHeight)) {
                     actualNode = actualNode.rightNode;
                 } else {
@@ -469,6 +500,14 @@ public class DynamicHashing<T extends IData> extends Hashing<T> {
     }
 
     private Node getBrother(Node node) {
+        if(node.parent == null) {
+            if (root.leftNode == node) {
+                return root.rightNode;
+            } else {
+                return root.leftNode;
+            }
+        }
+
         Node brotherNode;
         if (node.parent.leftNode == node) {
             brotherNode = node.parent.rightNode;
@@ -501,5 +540,27 @@ public class DynamicHashing<T extends IData> extends Hashing<T> {
         }
     }
 
-    //manageMemory
+    public void manageMemory(int adress) {
+        long lastElement = fileSize()-getBlockSize();
+
+        //posledny blok nemazeme
+        if (fileSize() == lastElement) {
+            return;
+        }
+        //nachadzame sa na konci subou
+        if (lastElement == adress) {
+            int count = 1;
+            while (emptyMemoryManager.remove(adress-(count*getBlockSize()))) {
+                count++;
+                numberOfBlocks--;
+            }
+            try {
+                file.setLength(fileSize()-(count*getBlockSize()));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        else emptyMemoryManager.add(adress);
+
+    }
 }
