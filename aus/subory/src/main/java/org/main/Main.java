@@ -4,39 +4,74 @@ import org.main.app.Pacient;
 import org.main.dynamic_hashing.DynamicHashing;
 import org.main.shared.Tests;
 
+import java.util.ArrayList;
 import java.util.BitSet;
 import java.util.Date;
+import java.util.Random;
 
 
 public class Main {
     public static void main(String[] args) {
 
-//        Pacient pacient = new Pacient("Benjamin", "Kosa", "85", 2,  new Date());
-//        Pacient pacient2 = new Pacient("Benjamin", "Kosa", "88", 2,  new Date());
-//        Pacient pacient3 = new Pacient("Benjamin", "Kosa", "47", 2,  new Date());
-//        Pacient pacient4 = new Pacient("Benjamin", "Kosa", "4", 2,  new Date());
+
+        Random rand = new Random();
+        DynamicHashing<Pacient> hashing = new DynamicHashing<>(
+                "test_dynamic.dat",
+                20,
+                Pacient.class
+        );
+
+        ArrayList<Pacient> insertedPacients = new ArrayList<>();
+
+
+        for (int i = 0; i < 1000; i++) {
+            Integer value = rand.nextInt(2000);
+            Pacient pacient = new Pacient("meno", "priezvisko", value.toString(), value, new Date() );
+            // insert
+            if (hashing.insert(pacient)) {
+                insertedPacients.add(pacient);
+            }
+
+        }
+
+        for (Pacient insertedPacient : insertedPacients) {
+            if (!hashing.delete(insertedPacient)) {
+                System.out.println("Error: inserted pacient not deleted");
+            }
+        }
+
+        hashing.readWholeFileNoValid();
+
+        if (true) return;
+
+//        Pacient pacient = new Pacient("Benjamin", "Kosa", "60", 2,  new Date());
+//        Pacient pacient2 = new Pacient("Benjamin", "Kosa", "48", 2,  new Date());
+//        Pacient pacient3 = new Pacient("Benjamin", "Kosa", "29", 2,  new Date());
+//        Pacient pacient4 = new Pacient("Benjamin", "Kosa", "47", 2,  new Date());
 //
 //        DynamicHashing<Pacient> dh =
 //                new DynamicHashing("dynamic.dat", 2, Pacient.class);
 //
 //
+//
 //        System.out.println(dh.insert(pacient));
 //        System.out.println(dh.insert(pacient2));
 //        System.out.println(dh.insert(pacient3));
-//        //System.out.println(dh.insert(pacient4));
+//        System.out.println(dh.insert(pacient4));
 //
 //
 //
 //        System.out.println(dh.find(pacient).getRodneCislo());
 //        System.out.println(dh.find(pacient2).getRodneCislo());
 //        System.out.println(dh.find(pacient3).getRodneCislo());
-//        //System.out.println(dh.find(pacient4).getRodneCislo());
-//
+//        System.out.println(dh.find(pacient4).getRodneCislo());
+//////
 //        System.out.println(dh.delete(pacient));
 //        System.out.println(dh.delete(pacient2));
 //        System.out.println(dh.delete(pacient3));
-        //System.out.println(dh.delete(pacient4));
-//
+//        System.out.println(dh.delete(pacient4));
+        //System.out.println(dh.find(pacient2).getRodneCislo());
+////
 //        dh.readWholeFileNoValid();
         //dh.delete(pacient2);
 
@@ -55,9 +90,17 @@ public class Main {
 //        Gui gui = new Gui();
 //
 //        gui.start();
-
-        Tests tests = new Tests();
-        tests.testSize();
+//
+//        Tests tests = new Tests();
+//        tests.testSize();
+//
+//        tests.testInsertOperationDynamic(
+//                1000,
+//                100,
+//                100,
+//                10,
+//                -1
+//        );
 //        tests.testRandomOperation(
 //                .5,
 //                .25,
@@ -65,7 +108,7 @@ public class Main {
 //                10,
 //                100,
 //                100,
-//                10,
+//                2,
 //                1000
 //        );
 //        tests.testRandomOperationDynamic(
@@ -74,17 +117,11 @@ public class Main {
 //                .25,
 //                1000,
 //                100,
-//                100,
+//                1000,
 //                10
 //        );
 
-        tests.testInsertOperationDynamic(
-                1000,
-                3,
-                100,
-                2,
-                -1
-        );
+
 //
 //        Hashing<Pacient> test = new Hashing<>(
 //                "file.dat",

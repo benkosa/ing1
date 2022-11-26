@@ -225,9 +225,10 @@ public class Tests {
 
 
         for(; seed < replication; seed++) {
+            //System.out.println(seed);
             Random rand = new Random(seed);
             DynamicHashing<Pacient> hashing = new DynamicHashing<>(
-                    "test_dynamic.dat",
+                    "test_dynamic_insert.dat",
                     blockSize,
                     Pacient.class
             );
@@ -255,6 +256,12 @@ public class Tests {
             for (Pacient insertedPacient : insertedPacients) {
                 if (hashing.find(insertedPacient) == null) {
                     System.out.println("Error: inserted pacient not found");
+                }
+            }
+
+            for (Pacient insertedPacient : insertedPacients) {
+                if (!hashing.delete(insertedPacient)) {
+                    System.out.println("Error: inserted pacient not deleted");
                 }
             }
 

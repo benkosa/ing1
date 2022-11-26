@@ -4,7 +4,7 @@ import org.main.hashing.Block;
 import org.main.hashing.Hashing;
 import org.main.hashing.IData;
 
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.BitSet;
 import java.util.Iterator;
@@ -248,6 +248,7 @@ public class DynamicHashing<T extends IData> extends Hashing<T> {
 //                    return true;
 //                }
 
+                //skratit strom o prazdne internalnodes
                 Node node;
                 for ( node = nodeToRemove;
                      (node.parent instanceof InternalNode) && getBrother(node.parent) == null;
@@ -261,7 +262,8 @@ public class DynamicHashing<T extends IData> extends Hashing<T> {
 
                 if (node == nodeToRemove) {
                     if (getBrother(node.parent) != null) {
-                        node = node.parent;
+
+                        //if (node.parent.parent != null) node = node.parent;
 
                         if (node.parent.leftNode == node) {
                             node.parent.leftNode = nodeToRemove;
@@ -289,8 +291,8 @@ public class DynamicHashing<T extends IData> extends Hashing<T> {
         //brat je internal
         if (brotherNode instanceof InternalNode) {
             //blok je prazdny
-            manageMemory(removeAdress);
             if (removeBlock.validCount <= 0) {
+                manageMemory(removeAdress);
                 if (nodeToRemove.parent.leftNode == nodeToRemove) {
                     nodeToRemove.parent.leftNode = null;
                 } else {
@@ -313,9 +315,11 @@ public class DynamicHashing<T extends IData> extends Hashing<T> {
                 reWriteBloc(brotherBlock, brotherAdress);
                 // uvolnit blok
                 ExternalNode fullNode;
+                Block fullBlock;
                 if (removeBlock.validCount == 0) {
                     manageMemory(removeAdress);
                     fullNode = externalBrotherNode;
+                    fullBlock = brotherBlock;
 
                     //vymazat pointer na prazdneho brata
                     if (nodeToRemove.parent.leftNode == nodeToRemove) {
@@ -326,6 +330,7 @@ public class DynamicHashing<T extends IData> extends Hashing<T> {
                 } else {
                     manageMemory(brotherAdress);
                     fullNode = nodeToRemove;
+                    fullBlock = removeBlock;
 
                     //vymazat pointer na prazdneho brata
                     if (brotherNode.parent.leftNode == brotherNode) {
@@ -335,51 +340,54 @@ public class DynamicHashing<T extends IData> extends Hashing<T> {
                     }
                 }
 
-                //skartit strom o prazdne internal
+                //skartit strom o prazdne internal len ak je aj druhy brat prazdny
+                if (fullBlock.validCount == 0) {
+                    //sk je parent root
+                    if (fullNode.parent == root) {
+                        root = fullNode;
+                        fullNode.parent = null;
+                    }
 
-                // node is nulll node is root
-//                if (fullNode.parent.parent == null) {
-//                    root = fullNode;
-//                    fullNode.parent = null;
-//                    return true;
-//                }
+                    //najst node na skratenie
+                    Node node;
+                    for ( node = fullNode;
+                          (node.parent instanceof InternalNode) && getBrother(node.parent) == null;
+                          node = node.parent);
 
-                Node node;
-                for ( node = fullNode;
-                      (node.parent instanceof InternalNode) && getBrother(node.parent) == null;
-                      node = node.parent);
+                    if (node == root) {
+                        root = fullNode;
+                        fullNode.parent = null;
+                        return true;
+                    }
 
-                if (node == root) {
+                    if (node.parent.leftNode == node) {
+                        node.parent.leftNode = fullNode;
+                    } else {
+                        node.parent.rightNode = fullNode;
+                    }
+                    fullNode.parent = node.parent;
+                    return true;
+                }
+
+
+                Node tmpParetn = fullNode.parent;
+
+                if (tmpParetn.parent == null) {
                     root = fullNode;
                     fullNode.parent = null;
                     return true;
                 }
 
-                if (node.parent.leftNode == node) {
-                    node.parent.leftNode = fullNode;
+                if (tmpParetn.parent.leftNode == tmpParetn) {
+                    tmpParetn.parent.leftNode = fullNode;
                 } else {
-                    node.parent.rightNode = fullNode;
+                    tmpParetn.parent.rightNode = fullNode;
                 }
-                fullNode.parent = node.parent;
+                fullNode.parent = tmpParetn.parent;
                 return true;
-
             }
-
-            //brat je prezdny
-
         }
-
-//        // blok je prazdny
-//        if (b.validCount <= 0) {
-//            //  blok je posledny
-//            if (bAdress == numberOfBlocks) {
-//                //file.
-//            }
-//
-//            // blok nieje posledny pridame do memory managera
-//        }
-
-        return false;
+        return true;
     }
 
     @Override
@@ -552,8 +560,8 @@ public class DynamicHashing<T extends IData> extends Hashing<T> {
             int count = 1;
             while (emptyMemoryManager.remove(adress-(count*getBlockSize()))) {
                 count++;
-                numberOfBlocks--;
             }
+            numberOfBlocks-=count;
             try {
                 file.setLength(fileSize()-(count*getBlockSize()));
             } catch (IOException e) {
@@ -562,5 +570,35 @@ public class DynamicHashing<T extends IData> extends Hashing<T> {
         }
         else emptyMemoryManager.add(adress);
 
+    }
+
+    public void saveTree() {
+        try {
+//            FileOutputStream f = new FileOutputStream(new File("myObjects.txt"));
+//            ObjectOutputStream o = new ObjectOutputStream(f);
+//
+//            // Write objects to file
+//            o.writeObject(root);
+//
+//            o.close();
+//            f.close();
+
+            FileInputStream fi = new FileInputStream(new File("myObjects.txt"));
+            ObjectInputStream oi = new ObjectInputStream(fi);
+
+            // Read objects
+            Node pr1 = (Node) oi.readObject();
+
+            oi.close();
+            fi.close();
+
+        } catch (FileNotFoundException e) {
+            System.out.println("File not found");
+        } catch (IOException e) {
+            System.out.println("Error initializing stream");
+        } catch (ClassNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
 }

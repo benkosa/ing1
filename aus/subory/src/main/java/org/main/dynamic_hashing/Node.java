@@ -1,6 +1,8 @@
 package org.main.dynamic_hashing;
 
-public class Node {
+import java.io.Serializable;
+
+public class Node implements Serializable {
     public Node parent;
     public Node rightNode;
     public Node leftNode;

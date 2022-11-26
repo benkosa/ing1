@@ -31,9 +31,12 @@ public class Hashing<T extends IData> {
         // open file
         try {
             this.file = new RandomAccessFile(fileName, "rw");
+            file.setLength(0);
         } catch (FileNotFoundException ex) {
             Logger.getLogger(Hashing.class.getName())
                     .log(Level.SEVERE, null, ex);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
 
 
