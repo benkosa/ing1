@@ -23,4 +23,8 @@ public class ExternalNode extends Node {
         this.adress = adress;
         this.nodeHeight = nodeHeight;
     }
+
+    public ExternalNode (InternalNode node) {
+
+    }
 }

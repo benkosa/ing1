@@ -32,9 +32,10 @@ public class Main {
         System.out.println(dh.find(pacient3).getRodneCislo());
         System.out.println(dh.find(pacient4).getRodneCislo());
 
-//        System.out.println(dh.delete(pacient));
-//        System.out.println(dh.delete(pacient2));
-        //System.out.println(dh.delete(pacient));
+        System.out.println(dh.delete(pacient));
+        System.out.println(dh.delete(pacient2));
+        System.out.println(dh.delete(pacient3));
+        System.out.println(dh.delete(pacient4));
 
         dh.readWholeFileNoValid();
         //dh.delete(pacient2);

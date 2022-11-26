@@ -217,16 +217,78 @@ public class DynamicHashing<T extends IData> extends Hashing<T> {
 
         final int removeAdress = bitSetToInt(nodeToRemove.adress);
         Block<T> removeBlock = loadBlock(data, removeAdress);
+        //kluc sa nenasiel
         if (!removeBlock.remove(data)) {
             return false;
         }
         reWriteBloc(removeBlock, removeAdress);
-        // mergenut synov
-        ExternalNode brotherNode = getBrother(nodeToRemove);
-        //oba bratia su listovy
-        if (brotherNode != null) {
-            final int brotherAdress = bitSetToInt(brotherNode.adress);
+
+        Node brotherNode = getBrother(nodeToRemove);
+        //nema brata je listovy
+        if (brotherNode == null) {
+            //blok je prazdny
+            if (removeBlock.validCount <= 0) {
+                // skratit strom o prazdne internal
+
+                // node is nulll node is root
+                if (nodeToRemove.parent.parent == null) {
+                    root = nodeToRemove;
+                    nodeToRemove.parent = null;
+                    return true;
+                }
+
+                Node node;
+                for ( node = nodeToRemove;
+                     (node.parent instanceof InternalNode) && getBrother(node.parent) == null;
+                     node = node.parent);
+
+                if (node == nodeToRemove) {
+                    if (getBrother(node.parent) != null) {
+                        node = node.parent;
+
+                        if (node.parent.leftNode == node) {
+                            node.parent.leftNode = nodeToRemove;
+                        } else {
+                            node.parent.rightNode = nodeToRemove;
+                        }
+                        nodeToRemove.parent = node.parent;
+                    return true;
+                    }
+                }
+
+
+                if (node.parent.leftNode == node) {
+                    node.parent.leftNode = nodeToRemove;
+                } else {
+                    node.parent.rightNode = nodeToRemove;
+                }
+
+                return true;
+            // v bloku este nieco je
+            } else {
+                return true;
+            }
+        }
+        //brat je internal
+        if (brotherNode instanceof InternalNode) {
+            //blok je prazdny
+            if (removeBlock.validCount <= 0) {
+                if (nodeToRemove.parent.leftNode == nodeToRemove) {
+                    nodeToRemove.parent.leftNode = null;
+                } else {
+                    nodeToRemove.parent.rightNode = null;
+                }
+                return true;
+            }
+            //v bloku este nieco je
+            return true;
+        }
+        //oba bratia su external
+        if (brotherNode instanceof ExternalNode) {
+            ExternalNode externalBrotherNode = (ExternalNode)brotherNode;
+            final int brotherAdress = bitSetToInt(externalBrotherNode.adress);
             Block<T> brotherBlock = loadBlock(data, brotherAdress);
+
             // prebehol merge
             if (mergeSons(removeBlock, brotherBlock, removeAdress, brotherAdress)) {
                 reWriteBloc(removeBlock, removeAdress);
@@ -235,28 +297,47 @@ public class DynamicHashing<T extends IData> extends Hashing<T> {
                 ExternalNode fullNode;
                 if (removeBlock.validCount == 0) {
                     this.emptyMemoryManager.add(removeAdress);
-                    fullNode = brotherNode;
+                    fullNode = externalBrotherNode;
+
+                    //vymazat pointer na prazdneho brata
+                    if (nodeToRemove.parent.leftNode == nodeToRemove) {
+                        nodeToRemove.parent.leftNode = null;
+                    } else {
+                        nodeToRemove.parent.rightNode = null;
+                    }
                 } else {
                     this.emptyMemoryManager.add(brotherAdress);
                     fullNode = nodeToRemove;
+
+                    //vymazat pointer na prazdneho brata
+                    if (brotherNode.parent.leftNode == brotherNode) {
+                        brotherNode.parent.leftNode = null;
+                    } else {
+                        brotherNode.parent.rightNode = null;
+                    }
                 }
-                // skratit strom
-                final Node oldparent = fullNode.parent;
-                final Node newParent = fullNode.parent.parent;
-                fullNode.parent = newParent;
-                if (newParent.rightNode == oldparent) {
-                    newParent.rightNode = fullNode;
+
+                //skartit strom o prazdne internal
+
+                // node is nulll node is root
+                if (fullNode.parent.parent == null) {
+                    root = fullNode;
+                    fullNode.parent = null;
+                    return true;
+                }
+
+                Node node;
+                for ( node = fullNode;
+                      (node.parent instanceof InternalNode) && getBrother(node.parent) == null;
+                      node = node.parent);
+
+                if (node.parent.leftNode == node) {
+                    node.parent.leftNode = fullNode;
                 } else {
-                    newParent.leftNode = fullNode;
+                    node.parent.rightNode = fullNode;
                 }
-                System.out.println("removeAdress: "+removeAdress);
-                System.out.println("brotherAdress: "+brotherAdress);
-                System.out.println("brotherAdress: "+(((int)fileSize())-getBlockSize()));
+                fullNode.parent = node.parent;
                 return true;
-                //brotherAdress = new
-                //ziskat novych bratov
-                // ak su obaja listovy pokracovat v cykle
-                //else koniec
 
             }
 
@@ -387,17 +468,14 @@ public class DynamicHashing<T extends IData> extends Hashing<T> {
         return false;
     }
 
-    private ExternalNode getBrother(ExternalNode node) {
+    private Node getBrother(Node node) {
         Node brotherNode;
         if (node.parent.leftNode == node) {
             brotherNode = node.parent.rightNode;
         } else {
             brotherNode = node.parent.leftNode;
         }
-        if (brotherNode instanceof ExternalNode) {
-            return (ExternalNode) brotherNode;
-        }
-        return null;
+        return brotherNode;
     }
 
     private void emptyBlock() {
@@ -422,4 +500,6 @@ public class DynamicHashing<T extends IData> extends Hashing<T> {
             parent.leftNode = newNode;
         }
     }
+
+    //manageMemory
 }
