@@ -586,6 +586,7 @@ public class DynamicHashing<T extends IData> extends Hashing<T> {
             o.writeObject(root);
             o.writeInt(blockFactor);
             o.writeInt(numberOfBlocks);
+            o.writeObject(emptyMemoryManager);
 
             o.close();
             f.close();
@@ -607,6 +608,7 @@ public class DynamicHashing<T extends IData> extends Hashing<T> {
             this.root = (Node) oi.readObject();
             this.blockFactor = oi.readInt();
             this.numberOfBlocks = oi.readInt();
+            this.emptyMemoryManager = (PriorityQueue<Integer>) oi.readObject();
 
             oi.close();
             fi.close();

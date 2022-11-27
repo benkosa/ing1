@@ -28,7 +28,11 @@ public class Operations {
         }
 
         if (blockFacktorInt == 0 && blockNumberInt == 0) {
-            data = new Data(fileName, true);
+            try {
+                data = new Data(fileName, true);
+            } catch (Exception e){
+                return new Response(1, "error during loading data", null);
+            }
             return new Response(0, "success", null);
         }
 
@@ -46,7 +50,11 @@ public class Operations {
         }
 
         if (blockFacktorInt == 0) {
-            data = new Data(fileName, false);
+            try {
+                data = new Data(fileName, false);
+            } catch (Exception e){
+                return new Response(1, "error during loading data", null);
+            }
             return new Response(0, "success", null);
         }
 
@@ -55,9 +63,13 @@ public class Operations {
     }
 
     public Response opSaveDynamic() {
-        ((DynamicHashing)this.data.hashing).saveTree();
+        try {
+            ((DynamicHashing)this.data.hashing).saveTree();
+        } catch (Exception e){
+            return new Response(1, "error during save", null);
+        }
 
-        return new Response(1, "wrong input", null);
+        return new Response(1, "success", null);
     }
     /**
      * 1. Vyhľadanie záznamov pacienta (identifikovaný svojím rodným číslom).
