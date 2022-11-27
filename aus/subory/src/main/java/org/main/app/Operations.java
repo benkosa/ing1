@@ -220,7 +220,6 @@ public class Operations {
 
         for (Hospitalizacia hospitalizacia : hospitalizacie) {
             if (hospitalizacia.myEqual(newHosp)) {
-                //  TODO APP TIME
                 hospitalizacia.ukonci(new Date());
                 //zmazanie pacienta
                 data.removePacient(pacient);
@@ -269,7 +268,6 @@ public class Operations {
         for (int i = 0; i < hospitalizacie.size(); i++) {
             Hospitalizacia hospitalizacia = hospitalizacie.get(i);
             if (hospitalizacia.myEqual(newHosp)) {
-                //  TODO APP TIME
                 hospitalizacie.remove(i);
                 //zmazanie pacienta
                 data.removePacient(pacient);

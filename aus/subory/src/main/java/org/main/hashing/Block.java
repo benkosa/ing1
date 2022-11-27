@@ -40,7 +40,6 @@ public class Block <T extends IData> implements IRecord {
 
         for (int i = 0; i < blockFacktor; i++) {
             try {
-                //TODO MUSI EXISTOVAT BEZPARAMETRICKY KONSTRUKTOR DIVNE
                 this.records.add((T) this.classType.newInstance().createClass());
             } catch (InstantiationException ex) {
                 Logger.getLogger(Block.class.getName())
