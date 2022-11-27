@@ -61,6 +61,10 @@ public class Gui extends JFrame {
     private JTextArea textArea1;
     private JScrollPane scrollPane4;
     private JPanel tabData;
+    private JButton nacitajDynamickyButton;
+    private JTextField subor_dynDatTextField;
+    private JTextField a10TextField1;
+    private JButton ulozitButton;
 
     private void displayResponse(Response response) {
         if (response.code == 0) {
@@ -82,7 +86,7 @@ public class Gui extends JFrame {
         nacitajButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Response response = operations.opStart(
+                Response response = operations.opStartStatic(
                         suborDatTextField.getText(),
                         a10TextField.getText(),
                         a10000TextField.getText()
@@ -260,6 +264,23 @@ public class Gui extends JFrame {
                 Response<String> response = operations.opDisplatEverithing();
                 textArea1 = new JTextArea(response.data);
                 scrollPane4.setViewportView(textArea1);
+            }
+        });
+        nacitajDynamickyButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Response response = operations.opStartDynamic(
+                        subor_dynDatTextField.getText(),
+                        a10TextField1.getText()
+                );
+                displayResponse(response);
+            }
+        });
+        ulozitButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Response response = operations.opSaveDynamic();
+                displayResponse(response);
             }
         });
     }

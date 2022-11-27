@@ -1,6 +1,7 @@
 package org.main.app;
 
 
+import org.main.dynamic_hashing.DynamicHashing;
 import org.main.shared.DateFormat;
 import org.main.shared.Response;
 
@@ -16,7 +17,7 @@ public class Operations {
     private Date actualDate = new Date();
 
     Data data;
-    public Response opStart (String fileName, String blockFacktor, String blockNumber) {
+    public Response opStartStatic (String fileName, String blockFacktor, String blockNumber) {
 
         int blockFacktorInt = blockFacktor.isEmpty() ? 0 : Integer.parseInt(blockFacktor);
         int blockNumberInt = blockNumber.isEmpty() ? 0 : Integer.parseInt(blockNumber);
@@ -27,10 +28,34 @@ public class Operations {
         }
 
         if (blockFacktorInt == 0 && blockNumberInt == 0) {
-            data = new Data(fileName);
+            data = new Data(fileName, true);
             return new Response(0, "success", null);
         }
 
+
+        return new Response(1, "wrong input", null);
+    }
+
+    public Response opStartDynamic (String fileName, String blockFacktor) {
+
+        int blockFacktorInt = blockFacktor.isEmpty() ? 0 : Integer.parseInt(blockFacktor);
+
+        if (blockFacktorInt != 0) {
+            data = new Data(fileName, blockFacktorInt);
+            return new Response(0, "success", null);
+        }
+
+        if (blockFacktorInt == 0) {
+            data = new Data(fileName, false);
+            return new Response(0, "success", null);
+        }
+
+
+        return new Response(1, "wrong input", null);
+    }
+
+    public Response opSaveDynamic() {
+        ((DynamicHashing)this.data.hashing).saveTree();
 
         return new Response(1, "wrong input", null);
     }

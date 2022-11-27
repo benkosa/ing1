@@ -16,6 +16,8 @@ public class Hashing<T extends IData> {
     protected RandomAccessFile file;
     protected Class classType;
 
+    protected String fileName;
+
     public int getBlockSize() {
         return blockSize;
     }
@@ -23,6 +25,7 @@ public class Hashing<T extends IData> {
     private int blockSize = 0;
 
     public Hashing( String fileName, int blockFactor, int numberOfBlocks, Class classType) {
+        this.fileName = fileName;
         this.blockFactor = blockFactor;
         this.numberOfBlocks = numberOfBlocks;
         this.classType = classType;
@@ -55,6 +58,7 @@ public class Hashing<T extends IData> {
     }
 
     public Hashing( String fileName, Class classType) {
+        this.fileName = fileName;
         this.classType = classType;
         // open file
         try {
@@ -71,6 +75,18 @@ public class Hashing<T extends IData> {
 
     }
 
+    protected Hashing(String fileName, Class classType, boolean isDynamic) {
+        this.fileName = fileName;
+        this.classType = classType;
+        // open file
+        try {
+
+            this.file = new RandomAccessFile(fileName, "rw");
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(Hashing.class.getName())
+                    .log(Level.SEVERE, null, ex);
+        }
+    }
     public T find (T data) {
         // file nacitaj blok
         int adress =(bitSetToInt(data.getHash()) % numberOfBlocks)* blockSize;

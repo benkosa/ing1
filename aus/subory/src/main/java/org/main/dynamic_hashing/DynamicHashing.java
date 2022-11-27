@@ -21,6 +21,11 @@ public class DynamicHashing<T extends IData> extends Hashing<T> {
         root = new ExternalNode(new BitSet(), -1);
     }
 
+    public DynamicHashing(String fileName, Class classType) {
+        super(fileName, classType, true);
+        this.loadTree();
+    }
+
     @Override
     public boolean insert(T data) {
 
@@ -525,14 +530,6 @@ public class DynamicHashing<T extends IData> extends Hashing<T> {
         return brotherNode;
     }
 
-    private void emptyBlock() {
-
-    }
-
-    private ArrayList<Node> levelOrderNode(Node root) {
-        return null;
-    }
-
     private void alocateSingleExternal(T data, Node parent, int actualHeight, BitSet hash) {
         int newAdress;
 
@@ -582,20 +579,34 @@ public class DynamicHashing<T extends IData> extends Hashing<T> {
 
     public void saveTree() {
         try {
-//            FileOutputStream f = new FileOutputStream(new File("myObjects.txt"));
-//            ObjectOutputStream o = new ObjectOutputStream(f);
-//
-//            // Write objects to file
-//            o.writeObject(root);
-//
-//            o.close();
-//            f.close();
+            FileOutputStream f = new FileOutputStream(new File("tree_"+fileName));
+            ObjectOutputStream o = new ObjectOutputStream(f);
 
-            FileInputStream fi = new FileInputStream(new File("myObjects.txt"));
+            // Write objects to file
+            o.writeObject(root);
+            o.writeInt(blockFactor);
+            o.writeInt(numberOfBlocks);
+
+            o.close();
+            f.close();
+
+        } catch (FileNotFoundException e) {
+            System.out.println("File not found");
+        } catch (IOException e) {
+            System.out.println("Error initializing stream");
+        }
+    }
+
+    public void loadTree() {
+        try {
+
+            FileInputStream fi = new FileInputStream(new File("tree_"+fileName));
             ObjectInputStream oi = new ObjectInputStream(fi);
 
             // Read objects
-            Node pr1 = (Node) oi.readObject();
+            this.root = (Node) oi.readObject();
+            this.blockFactor = oi.readInt();
+            this.numberOfBlocks = oi.readInt();
 
             oi.close();
             fi.close();

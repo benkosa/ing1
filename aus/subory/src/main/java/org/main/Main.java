@@ -1,5 +1,6 @@
 package org.main;
 
+import org.main.app.Gui;
 import org.main.app.Pacient;
 import org.main.dynamic_hashing.DynamicHashing;
 import org.main.shared.Tests;
@@ -14,35 +15,35 @@ public class Main {
     public static void main(String[] args) {
 
 
-        Random rand = new Random();
-        DynamicHashing<Pacient> hashing = new DynamicHashing<>(
-                "test_dynamic.dat",
-                20,
-                Pacient.class
-        );
-
-        ArrayList<Pacient> insertedPacients = new ArrayList<>();
-
-
-        for (int i = 0; i < 1000; i++) {
-            Integer value = rand.nextInt(2000);
-            Pacient pacient = new Pacient("meno", "priezvisko", value.toString(), value, new Date() );
-            // insert
-            if (hashing.insert(pacient)) {
-                insertedPacients.add(pacient);
-            }
-
-        }
-
-        for (Pacient insertedPacient : insertedPacients) {
-            if (!hashing.delete(insertedPacient)) {
-                System.out.println("Error: inserted pacient not deleted");
-            }
-        }
-        System.out.println(hashing.fileSize());
-        hashing.readWholeFileNoValid();
-
-        if (true) return;
+//        Random rand = new Random();
+//        DynamicHashing<Pacient> hashing = new DynamicHashing<>(
+//                "test_dynamic.dat",
+//                20,
+//                Pacient.class
+//        );
+//
+//        ArrayList<Pacient> insertedPacients = new ArrayList<>();
+//
+//
+//        for (int i = 0; i < 1000; i++) {
+//            Integer value = rand.nextInt(2000);
+//            Pacient pacient = new Pacient("meno", "priezvisko", value.toString(), value, new Date() );
+//            // insert
+//            if (hashing.insert(pacient)) {
+//                insertedPacients.add(pacient);
+//            }
+//
+//        }
+//
+//        for (Pacient insertedPacient : insertedPacients) {
+//            if (!hashing.delete(insertedPacient)) {
+//                System.out.println("Error: inserted pacient not deleted");
+//            }
+//        }
+//        System.out.println(hashing.fileSize());
+//        hashing.readWholeFileNoValid();
+//
+//        if (true) return;
 
 //        Pacient pacient = new Pacient("Benjamin", "Kosa", "60", 2,  new Date());
 //        Pacient pacient2 = new Pacient("Benjamin", "Kosa", "48", 2,  new Date());
@@ -87,11 +88,11 @@ public class Main {
 //            System.out.println("is not internal node");
 //        }
 
-//        Gui gui = new Gui();
+        Gui gui = new Gui();
+
+        gui.start();
 //
-//        gui.start();
-//
-        Tests tests = new Tests();
+//        Tests tests = new Tests();
 ////        tests.testSize();
 //
 //        tests.testInsertOperationDynamic(
@@ -111,15 +112,15 @@ public class Main {
 //                2,
 //                1000
 //        );
-        tests.testRandomOperationDynamic(
-                .5,
-                .25,
-                .25,
-                100,
-                100,
-                1000,
-                10
-        );
+//        tests.testRandomOperationDynamic(
+//                .5,
+//                .25,
+//                .25,
+//                100,
+//                100,
+//                1000,
+//                10
+//        );
 
 
 //
