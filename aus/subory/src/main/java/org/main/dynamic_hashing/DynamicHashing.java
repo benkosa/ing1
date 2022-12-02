@@ -656,7 +656,7 @@ public class DynamicHashing<T extends IData> extends Hashing<T> {
                     tree.insert(loadedNode);
                     loadedNodes.add(loadedNode);
                 } else if (tokens[Tokens.TYPE.ordinal()].equals("e")) {
-                    long adres = Long.parseLong(tokens[Tokens.ADRES.ordinal()]);
+                    long adres = Long.parseLong(tokens[Tokens.ADDRESS.ordinal()]);
                     ExternalNode node = new ExternalNode(BitSet.valueOf(new long[]{adres}));
                     NodeMap loadedNode = new NodeMap(node, tokens);
                     tree.insert(loadedNode);

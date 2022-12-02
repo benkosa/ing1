@@ -6,5 +6,5 @@ public enum Tokens {
     PARENT,
     LEFT,
     RIGHT,
-    ADRES,
+    ADDRESS,
 }
