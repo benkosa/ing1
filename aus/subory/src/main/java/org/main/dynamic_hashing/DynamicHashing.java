@@ -617,7 +617,6 @@ public class DynamicHashing<T extends IData> extends Hashing<T> {
             e.printStackTrace();
         }
 
-        //if (true) return;
         try {
             FileOutputStream f = new FileOutputStream(new File(fileName+".block"));
             ObjectOutputStream o = new ObjectOutputStream(f);
@@ -641,7 +640,6 @@ public class DynamicHashing<T extends IData> extends Hashing<T> {
     }
 
     public void loadTree() {
-        //ArrayList<String[]> tokensInLine = new ArrayList<>();
         ArrayList<NodeMap> loadedNodes = new ArrayList<>();
         BSTree<String> tree = new BSTree<>();
         Scanner sc = null;
@@ -652,7 +650,6 @@ public class DynamicHashing<T extends IData> extends Hashing<T> {
             while (sc.hasNextLine()) {
                 line = sc.nextLine();
                 String tokens[] = line.split(";");
-                //tokensInLine.add(tokens);
                 if (tokens[Tokens.TYPE.ordinal()].equals("i")) {
                     InternalNode node = new InternalNode(null, null);
                     NodeMap loadedNode = new NodeMap(node, tokens);
@@ -675,12 +672,6 @@ public class DynamicHashing<T extends IData> extends Hashing<T> {
             if (sc != null) sc.close();
         }
 
-//        for (String[] tokens : tokensInLine) {
-//            for (String token : tokens) {
-//                System.out.print(token + " ");
-//            }
-//            System.out.println();
-//        }
 
         this.root = loadedNodes.get(0).node;
 
@@ -700,7 +691,6 @@ public class DynamicHashing<T extends IData> extends Hashing<T> {
         }
 
 
-        //if (true) return;
         try {
 
             FileInputStream fi = new FileInputStream(new File(fileName+".block"));
