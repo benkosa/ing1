@@ -21,6 +21,8 @@ UserInterfaceState.xcuserstate
 $RECYCLE.BIN/
 
 *.dat
+*.dat.tree
+*.dat.block
 
 *.log
 log.txt
