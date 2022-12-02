@@ -18,7 +18,7 @@ public class DynamicHashing<T extends IData> extends Hashing<T> {
 
     public DynamicHashing(String fileName,int blockFactor, Class classType) {
         super(fileName, blockFactor, 1, classType);
-        root = new ExternalNode(new BitSet(), -1);
+        root = new ExternalNode(new BitSet());
     }
 
     public DynamicHashing(String fileName, Class classType) {
@@ -37,11 +37,10 @@ public class DynamicHashing<T extends IData> extends Hashing<T> {
             // blok je plny
             if (b.validCount >= blockFactor) {
 
-                actualExternalNode.incNodeHeight();
 
                 //prerozdelenie
                 Block<T> newBlock = new Block<>(blockFactor, data.getClass());
-                blockRedistribution(b, newBlock, actualExternalNode.getNodeHeight());
+                blockRedistribution(b, newBlock, 0);
 
                 int newAdress = 0;
                 ExternalNode newExternal = null;
@@ -50,16 +49,14 @@ public class DynamicHashing<T extends IData> extends Hashing<T> {
                     increaseFile();
                     newAdress = (numberOfBlocks - 1) * getBlockSize();
                     newExternal = new ExternalNode(
-                                    BitSet.valueOf(new long[]{newAdress}),
-                                    actualExternalNode.getNodeHeight()
+                                    BitSet.valueOf(new long[]{newAdress})
                             );
                 } else {
                     //ak je povodny node prazdny
                     if (b.validCount <= 0) {
                         newAdress = adress;
                         newExternal = new ExternalNode(
-                                BitSet.valueOf(new long[]{newAdress}),
-                                actualExternalNode.getNodeHeight()
+                                BitSet.valueOf(new long[]{newAdress})
                         );
                         actualExternalNode = null;
                     }
@@ -121,11 +118,12 @@ public class DynamicHashing<T extends IData> extends Hashing<T> {
                 // blok je plny
                 if (b.validCount >= blockFactor) {
 
-                    actualExternalNode.incNodeHeight();
+                    actualHeight++;
+                    //actualExternalNode.incNodeHeight();
 
                     //prerozdelenie
                     Block<T> newBlock = new Block<>(blockFactor, data.getClass());
-                    blockRedistribution(b, newBlock, actualExternalNode.getNodeHeight());
+                    blockRedistribution(b, newBlock, actualHeight);
 
                     int newAdress = 0;
                     ExternalNode newExternal = null;
@@ -134,8 +132,7 @@ public class DynamicHashing<T extends IData> extends Hashing<T> {
                         increaseFile();
                         newAdress = (numberOfBlocks - 1) * getBlockSize();
                         newExternal = new ExternalNode(
-                                BitSet.valueOf(new long[]{newAdress}),
-                                actualExternalNode.getNodeHeight()
+                                BitSet.valueOf(new long[]{newAdress})
                         );
                     } else {
 
@@ -144,8 +141,7 @@ public class DynamicHashing<T extends IData> extends Hashing<T> {
 
                             newAdress = adress;
                             newExternal = new ExternalNode(
-                                    BitSet.valueOf(new long[]{newAdress}),
-                                    actualExternalNode.getNodeHeight()
+                                    BitSet.valueOf(new long[]{newAdress})
                             );
                             actualExternalNode = null;
                         }
@@ -544,7 +540,7 @@ public class DynamicHashing<T extends IData> extends Hashing<T> {
         Block b = new Block(blockFactor, classType);
         b.insert(data);
         reWriteBloc(b, newAdress);
-        Node newNode = new ExternalNode(BitSet.valueOf(new long[]{newAdress}), actualHeight);
+        Node newNode = new ExternalNode(BitSet.valueOf(new long[]{newAdress}));
         newNode.parent = parent;
         if (hash.get(actualHeight)) {
             parent.rightNode = newNode;

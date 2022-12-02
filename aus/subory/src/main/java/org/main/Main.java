@@ -119,7 +119,7 @@ public class Main {
                 1000,
                 100,
                 Integer.MAX_VALUE,
-                1
+                5
         );
 
 
