@@ -7,14 +7,13 @@ import org.main.hashing.IData;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.BitSet;
-import java.util.Iterator;
 import java.util.PriorityQueue;
 
 public class DynamicHashing<T extends IData> extends Hashing<T> {
 
     Node root;
 
-    PriorityQueue<Integer> emptyMemoryManager = new PriorityQueue<>();
+    PriorityQueue<Long> emptyMemoryManager = new PriorityQueue<>();
 
     public DynamicHashing(String fileName,int blockFactor, Class classType) {
         super(fileName, blockFactor, 1, classType);
@@ -31,7 +30,7 @@ public class DynamicHashing<T extends IData> extends Hashing<T> {
 
         if (root instanceof ExternalNode) {
             ExternalNode actualExternalNode = ((ExternalNode) root);
-            final int adress = bitSetToInt(actualExternalNode.adress);
+            final long adress = bitSetToLong(actualExternalNode.adress);
             Block<T> b = loadBlock(data, adress);
 
             // blok je plny
@@ -42,7 +41,7 @@ public class DynamicHashing<T extends IData> extends Hashing<T> {
                 Block<T> newBlock = new Block<>(blockFactor, data.getClass());
                 blockRedistribution(b, newBlock, 0);
 
-                int newAdress = 0;
+                long newAdress = 0;
                 ExternalNode newExternal = null;
                 // ak su obra plne
                 if (b.validCount > 0 && newBlock.validCount > 0) {
@@ -112,7 +111,7 @@ public class DynamicHashing<T extends IData> extends Hashing<T> {
             // ak je node externy
             if (actualNode instanceof ExternalNode) {
                 ExternalNode actualExternalNode = ((ExternalNode) actualNode);
-                final int adress = bitSetToInt(actualExternalNode.adress);
+                final long adress = bitSetToLong(actualExternalNode.adress);
                 Block<T> b = loadBlock(data, adress);
 
                 // blok je plny
@@ -125,7 +124,7 @@ public class DynamicHashing<T extends IData> extends Hashing<T> {
                     Block<T> newBlock = new Block<>(blockFactor, data.getClass());
                     blockRedistribution(b, newBlock, actualHeight);
 
-                    int newAdress = 0;
+                    long newAdress = 0;
                     ExternalNode newExternal = null;
                     // ak su obra plne
                     if (b.validCount > 0 && newBlock.validCount > 0) {
@@ -227,7 +226,7 @@ public class DynamicHashing<T extends IData> extends Hashing<T> {
         }
         final ExternalNode nodeToRemove = findNode(data);
 
-        final int removeAdress = bitSetToInt(nodeToRemove.adress);
+        final long removeAdress = bitSetToLong(nodeToRemove.adress);
         Block<T> removeBlock = loadBlock(data, removeAdress);
         //kluc sa nenasiel
         if (!removeBlock.remove(data)) {
@@ -307,7 +306,7 @@ public class DynamicHashing<T extends IData> extends Hashing<T> {
         //oba bratia su external
         if (brotherNode instanceof ExternalNode) {
             ExternalNode externalBrotherNode = (ExternalNode)brotherNode;
-            final int brotherAdress = bitSetToInt(externalBrotherNode.adress);
+            final long brotherAdress = bitSetToLong(externalBrotherNode.adress);
             Block<T> brotherBlock = loadBlock(data, brotherAdress);
 
             // prebehol merge
@@ -397,7 +396,7 @@ public class DynamicHashing<T extends IData> extends Hashing<T> {
         if (actualExternalNode == null) {
             return null;
         }
-        final int adress = bitSetToInt(actualExternalNode.adress);
+        final long adress = bitSetToLong(actualExternalNode.adress);
         Block<T> b = loadBlock(data, adress);
         return b.find(data);
 
@@ -408,7 +407,7 @@ public class DynamicHashing<T extends IData> extends Hashing<T> {
 
         if (root instanceof ExternalNode) {
             final ExternalNode actualExternalNode = ((ExternalNode) root);
-            final int adress = bitSetToInt(actualExternalNode.adress);
+            final long adress = bitSetToLong(actualExternalNode.adress);
             Block<T> b = loadBlock(data, adress);
             return actualExternalNode;
         }
@@ -440,7 +439,7 @@ public class DynamicHashing<T extends IData> extends Hashing<T> {
 //                    continue;
 //                }
 
-                final int adress = bitSetToInt(actualExternalNode.adress);
+                final long adress = bitSetToLong(actualExternalNode.adress);
                 Block<T> b = loadBlock(data, adress);
 
 
@@ -485,7 +484,7 @@ public class DynamicHashing<T extends IData> extends Hashing<T> {
         }
     }
 
-    private boolean mergeSons(Block block1, Block block2, int adress1, int adress2) {
+    private boolean mergeSons(Block block1, Block block2, long adress1, long adress2) {
         if (block1.validCount + block2.validCount <= blockFactor) {
             final ArrayList<T> records1 =  new ArrayList<>(block1.getRecords());
             final ArrayList<T> records2 =  new ArrayList<>(block2.getRecords());
@@ -527,7 +526,7 @@ public class DynamicHashing<T extends IData> extends Hashing<T> {
     }
 
     private void alocateSingleExternal(T data, Node parent, int actualHeight, BitSet hash) {
-        int newAdress;
+        long newAdress;
 
         if (emptyMemoryManager.size() != 0) {
             newAdress = emptyMemoryManager.poll();
@@ -549,7 +548,7 @@ public class DynamicHashing<T extends IData> extends Hashing<T> {
         }
     }
 
-    public void manageMemory(int adress) {
+    public void manageMemory(long adress) {
         long lastElement = fileSize()-getBlockSize();
 
         //posledny blok nemazeme
@@ -574,6 +573,36 @@ public class DynamicHashing<T extends IData> extends Hashing<T> {
     }
 
     public void saveTree() {
+        ArrayList<Node> nodes = levelOrderNodes();
+
+        if (nodes != null && nodes.size() == 0) {
+            return;
+        }
+
+        for (Node node : nodes) {
+            if (node instanceof InternalNode) {
+                System.out.println(
+                        "i;"+
+                        node.hashCode()+";"+
+                        (node.leftNode == null ? "null" : node.leftNode.hashCode())+";"+
+                        (node.rightNode == null ? "null" : node.rightNode.hashCode())
+                );
+            } else if (node instanceof ExternalNode) {
+                ExternalNode exNode = (ExternalNode) node;
+                System.out.println(
+                        "e,"+
+                       exNode.hashCode()+","+
+                       (exNode.leftNode == null ? "null" : exNode.leftNode.hashCode())+";"+
+                       (exNode.rightNode == null ? "null" : exNode.rightNode.hashCode())+";"+
+                       bitSetToLong(exNode.adress)
+
+
+                );
+
+            }
+        }
+
+        if (true) return;
         try {
             FileOutputStream f = new FileOutputStream(new File("tree_"+fileName));
             ObjectOutputStream o = new ObjectOutputStream(f);
@@ -604,7 +633,7 @@ public class DynamicHashing<T extends IData> extends Hashing<T> {
             this.root = (Node) oi.readObject();
             this.blockFactor = oi.readInt();
             this.numberOfBlocks = oi.readInt();
-            this.emptyMemoryManager = (PriorityQueue<Integer>) oi.readObject();
+            this.emptyMemoryManager = (PriorityQueue<Long>) oi.readObject();
 
             oi.close();
             fi.close();
@@ -616,5 +645,34 @@ public class DynamicHashing<T extends IData> extends Hashing<T> {
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
+    }
+
+    private ArrayList<Node> levelOrderNodes () {
+        if (root == null) {
+            return null;
+        }
+        final ArrayList<Node> levelOrderList = new ArrayList<>();
+        int startIndex = 0;
+        int endIndex = 1;
+        int newEndIndex = 1;
+        levelOrderList.add(root);
+        // while new elements were added to list
+        while (startIndex != newEndIndex) {
+            // cycle through new elements
+            for (; startIndex < endIndex; startIndex++) {
+                final Node rightNode = levelOrderList.get(startIndex).rightNode;
+                final Node leftNode = levelOrderList.get(startIndex).leftNode;
+                if (leftNode != null) {
+                    levelOrderList.add(leftNode);
+                    newEndIndex++;
+                }
+                if (rightNode != null) {
+                    levelOrderList.add(rightNode);
+                    newEndIndex++;
+                }
+            }
+            endIndex = newEndIndex;
+        }
+        return levelOrderList;
     }
 }

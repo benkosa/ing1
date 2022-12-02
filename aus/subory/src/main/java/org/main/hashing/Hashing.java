@@ -89,7 +89,7 @@ public class Hashing<T extends IData> {
     }
     public T find (T data) {
         // file nacitaj blok
-        int adress =(bitSetToInt(data.getHash()) % numberOfBlocks)* blockSize;
+        long adress =(bitSetToLong(data.getHash()) % numberOfBlocks)* blockSize;
         return loadBlock(data, adress).find(data);
     }
 
@@ -98,7 +98,7 @@ public class Hashing<T extends IData> {
     public boolean insert (T data) {
 
         // file nacitaj blok
-        int adress =(bitSetToInt(data.getHash()) % numberOfBlocks)* blockSize;
+        long adress =(bitSetToLong(data.getHash()) % numberOfBlocks)* blockSize;
         Block<T> b = loadBlock(data, adress);
 
         if (b.validCount >= blockFactor) {
@@ -116,7 +116,7 @@ public class Hashing<T extends IData> {
     public boolean delete (T data) {
         // vymaz z records
 
-        int adress =(bitSetToInt(data.getHash()) % numberOfBlocks)* blockSize;
+        long adress =(bitSetToLong(data.getHash()) % numberOfBlocks)* blockSize;
         Block<T> b = loadBlock(data, adress);
         if (!b.remove(data)) {
             return false;
@@ -233,15 +233,15 @@ public class Hashing<T extends IData> {
 
 
     //https://stackoverflow.com/questions/2473597/bitset-to-and-from-integer-long
-    public static int bitSetToInt(BitSet bits) {
+    public static long bitSetToLong(BitSet bits) {
         long value = 0L;
         for (int i = 0; i < bits.length(); ++i) {
             value += bits.get(i) ? (1L << i) : 0L;
         }
-        return (int) value;
+        return value;
     }
 
-    protected Block<T> loadBlock(T data, int adress) {
+    protected Block<T> loadBlock(T data, long adress) {
         // file nacitaj blok
         Block<T> b = new Block<>(blockFactor, data.getClass());
 
@@ -257,7 +257,7 @@ public class Hashing<T extends IData> {
         return b;
     }
 
-    protected void reWriteBloc(Block b, int adress) {
+    protected void reWriteBloc(Block b, long adress) {
         try {
             file.seek(adress);
             file.write(b.toByteArray());

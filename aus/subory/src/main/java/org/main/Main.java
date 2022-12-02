@@ -45,20 +45,22 @@ public class Main {
 //
 //        if (true) return;
 
-//        Pacient pacient = new Pacient("Benjamin", "Kosa", "60", 2,  new Date());
-//        Pacient pacient2 = new Pacient("Benjamin", "Kosa", "48", 2,  new Date());
-//        Pacient pacient3 = new Pacient("Benjamin", "Kosa", "29", 2,  new Date());
-//        Pacient pacient4 = new Pacient("Benjamin", "Kosa", "47", 2,  new Date());
-//
-//        DynamicHashing<Pacient> dh =
-//                new DynamicHashing("dynamic.dat", 2, Pacient.class);
-//
-//
-//
-//        System.out.println(dh.insert(pacient));
-//        System.out.println(dh.insert(pacient2));
-//        System.out.println(dh.insert(pacient3));
-//        System.out.println(dh.insert(pacient4));
+        Pacient pacient = new Pacient("Benjamin", "Kosa", "54", 2,  new Date());
+        Pacient pacient2 = new Pacient("Benjamin", "Kosa", "51", 2,  new Date());
+        Pacient pacient3 = new Pacient("Benjamin", "Kosa", "56", 2,  new Date());
+        Pacient pacient4 = new Pacient("Benjamin", "Kosa", "47", 2,  new Date());
+
+        DynamicHashing<Pacient> dh =
+                new DynamicHashing("dynamic.dat", 2, Pacient.class);
+
+
+
+        System.out.println(dh.insert(pacient));
+        System.out.println(dh.insert(pacient2));
+        System.out.println(dh.insert(pacient3));
+        System.out.println(dh.insert(pacient4));
+
+        dh.saveTree();
 //
 //
 //
@@ -119,7 +121,7 @@ public class Main {
                 1000,
                 100,
                 Integer.MAX_VALUE,
-                5
+                2
         );
 
 
