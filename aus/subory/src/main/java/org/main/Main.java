@@ -61,6 +61,9 @@ public class Main {
         System.out.println(dh.insert(pacient4));
 
         dh.saveTree();
+        dh.loadTree();
+
+        System.out.println();
 //
 //
 //
@@ -90,9 +93,9 @@ public class Main {
 //            System.out.println("is not internal node");
 //        }
 
-//        Gui gui = new Gui();
-//
-//        gui.start();
+        Gui gui = new Gui();
+
+        gui.start();
 //
         Tests tests = new Tests();
        // tests.testSize();

@@ -1,13 +1,17 @@
 package org.main.dynamic_hashing;
 
+import org.main.app.NodeMap;
+import org.main.bst.BSTree;
 import org.main.hashing.Block;
 import org.main.hashing.Hashing;
 import org.main.hashing.IData;
+import org.main.shared.Tokens;
 
 import java.io.*;
 import java.util.ArrayList;
 import java.util.BitSet;
 import java.util.PriorityQueue;
+import java.util.Scanner;
 
 public class DynamicHashing<T extends IData> extends Hashing<T> {
 
@@ -579,7 +583,7 @@ public class DynamicHashing<T extends IData> extends Hashing<T> {
             return;
         }
 
-        String path = "tree_"+fileName+".txt";
+        String path = fileName+".tree";
         //delete file content
         try {
             PrintWriter pw = new PrintWriter(path);
@@ -600,8 +604,8 @@ public class DynamicHashing<T extends IData> extends Hashing<T> {
                 } else if (node instanceof ExternalNode) {
                     ExternalNode exNode = (ExternalNode) node;
                     info.write(String.format(
-                            "e,"+
-                            Integer.toHexString(exNode.hashCode())+","+
+                            "e;"+
+                            Integer.toHexString(exNode.hashCode())+";"+
                             (exNode.parent == null ? "null" : Integer.toHexString(exNode.parent.hashCode()))+";"+
                             (exNode.leftNode == null ? "null" : Integer.toHexString(exNode.leftNode.hashCode()))+";"+
                             (exNode.rightNode == null ? "null" : Integer.toHexString(exNode.rightNode.hashCode()))+";"+
@@ -613,48 +617,110 @@ public class DynamicHashing<T extends IData> extends Hashing<T> {
             e.printStackTrace();
         }
 
-        if (true) return;
+        //if (true) return;
         try {
-            FileOutputStream f = new FileOutputStream(new File("tree_"+fileName));
+            FileOutputStream f = new FileOutputStream(new File(fileName+".block"));
             ObjectOutputStream o = new ObjectOutputStream(f);
 
             // Write objects to file
-            o.writeObject(root);
             o.writeInt(blockFactor);
             o.writeInt(numberOfBlocks);
-            o.writeObject(emptyMemoryManager);
+            o.writeInt(emptyMemoryManager.size());
+            for (Long aLong : emptyMemoryManager) {
+                o.writeLong(aLong);
+            }
 
             o.close();
             f.close();
 
         } catch (FileNotFoundException e) {
-            System.out.println("File not found");
+            System.out.println("File not found write");
         } catch (IOException e) {
             System.out.println("Error initializing stream");
         }
     }
 
     public void loadTree() {
+        //ArrayList<String[]> tokensInLine = new ArrayList<>();
+        ArrayList<NodeMap> loadedNodes = new ArrayList<>();
+        BSTree<String> tree = new BSTree<>();
+        Scanner sc = null;
+        try {
+            File file = new File(fileName + ".tree"); // java.io.File
+            sc = new Scanner(file);     // java.util.Scanner
+            String line;
+            while (sc.hasNextLine()) {
+                line = sc.nextLine();
+                String tokens[] = line.split(";");
+                //tokensInLine.add(tokens);
+                if (tokens[Tokens.TYPE.ordinal()].equals("i")) {
+                    InternalNode node = new InternalNode(null, null);
+                    NodeMap loadedNode = new NodeMap(node, tokens);
+                    tree.insert(loadedNode);
+                    loadedNodes.add(loadedNode);
+                } else if (tokens[Tokens.TYPE.ordinal()].equals("e")) {
+                    long adres = Long.parseLong(tokens[Tokens.ADRES.ordinal()]);
+                    ExternalNode node = new ExternalNode(BitSet.valueOf(new long[]{adres}));
+                    NodeMap loadedNode = new NodeMap(node, tokens);
+                    tree.insert(loadedNode);
+                    loadedNodes.add(loadedNode);
+                }
+            }
+        }
+        catch(FileNotFoundException e)
+        {
+            e.printStackTrace();
+        }
+        finally {
+            if (sc != null) sc.close();
+        }
+
+//        for (String[] tokens : tokensInLine) {
+//            for (String token : tokens) {
+//                System.out.print(token + " ");
+//            }
+//            System.out.println();
+//        }
+
+        this.root = loadedNodes.get(0).node;
+
+        for (NodeMap loadedNode : loadedNodes) {
+            if (!loadedNode.tokens[Tokens.PARENT.ordinal()].equals("null")) {
+                loadedNode.node.parent =
+                        ((NodeMap)tree.find(loadedNode.tokens[Tokens.PARENT.ordinal()])).node;
+            }
+            if (!loadedNode.tokens[Tokens.LEFT.ordinal()].equals("null")) {
+                loadedNode.node.leftNode =
+                        ((NodeMap)tree.find(loadedNode.tokens[Tokens.LEFT.ordinal()])).node;
+            }
+            if (!loadedNode.tokens[Tokens.RIGHT.ordinal()].equals("null")) {
+                loadedNode.node.rightNode =
+                        ((NodeMap)tree.find(loadedNode.tokens[Tokens.RIGHT.ordinal()])).node;
+            }
+        }
+
+
+        //if (true) return;
         try {
 
-            FileInputStream fi = new FileInputStream(new File("tree_"+fileName));
+            FileInputStream fi = new FileInputStream(new File(fileName+".block"));
             ObjectInputStream oi = new ObjectInputStream(fi);
 
             // Read objects
-            this.root = (Node) oi.readObject();
             this.blockFactor = oi.readInt();
             this.numberOfBlocks = oi.readInt();
-            this.emptyMemoryManager = (PriorityQueue<Long>) oi.readObject();
+            int size = oi.readInt();
+            for (int i = 0; i < size; i++) {
+                this.emptyMemoryManager.add(oi.readLong());
+            }
 
             oi.close();
             fi.close();
 
         } catch (FileNotFoundException e) {
-            System.out.println("File not found");
+            System.out.println("File not found read");
         } catch (IOException e) {
             System.out.println("Error initializing stream");
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
         }
     }
 
