@@ -12,8 +12,4 @@ public class ExternalNode extends Node {
     public ExternalNode(BitSet adress) {
         this.adress = adress;
     }
-
-    public ExternalNode (InternalNode node) {
-
-    }
 }

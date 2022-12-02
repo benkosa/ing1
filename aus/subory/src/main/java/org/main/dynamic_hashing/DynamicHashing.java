@@ -579,27 +579,38 @@ public class DynamicHashing<T extends IData> extends Hashing<T> {
             return;
         }
 
-        for (Node node : nodes) {
-            if (node instanceof InternalNode) {
-                System.out.println(
-                        "i;"+
-                        node.hashCode()+";"+
-                        (node.leftNode == null ? "null" : node.leftNode.hashCode())+";"+
-                        (node.rightNode == null ? "null" : node.rightNode.hashCode())
-                );
-            } else if (node instanceof ExternalNode) {
-                ExternalNode exNode = (ExternalNode) node;
-                System.out.println(
-                        "e,"+
-                       exNode.hashCode()+","+
-                       (exNode.leftNode == null ? "null" : exNode.leftNode.hashCode())+";"+
-                       (exNode.rightNode == null ? "null" : exNode.rightNode.hashCode())+";"+
-                       bitSetToLong(exNode.adress)
+        String path = "tree_"+fileName+".txt";
+        //delete file content
+        try {
+            PrintWriter pw = new PrintWriter(path);
+            pw.close();
+        } catch(IOException e) {}
 
-
-                );
-
+        try (FileWriter fstream = new FileWriter(path);
+             BufferedWriter info = new BufferedWriter(fstream)) {
+            for (Node node : nodes) {
+                if (node instanceof InternalNode) {
+                    info.write(String.format(
+                            "i;"+
+                            Integer.toHexString(node.hashCode())+";"+
+                            (node.parent == null ? "null" : Integer.toHexString(node.parent.hashCode()))+";"+
+                            (node.leftNode == null ? "null" : Integer.toHexString(node.leftNode.hashCode()))+";"+
+                            (node.rightNode == null ? "null" : Integer.toHexString(node.rightNode.hashCode()))
+                            +"%n"));
+                } else if (node instanceof ExternalNode) {
+                    ExternalNode exNode = (ExternalNode) node;
+                    info.write(String.format(
+                            "e,"+
+                            Integer.toHexString(exNode.hashCode())+","+
+                            (exNode.parent == null ? "null" : Integer.toHexString(exNode.parent.hashCode()))+";"+
+                            (exNode.leftNode == null ? "null" : Integer.toHexString(exNode.leftNode.hashCode()))+";"+
+                            (exNode.rightNode == null ? "null" : Integer.toHexString(exNode.rightNode.hashCode()))+";"+
+                            bitSetToLong(exNode.adress)
+                            +"%n"));
+                }
             }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
         if (true) return;
