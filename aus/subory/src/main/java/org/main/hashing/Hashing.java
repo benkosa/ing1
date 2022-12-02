@@ -179,6 +179,9 @@ public class Hashing<T extends IData> {
             fullFile = new byte[fileLength];
             file.seek(0);
             file.read(fullFile);
+
+            System.out.println("dlzka sunboru: " + file.length());
+            System.out.println("pocet_blokov * velkost_bloku: " + numberOfBlocks*blockSize);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

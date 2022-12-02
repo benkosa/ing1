@@ -3,6 +3,7 @@ package org.main;
 import org.main.app.Gui;
 import org.main.app.Pacient;
 import org.main.dynamic_hashing.DynamicHashing;
+import org.main.dynamic_hashing.Node;
 import org.main.shared.Tests;
 
 import java.util.ArrayList;
@@ -13,7 +14,6 @@ import java.util.Random;
 
 public class Main {
     public static void main(String[] args) {
-
 
 //        Random rand = new Random();
 //        DynamicHashing<Pacient> hashing = new DynamicHashing<>(
@@ -88,12 +88,12 @@ public class Main {
 //            System.out.println("is not internal node");
 //        }
 
-        Gui gui = new Gui();
-
-        gui.start();
+//        Gui gui = new Gui();
 //
-//        Tests tests = new Tests();
-////        tests.testSize();
+//        gui.start();
+//
+        Tests tests = new Tests();
+       // tests.testSize();
 //
 //        tests.testInsertOperationDynamic(
 //                1000,
@@ -112,15 +112,15 @@ public class Main {
 //                2,
 //                1000
 //        );
-//        tests.testRandomOperationDynamic(
-//                .5,
-//                .25,
-//                .25,
-//                100,
-//                100,
-//                1000,
-//                10
-//        );
+        tests.testRandomOperationDynamic(
+                .5,
+                .25,
+                .25,
+                1000,
+                100,
+                Integer.MAX_VALUE,
+                1
+        );
 
 
 //

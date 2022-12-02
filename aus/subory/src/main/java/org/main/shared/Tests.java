@@ -103,9 +103,10 @@ public class Tests {
             if (fromHash.size() != insertedPacients.size()) {
                 System.out.println("error: " + fromHash.size() + " != " + insertedPacients.size());
             }
+            hashing.readWholeFileNoValid();
 
-            System.out.print("\b\b\b\b\b");
-            System.out.print(Math.round(((float)seed/replication)*100) + " %");
+//            System.out.print("\b\b\b\b\b");
+//            System.out.print(Math.round(((float)seed/replication)*100) + " %");
         }
 
         System.out.println();
@@ -195,6 +196,7 @@ public class Tests {
 
             System.out.print("\b\b\b\b\b");
             System.out.print(Math.round(((float)seed/replication)*100) + " %");
+            //hashing.readWholeFileNoValid();
         }
 
         System.out.println();

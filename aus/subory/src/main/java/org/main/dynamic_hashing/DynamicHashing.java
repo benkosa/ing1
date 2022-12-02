@@ -112,7 +112,7 @@ public class DynamicHashing<T extends IData> extends Hashing<T> {
 
         while (true) {
 
-            // ak je root externy
+            // ak je node externy
             if (actualNode instanceof ExternalNode) {
                 ExternalNode actualExternalNode = ((ExternalNode) actualNode);
                 final int adress = bitSetToInt(actualExternalNode.adress);
