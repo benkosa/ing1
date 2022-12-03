@@ -118,15 +118,15 @@ public class Main {
 //                1000
 //        );
 
-//        tests.testRandomOperationDynamic(
-//                .5,
-//                .25,
-//                .25,
-//                1000,
-//                100,
-//                Integer.MAX_VALUE,
-//                2
-//        );
+        tests.testRandomOperationDynamic(
+                .5,
+                .25,
+                .25,
+                1000,
+                100,
+                Integer.MAX_VALUE,
+                2
+        );
 
 
 //

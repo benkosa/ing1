@@ -40,7 +40,6 @@ public class DynamicHashing<T extends IData> extends Hashing<T> {
             // blok je plny
             if (b.validCount >= blockFactor) {
 
-
                 //prerozdelenie
                 Block<T> newBlock = new Block<>(blockFactor, data.getClass());
                 blockRedistribution(b, newBlock, 0);
@@ -230,7 +229,7 @@ public class DynamicHashing<T extends IData> extends Hashing<T> {
         }
         final ExternalNode nodeToRemove = findNode(data);
 
-        final long removeAdress = bitSetToLong(nodeToRemove.adress);
+        long removeAdress = bitSetToLong(nodeToRemove.adress);
         Block<T> removeBlock = loadBlock(data, removeAdress);
         //kluc sa nenasiel
         if (!removeBlock.remove(data)) {
@@ -310,11 +309,11 @@ public class DynamicHashing<T extends IData> extends Hashing<T> {
         //oba bratia su external
         if (brotherNode instanceof ExternalNode) {
             ExternalNode externalBrotherNode = (ExternalNode)brotherNode;
-            final long brotherAdress = bitSetToLong(externalBrotherNode.adress);
+            long brotherAdress = bitSetToLong(externalBrotherNode.adress);
             Block<T> brotherBlock = loadBlock(data, brotherAdress);
 
             // prebehol merge
-            if (mergeSons(removeBlock, brotherBlock, removeAdress, brotherAdress)) {
+            while (mergeSons(removeBlock, brotherBlock, removeAdress, brotherAdress)) {
                 reWriteBloc(removeBlock, removeAdress);
                 reWriteBloc(brotherBlock, brotherAdress);
                 // uvolnit blok
@@ -354,9 +353,10 @@ public class DynamicHashing<T extends IData> extends Hashing<T> {
 
                     //najst node na skratenie
                     Node node;
-                    for ( node = fullNode;
-                          (node.parent instanceof InternalNode) && getBrother(node.parent) == null;
-                          node = node.parent);
+                    for (node = fullNode;
+                         (node.parent instanceof InternalNode) && getBrother(node.parent) == null;
+                         node = node.parent)
+                        ;
 
                     if (node == root) {
                         root = fullNode;
@@ -388,7 +388,23 @@ public class DynamicHashing<T extends IData> extends Hashing<T> {
                     tmpParetn.parent.rightNode = fullNode;
                 }
                 fullNode.parent = tmpParetn.parent;
-                return true;
+                // tu spravit kontrolu ci netreba zopakovat merge
+                if (fullNode.parent.leftNode instanceof ExternalNode &&
+                        fullNode.parent.rightNode instanceof ExternalNode) {
+                    removeAdress = bitSetToLong(((ExternalNode) fullNode.parent.leftNode).adress);
+                    brotherAdress = bitSetToLong(((ExternalNode) fullNode.parent.rightNode).adress);
+                    removeBlock = loadBlock(data, removeAdress);
+                    brotherBlock = loadBlock(data, brotherAdress);
+
+                    //neda sa spravit merge
+                    if (removeBlock.validCount + brotherBlock.validCount > blockFactor) {
+                        return true;
+                    }
+                    //zopakujeme merge
+                } else {
+                    return true;
+                }
+
             }
         }
         return true;
