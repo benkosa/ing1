@@ -93,11 +93,13 @@ public class Main {
 //            System.out.println("is not internal node");
 //        }
 
-        Gui gui = new Gui();
-
-        gui.start();
+//        Gui gui = new Gui();
+//
+//        gui.start();
 //
         Tests tests = new Tests();
+
+        tests.powerTests();
        // tests.testSize();
 //
 //        tests.testInsertOperationDynamic(
@@ -118,15 +120,15 @@ public class Main {
 //                1000
 //        );
 
-        tests.testRandomOperationDynamic(
-                .5,
-                .25,
-                .25,
-                1000,
-                100,
-                Integer.MAX_VALUE,
-                2
-        );
+//        tests.testRandomOperationDynamic(
+//                .5,
+//                .25,
+//                .25,
+//                1000,
+//                100,
+//                Integer.MAX_VALUE,
+//                2
+//        );
 
 
 //

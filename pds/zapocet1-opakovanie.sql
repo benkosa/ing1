@@ -216,7 +216,9 @@ select * from (
     select 
         suma, 
         to_char(dat_platby, 'yyyy') rok, 
-        row_number() over (partition by (to_char(dat_platby, 'yyyy') || to_char(dat_platby, 'q')) order by suma desc) poradie
+        row_number() over (
+            partition by (to_char(dat_platby, 'yyyy') || to_char(dat_platby, 'q')) 
+            order by suma desc) poradie
     from p_odvod_platba
 )
 where poradie = 4 and rok = 2016;

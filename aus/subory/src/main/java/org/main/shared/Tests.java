@@ -275,4 +275,198 @@ public class Tests {
         System.out.println("testInsertOperationDynamic: done");
         System.out.println("----------------------------------------------------");
     }
+
+    public void powerTests() {
+        int numberOfPacients = 100000;
+
+
+
+        ArrayList<Pacient> pacients = new ArrayList<>(numberOfPacients);
+        ArrayList<Float> operations = new ArrayList<>(numberOfPacients);
+
+        Random rand = new Random();
+
+        for (int i = 0; i < numberOfPacients; i++) {
+            String rc = "";
+            for (int j = 0; j < 10; j++) {
+                rc += rand.nextInt(10);
+            }
+            pacients.add(new Pacient("", "", rc, 0, new Date()));
+            operations.add(rand.nextFloat());
+        }
+
+        int blockFactors[] = {10, 20, 50, 100, 1000};
+
+        for (int blockFactor : blockFactors) {
+
+            ArrayList<Pacient> insertedPacients = new ArrayList<>(numberOfPacients);
+
+            // meranie casu potrebneho na alokovanie
+            long start = System.nanoTime();
+            Hashing<Pacient> staticHashing = new Hashing<>("powerTestStatic.dat", blockFactor,(numberOfPacients/blockFactor)*3, Pacient.class);
+            long finish = System.nanoTime();
+            long staticAlocation = finish - start;
+
+            start = System.nanoTime();
+            Hashing<Pacient> dynamicHashing = new DynamicHashing<>("powerTestDynamic.dat", blockFactor, Pacient.class);
+            finish = System.nanoTime();
+            long dynamicAlocation = finish - start;
+
+            long staticInsert = 0;
+            long staticFind = 0;
+            long staticRemove = 0;
+
+            long dynamicInsert = 0;
+            long dynamicFind = 0;
+            long dynamicRemove = 0;
+
+            int i = 0;
+            for (Float operation : operations) {
+                // insert
+                if (operation < 0.6) {
+                    start = System.nanoTime();
+                    staticHashing.insert(pacients.get(i));
+                    finish = System.nanoTime();
+                    staticInsert += finish-start;
+
+                    start = System.nanoTime();
+                    dynamicHashing.insert(pacients.get(i));
+                    finish = System.nanoTime();
+                    dynamicInsert += finish-start;
+
+                    insertedPacients.add(pacients.get(i));
+                    // remove
+                } else if (operation < 0.8) {
+                    Pacient pacient;
+                    if (insertedPacients.size() > 0) {
+                        pacient = insertedPacients.get(rand.nextInt(insertedPacients.size()));
+                    } else {
+                        pacient = pacients.get(i);
+                    }
+                    start = System.nanoTime();
+                    dynamicHashing.delete(pacient);
+                    finish = System.nanoTime();
+                    dynamicRemove += finish-start;
+
+                    start = System.nanoTime();
+                    staticHashing.delete(pacient);
+                    finish = System.nanoTime();
+                    staticRemove += finish-start;
+
+                    insertedPacients.remove(pacient);
+                    // find
+                } else {
+                    Pacient pacient;
+                    if (insertedPacients.size() > 0) {
+                        pacient = insertedPacients.get(rand.nextInt(insertedPacients.size()));
+                    } else {
+                        pacient = pacients.get(i);
+                    }
+                    start = System.nanoTime();
+                    dynamicHashing.find(pacient);
+                    finish = System.nanoTime();
+                    dynamicFind += finish-start;
+
+                    start = System.nanoTime();
+                    staticHashing.find(pacient);
+                    finish = System.nanoTime();
+                    staticFind += finish-start;
+                }
+                i++;
+            }
+
+
+            System.out.println(blockFactor+";"+staticAlocation + ";" + staticInsert + ";" + staticFind + ";" + staticRemove + ";" + staticHashing.fileSize());
+            System.out.println(blockFactor+";"+dynamicAlocation + ";" + dynamicInsert + ";" + dynamicFind + ";" + dynamicRemove + ";" + dynamicHashing.fileSize());
+
+        }
+
+    }
+
+    public void powerTests2() {
+        int numberOfPacients = 100000;
+
+        ArrayList<Pacient> pacients = new ArrayList<>(numberOfPacients);
+
+        Random rand = new Random();
+
+        for (int i = 0; i < numberOfPacients; i++) {
+            String rc = "";
+            for (int j = 0; j < 10; j++) {
+                rc += rand.nextInt(10);
+            }
+            pacients.add(new Pacient("", "", rc, 0, new Date()));
+        }
+
+        int blockFactors[] = {10, 20, 50, 100, 1000};
+
+        for (int blockFactor : blockFactors) {
+
+            // meranie casu potrebneho na alokovanie
+            long start = System.nanoTime();
+            Hashing<Pacient> staticHashing = new Hashing<>("powerTestStatic.dat", blockFactor,(numberOfPacients/blockFactor)*3, Pacient.class);
+            long finish = System.nanoTime();
+            long staticAlocation = finish - start;
+
+            start = System.nanoTime();
+            Hashing<Pacient> dynamicHashing = new DynamicHashing<>("powerTestDynamic.dat", blockFactor, Pacient.class);
+            finish = System.nanoTime();
+            long dynamicAlocation = finish - start;
+
+            long staticInsert = 0;
+            long staticFind = 0;
+            long staticRemove = 0;
+
+            long dynamicInsert = 0;
+            long dynamicFind = 0;
+            long dynamicRemove = 0;
+
+            // insert
+            for (Pacient pacient : pacients) {
+                start = System.nanoTime();
+                staticHashing.insert(pacient);
+                finish = System.nanoTime();
+                staticInsert += finish-start;
+
+                start = System.nanoTime();
+                dynamicHashing.insert(pacient);
+                finish = System.nanoTime();
+                dynamicInsert += finish-start;
+            }
+            long dynamicFileSize = dynamicHashing.fileSize();
+
+            // find
+            for (Pacient pacient : pacients) {
+                start = System.nanoTime();
+                dynamicHashing.find(pacient);
+                finish = System.nanoTime();
+                dynamicFind += finish-start;
+
+                start = System.nanoTime();
+                staticHashing.find(pacient);
+                finish = System.nanoTime();
+                staticFind += finish-start;
+            }
+
+            // remove
+            for (Pacient pacient : pacients) {
+                // insert
+                start = System.nanoTime();
+                dynamicHashing.delete(pacient);
+                finish = System.nanoTime();
+                dynamicRemove += finish-start;
+
+                start = System.nanoTime();
+                staticHashing.delete(pacient);
+                finish = System.nanoTime();
+                staticRemove += finish-start;
+            }
+
+            System.out.println(blockFactor+";"+staticAlocation + ";" + staticInsert + ";" + staticFind + ";" + staticRemove + ";" + staticHashing.fileSize());
+            System.out.println(blockFactor+";"+dynamicAlocation + ";" + dynamicInsert + ";" + dynamicFind + ";" + dynamicRemove + ";" + dynamicFileSize);
+
+        }
+
+    }
+
 }
