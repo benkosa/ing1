@@ -45,25 +45,25 @@ public class Main {
 //
 //        if (true) return;
 
-        Pacient pacient = new Pacient("Benjamin", "Kosa", "54", 2,  new Date());
-        Pacient pacient2 = new Pacient("Benjamin", "Kosa", "51", 2,  new Date());
-        Pacient pacient3 = new Pacient("Benjamin", "Kosa", "56", 2,  new Date());
-        Pacient pacient4 = new Pacient("Benjamin", "Kosa", "47", 2,  new Date());
-
-        DynamicHashing<Pacient> dh =
-                new DynamicHashing("dynamic.dat", 2, Pacient.class);
-
-
-
-        System.out.println(dh.insert(pacient));
-        System.out.println(dh.insert(pacient2));
-        System.out.println(dh.insert(pacient3));
-        System.out.println(dh.insert(pacient4));
-
-        dh.saveTree();
-        dh.loadTree();
-
-        System.out.println();
+//        Pacient pacient = new Pacient("Benjamin", "Kosa", "54", 2,  new Date());
+//        Pacient pacient2 = new Pacient("Benjamin", "Kosa", "51", 2,  new Date());
+//        Pacient pacient3 = new Pacient("Benjamin", "Kosa", "56", 2,  new Date());
+//        Pacient pacient4 = new Pacient("Benjamin", "Kosa", "47", 2,  new Date());
+//
+//        DynamicHashing<Pacient> dh =
+//                new DynamicHashing("dynamic.dat", 2, Pacient.class);
+//
+//
+//
+//        System.out.println(dh.insert(pacient));
+//        System.out.println(dh.insert(pacient2));
+//        System.out.println(dh.insert(pacient3));
+//        System.out.println(dh.insert(pacient4));
+//
+//        dh.saveTree();
+//        dh.loadTree();
+//
+//        System.out.println();
 //
 //
 //
@@ -93,13 +93,13 @@ public class Main {
 //            System.out.println("is not internal node");
 //        }
 
-//        Gui gui = new Gui();
-//
-//        gui.start();
-//
-        Tests tests = new Tests();
+        Gui gui = new Gui();
 
-        tests.powerTests();
+        gui.start();
+//
+//        Tests tests = new Tests();
+//
+//        tests.powerTests();
        // tests.testSize();
 //
 //        tests.testInsertOperationDynamic(
@@ -116,7 +116,7 @@ public class Main {
 //                10,
 //                100,
 //                100,
-//                2,
+//                1,
 //                1000
 //        );
 
@@ -124,10 +124,10 @@ public class Main {
 //                .5,
 //                .25,
 //                .25,
+//                1,
 //                1000,
-//                100,
 //                Integer.MAX_VALUE,
-//                2
+//                1
 //        );
 
 

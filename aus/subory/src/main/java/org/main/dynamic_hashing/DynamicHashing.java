@@ -421,6 +421,23 @@ public class DynamicHashing<T extends IData> extends Hashing<T> {
         return b.find(data);
 
     }
+    @Override
+    public boolean replace (T data) {
+        final ExternalNode actualExternalNode = findNode(data);
+        if (actualExternalNode == null) {
+            return false;
+        }
+        final long adress = bitSetToLong(actualExternalNode.adress);
+        Block<T> b = loadBlock(data, adress);
+
+        if (b.remove(data) == false) {
+            return false;
+        }
+        b.insert(data);
+
+        reWriteBloc(b, adress);
+        return true;
+    }
 
 
     private ExternalNode findNode(T data) {

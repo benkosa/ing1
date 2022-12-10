@@ -103,10 +103,10 @@ public class Tests {
             if (fromHash.size() != insertedPacients.size()) {
                 System.out.println("error: " + fromHash.size() + " != " + insertedPacients.size());
             }
-            hashing.readWholeFileNoValid();
+            //hashing.readWholeFileNoValid();
 
-//            System.out.print("\b\b\b\b\b");
-//            System.out.print(Math.round(((float)seed/replication)*100) + " %");
+            System.out.print("\b\b\b\b\b");
+            System.out.print(Math.round(((float)seed/replication)*100) + " %");
         }
 
         System.out.println();
@@ -156,13 +156,13 @@ public class Tests {
                 double operation = rand.nextFloat();
                 Pacient pacient = new Pacient("meno", "priezvisko", value.toString(), value, new Date() );
                 // insert
-                if (pInsert < operation) {
+                if (operation < pInsert) {
                     if (hashing.insert(pacient)) {
                         insertedPacients.add(pacient);
                     }
 
                     // remove
-                } else if (pInsert + pRemove < operation) {
+                } else if (operation < pInsert + pRemove) {
 
                     if (hashing.delete(pacient)) {
                         for (int i1 = 0; i1 < insertedPacients.size(); i1++) {
@@ -277,7 +277,7 @@ public class Tests {
     }
 
     public void powerTests() {
-        int numberOfPacients = 100000;
+        int numberOfPacients = 1000;
 
 
 
@@ -295,7 +295,7 @@ public class Tests {
             operations.add(rand.nextFloat());
         }
 
-        int blockFactors[] = {10, 20, 50, 100, 1000};
+        int blockFactors[] = {10};
 
         for (int blockFactor : blockFactors) {
 

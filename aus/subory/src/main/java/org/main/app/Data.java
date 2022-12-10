@@ -37,4 +37,8 @@ public class Data {
         return hashing.find(pacient);
     }
 
+    public void updatePacient(Pacient pacient) {
+        hashing.replace(pacient);
+    }
+
 }

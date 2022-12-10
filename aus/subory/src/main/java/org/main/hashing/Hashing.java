@@ -93,6 +93,19 @@ public class Hashing<T extends IData> {
         return loadBlock(data, adress).find(data);
     }
 
+    public boolean replace (T data) {
+        // file nacitaj blok
+        long adress =(bitSetToLong(data.getHash()) % numberOfBlocks)* blockSize;
+        Block<T> b = loadBlock(data, adress);
+
+        if (b.remove(data) == false) {
+            return false;
+        }
+        b.insert(data);
+
+        reWriteBloc(b, adress);
+        return true;
+    }
 
 
     public boolean insert (T data) {
@@ -181,7 +194,7 @@ public class Hashing<T extends IData> {
             file.read(fullFile);
 
             System.out.println("dlzka sunboru: " + file.length());
-            System.out.println("pocet_blokov * velkost_bloku: " + numberOfBlocks*blockSize);
+            System.out.println("pocet_blokov * velkost_bloku: " + numberOfBlocks + " * " + blockSize + " = " + numberOfBlocks*blockSize);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

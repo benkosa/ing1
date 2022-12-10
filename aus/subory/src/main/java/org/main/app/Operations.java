@@ -190,10 +190,7 @@ public class Operations {
 
         hospitalizacie.add(newHosp);
 
-        //zmazanie pacienta
-        data.removePacient(pacient);
-        //pridanie pacienta
-        data.addPacient(pacient);
+        data.updatePacient(pacient);
         return new Response<>(0, "Hospitalizacia pridana", null);
     }
     /**
@@ -221,10 +218,7 @@ public class Operations {
         for (Hospitalizacia hospitalizacia : hospitalizacie) {
             if (hospitalizacia.myEqual(newHosp)) {
                 hospitalizacia.ukonci(new Date());
-                //zmazanie pacienta
-                data.removePacient(pacient);
-                //pridanie pacienta
-                data.addPacient(pacient);
+                data.updatePacient(pacient);
                 return new Response<>(0, "Hospitalizacia ukoncena", null);
             }
         }
@@ -270,9 +264,7 @@ public class Operations {
             if (hospitalizacia.myEqual(newHosp)) {
                 hospitalizacie.remove(i);
                 //zmazanie pacienta
-                data.removePacient(pacient);
-                //pridanie pacienta
-                data.addPacient(pacient);
+                data.updatePacient(pacient);
                 return new Response<>(0, "Hospitalizacia vymazana", null);
             }
         }
