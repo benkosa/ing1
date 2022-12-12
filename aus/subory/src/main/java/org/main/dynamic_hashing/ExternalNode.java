@@ -12,4 +12,9 @@ public class ExternalNode extends Node {
     public ExternalNode(BitSet adress) {
         this.adress = adress;
     }
+
+    public ExternalNode(long adress, Node parent) {
+        this.parent = parent;
+        this.adress = BitSet.valueOf(new long[]{adress});
+    }
 }

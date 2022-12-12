@@ -1,11 +1,8 @@
 package org.main.dynamic_hashing;
 
-import org.main.app.NodeMap;
-import org.main.bst.BSTree;
 import org.main.hashing.Block;
 import org.main.hashing.Hashing;
 import org.main.hashing.IData;
-import org.main.shared.Tokens;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -466,16 +463,6 @@ public class DynamicHashing<T extends IData> extends Hashing<T> {
                 final ExternalNode actualExternalNode = ((ExternalNode) actualNode);
 
 
-//                actualHeight++;
-//                if (dataHash.get(actualHeight)) {
-//                    actualNode = actualNode.rightNode;
-//                } else {
-//                    actualNode = actualNode.leftNode;
-//                }
-//                if (actualNode != null) {
-//                    continue;
-//                }
-
                 final long adress = bitSetToLong(actualExternalNode.adress);
                 Block<T> b = loadBlock(data, adress);
 
@@ -585,7 +572,7 @@ public class DynamicHashing<T extends IData> extends Hashing<T> {
         }
     }
 
-    public void manageMemory(long adress) {
+    private void manageMemory(long adress) {
         long lastElement = fileSize()-getBlockSize();
 
         //posledny blok nemazeme
@@ -610,51 +597,14 @@ public class DynamicHashing<T extends IData> extends Hashing<T> {
     }
 
     public void saveTree() {
-        ArrayList<Node> nodes = levelOrderNodes();
-
-        if (nodes != null && nodes.size() == 0) {
-            return;
-        }
 
         String path = fileName+".tree";
-        //delete file content
-        try {
-            PrintWriter pw = new PrintWriter(path);
-            pw.close();
-        } catch(IOException e) {}
-
-        try (FileWriter fstream = new FileWriter(path);
-             BufferedWriter info = new BufferedWriter(fstream)) {
-            for (Node node : nodes) {
-                if (node instanceof InternalNode) {
-                    info.write(String.format(
-                            "i;"+
-                            Integer.toHexString(node.hashCode())+";"+
-                            (node.parent == null ? "null" : Integer.toHexString(node.parent.hashCode()))+";"+
-                            (node.leftNode == null ? "null" : Integer.toHexString(node.leftNode.hashCode()))+";"+
-                            (node.rightNode == null ? "null" : Integer.toHexString(node.rightNode.hashCode()))
-                            +"%n"));
-                } else if (node instanceof ExternalNode) {
-                    ExternalNode exNode = (ExternalNode) node;
-                    info.write(String.format(
-                            "e;"+
-                            Integer.toHexString(exNode.hashCode())+";"+
-                            (exNode.parent == null ? "null" : Integer.toHexString(exNode.parent.hashCode()))+";"+
-                            (exNode.leftNode == null ? "null" : Integer.toHexString(exNode.leftNode.hashCode()))+";"+
-                            (exNode.rightNode == null ? "null" : Integer.toHexString(exNode.rightNode.hashCode()))+";"+
-                            bitSetToLong(exNode.adress)
-                            +"%n"));
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        saveTreeToFile(path);
 
         try {
             FileOutputStream f = new FileOutputStream(new File(fileName+".block"));
             ObjectOutputStream o = new ObjectOutputStream(f);
 
-            // Write objects to file
             o.writeInt(blockFactor);
             o.writeInt(numberOfBlocks);
             o.writeInt(emptyMemoryManager.size());
@@ -673,28 +623,17 @@ public class DynamicHashing<T extends IData> extends Hashing<T> {
     }
 
     public void loadTree() {
-        ArrayList<NodeMap> loadedNodes = new ArrayList<>();
-        BSTree<String> tree = new BSTree<>();
         Scanner sc = null;
         try {
             File file = new File(fileName + ".tree"); // java.io.File
             sc = new Scanner(file);     // java.util.Scanner
-            String line;
+
             while (sc.hasNextLine()) {
-                line = sc.nextLine();
-                String tokens[] = line.split(";");
-                if (tokens[Tokens.TYPE.ordinal()].equals("i")) {
-                    InternalNode node = new InternalNode(null, null);
-                    NodeMap loadedNode = new NodeMap(node, tokens);
-                    tree.insert(loadedNode);
-                    loadedNodes.add(loadedNode);
-                } else if (tokens[Tokens.TYPE.ordinal()].equals("e")) {
-                    long adres = Long.parseLong(tokens[Tokens.ADDRESS.ordinal()]);
-                    ExternalNode node = new ExternalNode(BitSet.valueOf(new long[]{adres}));
-                    NodeMap loadedNode = new NodeMap(node, tokens);
-                    tree.insert(loadedNode);
-                    loadedNodes.add(loadedNode);
-                }
+                String line = sc.nextLine();
+                String tokens[] = line.split(" ");
+                String map = tokens[0];
+                long address = Long.parseLong(tokens[1]);
+                buildTree(map, address);
             }
         }
         catch(FileNotFoundException e)
@@ -705,37 +644,19 @@ public class DynamicHashing<T extends IData> extends Hashing<T> {
             if (sc != null) sc.close();
         }
 
-
-        this.root = loadedNodes.get(0).node;
-
-        for (NodeMap loadedNode : loadedNodes) {
-            if (!loadedNode.tokens[Tokens.PARENT.ordinal()].equals("null")) {
-                loadedNode.node.parent =
-                        ((NodeMap)tree.find(loadedNode.tokens[Tokens.PARENT.ordinal()])).node;
-            }
-            if (!loadedNode.tokens[Tokens.LEFT.ordinal()].equals("null")) {
-                loadedNode.node.leftNode =
-                        ((NodeMap)tree.find(loadedNode.tokens[Tokens.LEFT.ordinal()])).node;
-            }
-            if (!loadedNode.tokens[Tokens.RIGHT.ordinal()].equals("null")) {
-                loadedNode.node.rightNode =
-                        ((NodeMap)tree.find(loadedNode.tokens[Tokens.RIGHT.ordinal()])).node;
-            }
-        }
-
-
         try {
 
             FileInputStream fi = new FileInputStream(new File(fileName+".block"));
             ObjectInputStream oi = new ObjectInputStream(fi);
 
-            // Read objects
             this.blockFactor = oi.readInt();
             this.numberOfBlocks = oi.readInt();
             int size = oi.readInt();
             for (int i = 0; i < size; i++) {
                 this.emptyMemoryManager.add(oi.readLong());
             }
+
+            this.blockSize = new Block<>(blockFactor, classType).getSize();
 
             oi.close();
             fi.close();
@@ -747,19 +668,45 @@ public class DynamicHashing<T extends IData> extends Hashing<T> {
         }
     }
 
-    private ArrayList<Node> levelOrderNodes () {
+    private void saveTreeToFile (String path) {
+        FileOutputStream outputStream = null;
+        try {
+            outputStream = new FileOutputStream(path);
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        PrintWriter w = new PrintWriter(outputStream);
+
         if (root == null) {
-            return null;
+            return;
         }
         final ArrayList<Node> levelOrderList = new ArrayList<>();
         int startIndex = 0;
         int endIndex = 1;
         int newEndIndex = 1;
+        int row = 0;
         levelOrderList.add(root);
         // while new elements were added to list
         while (startIndex != newEndIndex) {
             // cycle through new elements
             for (; startIndex < endIndex; startIndex++) {
+                Node actualNode = levelOrderList.get(startIndex);
+                if (actualNode instanceof ExternalNode) {
+                    Node prevNode = actualNode;
+                    for (Node i = actualNode.parent; i != null; i = i.parent) {
+                        if (i.leftNode == prevNode) {
+                            w.print('l');
+                        }
+                        if (i.rightNode == prevNode) {
+                            w.print('r');
+                        }
+                        prevNode = i;
+                    }
+
+                    long  address = bitSetToLong(((ExternalNode) actualNode).adress);
+                    w.println(" " + address);
+
+                }
                 final Node rightNode = levelOrderList.get(startIndex).rightNode;
                 final Node leftNode = levelOrderList.get(startIndex).leftNode;
                 if (leftNode != null) {
@@ -772,7 +719,51 @@ public class DynamicHashing<T extends IData> extends Hashing<T> {
                 }
             }
             endIndex = newEndIndex;
+            row++;
         }
-        return levelOrderList;
+        w.close();
+    }
+
+    private void buildTree(String map, long adress) {
+        if (map.length() == 0) {
+            root = new ExternalNode(adress, null);
+        }
+
+        if (root == null) {
+            root = new InternalNode(null);
+        }
+        Node prevNode = null;
+        Node actualNode = root;
+
+        for (int i = map.length() - 1; i >= 0; i--) {
+
+            if (actualNode instanceof InternalNode) {
+                if (map.charAt(i) == 'r') {
+                    prevNode = actualNode;
+                    actualNode = actualNode.rightNode;
+                } else {
+                    prevNode = actualNode;
+                    actualNode = actualNode.leftNode;
+                }
+            }
+
+            if (actualNode == null) {
+                if (map.charAt(i) == 'r') {
+                    if (i == 0) {
+                        prevNode.rightNode = new ExternalNode(adress, prevNode);
+                    } else {
+                        prevNode.rightNode = new InternalNode(prevNode);
+                    }
+                    actualNode = prevNode.rightNode;
+                } else {
+                    if (i == 0) {
+                        prevNode.leftNode = new ExternalNode(adress, prevNode);
+                    } else {
+                        prevNode.leftNode = new InternalNode(prevNode);
+                    }
+                    actualNode = prevNode.leftNode;
+                }
+            }
+        }
     }
 }

@@ -12,4 +12,8 @@ public class InternalNode extends Node{
             rightNode.parent = this;
         }
     }
+
+    InternalNode (Node parent) {
+        this.parent = parent;
+    }
 }

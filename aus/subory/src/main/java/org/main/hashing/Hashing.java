@@ -22,7 +22,7 @@ public class Hashing<T extends IData> {
         return blockSize;
     }
 
-    private int blockSize = 0;
+    protected int blockSize = 0;
 
     public Hashing( String fileName, int blockFactor, int numberOfBlocks, Class classType) {
         this.fileName = fileName;
@@ -72,6 +72,7 @@ public class Hashing<T extends IData> {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+        this.blockSize = new Block<>(blockFactor, classType).getSize();
 
     }
 

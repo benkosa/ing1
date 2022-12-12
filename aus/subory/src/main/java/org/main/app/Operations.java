@@ -50,11 +50,11 @@ public class Operations {
         }
 
         if (blockFacktorInt == 0) {
-            try {
+//            try {
                 data = new Data(fileName, false);
-            } catch (Exception e){
-                return new Response(1, "error during loading data", null);
-            }
+//            } catch (Exception e){
+//                return new Response(1, "error during loading data", null);
+//            }
             return new Response(0, "success", null);
         }
 
@@ -329,7 +329,7 @@ public class Operations {
         DateFormat df = new DateFormat();
         ArrayList<Pacient> insertedPacients = new ArrayList<>();
 
-        Random rand = new Random();
+        Random rand = new Random(pocetHosp);
 
         for (int i = 0; i < pocetPacientov; i++) {
             Pacient pacient = new Pacient("meno_"+i, "priezvisko_"+i, rand.nextInt(Integer.MAX_VALUE)+"", i, df.between(new Date(0), new Date()));

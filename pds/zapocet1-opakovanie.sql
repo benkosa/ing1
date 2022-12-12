@@ -239,3 +239,44 @@ select
 from p_osoba;
 
 
+
+select "ID_filmu",
+    null LINK_CLASS,
+    apex_page.get_url(p_items => 'P27_ID_FILMU', p_values => "ID_filmu") LINK,
+    null ICON_CLASS,
+    null LINK_ATTR,
+    null ICON_COLOR_CLASS,
+    case when coalesce(:P27_ID_FILMU,'0') = "ID_filmu"
+      then 'is-active' 
+      else ' '
+    end LIST_CLASS,
+    (substr("nazov", 1, 50)||( case when length("nazov") > 50 then '...' else '' end )) LIST_TITLE,
+    (substr("ID_filmu", 1, 50)||( case when length("ID_filmu") > 50 then '...' else '' end )) LIST_TEXT,
+    null LIST_BADGE
+from "Film" x
+where (:P27_SEARCH is null
+        or upper(x."nazov") like '%'||upper(:P31_SEARCH)||'%'
+        or upper(x."ID_filmu") like '%'||upper(:P31_SEARCH)||'%'
+    )
+order by "nazov"
+
+DECLARE
+  l_cursor SYS_REFCURSOR;
+BEGIN
+  
+  OPEN l_cursor FOR
+    SELECT "ID_produktu" AS "id_produktu",
+           "ID_ceny" AS "id_ceny",
+           "nazov_produktu" AS "nazov_produktu"
+    FROM   "Typ_obcerstvenia" join "Cennik" using ("ID_ceny");
+
+  APEX_JSON.initialize_clob_output;
+
+  APEX_JSON.open_object;
+  APEX_JSON.write('zoznam_obcerstveni', l_cursor);
+  APEX_JSON.close_object;
+
+  DBMS_OUTPUT.put_line(APEX_JSON.get_clob_output);
+  APEX_JSON.free_output;
+END;
+/
