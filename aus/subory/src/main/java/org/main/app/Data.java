@@ -6,6 +6,8 @@ import org.main.hashing.Hashing;
 public class Data {
     Hashing<Pacient> hashing;
 
+    Hashing<NewFeature> newFeatureHashing;
+
     //  alocade new staic hahsing
     public Data(String fileName, int blockSize, int blockNumber) {
         hashing = new Hashing<>(fileName, blockSize, blockNumber, Pacient.class);
@@ -23,6 +25,19 @@ public class Data {
     //load dynamic hashing
     public Data(String fileName, int blockSize) {
         hashing = new DynamicHashing<>(fileName, blockSize, Pacient.class);
+        newFeatureHashing = new DynamicHashing<>(fileName+"newFeature", blockSize, NewFeature.class);
+    }
+
+    public boolean addNewFeature(NewFeature newFeature) {
+        return this.newFeatureHashing.insert(newFeature);
+    }
+
+    public boolean removeNewFeature(NewFeature newFeature) {
+        return newFeatureHashing.delete(newFeature);
+    }
+
+    public NewFeature getNewFeature(NewFeature newFeature) {
+        return newFeatureHashing.find(newFeature);
     }
 
     public boolean addPacient(Pacient pacient) {

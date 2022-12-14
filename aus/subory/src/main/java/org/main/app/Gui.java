@@ -65,6 +65,19 @@ public class Gui extends JFrame {
     private JTextField subor_dynDatTextField;
     private JTextField a10TextField1;
     private JButton ulozitButton;
+    private JButton pridatNewFeatureButton;
+    private JButton odstranitNewFeatureButton;
+    private JTextField rodnecisloTextField4;
+    private JTextField idTextField;
+    private JTextField popisTextField;
+    private JTextField hodnotaTextField;
+    private JTextField rodnecisloTextField5;
+    private JTextField idTextField1;
+    private JTable table4;
+    private JButton vyhladajButton;
+    private JTextField rodnecisloTextField6;
+    private JTextField idTextField2;
+    private JScrollPane scrollPane5;
 
     private void displayResponse(Response response) {
         if (response.code == 0) {
@@ -281,6 +294,55 @@ public class Gui extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 Response response = operations.opSaveDynamic();
                 displayResponse(response);
+            }
+        });
+        pridatNewFeatureButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Response response = operations.opAddNewFeature(
+                        Integer.parseInt(hodnotaTextField.getText()),
+                        rodnecisloTextField4.getText(),
+                        popisTextField.getText(),
+                        Integer.parseInt(idTextField.getText())
+                );
+                displayResponse(response);
+            }
+        });
+        odstranitNewFeatureButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Response response = operations.opRemoveNewFeature(
+                        rodnecisloTextField4.getText(),
+                        Integer.parseInt(hodnotaTextField.getText())
+                );
+                displayResponse(response);
+            }
+        });
+        vyhladajButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                Response<String[][]> response = operations.opVyhladanieNewFeature(
+                        rodnecisloTextField6.getText(),
+                        Integer.parseInt(idTextField2.getText())
+                );
+                displayResponse(response);
+                if (response.code != 0) {
+                    return;
+                }
+                String tableHeader[] = {
+                        "id",
+                        "rodne cislo",
+                        "popis",
+                        "hodnota"
+                };
+
+
+                String tableValues[][] = response.data;
+                table4 = new JTable(tableValues, tableHeader);
+                //zaznamy.setText(tableValues.length+"");
+
+                scrollPane5.setViewportView(table4);
             }
         });
     }

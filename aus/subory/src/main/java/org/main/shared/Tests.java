@@ -1,6 +1,7 @@
 package org.main.shared;
 
 import org.main.app.Hospitalizacia;
+import org.main.app.NewFeature;
 import org.main.app.Pacient;
 import org.main.dynamic_hashing.DynamicHashing;
 import org.main.hashing.Hashing;
@@ -14,9 +15,12 @@ public class Tests {
         System.out.println("testSize: Compare length of toByteArray with getSize");
         Hospitalizacia hosp = new Hospitalizacia();
         Pacient pacient = new Pacient();
+        NewFeature newFeature = new NewFeature();
 
         hosp.testSize();
         pacient.testSize();
+        newFeature.testSize();
+
         System.out.println("testSize: done");
         System.out.println("----------------------------------------------------");
     }
@@ -467,6 +471,79 @@ public class Tests {
 
         }
 
+    }
+
+
+    public void testInsertOperationDynamicNewFeature(
+            int replication,
+            int maxNumberOfElements,
+            int maxValue,
+            int blockSize,
+            int fixed
+    ) {
+        if (replication == 0) return;
+
+        System.out.println("testInsertOperationDynamic: Test insert dynamic hashing");
+
+        System.out.println("replication: " + replication);
+        System.out.println("maxNumberOfElements: " + maxNumberOfElements);
+        System.out.println("maxValue: " + maxValue);
+        System.out.println("blockSize: " + blockSize);
+        int seed = 0;
+        if (fixed > 0) {
+            replication = fixed+1;
+            seed = fixed;
+        }
+
+
+        for(; seed < replication; seed++) {
+            //System.out.println(seed);
+            Random rand = new Random(seed);
+            DynamicHashing<NewFeature> hashing = new DynamicHashing<>(
+                    "test_dynamic_insert.dat",
+                    blockSize,
+                    NewFeature.class
+            );
+
+            ArrayList<NewFeature> insertedPacients = new ArrayList<>();
+
+
+            for (int i = 0; i < maxNumberOfElements; i++) {
+                Integer value = rand.nextInt(maxValue);
+                NewFeature pacient = new NewFeature(rand.nextInt(), value.toString(), "popis", rand.nextInt());
+                // insert
+                if (hashing.insert(pacient)) {
+                    insertedPacients.add(pacient);
+                }
+
+            }
+
+
+            // check if number of inserted elements is valid
+            ArrayList<NewFeature> fromHash = hashing.getWholeFile();
+
+            if (fromHash.size() != insertedPacients.size()) {
+                System.out.println("error: " + fromHash.size() + " != " + insertedPacients.size());
+            }
+            for (NewFeature insertedPacient : insertedPacients) {
+                if (hashing.find(insertedPacient) == null) {
+                    System.out.println("Error: inserted pacient not found");
+                }
+            }
+
+            for (NewFeature insertedPacient : insertedPacients) {
+                if (!hashing.delete(insertedPacient)) {
+                    System.out.println("Error: inserted pacient not deleted");
+                }
+            }
+
+            System.out.print("\b\b\b\b\b");
+            System.out.print(Math.round(((float)seed/replication)*100) + " %");
+        }
+
+        System.out.println();
+        System.out.println("testInsertOperationDynamic: done");
+        System.out.println("----------------------------------------------------");
     }
 
 }

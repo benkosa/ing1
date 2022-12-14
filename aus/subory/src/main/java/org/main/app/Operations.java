@@ -373,4 +373,46 @@ public class Operations {
         );
     }
 
+    Response opAddNewFeature(int id, String rodneCislo, String popis, int hodnota) {
+        NewFeature newFeature = new NewFeature(id, rodneCislo, popis, hodnota);
+        if (data.addNewFeature(newFeature)) {
+            return new Response(0, "NewFeature pridany", null);
+        } else {
+            return new Response(2, "NewFeature uz existuje", null);
+        }
+    }
+
+    Response opRemoveNewFeature(String rodneCislo, int id) {
+
+        NewFeature newFeature = new NewFeature(id, rodneCislo, "", 0);
+        if (data.removeNewFeature(newFeature)) {
+            return new Response(0, "NewFeature zmazany", null);
+        } else {
+            return new Response(2, "NewFeature neexistuje", null);
+        }
+    }
+
+    Response opVyhladanieNewFeature(String rodneCislo, int id) {
+
+        NewFeature newFeature = data.getNewFeature(
+                new NewFeature(id, rodneCislo, "", 0)
+        );
+        if (newFeature == null) {
+            return new Response<>(647, "newFeature neexistuje", null);
+        }
+
+
+        String tableValues[][] = new String[1][4];
+
+        tableValues[0] = new String[]{
+                newFeature.id+"",
+                newFeature.rodneCislo,
+                newFeature.popis,
+                newFeature.hodnota+""
+        };
+
+
+        return new Response<>(0, "success", tableValues);
+    }
+
 }

@@ -1,6 +1,7 @@
 package org.main;
 
 import org.main.app.Gui;
+import org.main.app.NewFeature;
 import org.main.app.Pacient;
 import org.main.dynamic_hashing.DynamicHashing;
 import org.main.dynamic_hashing.Node;
@@ -45,12 +46,12 @@ public class Main {
 //
 //        if (true) return;
 
-//        Pacient pacient = new Pacient("Benjamin", "Kosa", "54", 2,  new Date());
-//        Pacient pacient2 = new Pacient("Benjamin", "Kosa", "51", 2,  new Date());
-//        Pacient pacient3 = new Pacient("Benjamin", "Kosa", "56", 2,  new Date());
-//        Pacient pacient4 = new Pacient("Benjamin", "Kosa", "47", 2,  new Date());
-//
-//        DynamicHashing<Pacient> dh =
+//        NewFeature pacient = new NewFeature(1,"54", "", 0);
+//        NewFeature pacient2 = new NewFeature(2,"51", "",  0);
+//        NewFeature pacient3 = new NewFeature(3,"56", "",  0);
+//        NewFeature pacient4 = new NewFeature(4,"47", "",  0);
+////
+//        DynamicHashing<NewFeature> dh =
 //                new DynamicHashing("dynamic.dat", 2, Pacient.class);
 //
 //
@@ -100,10 +101,10 @@ public class Main {
 //        Tests tests = new Tests();
 //
 //        tests.powerTests();
-       // tests.testSize();
+        //tests.testSize();
 //
-//        tests.testInsertOperationDynamic(
-//                1000,
+//        tests.testInsertOperationDynamicNewFeature(
+//                100,
 //                100,
 //                100,
 //                10,
