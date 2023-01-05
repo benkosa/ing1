@@ -7,6 +7,7 @@ import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Random;
 
 public class Main {
 
@@ -132,6 +133,102 @@ public class Main {
         return newDistance - oldDistance;
     }
 
+    public static int countImprovement(int[][] data, ArrayList<Integer> bestSolution, int cityIndex, int moveToIndex) {
+        int improvement = 0;
+        // zmazanie uzlu
+        improvement -= data[bestSolution.get(cityIndex-1)][bestSolution.get(cityIndex)];
+        improvement -= data[bestSolution.get(cityIndex+1)][bestSolution.get(cityIndex)];
+        improvement += data[bestSolution.get(cityIndex-1)][bestSolution.get(cityIndex+1)];
+
+        // pridanie uzlo na nove miesto
+        //odstranit prepojenie
+        improvement -= data[bestSolution.get(moveToIndex-1)][bestSolution.get(moveToIndex)];
+        //pridanie uzlu
+        improvement += data[bestSolution.get(moveToIndex-1)][bestSolution.get(cityIndex)];
+        improvement += data[bestSolution.get(cityIndex)][bestSolution.get(moveToIndex)];
+        //improvement += countExtension(data,cityIndex-1, cityIndex, moveToIndex);
+
+        return improvement;
+    }
+
+    public static void moveNode(ArrayList<Integer> bestSolution, int cityIndex, int moveToIndex) {
+        if (cityIndex == moveToIndex) {
+            return;
+        }
+        if  (cityIndex < moveToIndex) {
+            moveToIndex -= 1;
+        }
+        bestSolution.add(moveToIndex, bestSolution.remove(cityIndex));
+    }
+
+    public static void simulatedAnnealing(ArrayList<Integer> bestSolution, int[][] data, int bestDistance) {
+        final int START_TEMPERATURE = 10000;
+        final int COOLING_RATE = 2;
+        final int NUM_ITERATIONS = 50;
+        final int U = 40;
+
+        int r = 0;
+
+
+        double temperature = START_TEMPERATURE;
+
+        Random random = new Random(10);
+
+        // main simulated annealing loop
+        while (true) {
+            // opakuj po urcity W pocet opakovani
+            for (int i = 0; i < NUM_ITERATIONS; i++) {
+                r+=1;
+
+                int cityIndex = random.nextInt(bestSolution.size()-2)+1;
+                int moveToIndex = random.nextInt(bestSolution.size()-2)+1;
+
+                //pripady ked nenastane zmena
+                if (cityIndex == moveToIndex || cityIndex == moveToIndex-1) {
+                    continue;
+                }
+
+                int newDistance = bestDistance + countImprovement(data, bestSolution, cityIndex, moveToIndex);
+
+                // vypocitaj pravdepodobnost
+                double acceptanceProbability = acceptanceProbability(bestDistance, newDistance, temperature);
+
+                // nahodne cislo pre prijatie horiseho riesenia
+                double rand = random.nextDouble();
+
+                // ak je nove riesenie lepsie alebo acceptanceProbability je vacsia
+                // ako nahodne vygenerovane cislo, akceptuj riesenie
+                if (newDistance < bestDistance || rand < acceptanceProbability) { //|| rand < acceptanceProbability
+                    r = 0;
+                    moveNode(bestSolution, cityIndex, moveToIndex);
+                    bestDistance = newDistance;
+                }
+
+                // ukonci ked
+                // maximálny počet preskúmaných prechodov od prechodu k súčasnému riešeniu
+                if (r == U) {
+                    return;
+                }
+
+            }
+
+            // zniz teplotu
+            temperature /= COOLING_RATE;
+        }
+
+
+    }
+
+    private static double acceptanceProbability(int bestDistance, int newDistance, double temperature) {
+        // if the new solution is better, accept it
+        //if (newDistance < bestDistance) {
+        //    return 1.0;
+        //}
+
+        // if the new solution is worse, calculate the acceptance probability
+        return Math.exp((double)(bestDistance - newDistance) / temperature);
+    }
+
 
 
     /**
@@ -156,6 +253,48 @@ public class Main {
             distance += data[baseWay.get(i-1)][baseWay.get(i)];
         }
         System.out.println(distance);
+
+        simulatedAnnealing(baseWay, data, distance);
+
+        baseWay.forEach(a -> System.out.print(a + " - "));
+        System.out.println();
+        distance = 0;
+        for (int i = 1; i < baseWay.size(); i++) {
+            distance += data[baseWay.get(i-1)][baseWay.get(i)];
+        }
+        System.out.println(distance);
+
+
+
+
+//        //ohranicenie algoritmu
+//        int t = 10000;
+//        //maximálny počet preskúmaných prechodov od prechodu k súčasnému riešeniu u=5
+//        int u = 40;
+//        //maximálny počet preskúmaných prechodov od poslednej zmeny teploty q=5
+//        int q = 50;
+//
+//
+//        //Definujte doteraz nájlepšie nájdené riešenie x ako východzie riešenie x =x0, nastavte teplotu t=tmax.
+//        int x = distance;
+//        //Inicializujte počet preskúmaných prechodov od prechodu k súčasnému riešeniu r=0,
+//        int r = 0;
+//        //inicializujte počet preskúmaných prechodov od poslednej zmeny teploty w=0.
+//        int w = 0;
+//
+//        //vypocet xCurr
+//        int xCurr = 0;
+//        //Ak je f(xcurr)≤f(xi) položte i=i+1, xi= xcurr, r=0 a
+//        if (xCurr <= x){
+//            x = xCurr;
+//            r = 0;
+//            //zmenit trasu
+//        } else {
+//
+//        }
+//
+//        //5. Ak r=u, končite, inak pokračujte krokom 2.
+
 
     }
 }
