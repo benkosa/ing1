@@ -13,15 +13,15 @@ public class Main {
     public static int[][] data;
 
     public static int[][] read_file(File file) {
-        int M = 0;
+        int M;
         int[][] data = new int[0][];
 
         try {
 
             BufferedReader bfr = new BufferedReader(new FileReader(file));
-            String line = "";
+            String line;
             int line_index = 0;
-            int row = 0, col = 0;
+            int row = 0;
             while ((line = bfr.readLine()) != null) {
                 if (line_index == 0) {
                     M  = Integer.parseInt(line);
@@ -50,7 +50,6 @@ public class Main {
 
     /**
      * search for base way
-     * @return
      */
     public static ArrayList<Integer> getBaseWay() {
         int mSize = data.length;
@@ -127,10 +126,6 @@ public class Main {
 
     /**
      * count way extension before node insert
-     * @param i
-     * @param j
-     * @param newNode
-     * @return
      */
     public static int countExtension(int i, int j, int newNode) {
         int oldDistance = data[i][j];
@@ -141,10 +136,6 @@ public class Main {
 
     /**
      * count improvement before change of node position
-     * @param bestSolution
-     * @param cityIndex
-     * @param moveToIndex
-     * @return
      */
     public static int countImprovement(ArrayList<Integer> bestSolution, int cityIndex, int moveToIndex) {
         int improvement = 0;
@@ -165,9 +156,6 @@ public class Main {
 
     /**
      * move node in solution
-     * @param solution
-     * @param cityIndex
-     * @param moveToIndex
      */
     public static void moveNode(ArrayList<Integer> solution, int cityIndex, int moveToIndex) {
         if (cityIndex == moveToIndex) {
@@ -182,11 +170,6 @@ public class Main {
     /**
      * simulatedAnnealing algorithm
      * @param bestSolution solution
-     * @param START_TEMPERATURE
-     * @param COOLING_RATE
-     * @param NUM_ITERATIONS
-     * @param MAX_PASSES
-     * @param SEED
      */
     public static int simulatedAnnealing(
             ArrayList<Integer> bestSolution,
@@ -259,10 +242,6 @@ public class Main {
 
     /**
      * count acceptance probability
-     * @param bestDistance
-     * @param newDistance
-     * @param temperature
-     * @return
      */
     private static double acceptanceProbability(int bestDistance, int newDistance, double temperature) {
         return Math.exp((double)(bestDistance - newDistance) / temperature);
@@ -270,8 +249,6 @@ public class Main {
 
     /**
      * count whole solution distance
-     * @param way
-     * @return
      */
     private static  int countDistance(ArrayList<Integer> way) {
         int distance = 0;
