@@ -228,7 +228,7 @@ public class Main {
 
                 // ukonci ked
                 // maximálny počet preskúmaných prechodov od prechodu k súčasnému riešeniu
-                if (countPasses == MAX_PASSES) {
+                if (countPasses >= MAX_PASSES) {
                     return bestDistance;
                 }
 
@@ -266,27 +266,24 @@ public class Main {
 
         baseWay.forEach(a -> System.out.print(a + ";"));
         System.out.println();
-        final int baseDistance = countDistance(baseWay);
+        int baseDistance = countDistance(baseWay);
         System.out.println(baseDistance);
 
 
-        final int REPLICATIONS = 1;
+        final int REPLICATIONS = 1000000;
         for (int i = 0; i < REPLICATIONS; i++) {
-            System.out.print(i + ";");
             if (simulatedAnnealing(
                     baseWay,
                     10000,
                     2,
                     40,
                     50,
-                    0) != baseDistance) {
-                baseWay.forEach(a -> System.out.print(a + ";"));
-                System.out.println();
-                System.out.println(countDistance(baseWay));
-                break;
+                    i) != baseDistance) {
+                baseDistance = countDistance(baseWay);
+                System.out.println("seed: " + i + "; distance: " +  baseDistance);
             }
         }
-
+        baseWay.forEach(a -> System.out.print(a + ";"));
 
     }
 }
