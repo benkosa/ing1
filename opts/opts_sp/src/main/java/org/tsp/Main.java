@@ -125,7 +125,6 @@ public class Main {
         return baseWay;
     }
 
-
     /**
      * count way extension before node insert
      * @param i
@@ -281,8 +280,6 @@ public class Main {
         }
         return distance;
     }
-
-
 
     public static void main(String[] args) {
         final File fileMaticaBB = new File("Matica_BB_(0515).txt");
