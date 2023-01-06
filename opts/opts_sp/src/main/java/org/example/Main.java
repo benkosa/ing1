@@ -6,10 +6,11 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Random;
 
 public class Main {
+
+    public static int[][] data;
 
     public static int[][] read_file(File file) {
         int M = 0;
@@ -49,10 +50,9 @@ public class Main {
 
     /**
      * search for base way
-     * @param data
      * @return
      */
-    public static ArrayList<Integer> getBaseWay(int[][] data) {
+    public static ArrayList<Integer> getBaseWay() {
         int mSize = data.length;
 
         //nepouzite vrcholy
@@ -110,7 +110,7 @@ public class Main {
             int minExtension = Integer.MAX_VALUE;
             int minIndex2 = Integer.MAX_VALUE;
             for (int i = 1; i < baseWay.size(); i++) {
-                int extension = countExtension(data, baseWay.get(i-1), baseWay.get(i), newNode);
+                int extension = countExtension(baseWay.get(i-1), baseWay.get(i), newNode);
                 if (minExtension > extension) {
                     minExtension = extension;
                     minIndex2 = i;
@@ -126,14 +126,28 @@ public class Main {
     }
 
 
-    public static int countExtension(int[][] data, int i, int j, int newNode) {
+    /**
+     * count way extension before node insert
+     * @param i
+     * @param j
+     * @param newNode
+     * @return
+     */
+    public static int countExtension(int i, int j, int newNode) {
         int oldDistance = data[i][j];
         int newDistance = data[newNode][i];
         newDistance += data[newNode][j];
         return newDistance - oldDistance;
     }
 
-    public static int countImprovement(int[][] data, ArrayList<Integer> bestSolution, int cityIndex, int moveToIndex) {
+    /**
+     * count improvement before change of node position
+     * @param bestSolution
+     * @param cityIndex
+     * @param moveToIndex
+     * @return
+     */
+    public static int countImprovement(ArrayList<Integer> bestSolution, int cityIndex, int moveToIndex) {
         int improvement = 0;
         // zmazanie uzlu
         improvement -= data[bestSolution.get(cityIndex-1)][bestSolution.get(cityIndex)];
@@ -146,39 +160,59 @@ public class Main {
         //pridanie uzlu
         improvement += data[bestSolution.get(moveToIndex-1)][bestSolution.get(cityIndex)];
         improvement += data[bestSolution.get(cityIndex)][bestSolution.get(moveToIndex)];
-        //improvement += countExtension(data,cityIndex-1, cityIndex, moveToIndex);
 
         return improvement;
     }
 
-    public static void moveNode(ArrayList<Integer> bestSolution, int cityIndex, int moveToIndex) {
+    /**
+     * move node in solution
+     * @param solution
+     * @param cityIndex
+     * @param moveToIndex
+     */
+    public static void moveNode(ArrayList<Integer> solution, int cityIndex, int moveToIndex) {
         if (cityIndex == moveToIndex) {
             return;
         }
         if  (cityIndex < moveToIndex) {
             moveToIndex -= 1;
         }
-        bestSolution.add(moveToIndex, bestSolution.remove(cityIndex));
+        solution.add(moveToIndex, solution.remove(cityIndex));
     }
 
-    public static void simulatedAnnealing(ArrayList<Integer> bestSolution, int[][] data, int bestDistance) {
-        final int START_TEMPERATURE = 10000;
-        final int COOLING_RATE = 2;
-        final int NUM_ITERATIONS = 50;
-        final int U = 40;
+    /**
+     * simulatedAnnealing algorithm
+     * @param bestSolution solution
+     * @param START_TEMPERATURE
+     * @param COOLING_RATE
+     * @param NUM_ITERATIONS
+     * @param MAX_PASSES
+     * @param SEED
+     */
+    public static int simulatedAnnealing(
+            ArrayList<Integer> bestSolution,
+            final int START_TEMPERATURE,
+            final int COOLING_RATE,
+            final int NUM_ITERATIONS,
+            final int MAX_PASSES,
+            final int SEED) {
 
-        int r = 0;
+        int countPasses = 0;
+
+        ArrayList<Integer> solution = new ArrayList<>(bestSolution);
+        int bestDistance = countDistance(bestSolution);
+        int solutionDistance = bestDistance;
 
 
         double temperature = START_TEMPERATURE;
 
-        Random random = new Random(10);
+        Random random = new Random(SEED);
 
         // main simulated annealing loop
         while (true) {
             // opakuj po urcity W pocet opakovani
             for (int i = 0; i < NUM_ITERATIONS; i++) {
-                r+=1;
+                countPasses += 1;
 
                 int cityIndex = random.nextInt(bestSolution.size()-2)+1;
                 int moveToIndex = random.nextInt(bestSolution.size()-2)+1;
@@ -188,7 +222,7 @@ public class Main {
                     continue;
                 }
 
-                int newDistance = bestDistance + countImprovement(data, bestSolution, cityIndex, moveToIndex);
+                int newDistance = solutionDistance + countImprovement(bestSolution, cityIndex, moveToIndex);
 
                 // vypocitaj pravdepodobnost
                 double acceptanceProbability = acceptanceProbability(bestDistance, newDistance, temperature);
@@ -199,15 +233,21 @@ public class Main {
                 // ak je nove riesenie lepsie alebo acceptanceProbability je vacsia
                 // ako nahodne vygenerovane cislo, akceptuj riesenie
                 if (newDistance < bestDistance || rand < acceptanceProbability) { //|| rand < acceptanceProbability
-                    r = 0;
+                    countPasses = 0;
+                    moveNode(solution, cityIndex, moveToIndex);
+                    solutionDistance = newDistance;
+                }
+
+                // prepis najlepsie riesenie
+                if (newDistance < bestDistance) {
                     moveNode(bestSolution, cityIndex, moveToIndex);
                     bestDistance = newDistance;
                 }
 
                 // ukonci ked
                 // maximálny počet preskúmaných prechodov od prechodu k súčasnému riešeniu
-                if (r == U) {
-                    return;
+                if (countPasses == MAX_PASSES) {
+                    return bestDistance;
                 }
 
             }
@@ -216,84 +256,60 @@ public class Main {
             temperature /= COOLING_RATE;
         }
 
-
     }
 
+    /**
+     * count acceptance probability
+     * @param bestDistance
+     * @param newDistance
+     * @param temperature
+     * @return
+     */
     private static double acceptanceProbability(int bestDistance, int newDistance, double temperature) {
-        // if the new solution is better, accept it
-        //if (newDistance < bestDistance) {
-        //    return 1.0;
-        //}
-
-        // if the new solution is worse, calculate the acceptance probability
         return Math.exp((double)(bestDistance - newDistance) / temperature);
     }
 
-
-
     /**
-     * 1. pociatocnu trasu chapem
-     * 2. presuniem vrchol na ine miesto a skontorlujem
-     * @param args
+     * count whole solution distance
+     * @param way
+     * @return
      */
-    public static void main(String[] args) {
-        File fileMaticaBB = new File("Matica_BB_(0515).txt");
-        int data[][] = read_file(fileMaticaBB);
-        int mSize = data.length;
-
-
-
-        ArrayList<Integer> baseWay = getBaseWay(data);
-
-        baseWay.forEach(a -> System.out.print(a + " - "));
-        System.out.println();
-
+    private static  int countDistance(ArrayList<Integer> way) {
         int distance = 0;
-        for (int i = 1; i < baseWay.size(); i++) {
-            distance += data[baseWay.get(i-1)][baseWay.get(i)];
+        for (int i = 1; i < way.size(); i++) {
+            distance += data[way.get(i-1)][way.get(i)];
         }
-        System.out.println(distance);
+        return distance;
+    }
 
-        simulatedAnnealing(baseWay, data, distance);
 
-        baseWay.forEach(a -> System.out.print(a + " - "));
+
+    public static void main(String[] args) {
+        final File fileMaticaBB = new File("Matica_BB_(0515).txt");
+        data = read_file(fileMaticaBB);
+
+        final ArrayList<Integer> baseWay = getBaseWay();
+
+        baseWay.forEach(a -> System.out.print(a + ";"));
         System.out.println();
-        distance = 0;
-        for (int i = 1; i < baseWay.size(); i++) {
-            distance += data[baseWay.get(i-1)][baseWay.get(i)];
+        final int baseDistance = countDistance(baseWay);
+        System.out.println(baseDistance);
+
+        for (int i = 0; i < 1; i++) {
+            System.out.print(i + ";");
+            if (simulatedAnnealing(
+                    baseWay,
+                    10000,
+                    2,
+                    40,
+                    50,
+                    0) != baseDistance) {
+                baseWay.forEach(a -> System.out.print(a + ";"));
+                System.out.println();
+                System.out.println(countDistance(baseWay));
+                break;
+            }
         }
-        System.out.println(distance);
-
-
-
-
-//        //ohranicenie algoritmu
-//        int t = 10000;
-//        //maximálny počet preskúmaných prechodov od prechodu k súčasnému riešeniu u=5
-//        int u = 40;
-//        //maximálny počet preskúmaných prechodov od poslednej zmeny teploty q=5
-//        int q = 50;
-//
-//
-//        //Definujte doteraz nájlepšie nájdené riešenie x ako východzie riešenie x =x0, nastavte teplotu t=tmax.
-//        int x = distance;
-//        //Inicializujte počet preskúmaných prechodov od prechodu k súčasnému riešeniu r=0,
-//        int r = 0;
-//        //inicializujte počet preskúmaných prechodov od poslednej zmeny teploty w=0.
-//        int w = 0;
-//
-//        //vypocet xCurr
-//        int xCurr = 0;
-//        //Ak je f(xcurr)≤f(xi) položte i=i+1, xi= xcurr, r=0 a
-//        if (xCurr <= x){
-//            x = xCurr;
-//            r = 0;
-//            //zmenit trasu
-//        } else {
-//
-//        }
-//
-//        //5. Ak r=u, končite, inak pokračujte krokom 2.
 
 
     }
