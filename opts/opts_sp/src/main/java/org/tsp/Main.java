@@ -269,7 +269,9 @@ public class Main {
         final int baseDistance = countDistance(baseWay);
         System.out.println(baseDistance);
 
-        for (int i = 0; i < 1; i++) {
+
+        final int REPLICATIONS = 1;
+        for (int i = 0; i < REPLICATIONS; i++) {
             System.out.print(i + ";");
             if (simulatedAnnealing(
                     baseWay,
