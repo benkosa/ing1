@@ -52,10 +52,10 @@ public class Main {
      * search for base way
      */
     public static ArrayList<Integer> getBaseWay() {
-        int mSize = data.length;
+        final int mSize = data.length;
 
         //nepouzite vrcholy
-        LinkedList<Integer> wayBucket = new LinkedList<>();
+        final LinkedList<Integer> wayBucket = new LinkedList<>();
         for (int i = 0; i < mSize; i++) {
             wayBucket.add(i);
         }
@@ -145,9 +145,9 @@ public class Main {
         improvement += data[bestSolution.get(cityIndex-1)][bestSolution.get(cityIndex+1)];
 
         // pridanie uzlo na nove miesto
-        //odstranit prepojenie
+        // odstranit prepojenie
         improvement -= data[bestSolution.get(moveToIndex-1)][bestSolution.get(moveToIndex)];
-        //pridanie uzlu
+        // pridanie uzlu
         improvement += data[bestSolution.get(moveToIndex-1)][bestSolution.get(cityIndex)];
         improvement += data[bestSolution.get(cityIndex)][bestSolution.get(moveToIndex)];
 
@@ -161,6 +161,7 @@ public class Main {
         if (cityIndex == moveToIndex) {
             return;
         }
+        // ak zmazeme mesto pred mestom na ktore sa chceme presunut, posunu sa indexy
         if  (cityIndex < moveToIndex) {
             moveToIndex -= 1;
         }
@@ -172,7 +173,7 @@ public class Main {
      * @param bestSolution solution
      */
     public static int simulatedAnnealing(
-            ArrayList<Integer> bestSolution,
+            final ArrayList<Integer> bestSolution,
             final int START_TEMPERATURE,
             final int COOLING_RATE,
             final int NUM_ITERATIONS,
@@ -191,22 +192,25 @@ public class Main {
         Random random = new Random(SEED);
 
         // main simulated annealing loop
-        while (true) {
+        // ukonci ked
+        // maximálny počet preskúmaných prechodov od prechodu k súčasnému riešeniu
+        while (countPasses <= MAX_PASSES) {
             // opakuj po urcity W pocet opakovani
             for (int i = 0; i < NUM_ITERATIONS; i++) {
-                countPasses += 1;
 
                 int cityIndex = random.nextInt(bestSolution.size()-2)+1;
                 int moveToIndex = random.nextInt(bestSolution.size()-2)+1;
 
-                //pripady ked nenastane zmena
+                // filtruje pripady ked nenastane zmena
                 if (cityIndex == moveToIndex || cityIndex == moveToIndex-1) {
                     continue;
                 }
 
+                countPasses += 1;
+
                 int newDistance = solutionDistance + countImprovement(bestSolution, cityIndex, moveToIndex);
 
-                // vypocitaj pravdepodobnost
+                // vypocitaj pravdepodobnost prijatia
                 double acceptanceProbability = acceptanceProbability(bestDistance, newDistance, temperature);
 
                 // nahodne cislo pre prijatie horiseho riesenia
@@ -214,7 +218,7 @@ public class Main {
 
                 // ak je nove riesenie lepsie alebo acceptanceProbability je vacsia
                 // ako nahodne vygenerovane cislo, akceptuj riesenie
-                if (newDistance < bestDistance || rand < acceptanceProbability) { //|| rand < acceptanceProbability
+                if (newDistance < bestDistance || rand < acceptanceProbability) {
                     countPasses = 0;
                     moveNode(solution, cityIndex, moveToIndex);
                     solutionDistance = newDistance;
@@ -225,19 +229,11 @@ public class Main {
                     moveNode(bestSolution, cityIndex, moveToIndex);
                     bestDistance = newDistance;
                 }
-
-                // ukonci ked
-                // maximálny počet preskúmaných prechodov od prechodu k súčasnému riešeniu
-                if (countPasses >= MAX_PASSES) {
-                    return bestDistance;
-                }
-
             }
-
             // zniz teplotu
             temperature /= COOLING_RATE;
         }
-
+        return bestDistance;
     }
 
     /**
@@ -265,10 +261,8 @@ public class Main {
         final ArrayList<Integer> baseWay = getBaseWay();
 
         baseWay.forEach(a -> System.out.print(a + ";"));
-        System.out.println();
         int baseDistance = countDistance(baseWay);
-        System.out.println(baseDistance);
-
+        System.out.println("\n"+baseDistance);
 
         final int REPLICATIONS = 1000000;
         for (int i = 0; i < REPLICATIONS; i++) {
@@ -284,6 +278,6 @@ public class Main {
             }
         }
         baseWay.forEach(a -> System.out.print(a + ";"));
-
+        System.out.println("\n"+baseDistance);
     }
 }
