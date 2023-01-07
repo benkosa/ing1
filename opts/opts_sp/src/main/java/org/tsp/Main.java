@@ -210,24 +210,28 @@ public class Main {
 
                 int newDistance = solutionDistance + countImprovement(bestSolution, cityIndex, moveToIndex);
 
-                // vypocitaj pravdepodobnost prijatia
-                double acceptanceProbability = acceptanceProbability(bestDistance, newDistance, temperature);
-
-                // nahodne cislo pre prijatie horiseho riesenia
-                double rand = random.nextDouble();
-
-                // ak je nove riesenie lepsie alebo acceptanceProbability je vacsia
-                // ako nahodne vygenerovane cislo, akceptuj riesenie
-                if (newDistance < bestDistance || rand < acceptanceProbability) {
-                    countPasses = 0;
-                    moveNode(solution, cityIndex, moveToIndex);
-                    solutionDistance = newDistance;
-                }
-
                 // prepis najlepsie riesenie
                 if (newDistance < bestDistance) {
+                    countPasses = 0;
+
                     moveNode(bestSolution, cityIndex, moveToIndex);
                     bestDistance = newDistance;
+
+                    moveNode(solution, cityIndex, moveToIndex);
+                    solutionDistance = newDistance;
+                // skus prijat horsie riesenie
+                } else {
+                    // vypocitaj pravdepodobnost prijatia
+                    final double acceptanceProbability = acceptanceProbability(bestDistance, newDistance, temperature);
+
+                    // nahodne cislo pre prijatie horiseho riesenia
+                    final double rand = random.nextDouble();
+
+                    if (rand < acceptanceProbability) {
+                        countPasses = 0;
+                        moveNode(solution, cityIndex, moveToIndex);
+                        solutionDistance = newDistance;
+                    }
                 }
             }
             // zniz teplotu
