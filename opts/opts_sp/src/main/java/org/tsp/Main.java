@@ -175,7 +175,7 @@ public class Main {
     public static int simulatedAnnealing(
             final ArrayList<Integer> bestSolution,
             final int START_TEMPERATURE,
-            final int COOLING_RATE,
+            final double COOLING_RATE,
             final int NUM_ITERATIONS,
             final int MAX_PASSES,
             final int SEED) {
@@ -268,7 +268,7 @@ public class Main {
         int baseDistance = countDistance(baseWay);
         System.out.println("\n"+baseDistance);
 
-        final int REPLICATIONS = 1000000;
+        final int REPLICATIONS = 100000000;
         for (int i = 0; i < REPLICATIONS; i++) {
             if (simulatedAnnealing(
                     baseWay,
