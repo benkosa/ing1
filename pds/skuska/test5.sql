@@ -2,10 +2,10 @@
 -- kalendárny mesiac. Použite EXISTS. (3 b):
 
 select popis 
-from p_typ_prispevku t1
+from p_typ_prispevku
 where not exists (
-    select 'x' from p_prispevky t2 
-    where to_char(obdobie, 'YYYYMM') = to_char(add_months(sysdate, -1), 'YYYYMM') and t1.id_typu = t2.id_typu
+    select 'x' from p_prispevky
+    where to_char(obdobie, 'YYYYMM') = to_char(add_months(sysdate, -1), 'YYYYMM')
 );
 
 -- Pre jednotlivé mestá Nitrianskeho kraja vypíšte 

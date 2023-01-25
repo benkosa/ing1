@@ -47,7 +47,7 @@ select
     sum(case when sum(suma) >=0 and sum(suma) <= 2000 then 1 else 0 end) "0 - 2000",
     sum(case when sum(suma) > 2000 and sum(suma) <= 40000 then 1 else 0 end) "2001-40000",
     sum(case when sum(suma) > 40000 and sum(suma) <= 80000 then 1 else 0 end) "40001 - 80000"
-    from p_okres 
+from p_okres 
     join p_mesto using(id_okresu)
     join p_osoba using(psc)
     join p_poistenie using (rod_cislo)
@@ -58,14 +58,13 @@ group by rod_cislo;
 -- Vypíšte 30% najľudnatejších krajín . (3 b):
 select
     n_okresu,
-    sum(1) "pludi"
+    count(rod_cislo) "pludi"
 from p_okres
-join p_mesto using (id_okresu)
-join p_osoba using (psc)
-
+    join p_mesto using (id_okresu)
+    join p_osoba using (psc)
 group by n_okresu
 order by "pludi" desc
-fetch first (select count (*) from p_okres)*0.3 rows only;
+fetch first 30 percent rows only;
 
 -- Pre jednotlivé rozpätia súm 0 - 2000, 2001-40000,40001 - 80000 vypíšte percentuálne 
 -- rozloženie osôb, ktorí túto čiastku celkovo odviedli do poisťovne a sú z okresu Žilina. (4 b):
@@ -80,7 +79,7 @@ from (
         sum(case when sum(suma) > 2000 and sum(suma) <= 40000 then 1 else 0 end) "2001-40000",
         sum(case when sum(suma) > 40000 and sum(suma) <= 80000 then 1 else 0 end) "40001-80000",
         sum(1) "all"
-        from p_okres 
+    from p_okres 
         join p_mesto using(id_okresu)
         join p_osoba using(psc)
         join p_poistenie using (rod_cislo)

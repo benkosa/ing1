@@ -451,5 +451,22 @@ select substr(rod_cislo,3,1), rod_cislo, meno, priezvisko from p_osoba;
 
 
 
+declare type t_pole is table of integer; 
+pole t_pole; begin pole := t_pole(1,2,3,4,5,6,7,8);
+pole.delete(2); 
+
+    FOR I in 1 .. pole.count LOOP 
+        if (pole.exists(i)) then 
+            dbms_output.put_line(pole(i)); 
+        end if; 
+    END LOOP; 
+    
+end; 
+/
+
+SET SERVEROUTPUT ON;
+
+
+
 
 

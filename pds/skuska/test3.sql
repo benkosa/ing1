@@ -20,7 +20,7 @@ select * from(
             p_poberatel.id_typu,
             sum(case when dat_do is null then sysdate-dat_od else dat_do-dat_od end) suma
         from p_poberatel
-        join p_prispevky using(id_poberatela)
+            join p_prispevky using(id_poberatela)
         group by rod_cislo, p_poberatel.id_typu
     )
 ) where rn <= 3;
