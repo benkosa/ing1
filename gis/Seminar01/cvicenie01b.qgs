@@ -1,0 +1,1084 @@
+<!DOCTYPE qgis PUBLIC 'http://mrcc.com/qgis.dtd' 'SYSTEM'>
+<qgis saveDateTime="2023-02-25T12:39:48" saveUser="adamjassak" projectname="" saveUserFull="Benjamín Koša" version="3.22.16-Białowieża">
+  <homePath path=""/>
+  <title></title>
+  <autotransaction active="0"/>
+  <evaluateDefaultValues active="0"/>
+  <trust active="0"/>
+  <projectCrs>
+    <spatialrefsys>
+      <wkt>PROJCRS["ETRS89-extended / LAEA Europe",BASEGEOGCRS["ETRS89",DATUM["European Terrestrial Reference System 1989",ELLIPSOID["GRS 1980",6378137,298.257222101,LENGTHUNIT["metre",1]]],PRIMEM["Greenwich",0,ANGLEUNIT["degree",0.0174532925199433]],ID["EPSG",4258]],CONVERSION["Europe Equal Area 2001",METHOD["Lambert Azimuthal Equal Area",ID["EPSG",9820]],PARAMETER["Latitude of natural origin",52,ANGLEUNIT["degree",0.0174532925199433],ID["EPSG",8801]],PARAMETER["Longitude of natural origin",10,ANGLEUNIT["degree",0.0174532925199433],ID["EPSG",8802]],PARAMETER["False easting",4321000,LENGTHUNIT["metre",1],ID["EPSG",8806]],PARAMETER["False northing",3210000,LENGTHUNIT["metre",1],ID["EPSG",8807]]],CS[Cartesian,2],AXIS["northing (Y)",north,ORDER[1],LENGTHUNIT["metre",1]],AXIS["easting (X)",east,ORDER[2],LENGTHUNIT["metre",1]],USAGE[SCOPE["unknown"],AREA["Europe - LCC &amp; LAEA"],BBOX[24.6,-35.58,84.17,44.83]],ID["EPSG",3035]]</wkt>
+      <proj4>+proj=laea +lat_0=52 +lon_0=10 +x_0=4321000 +y_0=3210000 +ellps=GRS80 +units=m +no_defs</proj4>
+      <srsid>1000</srsid>
+      <srid>3035</srid>
+      <authid>EPSG:3035</authid>
+      <description>ETRS89-extended / LAEA Europe</description>
+      <projectionacronym>laea</projectionacronym>
+      <ellipsoidacronym>EPSG:7019</ellipsoidacronym>
+      <geographicflag>false</geographicflag>
+    </spatialrefsys>
+  </projectCrs>
+  <layer-tree-group>
+    <customproperties>
+      <Option/>
+    </customproperties>
+    <layer-tree-layer checked="Qt::Checked" expanded="1" legend_exp="" legend_split_behavior="0" patch_size="-1,-1" providerKey="ogr" id="Airports_43669ff4_5f0f_48db_81ac_3e7c58a0c8fd" name="Airports" source="./Airports.shp">
+      <customproperties>
+        <Option/>
+      </customproperties>
+    </layer-tree-layer>
+    <layer-tree-layer checked="Qt::Checked" expanded="1" legend_exp="" legend_split_behavior="0" patch_size="-1,-1" providerKey="ogr" id="krajiny_70e1e1bf_1978_4e1e_add2_89e61207ba51" name="europa — krajiny" source="./europa.gpkg|layername=krajiny">
+      <customproperties>
+        <Option/>
+      </customproperties>
+    </layer-tree-layer>
+    <custom-order enabled="0">
+      <item>krajiny_70e1e1bf_1978_4e1e_add2_89e61207ba51</item>
+      <item>Airports_43669ff4_5f0f_48db_81ac_3e7c58a0c8fd</item>
+    </custom-order>
+  </layer-tree-group>
+  <snapping-settings type="1" maxScale="0" mode="2" intersection-snapping="0" tolerance="12" scaleDependencyMode="0" enabled="0" unit="1" self-snapping="0" minScale="0">
+    <individual-layer-settings>
+      <layer-setting type="1" maxScale="0" tolerance="12" units="1" id="Airports_43669ff4_5f0f_48db_81ac_3e7c58a0c8fd" enabled="0" minScale="0"/>
+      <layer-setting type="1" maxScale="0" tolerance="12" units="1" id="krajiny_70e1e1bf_1978_4e1e_add2_89e61207ba51" enabled="0" minScale="0"/>
+    </individual-layer-settings>
+  </snapping-settings>
+  <relations/>
+  <polymorphicRelations/>
+  <mapcanvas annotationsVisible="1" name="theMapCanvas">
+    <units>meters</units>
+    <extent>
+      <xmin>2991832.60923112789168954</xmin>
+      <ymin>1206219.15504555823281407</ymin>
+      <xmax>5908703.21529811806976795</xmax>
+      <ymax>3935042.42531403852626681</ymax>
+    </extent>
+    <rotation>0</rotation>
+    <destinationsrs>
+      <spatialrefsys>
+        <wkt>PROJCRS["ETRS89-extended / LAEA Europe",BASEGEOGCRS["ETRS89",DATUM["European Terrestrial Reference System 1989",ELLIPSOID["GRS 1980",6378137,298.257222101,LENGTHUNIT["metre",1]]],PRIMEM["Greenwich",0,ANGLEUNIT["degree",0.0174532925199433]],ID["EPSG",4258]],CONVERSION["Europe Equal Area 2001",METHOD["Lambert Azimuthal Equal Area",ID["EPSG",9820]],PARAMETER["Latitude of natural origin",52,ANGLEUNIT["degree",0.0174532925199433],ID["EPSG",8801]],PARAMETER["Longitude of natural origin",10,ANGLEUNIT["degree",0.0174532925199433],ID["EPSG",8802]],PARAMETER["False easting",4321000,LENGTHUNIT["metre",1],ID["EPSG",8806]],PARAMETER["False northing",3210000,LENGTHUNIT["metre",1],ID["EPSG",8807]]],CS[Cartesian,2],AXIS["northing (Y)",north,ORDER[1],LENGTHUNIT["metre",1]],AXIS["easting (X)",east,ORDER[2],LENGTHUNIT["metre",1]],USAGE[SCOPE["unknown"],AREA["Europe - LCC &amp; LAEA"],BBOX[24.6,-35.58,84.17,44.83]],ID["EPSG",3035]]</wkt>
+        <proj4>+proj=laea +lat_0=52 +lon_0=10 +x_0=4321000 +y_0=3210000 +ellps=GRS80 +units=m +no_defs</proj4>
+        <srsid>1000</srsid>
+        <srid>3035</srid>
+        <authid>EPSG:3035</authid>
+        <description>ETRS89-extended / LAEA Europe</description>
+        <projectionacronym>laea</projectionacronym>
+        <ellipsoidacronym>EPSG:7019</ellipsoidacronym>
+        <geographicflag>false</geographicflag>
+      </spatialrefsys>
+    </destinationsrs>
+    <rendermaptile>0</rendermaptile>
+    <expressionContextScope/>
+  </mapcanvas>
+  <projectModels/>
+  <legend updateDrawingOrder="true">
+    <legendlayer checked="Qt::Checked" showFeatureCount="0" drawingOrder="-1" name="Airports" open="true">
+      <filegroup open="true" hidden="false">
+        <legendlayerfile isInOverview="0" layerid="Airports_43669ff4_5f0f_48db_81ac_3e7c58a0c8fd" visible="1"/>
+      </filegroup>
+    </legendlayer>
+    <legendlayer checked="Qt::Checked" showFeatureCount="0" drawingOrder="-1" name="europa — krajiny" open="true">
+      <filegroup open="true" hidden="false">
+        <legendlayerfile isInOverview="0" layerid="krajiny_70e1e1bf_1978_4e1e_add2_89e61207ba51" visible="1"/>
+      </filegroup>
+    </legendlayer>
+  </legend>
+  <mapViewDocks/>
+  <mapViewDocks3D/>
+  <main-annotation-layer autoRefreshEnabled="0" type="annotation" refreshOnNotifyEnabled="0" refreshOnNotifyMessage="" legendPlaceholderImage="" autoRefreshTime="0">
+    <id>Annotations_fcff795b_139d_4632_9a54_e6da771576be</id>
+    <datasource></datasource>
+    <keywordList>
+      <value></value>
+    </keywordList>
+    <layername>Annotations</layername>
+    <srs>
+      <spatialrefsys>
+        <wkt>GEOGCRS["WGS 84",DATUM["World Geodetic System 1984",ELLIPSOID["WGS 84",6378137,298.257223563,LENGTHUNIT["metre",1]]],PRIMEM["Greenwich",0,ANGLEUNIT["degree",0.0174532925199433]],CS[ellipsoidal,2],AXIS["geodetic latitude (Lat)",north,ORDER[1],ANGLEUNIT["degree",0.0174532925199433]],AXIS["geodetic longitude (Lon)",east,ORDER[2],ANGLEUNIT["degree",0.0174532925199433]],USAGE[SCOPE["unknown"],AREA["World"],BBOX[-90,-180,90,180]],ID["EPSG",4326]]</wkt>
+        <proj4>+proj=longlat +datum=WGS84 +no_defs</proj4>
+        <srsid>3452</srsid>
+        <srid>4326</srid>
+        <authid>EPSG:4326</authid>
+        <description>WGS 84</description>
+        <projectionacronym>longlat</projectionacronym>
+        <ellipsoidacronym>EPSG:7030</ellipsoidacronym>
+        <geographicflag>true</geographicflag>
+      </spatialrefsys>
+    </srs>
+    <resourceMetadata>
+      <identifier></identifier>
+      <parentidentifier></parentidentifier>
+      <language></language>
+      <type></type>
+      <title></title>
+      <abstract></abstract>
+      <links/>
+      <fees></fees>
+      <encoding></encoding>
+      <crs>
+        <spatialrefsys>
+          <wkt></wkt>
+          <proj4></proj4>
+          <srsid>0</srsid>
+          <srid>0</srid>
+          <authid></authid>
+          <description></description>
+          <projectionacronym></projectionacronym>
+          <ellipsoidacronym></ellipsoidacronym>
+          <geographicflag>false</geographicflag>
+        </spatialrefsys>
+      </crs>
+      <extent/>
+    </resourceMetadata>
+    <items/>
+    <layerOpacity>1</layerOpacity>
+    <blendMode>0</blendMode>
+    <paintEffect/>
+  </main-annotation-layer>
+  <projectlayers>
+    <maplayer wkbType="Point" autoRefreshTime="0" simplifyDrawingTol="1" simplifyAlgorithm="0" legendPlaceholderImage="" labelsEnabled="0" hasScaleBasedVisibilityFlag="0" minScale="100000000" refreshOnNotifyEnabled="0" maxScale="0" simplifyMaxScale="1" type="vector" refreshOnNotifyMessage="" readOnly="0" autoRefreshEnabled="0" geometry="Point" styleCategories="AllStyleCategories" simplifyDrawingHints="1" simplifyLocal="1" symbologyReferenceScale="-1">
+      <extent>
+        <xmin>-69.38872996166631424</xmin>
+        <ymin>-21.31941437439908782</ymin>
+        <xmax>102.49050999408200369</xmax>
+        <ymax>78.92752995099067448</ymax>
+      </extent>
+      <wgs84extent>
+        <xmin>-69.38872996166631424</xmin>
+        <ymin>-21.31941437439908782</ymin>
+        <xmax>102.49050999408194684</xmax>
+        <ymax>78.92752995099067448</ymax>
+      </wgs84extent>
+      <id>Airports_43669ff4_5f0f_48db_81ac_3e7c58a0c8fd</id>
+      <datasource>./Airports.shp</datasource>
+      <keywordList>
+        <value></value>
+      </keywordList>
+      <layername>Airports</layername>
+      <srs>
+        <spatialrefsys>
+          <wkt>GEOGCRS["ETRS89",DATUM["European Terrestrial Reference System 1989",ELLIPSOID["GRS 1980",6378137,298.257222101,LENGTHUNIT["metre",1]]],PRIMEM["Greenwich",0,ANGLEUNIT["degree",0.0174532925199433]],CS[ellipsoidal,2],AXIS["geodetic latitude (Lat)",north,ORDER[1],ANGLEUNIT["degree",0.0174532925199433]],AXIS["geodetic longitude (Lon)",east,ORDER[2],ANGLEUNIT["degree",0.0174532925199433]],USAGE[SCOPE["unknown"],AREA["Europe - ETRS89"],BBOX[32.88,-16.1,84.17,40.18]],ID["EPSG",4258]]</wkt>
+          <proj4>+proj=longlat +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +no_defs</proj4>
+          <srsid>3390</srsid>
+          <srid>4258</srid>
+          <authid>EPSG:4258</authid>
+          <description>ETRS89</description>
+          <projectionacronym>longlat</projectionacronym>
+          <ellipsoidacronym>EPSG:7019</ellipsoidacronym>
+          <geographicflag>true</geographicflag>
+        </spatialrefsys>
+      </srs>
+      <resourceMetadata>
+        <identifier></identifier>
+        <parentidentifier></parentidentifier>
+        <language></language>
+        <type>dataset</type>
+        <title></title>
+        <abstract></abstract>
+        <links/>
+        <fees></fees>
+        <encoding></encoding>
+        <crs>
+          <spatialrefsys>
+            <wkt></wkt>
+            <proj4></proj4>
+            <srsid>0</srsid>
+            <srid>0</srid>
+            <authid></authid>
+            <description></description>
+            <projectionacronym></projectionacronym>
+            <ellipsoidacronym></ellipsoidacronym>
+            <geographicflag>false</geographicflag>
+          </spatialrefsys>
+        </crs>
+        <extent/>
+      </resourceMetadata>
+      <provider encoding="UTF-8">ogr</provider>
+      <vectorjoins/>
+      <layerDependencies/>
+      <dataDependencies/>
+      <expressionfields/>
+      <map-layer-style-manager current="default">
+        <map-layer-style name="default"/>
+      </map-layer-style-manager>
+      <auxiliaryLayer/>
+      <metadataUrls/>
+      <flags>
+        <Identifiable>1</Identifiable>
+        <Removable>1</Removable>
+        <Searchable>1</Searchable>
+        <Private>0</Private>
+      </flags>
+      <temporal endField="" mode="0" accumulate="0" durationField="" enabled="0" startExpression="" limitMode="0" fixedDuration="0" endExpression="" startField="" durationUnit="min">
+        <fixedRange>
+          <start></start>
+          <end></end>
+        </fixedRange>
+      </temporal>
+      <renderer-v2 type="singleSymbol" forceraster="0" symbollevels="0" referencescale="-1" enableorderby="0">
+        <symbols>
+          <symbol type="marker" alpha="1" clip_to_extent="1" name="0" force_rhr="0">
+            <data_defined_properties>
+              <Option type="Map">
+                <Option type="QString" value="" name="name"/>
+                <Option name="properties"/>
+                <Option type="QString" value="collection" name="type"/>
+              </Option>
+            </data_defined_properties>
+            <layer locked="0" class="SimpleMarker" enabled="1" pass="0">
+              <Option type="Map">
+                <Option type="QString" value="0" name="angle"/>
+                <Option type="QString" value="square" name="cap_style"/>
+                <Option type="QString" value="196,60,57,255" name="color"/>
+                <Option type="QString" value="1" name="horizontal_anchor_point"/>
+                <Option type="QString" value="bevel" name="joinstyle"/>
+                <Option type="QString" value="circle" name="name"/>
+                <Option type="QString" value="0,0" name="offset"/>
+                <Option type="QString" value="3x:0,0,0,0,0,0" name="offset_map_unit_scale"/>
+                <Option type="QString" value="MM" name="offset_unit"/>
+                <Option type="QString" value="35,35,35,255" name="outline_color"/>
+                <Option type="QString" value="solid" name="outline_style"/>
+                <Option type="QString" value="0" name="outline_width"/>
+                <Option type="QString" value="3x:0,0,0,0,0,0" name="outline_width_map_unit_scale"/>
+                <Option type="QString" value="MM" name="outline_width_unit"/>
+                <Option type="QString" value="diameter" name="scale_method"/>
+                <Option type="QString" value="2" name="size"/>
+                <Option type="QString" value="3x:0,0,0,0,0,0" name="size_map_unit_scale"/>
+                <Option type="QString" value="MM" name="size_unit"/>
+                <Option type="QString" value="1" name="vertical_anchor_point"/>
+              </Option>
+              <prop k="angle" v="0"/>
+              <prop k="cap_style" v="square"/>
+              <prop k="color" v="196,60,57,255"/>
+              <prop k="horizontal_anchor_point" v="1"/>
+              <prop k="joinstyle" v="bevel"/>
+              <prop k="name" v="circle"/>
+              <prop k="offset" v="0,0"/>
+              <prop k="offset_map_unit_scale" v="3x:0,0,0,0,0,0"/>
+              <prop k="offset_unit" v="MM"/>
+              <prop k="outline_color" v="35,35,35,255"/>
+              <prop k="outline_style" v="solid"/>
+              <prop k="outline_width" v="0"/>
+              <prop k="outline_width_map_unit_scale" v="3x:0,0,0,0,0,0"/>
+              <prop k="outline_width_unit" v="MM"/>
+              <prop k="scale_method" v="diameter"/>
+              <prop k="size" v="2"/>
+              <prop k="size_map_unit_scale" v="3x:0,0,0,0,0,0"/>
+              <prop k="size_unit" v="MM"/>
+              <prop k="vertical_anchor_point" v="1"/>
+              <data_defined_properties>
+                <Option type="Map">
+                  <Option type="QString" value="" name="name"/>
+                  <Option name="properties"/>
+                  <Option type="QString" value="collection" name="type"/>
+                </Option>
+              </data_defined_properties>
+            </layer>
+          </symbol>
+        </symbols>
+        <rotation/>
+        <sizescale/>
+      </renderer-v2>
+      <customproperties>
+        <Option/>
+      </customproperties>
+      <blendMode>0</blendMode>
+      <featureBlendMode>0</featureBlendMode>
+      <layerOpacity>1</layerOpacity>
+      <geometryOptions geometryPrecision="0" removeDuplicateNodes="0">
+        <activeChecks type="StringList">
+          <Option type="QString" value=""/>
+        </activeChecks>
+        <checkConfiguration/>
+      </geometryOptions>
+      <legend type="default-vector" showLabelLegend="0"/>
+      <referencedLayers/>
+      <fieldConfiguration>
+        <field name="OBJECTID" configurationFlags="None">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="AIRP_ICAO_" configurationFlags="None">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="AIRP_HIER" configurationFlags="None">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="AIRP_NAME_" configurationFlags="None">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="CNTR_CODE" configurationFlags="None">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="AIRP_ICRG_" configurationFlags="None">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="IATA_CODE" configurationFlags="None">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="AIRP_PASS" configurationFlags="None">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="PUBL_FLAG" configurationFlags="None">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="IFR" configurationFlags="None">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="VFR" configurationFlags="None">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="AIRP_OWNR" configurationFlags="None">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="AIRP_LAND" configurationFlags="None">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="AIRP_TRAF" configurationFlags="None">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="AIRP_INTR" configurationFlags="None">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="AIRP_CITY" configurationFlags="None">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="ALT" configurationFlags="None">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="LAT_EUR" configurationFlags="None">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="LON_EUR" configurationFlags="None">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="AIRP_USE" configurationFlags="None">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="AIRP_GROUP" configurationFlags="None">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="AIRP_GETIS" configurationFlags="None">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="AIRP_ID" configurationFlags="None">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="AIRP_LCOV_" configurationFlags="None">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+      </fieldConfiguration>
+      <aliases>
+        <alias index="0" field="OBJECTID" name=""/>
+        <alias index="1" field="AIRP_ICAO_" name=""/>
+        <alias index="2" field="AIRP_HIER" name=""/>
+        <alias index="3" field="AIRP_NAME_" name=""/>
+        <alias index="4" field="CNTR_CODE" name=""/>
+        <alias index="5" field="AIRP_ICRG_" name=""/>
+        <alias index="6" field="IATA_CODE" name=""/>
+        <alias index="7" field="AIRP_PASS" name=""/>
+        <alias index="8" field="PUBL_FLAG" name=""/>
+        <alias index="9" field="IFR" name=""/>
+        <alias index="10" field="VFR" name=""/>
+        <alias index="11" field="AIRP_OWNR" name=""/>
+        <alias index="12" field="AIRP_LAND" name=""/>
+        <alias index="13" field="AIRP_TRAF" name=""/>
+        <alias index="14" field="AIRP_INTR" name=""/>
+        <alias index="15" field="AIRP_CITY" name=""/>
+        <alias index="16" field="ALT" name=""/>
+        <alias index="17" field="LAT_EUR" name=""/>
+        <alias index="18" field="LON_EUR" name=""/>
+        <alias index="19" field="AIRP_USE" name=""/>
+        <alias index="20" field="AIRP_GROUP" name=""/>
+        <alias index="21" field="AIRP_GETIS" name=""/>
+        <alias index="22" field="AIRP_ID" name=""/>
+        <alias index="23" field="AIRP_LCOV_" name=""/>
+      </aliases>
+      <defaults>
+        <default field="OBJECTID" expression="" applyOnUpdate="0"/>
+        <default field="AIRP_ICAO_" expression="" applyOnUpdate="0"/>
+        <default field="AIRP_HIER" expression="" applyOnUpdate="0"/>
+        <default field="AIRP_NAME_" expression="" applyOnUpdate="0"/>
+        <default field="CNTR_CODE" expression="" applyOnUpdate="0"/>
+        <default field="AIRP_ICRG_" expression="" applyOnUpdate="0"/>
+        <default field="IATA_CODE" expression="" applyOnUpdate="0"/>
+        <default field="AIRP_PASS" expression="" applyOnUpdate="0"/>
+        <default field="PUBL_FLAG" expression="" applyOnUpdate="0"/>
+        <default field="IFR" expression="" applyOnUpdate="0"/>
+        <default field="VFR" expression="" applyOnUpdate="0"/>
+        <default field="AIRP_OWNR" expression="" applyOnUpdate="0"/>
+        <default field="AIRP_LAND" expression="" applyOnUpdate="0"/>
+        <default field="AIRP_TRAF" expression="" applyOnUpdate="0"/>
+        <default field="AIRP_INTR" expression="" applyOnUpdate="0"/>
+        <default field="AIRP_CITY" expression="" applyOnUpdate="0"/>
+        <default field="ALT" expression="" applyOnUpdate="0"/>
+        <default field="LAT_EUR" expression="" applyOnUpdate="0"/>
+        <default field="LON_EUR" expression="" applyOnUpdate="0"/>
+        <default field="AIRP_USE" expression="" applyOnUpdate="0"/>
+        <default field="AIRP_GROUP" expression="" applyOnUpdate="0"/>
+        <default field="AIRP_GETIS" expression="" applyOnUpdate="0"/>
+        <default field="AIRP_ID" expression="" applyOnUpdate="0"/>
+        <default field="AIRP_LCOV_" expression="" applyOnUpdate="0"/>
+      </defaults>
+      <constraints>
+        <constraint notnull_strength="0" unique_strength="0" exp_strength="0" constraints="0" field="OBJECTID"/>
+        <constraint notnull_strength="0" unique_strength="0" exp_strength="0" constraints="0" field="AIRP_ICAO_"/>
+        <constraint notnull_strength="0" unique_strength="0" exp_strength="0" constraints="0" field="AIRP_HIER"/>
+        <constraint notnull_strength="0" unique_strength="0" exp_strength="0" constraints="0" field="AIRP_NAME_"/>
+        <constraint notnull_strength="0" unique_strength="0" exp_strength="0" constraints="0" field="CNTR_CODE"/>
+        <constraint notnull_strength="0" unique_strength="0" exp_strength="0" constraints="0" field="AIRP_ICRG_"/>
+        <constraint notnull_strength="0" unique_strength="0" exp_strength="0" constraints="0" field="IATA_CODE"/>
+        <constraint notnull_strength="0" unique_strength="0" exp_strength="0" constraints="0" field="AIRP_PASS"/>
+        <constraint notnull_strength="0" unique_strength="0" exp_strength="0" constraints="0" field="PUBL_FLAG"/>
+        <constraint notnull_strength="0" unique_strength="0" exp_strength="0" constraints="0" field="IFR"/>
+        <constraint notnull_strength="0" unique_strength="0" exp_strength="0" constraints="0" field="VFR"/>
+        <constraint notnull_strength="0" unique_strength="0" exp_strength="0" constraints="0" field="AIRP_OWNR"/>
+        <constraint notnull_strength="0" unique_strength="0" exp_strength="0" constraints="0" field="AIRP_LAND"/>
+        <constraint notnull_strength="0" unique_strength="0" exp_strength="0" constraints="0" field="AIRP_TRAF"/>
+        <constraint notnull_strength="0" unique_strength="0" exp_strength="0" constraints="0" field="AIRP_INTR"/>
+        <constraint notnull_strength="0" unique_strength="0" exp_strength="0" constraints="0" field="AIRP_CITY"/>
+        <constraint notnull_strength="0" unique_strength="0" exp_strength="0" constraints="0" field="ALT"/>
+        <constraint notnull_strength="0" unique_strength="0" exp_strength="0" constraints="0" field="LAT_EUR"/>
+        <constraint notnull_strength="0" unique_strength="0" exp_strength="0" constraints="0" field="LON_EUR"/>
+        <constraint notnull_strength="0" unique_strength="0" exp_strength="0" constraints="0" field="AIRP_USE"/>
+        <constraint notnull_strength="0" unique_strength="0" exp_strength="0" constraints="0" field="AIRP_GROUP"/>
+        <constraint notnull_strength="0" unique_strength="0" exp_strength="0" constraints="0" field="AIRP_GETIS"/>
+        <constraint notnull_strength="0" unique_strength="0" exp_strength="0" constraints="0" field="AIRP_ID"/>
+        <constraint notnull_strength="0" unique_strength="0" exp_strength="0" constraints="0" field="AIRP_LCOV_"/>
+      </constraints>
+      <constraintExpressions>
+        <constraint exp="" field="OBJECTID" desc=""/>
+        <constraint exp="" field="AIRP_ICAO_" desc=""/>
+        <constraint exp="" field="AIRP_HIER" desc=""/>
+        <constraint exp="" field="AIRP_NAME_" desc=""/>
+        <constraint exp="" field="CNTR_CODE" desc=""/>
+        <constraint exp="" field="AIRP_ICRG_" desc=""/>
+        <constraint exp="" field="IATA_CODE" desc=""/>
+        <constraint exp="" field="AIRP_PASS" desc=""/>
+        <constraint exp="" field="PUBL_FLAG" desc=""/>
+        <constraint exp="" field="IFR" desc=""/>
+        <constraint exp="" field="VFR" desc=""/>
+        <constraint exp="" field="AIRP_OWNR" desc=""/>
+        <constraint exp="" field="AIRP_LAND" desc=""/>
+        <constraint exp="" field="AIRP_TRAF" desc=""/>
+        <constraint exp="" field="AIRP_INTR" desc=""/>
+        <constraint exp="" field="AIRP_CITY" desc=""/>
+        <constraint exp="" field="ALT" desc=""/>
+        <constraint exp="" field="LAT_EUR" desc=""/>
+        <constraint exp="" field="LON_EUR" desc=""/>
+        <constraint exp="" field="AIRP_USE" desc=""/>
+        <constraint exp="" field="AIRP_GROUP" desc=""/>
+        <constraint exp="" field="AIRP_GETIS" desc=""/>
+        <constraint exp="" field="AIRP_ID" desc=""/>
+        <constraint exp="" field="AIRP_LCOV_" desc=""/>
+      </constraintExpressions>
+      <expressionfields/>
+      <attributeactions>
+        <defaultAction value="{00000000-0000-0000-0000-000000000000}" key="Canvas"/>
+      </attributeactions>
+      <attributetableconfig sortOrder="0" actionWidgetStyle="dropDown" sortExpression="">
+        <columns/>
+      </attributetableconfig>
+      <conditionalstyles>
+        <rowstyles/>
+        <fieldstyles/>
+      </conditionalstyles>
+      <storedexpressions/>
+      <editform tolerant="1"></editform>
+      <editforminit/>
+      <editforminitcodesource>0</editforminitcodesource>
+      <editforminitfilepath></editforminitfilepath>
+      <editforminitcode><![CDATA[]]></editforminitcode>
+      <featformsuppress>0</featformsuppress>
+      <editorlayout>generatedlayout</editorlayout>
+      <editable/>
+      <labelOnTop/>
+      <reuseLastValue/>
+      <dataDefinedFieldProperties/>
+      <widgets/>
+      <previewExpression></previewExpression>
+      <mapTip></mapTip>
+    </maplayer>
+    <maplayer wkbType="MultiPolygon" autoRefreshTime="0" simplifyDrawingTol="1" simplifyAlgorithm="0" legendPlaceholderImage="" labelsEnabled="0" hasScaleBasedVisibilityFlag="0" minScale="100000000" refreshOnNotifyEnabled="0" maxScale="0" simplifyMaxScale="1" type="vector" refreshOnNotifyMessage="" readOnly="0" autoRefreshEnabled="0" geometry="Polygon" styleCategories="AllStyleCategories" simplifyDrawingHints="1" simplifyLocal="1" symbologyReferenceScale="-1">
+      <extent>
+        <xmin>-2824230.81339999986812472</xmin>
+        <ymin>-3076162.60680000018328428</ymin>
+        <xmax>10026010.83339999988675117</xmax>
+        <ymax>6405005.34750000014901161</ymax>
+      </extent>
+      <wgs84extent>
+        <xmin>-90.23528381409484211</xmin>
+        <ymin>-29.85708211578458204</ymin>
+        <xmax>103.45691358201800369</xmax>
+        <ymax>80.97106182603914704</ymax>
+      </wgs84extent>
+      <id>krajiny_70e1e1bf_1978_4e1e_add2_89e61207ba51</id>
+      <datasource>./europa.gpkg|layername=krajiny</datasource>
+      <keywordList>
+        <value></value>
+      </keywordList>
+      <layername>europa — krajiny</layername>
+      <srs>
+        <spatialrefsys>
+          <wkt>PROJCRS["ETRS89-extended / LAEA Europe",BASEGEOGCRS["ETRS89",DATUM["European Terrestrial Reference System 1989",ELLIPSOID["GRS 1980",6378137,298.257222101,LENGTHUNIT["metre",1]]],PRIMEM["Greenwich",0,ANGLEUNIT["degree",0.0174532925199433]],ID["EPSG",4258]],CONVERSION["Europe Equal Area 2001",METHOD["Lambert Azimuthal Equal Area",ID["EPSG",9820]],PARAMETER["Latitude of natural origin",52,ANGLEUNIT["degree",0.0174532925199433],ID["EPSG",8801]],PARAMETER["Longitude of natural origin",10,ANGLEUNIT["degree",0.0174532925199433],ID["EPSG",8802]],PARAMETER["False easting",4321000,LENGTHUNIT["metre",1],ID["EPSG",8806]],PARAMETER["False northing",3210000,LENGTHUNIT["metre",1],ID["EPSG",8807]]],CS[Cartesian,2],AXIS["northing (Y)",north,ORDER[1],LENGTHUNIT["metre",1]],AXIS["easting (X)",east,ORDER[2],LENGTHUNIT["metre",1]],USAGE[SCOPE["unknown"],AREA["Europe - LCC &amp; LAEA"],BBOX[24.6,-35.58,84.17,44.83]],ID["EPSG",3035]]</wkt>
+          <proj4>+proj=laea +lat_0=52 +lon_0=10 +x_0=4321000 +y_0=3210000 +ellps=GRS80 +units=m +no_defs</proj4>
+          <srsid>1000</srsid>
+          <srid>3035</srid>
+          <authid>EPSG:3035</authid>
+          <description>ETRS89-extended / LAEA Europe</description>
+          <projectionacronym>laea</projectionacronym>
+          <ellipsoidacronym>EPSG:7019</ellipsoidacronym>
+          <geographicflag>false</geographicflag>
+        </spatialrefsys>
+      </srs>
+      <resourceMetadata>
+        <identifier></identifier>
+        <parentidentifier></parentidentifier>
+        <language></language>
+        <type>dataset</type>
+        <title></title>
+        <abstract></abstract>
+        <links/>
+        <fees></fees>
+        <encoding></encoding>
+        <crs>
+          <spatialrefsys>
+            <wkt></wkt>
+            <proj4></proj4>
+            <srsid>0</srsid>
+            <srid>0</srid>
+            <authid></authid>
+            <description></description>
+            <projectionacronym></projectionacronym>
+            <ellipsoidacronym></ellipsoidacronym>
+            <geographicflag>false</geographicflag>
+          </spatialrefsys>
+        </crs>
+        <extent/>
+      </resourceMetadata>
+      <provider encoding="UTF-8">ogr</provider>
+      <vectorjoins/>
+      <layerDependencies/>
+      <dataDependencies/>
+      <expressionfields/>
+      <map-layer-style-manager current="default">
+        <map-layer-style name="default"/>
+      </map-layer-style-manager>
+      <auxiliaryLayer/>
+      <metadataUrls/>
+      <flags>
+        <Identifiable>1</Identifiable>
+        <Removable>1</Removable>
+        <Searchable>1</Searchable>
+        <Private>0</Private>
+      </flags>
+      <temporal endField="" mode="0" accumulate="0" durationField="" enabled="0" startExpression="" limitMode="0" fixedDuration="0" endExpression="" startField="" durationUnit="min">
+        <fixedRange>
+          <start></start>
+          <end></end>
+        </fixedRange>
+      </temporal>
+      <renderer-v2 type="singleSymbol" forceraster="0" symbollevels="0" referencescale="-1" enableorderby="0">
+        <symbols>
+          <symbol type="fill" alpha="1" clip_to_extent="1" name="0" force_rhr="0">
+            <data_defined_properties>
+              <Option type="Map">
+                <Option type="QString" value="" name="name"/>
+                <Option name="properties"/>
+                <Option type="QString" value="collection" name="type"/>
+              </Option>
+            </data_defined_properties>
+            <layer locked="0" class="SimpleFill" enabled="1" pass="0">
+              <Option type="Map">
+                <Option type="QString" value="3x:0,0,0,0,0,0" name="border_width_map_unit_scale"/>
+                <Option type="QString" value="190,178,151,255" name="color"/>
+                <Option type="QString" value="bevel" name="joinstyle"/>
+                <Option type="QString" value="0,0" name="offset"/>
+                <Option type="QString" value="3x:0,0,0,0,0,0" name="offset_map_unit_scale"/>
+                <Option type="QString" value="MM" name="offset_unit"/>
+                <Option type="QString" value="35,35,35,255" name="outline_color"/>
+                <Option type="QString" value="solid" name="outline_style"/>
+                <Option type="QString" value="0.26" name="outline_width"/>
+                <Option type="QString" value="MM" name="outline_width_unit"/>
+                <Option type="QString" value="solid" name="style"/>
+              </Option>
+              <prop k="border_width_map_unit_scale" v="3x:0,0,0,0,0,0"/>
+              <prop k="color" v="190,178,151,255"/>
+              <prop k="joinstyle" v="bevel"/>
+              <prop k="offset" v="0,0"/>
+              <prop k="offset_map_unit_scale" v="3x:0,0,0,0,0,0"/>
+              <prop k="offset_unit" v="MM"/>
+              <prop k="outline_color" v="35,35,35,255"/>
+              <prop k="outline_style" v="solid"/>
+              <prop k="outline_width" v="0.26"/>
+              <prop k="outline_width_unit" v="MM"/>
+              <prop k="style" v="solid"/>
+              <data_defined_properties>
+                <Option type="Map">
+                  <Option type="QString" value="" name="name"/>
+                  <Option name="properties"/>
+                  <Option type="QString" value="collection" name="type"/>
+                </Option>
+              </data_defined_properties>
+            </layer>
+          </symbol>
+        </symbols>
+        <rotation/>
+        <sizescale/>
+      </renderer-v2>
+      <customproperties>
+        <Option type="Map">
+          <Option type="List" name="dualview/previewExpressions">
+            <Option type="QString" value="&quot;NAME_LATN&quot;"/>
+          </Option>
+        </Option>
+      </customproperties>
+      <blendMode>0</blendMode>
+      <featureBlendMode>0</featureBlendMode>
+      <layerOpacity>1</layerOpacity>
+      <geometryOptions geometryPrecision="0" removeDuplicateNodes="0">
+        <activeChecks type="StringList">
+          <Option type="QString" value=""/>
+        </activeChecks>
+        <checkConfiguration/>
+      </geometryOptions>
+      <legend type="default-vector" showLabelLegend="0"/>
+      <referencedLayers/>
+      <fieldConfiguration>
+        <field name="fid" configurationFlags="None">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="NUTS_ID" configurationFlags="None">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="LEVL_CODE" configurationFlags="None">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="CNTR_CODE" configurationFlags="None">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="NAME_LATN" configurationFlags="None">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="NUTS_NAME" configurationFlags="None">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="MOUNT_TYPE" configurationFlags="None">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="URBN_TYPE" configurationFlags="None">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="COAST_TYPE" configurationFlags="None">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="AREA" configurationFlags="None">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+      </fieldConfiguration>
+      <aliases>
+        <alias index="0" field="fid" name=""/>
+        <alias index="1" field="NUTS_ID" name=""/>
+        <alias index="2" field="LEVL_CODE" name=""/>
+        <alias index="3" field="CNTR_CODE" name=""/>
+        <alias index="4" field="NAME_LATN" name=""/>
+        <alias index="5" field="NUTS_NAME" name=""/>
+        <alias index="6" field="MOUNT_TYPE" name=""/>
+        <alias index="7" field="URBN_TYPE" name=""/>
+        <alias index="8" field="COAST_TYPE" name=""/>
+        <alias index="9" field="AREA" name=""/>
+      </aliases>
+      <defaults>
+        <default field="fid" expression="" applyOnUpdate="0"/>
+        <default field="NUTS_ID" expression="" applyOnUpdate="0"/>
+        <default field="LEVL_CODE" expression="" applyOnUpdate="0"/>
+        <default field="CNTR_CODE" expression="" applyOnUpdate="0"/>
+        <default field="NAME_LATN" expression="" applyOnUpdate="0"/>
+        <default field="NUTS_NAME" expression="" applyOnUpdate="0"/>
+        <default field="MOUNT_TYPE" expression="" applyOnUpdate="0"/>
+        <default field="URBN_TYPE" expression="" applyOnUpdate="0"/>
+        <default field="COAST_TYPE" expression="" applyOnUpdate="0"/>
+        <default field="AREA" expression="" applyOnUpdate="0"/>
+      </defaults>
+      <constraints>
+        <constraint notnull_strength="1" unique_strength="1" exp_strength="0" constraints="3" field="fid"/>
+        <constraint notnull_strength="0" unique_strength="0" exp_strength="0" constraints="0" field="NUTS_ID"/>
+        <constraint notnull_strength="0" unique_strength="0" exp_strength="0" constraints="0" field="LEVL_CODE"/>
+        <constraint notnull_strength="0" unique_strength="0" exp_strength="0" constraints="0" field="CNTR_CODE"/>
+        <constraint notnull_strength="0" unique_strength="0" exp_strength="0" constraints="0" field="NAME_LATN"/>
+        <constraint notnull_strength="0" unique_strength="0" exp_strength="0" constraints="0" field="NUTS_NAME"/>
+        <constraint notnull_strength="0" unique_strength="0" exp_strength="0" constraints="0" field="MOUNT_TYPE"/>
+        <constraint notnull_strength="0" unique_strength="0" exp_strength="0" constraints="0" field="URBN_TYPE"/>
+        <constraint notnull_strength="0" unique_strength="0" exp_strength="0" constraints="0" field="COAST_TYPE"/>
+        <constraint notnull_strength="0" unique_strength="0" exp_strength="0" constraints="0" field="AREA"/>
+      </constraints>
+      <constraintExpressions>
+        <constraint exp="" field="fid" desc=""/>
+        <constraint exp="" field="NUTS_ID" desc=""/>
+        <constraint exp="" field="LEVL_CODE" desc=""/>
+        <constraint exp="" field="CNTR_CODE" desc=""/>
+        <constraint exp="" field="NAME_LATN" desc=""/>
+        <constraint exp="" field="NUTS_NAME" desc=""/>
+        <constraint exp="" field="MOUNT_TYPE" desc=""/>
+        <constraint exp="" field="URBN_TYPE" desc=""/>
+        <constraint exp="" field="COAST_TYPE" desc=""/>
+        <constraint exp="" field="AREA" desc=""/>
+      </constraintExpressions>
+      <expressionfields/>
+      <attributeactions>
+        <defaultAction value="{00000000-0000-0000-0000-000000000000}" key="Canvas"/>
+      </attributeactions>
+      <attributetableconfig sortOrder="1" actionWidgetStyle="dropDown" sortExpression="&quot;AREA&quot;">
+        <columns>
+          <column type="field" name="fid" width="-1" hidden="0"/>
+          <column type="field" name="NUTS_ID" width="-1" hidden="0"/>
+          <column type="field" name="LEVL_CODE" width="-1" hidden="0"/>
+          <column type="field" name="CNTR_CODE" width="-1" hidden="0"/>
+          <column type="field" name="NAME_LATN" width="-1" hidden="0"/>
+          <column type="field" name="NUTS_NAME" width="-1" hidden="0"/>
+          <column type="field" name="MOUNT_TYPE" width="-1" hidden="0"/>
+          <column type="field" name="URBN_TYPE" width="-1" hidden="0"/>
+          <column type="field" name="COAST_TYPE" width="-1" hidden="0"/>
+          <column type="field" name="AREA" width="-1" hidden="0"/>
+          <column type="actions" width="-1" hidden="1"/>
+        </columns>
+      </attributetableconfig>
+      <conditionalstyles>
+        <rowstyles/>
+        <fieldstyles/>
+      </conditionalstyles>
+      <storedexpressions/>
+      <editform tolerant="1"></editform>
+      <editforminit/>
+      <editforminitcodesource>0</editforminitcodesource>
+      <editforminitfilepath></editforminitfilepath>
+      <editforminitcode><![CDATA[]]></editforminitcode>
+      <featformsuppress>0</featformsuppress>
+      <editorlayout>generatedlayout</editorlayout>
+      <editable/>
+      <labelOnTop/>
+      <reuseLastValue/>
+      <dataDefinedFieldProperties/>
+      <widgets/>
+      <previewExpression>"NAME_LATN"</previewExpression>
+      <mapTip></mapTip>
+    </maplayer>
+  </projectlayers>
+  <layerorder>
+    <layer id="krajiny_70e1e1bf_1978_4e1e_add2_89e61207ba51"/>
+    <layer id="Airports_43669ff4_5f0f_48db_81ac_3e7c58a0c8fd"/>
+  </layerorder>
+  <properties>
+    <DefaultStyles>
+      <ColorRamp type="QString"></ColorRamp>
+      <Fill type="QString"></Fill>
+      <Line type="QString"></Line>
+      <Marker type="QString"></Marker>
+      <Opacity type="double">1</Opacity>
+      <RandomColors type="bool">true</RandomColors>
+    </DefaultStyles>
+    <Digitizing>
+      <AvoidIntersectionsMode type="int">0</AvoidIntersectionsMode>
+    </Digitizing>
+    <Gui>
+      <CanvasColorBluePart type="int">255</CanvasColorBluePart>
+      <CanvasColorGreenPart type="int">255</CanvasColorGreenPart>
+      <CanvasColorRedPart type="int">255</CanvasColorRedPart>
+      <SelectionColorAlphaPart type="int">255</SelectionColorAlphaPart>
+      <SelectionColorBluePart type="int">0</SelectionColorBluePart>
+      <SelectionColorGreenPart type="int">255</SelectionColorGreenPart>
+      <SelectionColorRedPart type="int">255</SelectionColorRedPart>
+    </Gui>
+    <Legend>
+      <filterByMap type="bool">false</filterByMap>
+    </Legend>
+    <Macros>
+      <pythonCode type="QString"></pythonCode>
+    </Macros>
+    <Measure>
+      <Ellipsoid type="QString">EPSG:7019</Ellipsoid>
+    </Measure>
+    <Measurement>
+      <AreaUnits type="QString">m2</AreaUnits>
+      <DistanceUnits type="QString">meters</DistanceUnits>
+    </Measurement>
+    <PAL>
+      <CandidatesLinePerCM type="double">5</CandidatesLinePerCM>
+      <CandidatesPolygonPerCM type="double">2.5</CandidatesPolygonPerCM>
+      <DrawRectOnly type="bool">false</DrawRectOnly>
+      <DrawUnplaced type="bool">false</DrawUnplaced>
+      <PlacementEngineVersion type="int">1</PlacementEngineVersion>
+      <SearchMethod type="int">0</SearchMethod>
+      <ShowingAllLabels type="bool">false</ShowingAllLabels>
+      <ShowingCandidates type="bool">false</ShowingCandidates>
+      <ShowingPartialsLabels type="bool">true</ShowingPartialsLabels>
+      <TextFormat type="int">0</TextFormat>
+      <UnplacedColor type="QString">255,0,0,255</UnplacedColor>
+    </PAL>
+    <Paths>
+      <Absolute type="bool">false</Absolute>
+    </Paths>
+    <PositionPrecision>
+      <Automatic type="bool">true</Automatic>
+      <DecimalPlaces type="int">2</DecimalPlaces>
+      <DegreeFormat type="QString">D</DegreeFormat>
+    </PositionPrecision>
+    <RenderMapTile type="bool">false</RenderMapTile>
+    <SpatialRefSys>
+      <ProjectionsEnabled type="int">1</ProjectionsEnabled>
+    </SpatialRefSys>
+    <WCSLayers type="QStringList"/>
+    <WCSUrl type="QString"></WCSUrl>
+    <WFSLayers type="QStringList"/>
+    <WFSTLayers>
+      <Delete type="QStringList"/>
+      <Insert type="QStringList"/>
+      <Update type="QStringList"/>
+    </WFSTLayers>
+    <WFSUrl type="QString"></WFSUrl>
+    <WMSAccessConstraints type="QString">None</WMSAccessConstraints>
+    <WMSAddWktGeometry type="bool">false</WMSAddWktGeometry>
+    <WMSContactMail type="QString"></WMSContactMail>
+    <WMSContactOrganization type="QString"></WMSContactOrganization>
+    <WMSContactPerson type="QString"></WMSContactPerson>
+    <WMSContactPhone type="QString"></WMSContactPhone>
+    <WMSContactPosition type="QString"></WMSContactPosition>
+    <WMSDefaultMapUnitsPerMm type="double">1</WMSDefaultMapUnitsPerMm>
+    <WMSFeatureInfoUseAttributeFormSettings type="bool">false</WMSFeatureInfoUseAttributeFormSettings>
+    <WMSFees type="QString">conditions unknown</WMSFees>
+    <WMSImageQuality type="int">90</WMSImageQuality>
+    <WMSKeywordList type="QStringList">
+      <value></value>
+    </WMSKeywordList>
+    <WMSMaxAtlasFeatures type="int">1</WMSMaxAtlasFeatures>
+    <WMSOnlineResource type="QString"></WMSOnlineResource>
+    <WMSPrecision type="QString">8</WMSPrecision>
+    <WMSRootName type="QString"></WMSRootName>
+    <WMSSegmentizeFeatureInfoGeometry type="bool">false</WMSSegmentizeFeatureInfoGeometry>
+    <WMSServiceAbstract type="QString"></WMSServiceAbstract>
+    <WMSServiceCapabilities type="bool">false</WMSServiceCapabilities>
+    <WMSServiceTitle type="QString"></WMSServiceTitle>
+    <WMSTileBuffer type="int">0</WMSTileBuffer>
+    <WMSUrl type="QString"></WMSUrl>
+    <WMSUseLayerIDs type="bool">false</WMSUseLayerIDs>
+    <WMTSGrids>
+      <CRS type="QStringList"/>
+      <Config type="QStringList"/>
+    </WMTSGrids>
+    <WMTSJpegLayers>
+      <Group type="QStringList"/>
+      <Layer type="QStringList"/>
+      <Project type="bool">false</Project>
+    </WMTSJpegLayers>
+    <WMTSLayers>
+      <Group type="QStringList"/>
+      <Layer type="QStringList"/>
+      <Project type="bool">false</Project>
+    </WMTSLayers>
+    <WMTSMinScale type="int">5000</WMTSMinScale>
+    <WMTSPngLayers>
+      <Group type="QStringList"/>
+      <Layer type="QStringList"/>
+      <Project type="bool">false</Project>
+    </WMTSPngLayers>
+    <WMTSUrl type="QString"></WMTSUrl>
+  </properties>
+  <dataDefinedServerProperties>
+    <Option type="Map">
+      <Option type="QString" value="" name="name"/>
+      <Option name="properties"/>
+      <Option type="QString" value="collection" name="type"/>
+    </Option>
+  </dataDefinedServerProperties>
+  <visibility-presets/>
+  <transformContext/>
+  <projectMetadata>
+    <identifier></identifier>
+    <parentidentifier></parentidentifier>
+    <language></language>
+    <type></type>
+    <title></title>
+    <abstract></abstract>
+    <contact>
+      <name></name>
+      <organization></organization>
+      <position></position>
+      <voice></voice>
+      <fax></fax>
+      <email></email>
+      <role></role>
+    </contact>
+    <links/>
+    <author>Benjamín Koša</author>
+    <creation>2023-02-25T12:11:58</creation>
+  </projectMetadata>
+  <Annotations/>
+  <Layouts/>
+  <Bookmarks/>
+  <ProjectViewSettings UseProjectScales="0" rotation="0">
+    <Scales/>
+    <DefaultViewExtent xmin="2991832.60923112789168954" ymin="494352.21495820046402514" xmax="5908703.21529811806976795" ymax="4646909.36540139652788639">
+      <spatialrefsys>
+        <wkt>PROJCRS["ETRS89-extended / LAEA Europe",BASEGEOGCRS["ETRS89",DATUM["European Terrestrial Reference System 1989",ELLIPSOID["GRS 1980",6378137,298.257222101,LENGTHUNIT["metre",1]]],PRIMEM["Greenwich",0,ANGLEUNIT["degree",0.0174532925199433]],ID["EPSG",4258]],CONVERSION["Europe Equal Area 2001",METHOD["Lambert Azimuthal Equal Area",ID["EPSG",9820]],PARAMETER["Latitude of natural origin",52,ANGLEUNIT["degree",0.0174532925199433],ID["EPSG",8801]],PARAMETER["Longitude of natural origin",10,ANGLEUNIT["degree",0.0174532925199433],ID["EPSG",8802]],PARAMETER["False easting",4321000,LENGTHUNIT["metre",1],ID["EPSG",8806]],PARAMETER["False northing",3210000,LENGTHUNIT["metre",1],ID["EPSG",8807]]],CS[Cartesian,2],AXIS["northing (Y)",north,ORDER[1],LENGTHUNIT["metre",1]],AXIS["easting (X)",east,ORDER[2],LENGTHUNIT["metre",1]],USAGE[SCOPE["unknown"],AREA["Europe - LCC &amp; LAEA"],BBOX[24.6,-35.58,84.17,44.83]],ID["EPSG",3035]]</wkt>
+        <proj4>+proj=laea +lat_0=52 +lon_0=10 +x_0=4321000 +y_0=3210000 +ellps=GRS80 +units=m +no_defs</proj4>
+        <srsid>1000</srsid>
+        <srid>3035</srid>
+        <authid>EPSG:3035</authid>
+        <description>ETRS89-extended / LAEA Europe</description>
+        <projectionacronym>laea</projectionacronym>
+        <ellipsoidacronym>EPSG:7019</ellipsoidacronym>
+        <geographicflag>false</geographicflag>
+      </spatialrefsys>
+    </DefaultViewExtent>
+  </ProjectViewSettings>
+  <ProjectTimeSettings frameRate="1" timeStep="1" cumulativeTemporalRange="0" timeStepUnit="h"/>
+  <ProjectDisplaySettings>
+    <BearingFormat id="bearing">
+      <Option type="Map">
+        <Option type="QChar" value="" name="decimal_separator"/>
+        <Option type="int" value="6" name="decimals"/>
+        <Option type="int" value="0" name="direction_format"/>
+        <Option type="int" value="0" name="rounding_type"/>
+        <Option type="bool" value="false" name="show_plus"/>
+        <Option type="bool" value="true" name="show_thousand_separator"/>
+        <Option type="bool" value="false" name="show_trailing_zeros"/>
+        <Option type="QChar" value="" name="thousand_separator"/>
+      </Option>
+    </BearingFormat>
+  </ProjectDisplaySettings>
+</qgis>
