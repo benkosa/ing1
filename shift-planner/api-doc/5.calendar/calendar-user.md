@@ -2,7 +2,7 @@ baseUrl = https://descartes-api.com
 
 # View team plan
 ## Get all shifts in team between two chosen dates
-**GET** {baseUrl}/calendar/teamPlan/teamId/{TeamId}/StartDate/{StartDate}/EndDate/{EndDate}
+**GET** {baseUrl}/calendar/teamPlan?TeamId={TeamId}&StartDate={StartDate}&EndDate={EndDate}
 
 **Request body:**
 ```json
@@ -53,7 +53,7 @@ and EndDate <= parEndDate;
 
 # View planned shifts
 ## Get all planned shifts assigned to user in team between two chosen dates
-**GET** {baseUrl}/calendar/plannedShifts/teamId/{TeamId}/StartDate/{StartDate}/EndDate/{EndDate}
+**GET** {baseUrl}/calendar/plannedShifts?TeamId={TeamId}&StartDate={StartDate}&EndDate={EndDate}
 
 **Request body:**
 ```json
