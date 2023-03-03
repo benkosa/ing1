@@ -45,13 +45,13 @@ public class SwingWorkerRealTime {
         mySwingWorker.execute();
     }
 
-    private class MySwingWorker extends SwingWorker<Boolean, double[]> {
-
-        LinkedList<Double> fifo = new LinkedList<>();
+    private class MySwingWorker extends SwingWorker<Boolean, Double> {
 
         final int L = 9;
         final int D = 10;
-        final int replications = 10000000;
+        final int replications = 1000000000;
+
+        LinkedList<Double> seriesData = new LinkedList<>();
 
         int m = 0;
         int n = 0;
@@ -60,7 +60,7 @@ public class SwingWorkerRealTime {
         Random genAlfa = new Random();
         double a, alfa, y;
 
-        private void throwNeedle() {
+        private double throwNeedle() {
             n+=1;
             a = genA.nextDouble() * D;
             alfa = genAlfa.nextDouble() * Math.PI;
@@ -70,8 +70,9 @@ public class SwingWorkerRealTime {
                 m+=1;
             }
             if (m > 0) {
-                fifo.add((double) (L * n * 2) / (D * m));
+                return((double) (L * n * 2) / (D * m));
             }
+            return 0;
         }
 
         @Override
@@ -79,20 +80,16 @@ public class SwingWorkerRealTime {
 
             while (n < replications) {
 
-                throwNeedle();
+                final double attempt = throwNeedle();
+                if (attempt != 0)
+                    publish(attempt);
 
-                double[] array = new double[fifo.size()];
-                for (int i = 0; i < fifo.size(); i++) {
-                    array[i] = fifo.get(i);
-                }
-                publish(array);
-
-                try {
-                    Thread.sleep(5);
-                } catch (InterruptedException e) {
-                    // eat it. caught when interrupt is called
-                    System.out.println("MySwingWorker shut down.");
-                }
+//                try {
+//                    Thread.sleep(5);
+//                } catch (InterruptedException e) {
+//                    // eat it. caught when interrupt is called
+//                    System.out.println("MySwingWorker shut down.");
+//                }
 
             }
 
@@ -100,14 +97,13 @@ public class SwingWorkerRealTime {
         }
 
         @Override
-        protected void process(List<double[]> chunks) {
+        protected void process(List<Double> chunks) {
 
             System.out.println("number of chunks: " + chunks.size());
             System.out.println("pi: " + ((double) (L * n * 2) / (D * m)));
 
-            double[] mostRecentDataSet = chunks.get(chunks.size() - 1);
-
-            chart.updateXYSeries("randomWalk", null, mostRecentDataSet, null);
+            seriesData.addAll(chunks);
+            chart.updateXYSeries("randomWalk", null, seriesData, null);
             try {
                 sw.repaintChart();
             } catch (Exception ignored) {}
