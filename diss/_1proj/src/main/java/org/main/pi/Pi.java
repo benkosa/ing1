@@ -19,7 +19,7 @@ public class Pi extends MonteCarlo {
     public Pi() {}
 
     public void start() {
-        this.MonteCarlo(2000000000000L, 200000000, 1000, "PI");
+        this.MonteCarlo(2000000000000L, 2000000, 1000, "PI");
         this.go();;
     }
 

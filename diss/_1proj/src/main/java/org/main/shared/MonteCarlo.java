@@ -39,7 +39,6 @@ public abstract class MonteCarlo extends SwingWorker<Boolean, Double> {
     public abstract void afterSimulation();
 
     public void go() {
-
         // Create Chart
         chart = QuickChart.getChart(chartTitle, "x", "y", chartTitle, new double[] { 0 }, new double[] { 0 });
         chart.getStyler().setLegendVisible(false);
@@ -80,7 +79,7 @@ public abstract class MonteCarlo extends SwingWorker<Boolean, Double> {
         seriesData.addAll(chunks);
 
         // remove data from chart
-        if (seriesData.size() > base_sample_offset) {
+        while (seriesData.size() > base_sample_offset) {
             ListIterator<Double> listIterator = seriesData.listIterator();
             int i = 0;
             while (listIterator.hasNext()) {
@@ -91,6 +90,7 @@ public abstract class MonteCarlo extends SwingWorker<Boolean, Double> {
                 listIterator.next();
             }
             sample_offset *= 2;
+            chart.setXAxisTitle("x * " + sample_offset);
         }
 
         chart.updateXYSeries(chartTitle, null, seriesData, null);
