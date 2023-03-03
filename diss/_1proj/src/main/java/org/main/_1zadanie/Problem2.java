@@ -1,8 +1,7 @@
 package org.main._1zadanie;
 
-import org.main.shared.ContinuousUniformDistribution;
-import org.main.shared.DiscreteEmpiricalDistribution;
-import org.main.shared.DiscreteUniformDistribution;
+import org.main.shared.Distribution.ContinuousUniformDistribution;
+import org.main.shared.Distribution.DiscreteEmpiricalDistribution;
 import org.main.shared.MonteCarlo;
 
 import java.util.Random;

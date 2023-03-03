@@ -1,4 +1,4 @@
-package org.main.shared;
+package org.main.shared.Distribution;
 
 import java.util.Random;
 
