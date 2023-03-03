@@ -3,8 +3,8 @@ package org.main.shared.Distribution;
 import java.util.Random;
 
 public class DiscreteUniformDistribution extends BasicDistribution<Integer> {
-    private int tMin;
-    private int tMax;
+    private final int tMin;
+    private final int tMax;
     public DiscreteUniformDistribution(Random genSeed, int tMin, int tMax) {
         this.genSeed = genSeed;
         this.genP = new Random(this.genSeed.nextInt());

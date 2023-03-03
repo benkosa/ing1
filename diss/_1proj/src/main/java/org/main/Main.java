@@ -7,8 +7,8 @@ import java.util.Random;
 
 public class Main {
     public static void main(String[] args) {
-        Problem1 test = new Problem1(new Random(0));
+        new Problem1(new Random(0));
 
-        Problem2 test2 = new Problem2( new Random(1));
+        new Problem2( new Random(1));
     }
 }

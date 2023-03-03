@@ -7,9 +7,7 @@ import org.main.shared.MonteCarlo;
 import java.util.Random;
 
 public class Problem2 extends MonteCarlo {
-
     Random genSeed;
-
     ContinuousUniformDistribution d_e;
     DiscreteEmpiricalDistribution e_c;
     DiscreteEmpiricalDistribution c_m;
@@ -28,11 +26,10 @@ public class Problem2 extends MonteCarlo {
     /**
      * Aká je pravdepodobnosť, že ak skupina idúca trasu B vyrazí z miesta
      * D o 7:40 podarí sa im prísť na miesto stretnutia M do 13:00?
-     *
+     * <p>
      * od 7:30 - 13:00 320min
-     *
+     * <p>
      * ak vygenerovne je < 330 stihli else neestihli
-     * @return
      */
     @Override
     public double onePass() {

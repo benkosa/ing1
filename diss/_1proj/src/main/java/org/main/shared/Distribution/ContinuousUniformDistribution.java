@@ -4,8 +4,8 @@ import java.util.Random;
 
 public class ContinuousUniformDistribution extends BasicDistribution<Double> {
 
-    private double tMin;
-    private double tMax;
+    private final double tMin;
+    private final double tMax;
     public ContinuousUniformDistribution(Random genSeed, double tMin, double tMax) {
         this.genSeed = genSeed;
         this.genP = new Random(this.genSeed.nextInt());

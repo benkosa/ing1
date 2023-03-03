@@ -27,14 +27,13 @@ public class Problem1 extends MonteCarlo {
      * 1. Nech skupina idúca trasu B príde na miesto M presne o 13:00. Ako dlho
      * bude čakať na príchod skupiny idúcej po trase A, ak táto vyrazila na
      * túru o 10:55?
-     *
+     * <p>
      * A trasa zacina o 10:55
      * aka j e p ze dorazi do ciela o 13:00 a viac
-     *
+     * <p>
      * od 10:55 - 13:00 125 min
      * ak vygenerujem < 125 stihli sme prist
      * else nestihli
-     * @return
      */
     @Override
     public double onePass() {

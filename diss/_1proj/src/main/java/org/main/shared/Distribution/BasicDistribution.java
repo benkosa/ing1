@@ -11,5 +11,5 @@ public abstract class BasicDistribution<T> {
     protected double continuousUniform(Random gen, double tMin, double tMax) {
         return gen.nextDouble(tMin, tMax);
     }
-    abstract T sample();
+    public abstract T sample();
 }

@@ -74,8 +74,6 @@ public abstract class MonteCarlo extends SwingWorker<Boolean, Double> {
     @Override
     protected void process(List<Double> chunks) {
 
-       // System.out.println("number of chunks: " + chunks.size());
-
         seriesData.addAll(chunks);
 
         // remove data from chart
