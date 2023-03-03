@@ -7,9 +7,6 @@ public class Main {
 
         Pi pi = new Pi();
         // praca s grafmi
-        System.out.println(pi.execute(9, 10, 1000000));
-        System.out.println(Math.PI);
-
-        SwingWorkerRealTime test = new SwingWorkerRealTime();
+        pi.start();
     }
 }

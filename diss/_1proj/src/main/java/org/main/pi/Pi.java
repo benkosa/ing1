@@ -1,36 +1,51 @@
 package org.main.pi;
 
-import org.main.SwingWorkerRealTime;
+import org.main.shared.MonteCarlo;
 
 import java.util.Random;
 
-public class Pi {
+public class Pi extends MonteCarlo {
+
+    final int L = 9;
+    final int D = 10;
+    long m = 0;
+    long n = 0;
+
+    Random genGen = new Random();
+    Random genA = new Random(genGen.nextInt());
+    Random genAlfa = new Random(genGen.nextInt());
+    double a, alfa, y;
 
     public Pi() {}
 
-    public double execute(final int L, final int D, final int replications) {
+    public void start() {
+        this.MonteCarlo(2000000000000L, 200000000, 1000, "PI");
+        this.go();;
+    }
 
-        double[] array = new double[replications];
+    @Override
+    public double onePass() {
+        n+=1;
+        a = genA.nextDouble() * D;
+        alfa = genAlfa.nextDouble() * Math.PI;
+        y = L * Math.sin(alfa);
 
-        int m = 0;
-        int n = 0;
-
-        Random genA = new Random();
-        Random genAlfa = new Random();
-        double a, alfa, y;
-
-        for (int i = 0; i < replications; i++) {
-            n+=1;
-            a = genA.nextDouble() * D;
-            alfa = genAlfa.nextDouble() * Math.PI;
-            y = L * Math.sin(alfa);
-
-            if (a+y >= D) {
-                m+=1;
-            }
-            array[i] = (double)(L*n*2)/(D*m);
+        if (a+y >= D) {
+            m+=1;
         }
+        if (m > 0) {
+            return((double) (L * n * 2) / (D * m));
+        }
+        return 0;
+    }
 
-        return (double)(L*n*2)/(D*m);
+    @Override
+    public void beforeSimulation() {
+
+    }
+
+    @Override
+    public void afterSimulation() {
+
     }
 }
