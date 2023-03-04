@@ -1,6 +1,7 @@
 package org.main._1zadanie;
 
 import javax.swing.*;
+import java.util.Random;
 
 public class GuiZadanie1 extends JFrame {
     private JPanel panel1;
@@ -20,6 +21,8 @@ public class GuiZadanie1 extends JFrame {
     private JTextField a0TextField1;
     private JLabel replication2;
     private JLabel result2;
+    private JButton randomButton;
+    private JButton randomButton1;
 
     Problem1 problem1;
     Problem2 problem2;
@@ -75,6 +78,9 @@ public class GuiZadanie1 extends JFrame {
             problem2.stopChart();
             problem2 = null;
         });
+
+        randomButton.addActionListener(e -> a0TextField.setText(String.valueOf(new Random().nextInt())));
+        randomButton1.addActionListener(e -> a0TextField1.setText(String.valueOf(new Random().nextInt())));
     }
 
 
