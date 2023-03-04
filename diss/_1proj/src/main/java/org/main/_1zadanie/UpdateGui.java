@@ -9,8 +9,8 @@ public class UpdateGui {
         this.result = result;
     }
 
-    private JLabel replication;
-    private JLabel result;
+    private final JLabel replication;
+    private final JLabel result;
 
     public void updateResults(double value, long replication) {
         if (this.replication != null) {
