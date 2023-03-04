@@ -17,6 +17,8 @@ public class Problem1 extends MonteCarlo {
     long passes = 0;
     final int EXPECTED_LENGTH = 125;
 
+    UpdateGui updateGui;
+
     public Problem1 (int seed, long replications, int offset, int max_chart, String chartTitle) {
         super(replications, offset, max_chart, chartTitle);
 
@@ -24,14 +26,10 @@ public class Problem1 extends MonteCarlo {
         this.go();
     }
 
-    private JLabel replication;
-    private JLabel result;
-
     public Problem1 (int seed, long replications, int offset, int max_chart, String chartTitle, JLabel replication,  JLabel result) {
         super(replications, offset, max_chart, chartTitle);
+        this.updateGui = new UpdateGui(replication, result);
         this.genSeed = new Random(seed);
-        this.replication = replication;
-        this.result = result;
         this.go();
     }
 
@@ -56,7 +54,7 @@ public class Problem1 extends MonteCarlo {
             waitingTime+= length - EXPECTED_LENGTH;
         }
         final double result = (double)waitingTime/passes;
-        updateProblemGui(result, passes);
+        updateGui.updateResults(result, passes);
         return (double)waitingTime/passes;
     }
 
@@ -77,11 +75,5 @@ public class Problem1 extends MonteCarlo {
         System.out.println((double)waitingTime/passes);
     }
 
-    private void updateProblemGui(double value, long replication) {
-        if (this.replication != null) {
-            this.replication.setText(String.valueOf(value));
-            this.result.setText(String.valueOf(replication));
-        }
-    }
 
 }

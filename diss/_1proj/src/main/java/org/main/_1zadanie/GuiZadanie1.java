@@ -14,8 +14,17 @@ public class GuiZadanie1 extends JFrame {
     private JLabel replication1;
     private JLabel result1;
     private JButton stopButton;
+    private JButton stopButton1;
+    private JButton startButton1;
+    private JTextField a1000000000TextField1;
+    private JTextField a1000000TextField1;
+    private JTextField a500TextField1;
+    private JTextField a0TextField1;
+    private JLabel replication2;
+    private JLabel result2;
 
     Problem1 problem1;
+    Problem2 problem2;
 
     /**
      * start zadanie 1
@@ -44,6 +53,29 @@ public class GuiZadanie1 extends JFrame {
         stopButton.addActionListener(e -> {
             problem1.stopChart();
             problem1 = null;
+        });
+        startButton1.addActionListener(e -> {
+            if (problem2 == null) {
+                int seed = Integer.parseInt(a0TextField1.getText());
+                long replications = Long.parseLong(a1000000000TextField1.getText());
+                int offset = Integer.parseInt(a1000000TextField1.getText());
+                int maxChart = Integer.parseInt(a500TextField1.getText());
+
+                Thread t = new Thread(() -> problem2 = new Problem2(
+                        seed,
+                        replications,
+                        offset,
+                        maxChart,
+                        "Problem 2",
+                        replication2,
+                        result2
+                ));
+                t.start();
+            }
+        });
+        stopButton1.addActionListener(e -> {
+            problem2.stopChart();
+            problem2 = null;
         });
     }
 

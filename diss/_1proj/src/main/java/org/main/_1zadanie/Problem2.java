@@ -4,6 +4,7 @@ import org.main.shared.Distribution.ContinuousUniformDistribution;
 import org.main.shared.Distribution.DiscreteEmpiricalDistribution;
 import org.main.shared.MonteCarlo;
 
+import javax.swing.*;
 import java.util.Random;
 
 public class Problem2 extends MonteCarlo {
@@ -15,10 +16,18 @@ public class Problem2 extends MonteCarlo {
     long success = 0;
     long passes = 0;
     final int EXPECTED_LENGTH = 330;
+    UpdateGui updateGui;
 
     public Problem2 (Random genSeed) {
         super(10000000000L, 600000, 500, "2. problem");
         this.genSeed = genSeed;
+        this.go();
+    }
+
+    public Problem2 (int seed, long replications, int offset, int max_chart, String chartTitle, JLabel replication, JLabel result) {
+        super(replications, offset, max_chart, chartTitle);
+        this.updateGui = new UpdateGui(replication, result);
+        this.genSeed = new Random(seed);
         this.go();
     }
 
@@ -38,7 +47,9 @@ public class Problem2 extends MonteCarlo {
         if (length < EXPECTED_LENGTH) {
             success+=1;
         }
-        return (double)success/passes;
+        final double result = (double)success/passes;
+        updateGui.updateResults(result, passes);
+        return result;
     }
 
     @Override
