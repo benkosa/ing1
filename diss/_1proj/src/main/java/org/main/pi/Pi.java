@@ -16,10 +16,12 @@ public class Pi extends MonteCarlo {
     Random genAlfa = new Random(genGen.nextInt());
     double a, alfa, y;
 
-    public Pi() {}
+    public Pi() {
+        super(2000000000000L, 2000000, 1000, "PI");
+    }
 
     public void start() {
-        this.MonteCarlo(2000000000000L, 2000000, 1000, "PI");
+
         this.go();
     }
 

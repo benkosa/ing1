@@ -17,7 +17,7 @@ public class Problem2 extends MonteCarlo {
     final int EXPECTED_LENGTH = 330;
 
     public Problem2 (Random genSeed) {
-        this.MonteCarlo(10000000000L, 600000, 500, "2. problem");
+        super(10000000000L, 600000, 500, "2. problem");
         this.genSeed = genSeed;
         this.go();
     }

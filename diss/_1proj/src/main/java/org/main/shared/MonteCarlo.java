@@ -19,9 +19,10 @@ public abstract class MonteCarlo extends SwingWorker<Boolean, Double> {
     SwingWrapper<XYChart> sw;
     XYChart chart;
     String chartTitle;
+    private boolean interrupt = false;
 
 
-    public void MonteCarlo(
+    public MonteCarlo(
             final long REPLICATIONS,
             final int OFFSET,
             final int MAXIMUM_CHART_X,
@@ -32,6 +33,11 @@ public abstract class MonteCarlo extends SwingWorker<Boolean, Double> {
         this.sample_offset = MAXIMUM_CHART_X;
         this.base_sample_offset = MAXIMUM_CHART_X;
         this.chartTitle = CHART_TITLE;
+    }
+
+    public void stopChart() {
+        this.interrupt = true;
+        this.cancel(true);
     }
 
     public abstract double onePass();
@@ -47,7 +53,7 @@ public abstract class MonteCarlo extends SwingWorker<Boolean, Double> {
 
         // Show it
         sw = new SwingWrapper<>(chart);
-        sw.displayChart();
+        sw.displayChart().setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
         this.execute();
     }
@@ -64,6 +70,10 @@ public abstract class MonteCarlo extends SwingWorker<Boolean, Double> {
             if (offset < i && i % sample_offset == 0) {
                 publish(result);
             }
+            if (interrupt) {
+                this.afterSimulation();
+                return false;
+            }
         }
 
         this.afterSimulation();
@@ -73,8 +83,11 @@ public abstract class MonteCarlo extends SwingWorker<Boolean, Double> {
 
     @Override
     protected void process(List<Double> chunks) {
-
-        seriesData.addAll(chunks);
+        if (!interrupt) {
+            seriesData.addAll(chunks);
+        } else {
+            return;
+        }
 
         // remove data from chart
         while (seriesData.size() > base_sample_offset) {
@@ -88,7 +101,7 @@ public abstract class MonteCarlo extends SwingWorker<Boolean, Double> {
                 listIterator.next();
             }
             sample_offset *= 2;
-            chart.setXAxisTitle("x * " + sample_offset);
+            chart.setXAxisTitle("x x " + sample_offset + " result: " + seriesData.getLast());
         }
 
         chart.updateXYSeries(chartTitle, null, seriesData, null);
