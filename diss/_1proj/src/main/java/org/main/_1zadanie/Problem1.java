@@ -36,8 +36,8 @@ public class Problem1 extends MonteCarlo {
      * aka j e p ze dorazi do ciela o 13:00 a viac
      * <p>
      * od 10:55 - 13:00 125 min
-     * ak vygenerujem < 125 stihli sme prist
-     * else nestihli
+     * ak vygenerujem < 125 nemusime cakat
+     * else musime
      */
     @Override
     public double onePass() {

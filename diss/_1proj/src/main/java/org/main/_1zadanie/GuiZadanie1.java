@@ -86,8 +86,8 @@ public class GuiZadanie1 extends JFrame {
 
     public void start() {
         this.setContentPane(this.getJPanel());
-        this.setTitle("hello");
-        this.setSize(1000, 1500);
+        this.setTitle("Zadanie 1");
+        this.setSize(750, 350);
         this.setVisible(true);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }

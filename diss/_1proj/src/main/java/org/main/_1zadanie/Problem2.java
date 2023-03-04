@@ -38,7 +38,7 @@ public class Problem2 extends MonteCarlo {
     public double onePass() {
         passes+=1;
         final double length = d_e.sample() + e_c.sample() + c_m.sample();
-        if (length < EXPECTED_LENGTH) {
+        if (length <= EXPECTED_LENGTH) {
             success+=1;
         }
         final double result = (double)success/passes;
