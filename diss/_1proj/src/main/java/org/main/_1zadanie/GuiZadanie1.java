@@ -1,8 +1,6 @@
 package org.main._1zadanie;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class GuiZadanie1 extends JFrame {
     private JPanel panel1;
