@@ -5,7 +5,7 @@ import javax.swing.*;
 public class Problem2 extends Problem {
     public Problem2 (int seed, long replications, int offset, int max_chart, String chartTitle, JLabel replication, JLabel result) {
         super(seed, replications, offset, max_chart, chartTitle, replication,  result);
-        this.expectedLength = 330;
+        this.expectedLength = 320;
         this.go();
     }
 
@@ -13,7 +13,7 @@ public class Problem2 extends Problem {
      * Aká je pravdepodobnosť, že ak skupina idúca trasu B vyrazí z miesta
      * D o 7:40 podarí sa im prísť na miesto stretnutia M do 13:00?
      * <p>
-     * od 7:30 - 13:00 330min
+     * od 7:40 - 13:00 320min
      * <p>
      * ak vygenerovne je <= 330 stihli else neestihli
      */
