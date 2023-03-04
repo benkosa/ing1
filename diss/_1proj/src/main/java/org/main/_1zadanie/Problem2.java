@@ -13,7 +13,7 @@ public class Problem2 extends Problem {
      * Aká je pravdepodobnosť, že ak skupina idúca trasu B vyrazí z miesta
      * D o 7:40 podarí sa im prísť na miesto stretnutia M do 13:00?
      * <p>
-     * od 7:30 - 13:00 320min
+     * od 7:30 - 13:00 330min
      * <p>
      * ak vygenerovne je < 330 stihli else neestihli
      */
