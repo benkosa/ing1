@@ -15,7 +15,7 @@ public class Problem2 extends Problem {
      * <p>
      * od 7:30 - 13:00 330min
      * <p>
-     * ak vygenerovne je < 330 stihli else neestihli
+     * ak vygenerovne je <= 330 stihli else neestihli
      */
     @Override
     public double onePass() {

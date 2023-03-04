@@ -30,6 +30,6 @@ public class Problem1 extends Problem {
         }
         final double result = (double)success/passes;
         updateGui.updateResults(result, passes);
-        return (double)success/passes;
+        return result;
     }
 }

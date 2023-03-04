@@ -37,7 +37,7 @@ public class DiscreteEmpiricalDistribution extends BasicDistribution<Integer>{
         int i = 0;
         for (; i < this.p.length; i++) {
             p-= this.p[i];
-            if (p <= 0) break;
+            if (p < 0) break;
         }
         return discreteUniform(
                 genT[i],
