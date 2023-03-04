@@ -19,13 +19,6 @@ public class Problem1 extends MonteCarlo {
 
     UpdateGui updateGui;
 
-    public Problem1 (int seed, long replications, int offset, int max_chart, String chartTitle) {
-        super(replications, offset, max_chart, chartTitle);
-
-        this.genSeed = new Random(seed);
-        this.go();
-    }
-
     public Problem1 (int seed, long replications, int offset, int max_chart, String chartTitle, JLabel replication,  JLabel result) {
         super(replications, offset, max_chart, chartTitle);
         this.updateGui = new UpdateGui(replication, result);

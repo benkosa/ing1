@@ -18,12 +18,6 @@ public class Problem2 extends MonteCarlo {
     final int EXPECTED_LENGTH = 330;
     UpdateGui updateGui;
 
-    public Problem2 (Random genSeed) {
-        super(10000000000L, 600000, 500, "2. problem");
-        this.genSeed = genSeed;
-        this.go();
-    }
-
     public Problem2 (int seed, long replications, int offset, int max_chart, String chartTitle, JLabel replication, JLabel result) {
         super(replications, offset, max_chart, chartTitle);
         this.updateGui = new UpdateGui(replication, result);
