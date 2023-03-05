@@ -83,15 +83,16 @@ public abstract class MonteCarlo extends SwingWorker<Boolean, Double> {
 
     @Override
     protected void process(List<Double> chunks) {
-        if (!interrupt) {
-            seriesData.addAll(chunks);
-        } else {
+        if (interrupt) {
             chart.setXAxisTitle("x x " + sample_offset + " result: " + seriesData.getLast());
             return;
+        } else {
+            seriesData.addAll(chunks);
         }
 
-        // remove data from chart
+        // if there is more data than maximum
         while (seriesData.size() > base_sample_offset) {
+            //remove every other data
             ListIterator<Double> listIterator = seriesData.listIterator();
             int i = 0;
             while (listIterator.hasNext()) {
@@ -101,7 +102,9 @@ public abstract class MonteCarlo extends SwingWorker<Boolean, Double> {
                 }
                 listIterator.next();
             }
+            //increase offset size
             sample_offset *= 2;
+            // change chart axis label
             chart.setXAxisTitle("x x " + sample_offset + " result: " + seriesData.getLast());
         }
 
@@ -114,7 +117,6 @@ public abstract class MonteCarlo extends SwingWorker<Boolean, Double> {
         long duration = System.currentTimeMillis() - start;
         try {
             Thread.sleep(40 - duration); // 40 ms ==> 25fps
-            // Thread.sleep(400 - duration); // 40 ms ==> 2.5fps
         } catch (Exception ignored) { }
 
     }
