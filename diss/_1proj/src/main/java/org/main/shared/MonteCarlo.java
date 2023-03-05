@@ -86,6 +86,7 @@ public abstract class MonteCarlo extends SwingWorker<Boolean, Double> {
         if (!interrupt) {
             seriesData.addAll(chunks);
         } else {
+            chart.setXAxisTitle("x x " + sample_offset + " result: " + seriesData.getLast());
             return;
         }
 
