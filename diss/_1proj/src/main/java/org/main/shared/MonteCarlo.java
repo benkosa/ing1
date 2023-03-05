@@ -40,9 +40,9 @@ public abstract class MonteCarlo extends SwingWorker<Boolean, Double> {
         this.cancel(true);
     }
 
-    public abstract double onePass();
-    public abstract void beforeSimulation();
-    public abstract void afterSimulation();
+    protected abstract double onePass();
+    protected abstract void beforeSimulation();
+    protected abstract void afterSimulation();
 
     public void go() {
         // Create Chart

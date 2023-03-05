@@ -22,7 +22,7 @@ public class Problem1 extends Problem {
      * else musime
      */
     @Override
-    public double onePass() {
+    protected double onePass() {
         passes+=1;
         final int length = a_b.sample() + b_c + c_m.sample();
         if (length > expectedLength) {

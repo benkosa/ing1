@@ -20,7 +20,14 @@ public abstract class Problem  extends MonteCarlo {
     protected long success = 0;
     protected UpdateGui updateGui;
 
-    public Problem(int seed, long REPLICATIONS, int OFFSET, int MAXIMUM_CHART_X, String CHART_TITLE, JLabel replication, JLabel result) {
+    public Problem(
+            int seed,
+            long REPLICATIONS,
+            int OFFSET,
+            int MAXIMUM_CHART_X,
+            String CHART_TITLE,
+            JLabel replication,
+            JLabel result) {
         super(REPLICATIONS, OFFSET, MAXIMUM_CHART_X, CHART_TITLE);
         this.genSeed = new Random(seed);
         this.updateGui = new UpdateGui(replication, result);
@@ -46,10 +53,10 @@ public abstract class Problem  extends MonteCarlo {
     }
 
     @Override
-    public void beforeSimulation() {
+    protected void beforeSimulation() {
         initialize();
     }
 
     @Override
-    public void afterSimulation() { }
+    protected void afterSimulation() { }
 }
