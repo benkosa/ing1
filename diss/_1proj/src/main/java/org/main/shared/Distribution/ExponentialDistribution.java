@@ -3,6 +3,9 @@ package org.main.shared.Distribution;
 import java.math.MathContext;
 import java.util.Random;
 
+/**
+ * <a href="https://en.wikipedia.org/wiki/Exponential_distribution#Random_variate_generation">...</a>
+ */
 public class ExponentialDistribution extends BasicDistribution<Double> {
     double lambda;
 
