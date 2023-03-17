@@ -45,10 +45,10 @@ public abstract class Problem  extends MonteCarlo {
     }
 
     @Override
-    public void beforeSimulation() {
+    protected void beforeSimulation() {
         initialize();
     }
 
     @Override
-    public void afterSimulation() { }
+    protected void afterSimulation() { }
 }
