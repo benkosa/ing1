@@ -4,7 +4,7 @@ import javax.swing.*;
 
 public class UpdateGui {
 
-    UpdateGui (JLabel replication, JLabel result) {
+    public UpdateGui(JLabel replication, JLabel result) {
         this.replication = replication;
         this.result = result;
     }

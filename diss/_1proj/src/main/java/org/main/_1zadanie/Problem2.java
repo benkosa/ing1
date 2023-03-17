@@ -25,7 +25,6 @@ public class Problem2 extends Problem {
             success+=1;
         }
         final double result = (double)success/passes;
-        updateGui.updateResults(result, passes);
         return result;
     }
 }

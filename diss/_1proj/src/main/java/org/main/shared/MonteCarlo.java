@@ -3,6 +3,7 @@ package org.main.shared;
 import org.knowm.xchart.QuickChart;
 import org.knowm.xchart.SwingWrapper;
 import org.knowm.xchart.XYChart;
+import org.main._1zadanie.UpdateGui;
 
 import javax.swing.*;
 import java.util.LinkedList;
@@ -20,19 +21,23 @@ public abstract class MonteCarlo extends SwingWorker<Boolean, Double> {
     XYChart chart;
     String chartTitle;
     private boolean interrupt = false;
+    private UpdateGui updateGui;
 
 
     public MonteCarlo(
             final long REPLICATIONS,
             final int OFFSET,
             final int MAXIMUM_CHART_X,
-            final String CHART_TITLE
+            final String CHART_TITLE,
+            JLabel replication,
+            JLabel result
     ) {
         this.replications = REPLICATIONS;
         this.offset = OFFSET;
         this.sample_offset = MAXIMUM_CHART_X;
         this.base_sample_offset = MAXIMUM_CHART_X;
         this.chartTitle = CHART_TITLE;
+        this.updateGui = new UpdateGui(replication, result);
     }
 
     public void stopChart() {
@@ -46,7 +51,7 @@ public abstract class MonteCarlo extends SwingWorker<Boolean, Double> {
 
     public void go() {
         // Create Chart
-        chart = QuickChart.getChart(chartTitle, "x", "y", chartTitle, new double[] { 0 }, new double[] { 0 });
+        chart = QuickChart.getChart(chartTitle, "Replikacie", "Vysledok pokusu", chartTitle, new double[] { 0 }, new double[] { 0 });
         chart.getStyler().setLegendVisible(false);
         chart.getStyler().setLegendPadding(10);
         chart.getStyler().setXAxisMaxLabelCount(50);
@@ -62,10 +67,11 @@ public abstract class MonteCarlo extends SwingWorker<Boolean, Double> {
     protected Boolean doInBackground() {
 
         this.beforeSimulation();
+        long i ;
+        double result = 0;
+        for (i = 0; i < replications; i++) {
 
-        for (long i = 0; i < replications; i++) {
-
-            double result = onePass();
+            result = onePass();
 
             if (offset < i && i % sample_offset == 0) {
                 publish(result);
@@ -74,9 +80,12 @@ public abstract class MonteCarlo extends SwingWorker<Boolean, Double> {
                 this.afterSimulation();
                 return false;
             }
+            if (i % offset == 0)
+                updateGui.updateResults(result, i);
         }
 
         this.afterSimulation();
+        updateGui.updateResults(result, i);
 
         return true;
     }
@@ -94,14 +103,14 @@ public abstract class MonteCarlo extends SwingWorker<Boolean, Double> {
             ListIterator<Double> listIterator = seriesData.listIterator();
             int i = 0;
             while (listIterator.hasNext()) {
+                listIterator.next();
                 i+=1;
-                if (i % 2 == 0) {
+                if (i % 2 == 1) {
                     listIterator.remove();
                 }
-                listIterator.next();
             }
             sample_offset *= 2;
-            chart.setXAxisTitle("x x " + sample_offset + " result: " + seriesData.getLast());
+            chart.setXAxisTitle("Replikacie x " + sample_offset + " result: " + seriesData.getLast());
         }
 
         chart.updateXYSeries(chartTitle, null, seriesData, null);
