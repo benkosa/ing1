@@ -4,11 +4,12 @@ import org.main.shared.Distribution.ContinuousUniformDistribution;
 import org.main.shared.Distribution.DiscreteEmpiricalDistribution;
 import org.main.shared.Distribution.DiscreteUniformDistribution;
 import org.main.shared.MonteCarlo;
+import org.main.shared.MonteCarloGraph;
 
 import javax.swing.*;
 import java.util.Random;
 
-public abstract class Problem  extends MonteCarlo {
+public abstract class Problem  extends MonteCarloGraph {
     protected Random genSeed;
     protected ContinuousUniformDistribution d_e;
     protected DiscreteEmpiricalDistribution e_c;

@@ -6,7 +6,7 @@ public class Problem1 extends Problem {
     public Problem1 (int seed, long replications, int offset, int max_chart, String chartTitle, JLabel replication,  JLabel result) {
         super(seed, replications, offset, max_chart, chartTitle, replication,  result);
         expectedLength = 125;
-        this.go();
+        //this.go();
     }
 
     /**

@@ -13,7 +13,6 @@ public class Problem2 extends Problem {
             JLabel result) {
         super(seed, replications, offset, max_chart, chartTitle, replication,  result);
         this.expectedLength = 320;
-        this.go();
     }
 
     /**

@@ -17,12 +17,12 @@ public class Pi extends MonteCarlo {
     double a, alfa, y;
 
     public Pi() {
-        super(2000000000000L, 2000000, 1000, "PI", null, null);
+        super(1000000000L);
+        start();
     }
 
     public void start() {
-
-        this.go();
+        System.out.println(this.simulationStart());
     }
 
     @Override
