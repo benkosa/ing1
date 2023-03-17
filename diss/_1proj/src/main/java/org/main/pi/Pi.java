@@ -17,7 +17,7 @@ public class Pi extends MonteCarlo {
     double a, alfa, y;
 
     public Pi() {
-        super(2000000000000L, 2000000, 1000, "PI");
+        super(2000000000000L, 2000000, 1000, "PI", null, null);
     }
 
     public void start() {

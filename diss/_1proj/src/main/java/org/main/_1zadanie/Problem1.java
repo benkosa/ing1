@@ -29,7 +29,6 @@ public class Problem1 extends Problem {
             success+= length - expectedLength;
         }
         final double result = (double)success/passes;
-        updateGui.updateResults(result, passes);
         return result;
     }
 }

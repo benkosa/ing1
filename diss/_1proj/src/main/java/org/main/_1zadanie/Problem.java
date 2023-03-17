@@ -18,19 +18,11 @@ public abstract class Problem  extends MonteCarlo {
     protected int expectedLength;
     protected long passes = 0;
     protected long success = 0;
-    protected UpdateGui updateGui;
 
-    public Problem(
-            int seed,
-            long REPLICATIONS,
-            int OFFSET,
-            int MAXIMUM_CHART_X,
-            String CHART_TITLE,
-            JLabel replication,
-            JLabel result) {
-        super(REPLICATIONS, OFFSET, MAXIMUM_CHART_X, CHART_TITLE);
+
+    public Problem(int seed, long REPLICATIONS, int OFFSET, int MAXIMUM_CHART_X, String CHART_TITLE, JLabel replication, JLabel result) {
+        super(REPLICATIONS, OFFSET, MAXIMUM_CHART_X, CHART_TITLE, replication, result);
         this.genSeed = new Random(seed);
-        this.updateGui = new UpdateGui(replication, result);
         this.initialize();
     }
 
@@ -38,7 +30,7 @@ public abstract class Problem  extends MonteCarlo {
         d_e = new ContinuousUniformDistribution(genSeed, 19, 36);
         e_c = new DiscreteEmpiricalDistribution(
                 new int[] {230, 244, 281 },
-                new int[] {243, 280, 350 },
+                new int[] {243, 280, 490 },
                 new double[] {.3, .5, .2 },
                 genSeed
         );
