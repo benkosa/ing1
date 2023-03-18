@@ -30,10 +30,10 @@ public abstract class MonteCarlo {
     protected abstract void afterSimulation();
 
     public double simulationStart() {
-        this.beforeSimulation();
         long i ;
         double result = 0;
         for (i = 0; i < replications; i++) {
+            this.beforeSimulation();
 
             result = onePass();
 
@@ -41,8 +41,8 @@ public abstract class MonteCarlo {
                 this.afterSimulation();
                 return result;
             }
+            this.afterSimulation();
         }
-        this.afterSimulation();
 
         return result;
     }
