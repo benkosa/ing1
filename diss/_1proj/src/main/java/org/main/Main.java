@@ -26,7 +26,7 @@ public class Main {
 //        }
 //
         for (int i = 0; i < 100; i++) {
-            MonteCarlo test = new Shop(1, 100000000);
+            MonteCarlo test = new Shop(1, 1000000000);
             test.simulationStart();
         }
 

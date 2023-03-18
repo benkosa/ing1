@@ -9,16 +9,17 @@ public class CustomerArrivedEvent extends CustomerEvent{
     @Override
     public void execute() {
         shop.scheduleNewArrival();
+        customer.startWaitingInQue = shop.getCurrentTime();
         //obsluhuje
         if (shop.isServing) {
-            customer.startWaitingInQue = shop.getCurrentTime();
             shop.shopQueue.add(customer);
-            shop.countAverageQueueSize(shop.shopQueue.size());
             //neobsluhuje - zaciatok obsluhy - planovanie konca obsluhy
         } else {
             shop.isServing = true;
+            shop.countAverageTimeInQueue(customer.startWaitingInQue);
             shop.addEvent(new CustomerEndEvent(shop.customerServing.sample(), shop, customer));
         }
+        shop.countAverageQueueSize(shop.shopQueue.size());
     }
 
 

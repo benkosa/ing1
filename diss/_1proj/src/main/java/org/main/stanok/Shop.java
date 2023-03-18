@@ -27,7 +27,11 @@ public class Shop extends EventSimulationCore {
 
     @Override
     protected void afterSimulation() {
-        System.out.println((double) countEventsInQueue/this.getCurrentTime());
+        while (shopQueue.size() != 0) {
+            shopQueue.poll();
+            countAverageQueueSize(shopQueue.size());
+        }
+        System.out.println(countEventsInQueue/this.getCurrentTime());
         System.out.println(countTimeInQueue/countCustomersInQueue);
     }
 
@@ -35,17 +39,17 @@ public class Shop extends EventSimulationCore {
         addEvent(new CustomerArrivedEvent(customerArrived.sample(), this, new Customer(0)));
     }
 
-    double lastTimeChange = 0;
-    public long countEventsInQueue = 0;
+    private double lastTimeChange = 0;
+    private double countEventsInQueue = 0;
 
     public void countAverageQueueSize(int queueSize) {
         final double time = this.getCurrentTime() - lastTimeChange;
-        this.countEventsInQueue += time*queueSize;
-        this.lastTimeChange = this.getCurrentTime();
+        countEventsInQueue += time*queueSize;
+        lastTimeChange = this.getCurrentTime();
     }
 
-    double countTimeInQueue = 0;
-    long countCustomersInQueue = 0;
+    private double countTimeInQueue = 0;
+    private long countCustomersInQueue = 0;
     public void countAverageTimeInQueue(double startWaitingInQue) {
         countTimeInQueue+=getCurrentTime()-startWaitingInQue;
         countCustomersInQueue+=1;

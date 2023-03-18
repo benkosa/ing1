@@ -12,10 +12,10 @@ public class CustomerEndEvent extends CustomerEvent{
     @Override
     public void execute() {
         Customer waitingCustomer = shop.shopQueue.poll();
-        shop.countAverageQueueSize(shop.shopQueue.size());
         //vytiahol z fronty
         if (waitingCustomer != null) {
             shop.addEvent(new CustomerEndEvent(shop.customerServing.sample(), shop, waitingCustomer));
+            shop.countAverageQueueSize(shop.shopQueue.size());
             shop.countAverageTimeInQueue(waitingCustomer.startWaitingInQue);
         //nevytiahol z fronty
         } else {
