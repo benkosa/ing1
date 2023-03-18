@@ -1,4 +1,4 @@
-package org.main.shared.Distribution.EventSimulation;
+package org.main.shared.EventSimulation;
 
 import org.main.shared.MonteCarlo;
 
@@ -6,6 +6,11 @@ import java.util.PriorityQueue;
 
 public abstract class EventSimulationCore extends MonteCarlo{
     private final PriorityQueue<EventSimulation> timeLine = new PriorityQueue<>();
+
+    public double getCurrentTime() {
+        return currentTime;
+    }
+
     private double currentTime;
     private final double maxTime;
 
@@ -26,16 +31,13 @@ public abstract class EventSimulationCore extends MonteCarlo{
             System.out.println("event time is less than 0");
             return;
         }
-        if (event.eventTime < this.currentTime) {
-            System.out.println("event time is less than simulation time");
-            return;
-        }
+        event.eventTime += currentTime;
         this.timeLine.add(event);
     }
 
     public void simulate () {
         while (!timeLine.isEmpty() && currentTime <= maxTime) {
-            final EventSimulation event = timeLine.peek();
+            final EventSimulation event = timeLine.poll();
             this.currentTime = event.eventTime;
             event.execute();
         }

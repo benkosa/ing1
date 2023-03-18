@@ -6,11 +6,11 @@ import java.util.Random;
 
 public class DistTests {
 
-    public void  testExponencial() throws IOException {
+    public void  testExponential() throws IOException {
         ExponentialDistribution  test = new ExponentialDistribution(new Random(0), 5);
         FileWriter myWriter;
         try {
-            myWriter = new FileWriter("exponencial.txt");
+            myWriter = new FileWriter("exponential.txt");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

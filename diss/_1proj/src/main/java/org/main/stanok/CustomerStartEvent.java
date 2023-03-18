@@ -1,4 +1,13 @@
 package org.main.stanok;
 
-public class CustomerStartEvent {
+import org.main.shared.EventSimulation.EventSimulationCore;
+
+public class CustomerStartEvent extends CustomerEvent{
+    public CustomerStartEvent(double eventTime, EventSimulationCore myCore, Customer customer) {
+        super(eventTime, myCore, customer);
+    }
+    @Override
+    public void execute() {
+
+    }
 }
