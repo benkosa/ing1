@@ -1,7 +1,6 @@
 package org.main.shared.Distribution.EventSimulation;
 
 import org.main.shared.MonteCarlo;
-import org.w3c.dom.events.Event;
 
 import java.util.PriorityQueue;
 
@@ -40,6 +39,6 @@ public abstract class EventSimulationCore extends MonteCarlo{
             this.currentTime = event.eventTime;
             event.execute();
         }
-    };
+    }
 
 }
