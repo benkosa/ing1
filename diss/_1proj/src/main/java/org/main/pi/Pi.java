@@ -50,4 +50,14 @@ public class Pi extends MonteCarlo {
     public void afterSimulation() {
 
     }
+
+    @Override
+    protected void beforeReplication() {
+
+    }
+
+    @Override
+    protected void afterReplication() {
+
+    }
 }

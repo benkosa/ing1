@@ -8,31 +8,38 @@ import java.util.Random;
 
 public class Shop extends EventSimulationCore {
 
-    Random genSeed = new Random();
+    Random genSeed;
 
-    ExponentialDistribution customerArrived = new ExponentialDistribution(genSeed, 5);
-    ExponentialDistribution customerServing = new ExponentialDistribution(genSeed, 4);
+    ExponentialDistribution customerArrived;
+    ExponentialDistribution customerServing;
 
     protected boolean isServing = false;
     final PriorityQueue<Customer> shopQueue = new PriorityQueue<>();
 
-    public Shop(long replications, long maxTime) {
+    public Shop(long replications, long maxTime, int seed) {
         super(replications, maxTime);
+        genSeed = new Random(seed);
+        customerArrived = new ExponentialDistribution(genSeed, 5);
+        customerServing = new ExponentialDistribution(genSeed, 4);
     }
 
     @Override
-    protected void beforeSimulation() {
+    protected void beforeSimulation() { }
+
+    @Override
+    protected void afterSimulation() { }
+
+    @Override
+    protected void beforeReplication() {
+        initialize();
         scheduleNewArrival();
     }
 
     @Override
-    protected void afterSimulation() {
-        while (shopQueue.size() != 0) {
-            shopQueue.poll();
-            countAverageQueueSize(shopQueue.size());
-        }
-        System.out.println(countEventsInQueue/this.getCurrentTime());
+    protected void afterReplication() {
+        System.out.println(countEventsInQueue/lastTimeChange);
         System.out.println(countTimeInQueue/countCustomersInQueue);
+        initialize();
     }
 
     public void scheduleNewArrival() {
@@ -53,5 +60,14 @@ public class Shop extends EventSimulationCore {
     public void countAverageTimeInQueue(double startWaitingInQue) {
         countTimeInQueue+=getCurrentTime()-startWaitingInQue;
         countCustomersInQueue+=1;
+    }
+
+    private void initialize() {
+        lastTimeChange = 0;
+        countEventsInQueue = 0;
+        countTimeInQueue = 0;
+        countCustomersInQueue = 0;
+        isServing = false;
+        shopQueue.clear();
     }
 }

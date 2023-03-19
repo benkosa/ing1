@@ -41,6 +41,9 @@ public abstract class EventSimulationCore extends MonteCarlo{
             this.currentTime = event.eventTime;
             event.execute();
         }
+        currentTime = 0;
+        timeLine.clear();
     }
+
 
 }

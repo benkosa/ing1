@@ -28,21 +28,24 @@ public abstract class MonteCarlo {
     protected abstract double onePass();
     protected abstract void beforeSimulation();
     protected abstract void afterSimulation();
+    protected abstract void beforeReplication();
+    protected abstract void afterReplication();
 
     public double simulationStart() {
-        long i ;
+        long i;
         double result = 0;
+        this.beforeSimulation();
         for (i = 0; i < replications; i++) {
-            this.beforeSimulation();
-
+            beforeReplication();
             result = onePass();
+            afterReplication();
 
             if (interrupt) {
                 this.afterSimulation();
                 return result;
             }
-            this.afterSimulation();
         }
+        this.afterSimulation();
 
         return result;
     }

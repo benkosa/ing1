@@ -25,10 +25,9 @@ public class Main {
 //            System.out.println("customerServing "+customerServing.sample());
 //        }
 //
-        for (int i = 0; i < 100; i++) {
-            MonteCarlo test = new Shop(1, 1000000000);
-            test.simulationStart();
-        }
+
+        MonteCarlo test = new Shop(10, 100000000, 1);
+        test.simulationStart();
 
 //        final PriorityQueue<Customer> shopQueue = new PriorityQueue<>();
 //

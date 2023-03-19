@@ -52,4 +52,10 @@ public abstract class Problem  extends MonteCarloGraph {
 
     @Override
     protected void afterSimulation() { }
+
+    @Override
+    protected void beforeReplication() { }
+
+    @Override
+    protected void afterReplication() { }
 }
