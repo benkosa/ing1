@@ -16,10 +16,10 @@ public class CustomerArrivedEvent extends CustomerEvent{
             //neobsluhuje - zaciatok obsluhy - planovanie konca obsluhy
         } else {
             shop.isServing = true;
-            shop.countAverageTimeInQueue(customer.startWaitingInQue);
+            shop.averageWaitingTimeInQueue.countAverageTimeInQueue(customer.startWaitingInQue);
             shop.addEvent(new CustomerEndEvent(shop.customerServing.sample(), shop, customer));
         }
-        shop.countAverageQueueSize(shop.shopQueue.size());
+        shop.countAverageQueueSize();
     }
 
 

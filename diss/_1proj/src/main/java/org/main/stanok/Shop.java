@@ -2,6 +2,8 @@ package org.main.stanok;
 
 import org.main.shared.Distribution.ExponentialDistribution;
 import org.main.shared.EventSimulation.EventSimulationCore;
+import org.main.shared.Statistics.AverageQueueLength;
+import org.main.shared.Statistics.AverageWaitingTimeInQueue;
 
 import java.util.PriorityQueue;
 import java.util.Random;
@@ -13,6 +15,9 @@ public class Shop extends EventSimulationCore {
     ExponentialDistribution customerArrived;
     ExponentialDistribution customerServing;
 
+    public AverageQueueLength averageQueueLength;
+    public AverageWaitingTimeInQueue averageWaitingTimeInQueue;
+
     protected boolean isServing = false;
     final PriorityQueue<Customer> shopQueue = new PriorityQueue<>();
 
@@ -21,13 +26,18 @@ public class Shop extends EventSimulationCore {
         genSeed = new Random(seed);
         customerArrived = new ExponentialDistribution(genSeed, 5);
         customerServing = new ExponentialDistribution(genSeed, 4);
+        averageQueueLength = new AverageQueueLength(this, shopQueue);
+        averageWaitingTimeInQueue = new AverageWaitingTimeInQueue(this);
     }
 
     @Override
     protected void beforeSimulation() { }
 
     @Override
-    protected void afterSimulation() { }
+    protected void afterSimulation() {
+        System.out.println(averageWaitingTimeInQueue.totalResult());
+        System.out.println(averageQueueLength.totalResult());
+    }
 
     @Override
     protected void beforeReplication() {
@@ -37,8 +47,8 @@ public class Shop extends EventSimulationCore {
 
     @Override
     protected void afterReplication() {
-        System.out.println(countEventsInQueue/lastTimeChange);
-        System.out.println(countTimeInQueue/countCustomersInQueue);
+        averageQueueLength.countResult();
+        averageWaitingTimeInQueue.countResult();
         initialize();
     }
 
@@ -46,27 +56,16 @@ public class Shop extends EventSimulationCore {
         addEvent(new CustomerArrivedEvent(customerArrived.sample(), this, new Customer(0)));
     }
 
-    private double lastTimeChange = 0;
-    private double countEventsInQueue = 0;
 
-    public void countAverageQueueSize(int queueSize) {
-        final double time = this.getCurrentTime() - lastTimeChange;
-        countEventsInQueue += time*queueSize;
-        lastTimeChange = this.getCurrentTime();
+
+    public void countAverageQueueSize() {
+        averageQueueLength.countAverageQueueLength();
     }
 
-    private double countTimeInQueue = 0;
-    private long countCustomersInQueue = 0;
-    public void countAverageTimeInQueue(double startWaitingInQue) {
-        countTimeInQueue+=getCurrentTime()-startWaitingInQue;
-        countCustomersInQueue+=1;
-    }
 
     private void initialize() {
-        lastTimeChange = 0;
-        countEventsInQueue = 0;
-        countTimeInQueue = 0;
-        countCustomersInQueue = 0;
+        averageQueueLength.initialize();
+        averageWaitingTimeInQueue.initialize();
         isServing = false;
         shopQueue.clear();
     }

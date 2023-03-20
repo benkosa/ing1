@@ -26,7 +26,7 @@ public class Main {
 //        }
 //
 
-        MonteCarlo test = new Shop(10, 100000000, 1);
+        MonteCarlo test = new Shop(1, 1000000000, 25);
         test.simulationStart();
 
 //        final PriorityQueue<Customer> shopQueue = new PriorityQueue<>();

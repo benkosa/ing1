@@ -15,8 +15,8 @@ public class CustomerEndEvent extends CustomerEvent{
         //vytiahol z fronty
         if (waitingCustomer != null) {
             shop.addEvent(new CustomerEndEvent(shop.customerServing.sample(), shop, waitingCustomer));
-            shop.countAverageQueueSize(shop.shopQueue.size());
-            shop.countAverageTimeInQueue(waitingCustomer.startWaitingInQue);
+            shop.countAverageQueueSize();
+            shop.averageWaitingTimeInQueue.countAverageTimeInQueue(waitingCustomer.startWaitingInQue);
         //nevytiahol z fronty
         } else {
             shop.isServing = false;

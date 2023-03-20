@@ -1,15 +1,5 @@
 package org.main.shared;
 
-import org.knowm.xchart.QuickChart;
-import org.knowm.xchart.SwingWrapper;
-import org.knowm.xchart.XYChart;
-import org.main._1zadanie.UpdateGui;
-
-import javax.swing.*;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.ListIterator;
-
 public abstract class MonteCarlo {
     protected long replications;
     protected boolean interrupt = false;
