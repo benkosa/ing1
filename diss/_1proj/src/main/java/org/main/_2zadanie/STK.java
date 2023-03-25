@@ -6,6 +6,8 @@ import org.main._2zadanie.Workers.WorkersGroup;
 import org.main.shared.Distribution.*;
 import org.main.shared.EventSimulation.EventSimulationCore;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.PriorityQueue;
 
 public class STK extends EventSimulationCore {
@@ -81,6 +83,18 @@ public class STK extends EventSimulationCore {
     }
 
     private void initialize() {
+    }
+
+    final private List< ISimDelegate > delegates = new ArrayList<>();
+
+    public void registerDelegate(ISimDelegate delegate) {
+        delegates.add(delegate);
+    }
+
+    private void refreshGUI() {
+        for (ISimDelegate delegate : delegates) {
+            delegate.refresh(this);
+        }
     }
 
     @Override
