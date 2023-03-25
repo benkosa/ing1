@@ -20,20 +20,20 @@ public class Vehicle implements Comparable<Vehicle>{
 
     private void choseType(double p) {
         if (p < .14) {
-            inspectionTime =  new DiscreteUniformDistribution(seedGenerator, 31, 45).sample();
+            inspectionTime =  new DiscreteUniformDistribution(seedGenerator, 31*60, 45*60).sample();
             vehicleType = VehicleType.PERSONAL;
         } else if (p < .14+.21) {
             inspectionTime = new DiscreteEmpiricalDistribution(
-                    new int[]{35, 38, 41, 48},
-                    new int[]{37, 40, 47, 52},
+                    new int[]{35*60, 38*60, 41*60, 48*60},
+                    new int[]{37*60, 40*60, 47*60, 52*60},
                     new double[]{.2, .35, .3, .15},
                     seedGenerator
             ).sample();
             vehicleType = VehicleType.VAN;
         } else {
             inspectionTime =  new DiscreteEmpiricalDistribution(
-                    new int[]{37, 43, 46, 48 ,52, 56},
-                    new int[]{42, 45, 47, 51, 55, 65},
+                    new int[]{37*60, 43*60, 46*60, 48 ,52*60, 56*60},
+                    new int[]{42*60, 45*60, 47*60, 51*60, 55*60, 65*60},
                     new double[]{.05, .1, .15, .4, .25, .05},
                     seedGenerator
             ).sample();

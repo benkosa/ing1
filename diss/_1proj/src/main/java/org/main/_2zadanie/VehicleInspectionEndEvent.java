@@ -12,6 +12,13 @@ public class VehicleInspectionEndEvent extends VehicleEvent {
             stk.group2.hireWorker();
             stk.scheduleStartInspection(newVehicle);
         }
+        // ak je volny worker zo skupiny 1
+        if (stk.group1.isWorkerFree()) {
+            stk.group1.hireWorker();
+            stk.scheduleStartPayment(vehicle);
+        } else {
+            stk.queueAfterStk.add(vehicle);
+        }
     }
 
     public VehicleInspectionEndEvent(double eventTime, EventSimulationCore myCore, Vehicle vehicle) {

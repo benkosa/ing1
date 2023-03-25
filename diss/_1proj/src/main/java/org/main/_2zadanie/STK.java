@@ -27,7 +27,7 @@ public class STK extends EventSimulationCore {
         super(replications, maxTime);
         seedGenerator = new SeedGenerator(seed);
         vehicleTypeGen = new UniformDouble(seedGenerator);
-        VehicleArrived = new ExponentialDistribution(seedGenerator, (double)60/23);
+        VehicleArrived = new ExponentialDistribution(seedGenerator, (double)(60/23)*60);
         paymentTime = new DiscreteUniformDistribution(seedGenerator, 65, 177);
         triangularDistribution = new TriangularDistribution(seedGenerator, 180, 695, 431);
         group1 = new Group1(5, this);
