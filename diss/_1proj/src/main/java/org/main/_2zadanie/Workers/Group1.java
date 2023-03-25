@@ -6,9 +6,4 @@ public class Group1 extends WorkersGroup{
     public Group1(int numberOfWorkers, STK stk) {
         super(numberOfWorkers, stk);
     }
-
-    @Override
-    public void freeWorker() {
-
-    }
 }

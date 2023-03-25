@@ -17,10 +17,22 @@ public abstract class WorkersGroup {
     /**
      *
      */
-    public abstract void freeWorker();
+    public void freeWorker() {
+        workersInUsage-=1;
+        if (workersInUsage < 0) {
+            System.out.println("error: workersInUsage < 0");
+        }
+    };
 
     public boolean isWorkerFree() {
         return workersInUsage < numberOfWorkers;
+    }
+
+    public void hireWorker() {
+        workersInUsage+=1;
+        if (workersInUsage > numberOfWorkers) {
+            System.out.println("error: workersInUsage > numberOfWorkers");
+        }
     }
 
 
