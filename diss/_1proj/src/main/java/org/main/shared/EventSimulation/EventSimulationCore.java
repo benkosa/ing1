@@ -3,6 +3,7 @@ package org.main.shared.EventSimulation;
 import org.main.shared.MonteCarlo;
 
 import java.util.PriorityQueue;
+import java.util.concurrent.TimeUnit;
 
 public abstract class EventSimulationCore extends MonteCarlo{
     private final PriorityQueue<EventSimulation> timeLine = new PriorityQueue<>();
@@ -13,6 +14,12 @@ public abstract class EventSimulationCore extends MonteCarlo{
 
     private double currentTime;
     private final double maxTime;
+
+    private boolean pause = false;
+
+    public void setPause(boolean pause) {
+        this.pause = pause;
+    }
 
     @Override
     protected double onePass() {
@@ -35,8 +42,19 @@ public abstract class EventSimulationCore extends MonteCarlo{
         this.timeLine.add(event);
     }
 
+    private void sleep(int ms) {
+        while (pause) {
+            try {
+                Thread.sleep(ms);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
     public void simulate () {
         while (!timeLine.isEmpty() && currentTime <= maxTime) {
+            sleep(1000);
             final EventSimulation event = timeLine.poll();
             this.currentTime = event.eventTime;
             event.execute();

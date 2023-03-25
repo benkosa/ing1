@@ -1,17 +1,10 @@
 package org.main;
 
-import org.main.shared.Distribution.ExponentialDistribution;
 import org.main.shared.MonteCarlo;
-import org.main.stanok.Customer;
 import org.main.stanok.Shop;
 
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.PriorityQueue;
-import java.util.Random;
-
 public class Main {
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
 //        new GuiZadanie1().start();
 
 //        new Thread(Pi::new).start();
@@ -26,7 +19,7 @@ public class Main {
 //        }
 //
 
-        MonteCarlo test = new Shop(1, 1000000000, 25);
+        MonteCarlo test = new Shop(1, 100000000, 25);
         test.simulationStart();
 
 //        final PriorityQueue<Customer> shopQueue = new PriorityQueue<>();
