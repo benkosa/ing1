@@ -23,7 +23,7 @@ public class Main {
 //        MonteCarlo test = new Shop(1, 1000000000, 25);
 //        test.simulationStart();
 
-        MonteCarlo test = new STK(1, 8*60, 25);
+        MonteCarlo test = new STK(1, 8*60*60, 25);
         test.simulationStart();
 
 //        final PriorityQueue<Customer> shopQueue = new PriorityQueue<>();

@@ -17,6 +17,9 @@ public abstract class EventSimulationCore extends MonteCarlo{
 
     private boolean pause = false;
 
+    public int stepLength = 60;
+    public int sleepTime = 1000;
+
     public void setPause(boolean pause) {
         this.pause = pause;
     }
@@ -52,7 +55,14 @@ public abstract class EventSimulationCore extends MonteCarlo{
         }
     }
 
+    private void addStep() {
+        if (stepLength > 0) {
+            timeLine.add(new RealTimeEvent(stepLength, this, sleepTime));
+        }
+    }
+
     public void simulate () {
+        addStep();
         while (!timeLine.isEmpty() && currentTime <= maxTime) {
             sleep(1000);
             final EventSimulation event = timeLine.poll();
