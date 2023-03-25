@@ -3,7 +3,7 @@ package org.main.shared.Distribution;
 import java.util.Random;
 
 public abstract class BasicDistribution<T> {
-    protected Random genSeed;
+    protected SeedGenerator genSeed;
     protected Random genP;
     protected int discreteUniform(Random gen, int tMin, int tMax) {
         return gen.nextInt(tMin, tMax+1);

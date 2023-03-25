@@ -1,6 +1,7 @@
 package org.main.stanok;
 
 import org.main.shared.Distribution.ExponentialDistribution;
+import org.main.shared.Distribution.SeedGenerator;
 import org.main.shared.EventSimulation.EventSimulationCore;
 import org.main.shared.Statistics.AverageQueueLength;
 import org.main.shared.Statistics.AverageWaitingTimeInQueue;
@@ -10,7 +11,7 @@ import java.util.Random;
 
 public class Shop extends EventSimulationCore {
 
-    Random genSeed;
+    SeedGenerator genSeed;
 
     ExponentialDistribution customerArrived;
     ExponentialDistribution customerServing;
@@ -23,7 +24,7 @@ public class Shop extends EventSimulationCore {
 
     public Shop(long replications, long maxTime, int seed) {
         super(replications, maxTime);
-        genSeed = new Random(seed);
+        genSeed = new SeedGenerator(seed);
         customerArrived = new ExponentialDistribution(genSeed, 5);
         customerServing = new ExponentialDistribution(genSeed, 4);
         averageQueueLength = new AverageQueueLength(this, shopQueue);

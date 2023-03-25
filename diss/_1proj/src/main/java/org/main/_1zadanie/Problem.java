@@ -3,6 +3,7 @@ package org.main._1zadanie;
 import org.main.shared.Distribution.ContinuousUniformDistribution;
 import org.main.shared.Distribution.DiscreteEmpiricalDistribution;
 import org.main.shared.Distribution.DiscreteUniformDistribution;
+import org.main.shared.Distribution.SeedGenerator;
 import org.main.shared.MonteCarlo;
 import org.main.shared.MonteCarloGraph;
 
@@ -10,7 +11,7 @@ import javax.swing.*;
 import java.util.Random;
 
 public abstract class Problem  extends MonteCarloGraph {
-    protected Random genSeed;
+    protected SeedGenerator genSeed;
     protected ContinuousUniformDistribution d_e;
     protected DiscreteEmpiricalDistribution e_c;
     protected DiscreteEmpiricalDistribution c_m;
@@ -23,7 +24,7 @@ public abstract class Problem  extends MonteCarloGraph {
 
     public Problem(int seed, long REPLICATIONS, int OFFSET, int MAXIMUM_CHART_X, String CHART_TITLE, JLabel replication, JLabel result) {
         super(REPLICATIONS, OFFSET, MAXIMUM_CHART_X, CHART_TITLE, replication, result);
-        this.genSeed = new Random(seed);
+        this.genSeed = new SeedGenerator(seed);
         this.initialize();
     }
 

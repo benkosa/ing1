@@ -9,8 +9,8 @@ import java.util.Random;
 public class ExponentialDistribution extends BasicDistribution<Double> {
     double lambda;
 
-    public ExponentialDistribution(Random genSeed, double meanValue) {
-        this.genP = new Random(genSeed.nextInt());
+    public ExponentialDistribution(SeedGenerator genSeed, double meanValue) {
+        this.genP = new Random(genSeed.sample());
         this.lambda = (double)1/meanValue;
     }
     @Override

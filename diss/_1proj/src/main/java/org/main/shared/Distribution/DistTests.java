@@ -7,7 +7,7 @@ import java.util.Random;
 public class DistTests {
 
     public void  testExponential() throws IOException {
-        ExponentialDistribution  test = new ExponentialDistribution(new Random(0), 5);
+        ExponentialDistribution  test = new ExponentialDistribution(new SeedGenerator(0), 5);
         FileWriter myWriter;
         try {
             myWriter = new FileWriter("exponential.txt");

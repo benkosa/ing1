@@ -12,7 +12,7 @@ public class DiscreteEmpiricalDistribution extends BasicDistribution<Integer>{
         int[] tMin,
         int[] tMax,
         double[] p,
-        Random genSeed
+        SeedGenerator genSeed
     ) {
         this.tMin = tMin;
         this.tMax = tMax;
@@ -20,11 +20,11 @@ public class DiscreteEmpiricalDistribution extends BasicDistribution<Integer>{
         this.genT = new Random[p.length];
         this.genSeed = genSeed;
 
-        genP = new Random(genSeed.nextInt());
+        genP = new Random(genSeed.sample());
 
         double testP = 0;
         for (int i = 0; i < p.length; i++) {
-            genT[i] = new Random(genSeed.nextInt());
+            genT[i] = new Random(genSeed.sample());
             testP+= p[i];
         }
         if (testP != 1) System.out.println("error p must be 1 but is: " + testP);
