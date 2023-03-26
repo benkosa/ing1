@@ -6,6 +6,15 @@ public abstract class WorkersGroup {
     private final int numberOfWorkers;
 
     private final STK stk;
+
+    public int getNumberOfWorkers() {
+        return numberOfWorkers;
+    }
+
+    public int getWorkersInUsage() {
+        return workersInUsage;
+    }
+
     private int workersInUsage;
 
 

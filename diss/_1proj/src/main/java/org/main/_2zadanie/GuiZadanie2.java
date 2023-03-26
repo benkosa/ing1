@@ -3,21 +3,11 @@ package org.main._2zadanie;
 import org.main.shared.EventSimulation.EventSimulationCore;
 
 import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.PriorityQueue;
+import java.util.Collection;
 
 public class GuiZadanie2 extends JFrame implements ISimDelegate{
 
     private JPanel panel1;
-    private JTable table5;
-    private JTable table4;
-    private JTable table3;
-    private JTable table2;
-    private JTable table1;
     private JScrollPane ScrollPane1;
     private JScrollPane ScrollPane2;
     private JScrollPane ScrollPane3;
@@ -25,6 +15,10 @@ public class GuiZadanie2 extends JFrame implements ISimDelegate{
     private JScrollPane ScrollPane5;
     private JButton playButton;
     private JButton pauseButton;
+    private JLabel group1;
+    private JLabel group2;
+    private JLabel simTime;
+    private JLabel lastEvent;
 
     public GuiZadanie2() {
         pauseButton.addActionListener(e -> stk.setPause(true));
@@ -55,25 +49,29 @@ public class GuiZadanie2 extends JFrame implements ISimDelegate{
         refreshTable(ScrollPane3, new String[]{"id", "type"}, valuesToArray(stk.queueInStk));
         refreshTable(ScrollPane4, new String[]{"id", "type"}, valuesToArray(stk.queueAfterStk));
         refreshTable(ScrollPane5, new String[]{"i", "type"}, valuesToArray(stk.leftVehicles));
+        group1.setText("pocet pracovnikov: " + stk.group1.getNumberOfWorkers() + "; zaneprazdneny: " + stk.group1.getWorkersInUsage());
+        group2.setText("pocet pracovnikov: " + stk.group2.getNumberOfWorkers() + "; zaneprazdneny: " + stk.group2.getWorkersInUsage());
+        simTime.setText(stk.getCurrentTime()+"");
+        getLastEventInfo();
+    }
+
+    private void getLastEventInfo() {
+        final String[] className = (stk.lastEvent.getClass()+"").split("\\.");
+        String vehicleInfo = "";
+        if (stk.lastEvent instanceof final VehicleEvent event) {
+            vehicleInfo+= event.vehicle.id;
+        }
+        if (className.length > 0)
+            lastEvent.setText(className[className.length - 1] + " " + vehicleInfo);
+
     }
 
 
 
-    private String[][] valuesToArray(PriorityQueue<Vehicle> queue) {
+    private String[][] valuesToArray(Collection<Vehicle> queue) {
         String[][] tableValues = new String[queue.size()][2];
         int i = 0;
         for (Vehicle vehicle : queue) {
-            tableValues[i] = new String[]{vehicle.id+"", vehicle.getVehicleType()+""};
-            i+=1;
-        }
-
-        return tableValues;
-    }
-
-    private String[][] valuesToArray(LinkedList<Vehicle> list) {
-        String[][] tableValues = new String[list.size()][2];
-        int i = 0;
-        for (Vehicle vehicle : list) {
             tableValues[i] = new String[]{vehicle.id+"", vehicle.getVehicleType()+""};
             i+=1;
         }

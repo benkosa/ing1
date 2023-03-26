@@ -38,7 +38,7 @@ public class STK extends EventSimulationCore {
         paymentTime = new DiscreteUniformDistribution(seedGenerator, 65, 177);
         triangularDistribution = new TriangularDistribution(seedGenerator, 180, 695, 431);
         group1 = new Group1(5, this);
-        group2 = new Group2(5, this);
+        group2 = new Group2(20, this);
     }
 
     public void scheduleNewArrival() {
