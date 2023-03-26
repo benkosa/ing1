@@ -7,6 +7,7 @@ import org.main.shared.Distribution.*;
 import org.main.shared.EventSimulation.EventSimulationCore;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.PriorityQueue;
 
@@ -23,6 +24,10 @@ public class STK extends EventSimulationCore {
     final PriorityQueue<Vehicle> queueAfterStk = new PriorityQueue<>();
     final WorkersGroup group1;
     final WorkersGroup group2;
+    private int vehicleId = 0;
+
+    LinkedList<Vehicle> arrivedVehicles = new LinkedList<>();
+    LinkedList<Vehicle> leftVehicles = new LinkedList<>();
 
 
     public STK(long replications, long maxTime, int seed) {
@@ -41,7 +46,7 @@ public class STK extends EventSimulationCore {
                 new VehicleArrivedEvent(
                         VehicleArrived.sample(),
                         this,
-                        new Vehicle(seedGenerator, vehicleTypeGen.sample())
+                        new Vehicle(seedGenerator, vehicleTypeGen.sample(), vehicleId+=1)
                 )
         );
     }
@@ -80,6 +85,17 @@ public class STK extends EventSimulationCore {
 
     public void scheduleEndInspection(Vehicle vehicle) {
         addEvent(new VehicleInspectionEndEvent(vehicle.getInspectionTime(), this, vehicle));
+    }
+
+    protected void saveArrivedVehicle(Vehicle vehicle) {
+        if (isLiveMode()) {
+            arrivedVehicles.add(vehicle);
+        }
+    }
+    protected void saveLeftVehicle(Vehicle vehicle) {
+        if (isLiveMode()) {
+            leftVehicles.add(vehicle);
+        }
     }
 
     private void initialize() {

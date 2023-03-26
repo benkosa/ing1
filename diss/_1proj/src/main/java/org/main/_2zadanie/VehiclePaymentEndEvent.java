@@ -6,6 +6,7 @@ public class VehiclePaymentEndEvent extends VehicleEvent {
     @Override
     public void execute() {
         stk.group1.freeWorker();
+        stk.saveLeftVehicle(vehicle);
         // ak niekto caka na platbu a je volny zamestanec zo skupiny 1
         if (stk.queueAfterStk.size() > 0 && stk.group1.isWorkerFree()) {
             final Vehicle newVehicle = stk.queueAfterStk.poll();

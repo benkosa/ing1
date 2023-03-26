@@ -3,8 +3,11 @@ package org.main._2zadanie;
 import org.main.shared.EventSimulation.EventSimulationCore;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.PriorityQueue;
 
 public class GuiZadanie2 extends JFrame implements ISimDelegate{
@@ -47,18 +50,31 @@ public class GuiZadanie2 extends JFrame implements ISimDelegate{
     @Override
     public void refresh(EventSimulationCore core) {
         final STK stk = (STK)core;
-        //refreshTable(ScrollPane1, new String[]{"i", "type"}, valuesToArray(stk.queueBeforeStk));
-        refreshTable(ScrollPane2, new String[]{"i", "type"}, valuesToArray(stk.queueBeforeStk));
-        refreshTable(ScrollPane3, new String[]{"i", "type"}, valuesToArray(stk.queueInStk));
-        refreshTable(ScrollPane4, new String[]{"i", "type"}, valuesToArray(stk.queueAfterStk));
-        //refreshTable(ScrollPane5, new String[]{"i", "type"}, valuesToArray(stk.queueBeforeStk));
+        refreshTable(ScrollPane1, new String[]{"i", "type"}, valuesToArray(stk.arrivedVehicles));
+        refreshTable(ScrollPane2, new String[]{"id", "type"}, valuesToArray(stk.queueBeforeStk));
+        refreshTable(ScrollPane3, new String[]{"id", "type"}, valuesToArray(stk.queueInStk));
+        refreshTable(ScrollPane4, new String[]{"id", "type"}, valuesToArray(stk.queueAfterStk));
+        refreshTable(ScrollPane5, new String[]{"i", "type"}, valuesToArray(stk.leftVehicles));
     }
+
+
 
     private String[][] valuesToArray(PriorityQueue<Vehicle> queue) {
         String[][] tableValues = new String[queue.size()][2];
         int i = 0;
         for (Vehicle vehicle : queue) {
-            tableValues[i] = new String[]{i+"", vehicle.getVehicleType()+""};
+            tableValues[i] = new String[]{vehicle.id+"", vehicle.getVehicleType()+""};
+            i+=1;
+        }
+
+        return tableValues;
+    }
+
+    private String[][] valuesToArray(LinkedList<Vehicle> list) {
+        String[][] tableValues = new String[list.size()][2];
+        int i = 0;
+        for (Vehicle vehicle : list) {
+            tableValues[i] = new String[]{vehicle.id+"", vehicle.getVehicleType()+""};
             i+=1;
         }
 

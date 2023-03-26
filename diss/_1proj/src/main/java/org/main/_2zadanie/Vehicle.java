@@ -12,10 +12,13 @@ public class Vehicle implements Comparable<Vehicle>{
     protected double startWaitingInQue;
     protected boolean isInFifoQueue;
     private VehicleType vehicleType;
+    public int id;
 
-    public Vehicle(SeedGenerator seedGenerator, double type) {
+    public Vehicle(SeedGenerator seedGenerator, double type, int id) {
         this.seedGenerator = seedGenerator;
         choseType(type);
+        this.id = id;
+
     }
 
     private void choseType(double p) {
