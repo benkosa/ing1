@@ -85,18 +85,6 @@ public class STK extends EventSimulationCore {
     private void initialize() {
     }
 
-    final private List< ISimDelegate > delegates = new ArrayList<>();
-
-    public void registerDelegate(ISimDelegate delegate) {
-        delegates.add(delegate);
-    }
-
-    private void refreshGUI() {
-        for (ISimDelegate delegate : delegates) {
-            delegate.refresh(this);
-        }
-    }
-
     @Override
     protected void beforeSimulation() {
         initialize();

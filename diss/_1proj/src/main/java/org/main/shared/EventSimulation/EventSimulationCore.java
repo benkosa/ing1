@@ -1,15 +1,34 @@
 package org.main.shared.EventSimulation;
 
+import org.main._2zadanie.ISimDelegate;
+import org.main._2zadanie.STK;
 import org.main.shared.MonteCarlo;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.PriorityQueue;
 import java.util.concurrent.TimeUnit;
 
-public abstract class EventSimulationCore extends MonteCarlo{
+public abstract class EventSimulationCore extends MonteCarlo implements ISimDelegate {
     private final PriorityQueue<EventSimulation> timeLine = new PriorityQueue<>();
 
     public double getCurrentTime() {
         return currentTime;
+    }
+
+    public void registerDelegate(ISimDelegate delegate) {
+        delegates.add(delegate);
+    }
+
+    final private List< ISimDelegate > delegates = new ArrayList<>();
+    private void refreshGUI() { }
+
+    @Override
+    public void refresh(EventSimulationCore stk) {
+        System.out.println(delegates.size());
+        for (ISimDelegate delegate : delegates) {
+            delegate.refresh(this);
+        }
     }
 
     private double currentTime;
@@ -68,6 +87,7 @@ public abstract class EventSimulationCore extends MonteCarlo{
             final EventSimulation event = timeLine.poll();
             this.currentTime = event.eventTime;
             event.execute();
+            refresh(null);
         }
         currentTime = 0;
         timeLine.clear();

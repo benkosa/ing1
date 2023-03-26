@@ -1,5 +1,6 @@
 package org.main;
 
+import org.main._2zadanie.GuiZadanie2;
 import org.main._2zadanie.STK;
 import org.main.shared.MonteCarlo;
 import org.main.stanok.Shop;
@@ -23,8 +24,9 @@ public class Main {
 //        MonteCarlo test = new Shop(1, 1000000000, 25);
 //        test.simulationStart();
 
-        MonteCarlo test = new STK(1, 8*60*60, 25);
-        test.simulationStart();
+//        MonteCarlo test = new STK(1, 8*60*60, 25);
+//        test.simulationStart();
+            new GuiZadanie2().start();
 
 //        final PriorityQueue<Customer> shopQueue = new PriorityQueue<>();
 //
