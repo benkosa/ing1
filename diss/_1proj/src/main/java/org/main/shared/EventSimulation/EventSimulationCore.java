@@ -1,27 +1,20 @@
 package org.main.shared.EventSimulation;
 
 import org.main._2zadanie.ISimDelegate;
-import org.main._2zadanie.STK;
 import org.main.shared.MonteCarlo;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.PriorityQueue;
-import java.util.concurrent.TimeUnit;
 
 public abstract class EventSimulationCore extends MonteCarlo implements ISimDelegate {
     private final PriorityQueue<EventSimulation> timeLine = new PriorityQueue<>();
-
     public double getCurrentTime() {
         return currentTime;
     }
-
     public void registerDelegate(ISimDelegate delegate) {
         delegates.add(delegate);
     }
-
     final private List< ISimDelegate > delegates = new ArrayList<>();
-
     @Override
     public void refresh(EventSimulationCore stk) {
         if (isLiveMode()) {
@@ -30,19 +23,14 @@ public abstract class EventSimulationCore extends MonteCarlo implements ISimDele
             }
         }
     }
-
     private double currentTime;
     private final double maxTime;
-
     private boolean pause = false;
-
     public int stepLength = 60;
-    public int sleepTime = 1000;
-
+    public int sleepTime = 10;
     public void setPause(boolean pause) {
         this.pause = pause;
     }
-
     @Override
     protected double onePass() {
         simulate();

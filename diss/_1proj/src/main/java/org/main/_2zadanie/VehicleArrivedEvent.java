@@ -15,7 +15,7 @@ public class VehicleArrivedEvent extends VehicleEvent{
         // vojdeme do radu pred stk
         } else {
             vehicle.arrivedInQueue(stk.getCurrentTime(), true);
-            stk.queueBeforeStk.add(vehicle);
+            stk.queueBeforeStk.addQueue(vehicle);
         }
     }
 

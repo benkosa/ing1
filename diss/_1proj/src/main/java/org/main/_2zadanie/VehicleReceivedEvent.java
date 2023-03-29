@@ -15,7 +15,7 @@ public class VehicleReceivedEvent extends VehicleEvent{
         // ak je auto v rade pred stk a je miesto v rade na konrolu
         // a je volny dalsi zamestnanec zo skupiny 1
         } else if (
-                stk.queueBeforeStk.size() > 0 &&
+                stk.queueBeforeStk.getSize() > 0 &&
                 stk.isSpaceInsideStk() &&
                 stk.group1.isWorkerFree()
         ) {

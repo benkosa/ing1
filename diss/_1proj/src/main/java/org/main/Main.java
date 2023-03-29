@@ -2,8 +2,11 @@ package org.main;
 
 import org.main._2zadanie.GuiZadanie2;
 import org.main._2zadanie.STK;
+import org.main.shared.Distribution.DistTests;
 import org.main.shared.MonteCarlo;
 import org.main.stanok.Shop;
+
+import java.io.IOException;
 
 public class Main {
     public static void main(String[] args) {
@@ -28,17 +31,10 @@ public class Main {
 //        test.simulationStart();
             new GuiZadanie2().start();
 
-//        final PriorityQueue<Customer> shopQueue = new PriorityQueue<>();
-//
-//        shopQueue.add(new Customer(20));
-//        shopQueue.add(new Customer(50));
-//        shopQueue.add(new Customer(5));
-//
-//        Customer test = shopQueue.poll();
-//        Customer test2 = shopQueue.poll();
-//        Customer test3 = shopQueue.poll();
-//
-//        System.out.println(test);
+
+            DistTests distTests = new DistTests();
+            //distTests.testTriangular();
+            distTests.testExponential(1000, 5, 5);
 
 
     }

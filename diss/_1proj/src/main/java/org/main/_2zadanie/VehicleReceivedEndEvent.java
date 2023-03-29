@@ -20,7 +20,7 @@ public class VehicleReceivedEndEvent extends VehicleEvent{
             stk.scheduleStartPayment(newVehicle);
             // ak niekto caka pred stk a je volny zamestnace zo skupiny 1 a je volne miesto na parkovisku
         } else if (
-                stk.queueBeforeStk.size() > 0 &&
+                stk.queueBeforeStk.getSize() > 0 &&
                 stk.isSpaceInsideStk() &&
                 stk.group1.isWorkerFree()
         ) {

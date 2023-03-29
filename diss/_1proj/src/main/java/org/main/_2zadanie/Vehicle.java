@@ -12,9 +12,9 @@ public class Vehicle implements Comparable<Vehicle>{
     protected double startWaitingInQue;
     protected boolean isInFifoQueue;
     private VehicleType vehicleType;
-    public int id;
+    public long id;
 
-    public Vehicle(SeedGenerator seedGenerator, double type, int id) {
+    public Vehicle(SeedGenerator seedGenerator, double type, long id) {
         this.seedGenerator = seedGenerator;
         choseType(type);
         this.id = id;

@@ -45,7 +45,7 @@ public class GuiZadanie2 extends JFrame implements ISimDelegate{
     public void refresh(EventSimulationCore core) {
         final STK stk = (STK)core;
         refreshTable(ScrollPane1, new String[]{"i", "type"}, valuesToArray(stk.arrivedVehicles));
-        refreshTable(ScrollPane2, new String[]{"id", "type"}, valuesToArray(stk.queueBeforeStk));
+        refreshTable(ScrollPane2, new String[]{"id", "type"}, valuesToArray(stk.queueBeforeStk.getQueue()));
         refreshTable(ScrollPane3, new String[]{"id", "type"}, valuesToArray(stk.queueInStk));
         refreshTable(ScrollPane4, new String[]{"id", "type"}, valuesToArray(stk.queueAfterStk));
         refreshTable(ScrollPane5, new String[]{"i", "type"}, valuesToArray(stk.leftVehicles));
