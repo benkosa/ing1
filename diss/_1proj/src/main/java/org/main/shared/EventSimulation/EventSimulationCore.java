@@ -26,8 +26,8 @@ public abstract class EventSimulationCore extends MonteCarlo implements ISimDele
     private double currentTime;
     private final double maxTime;
     private boolean pause = false;
-    public int stepLength = 60;
-    public int sleepTime = 10;
+    public int stepLength = 0;
+    public int sleepTime = 0;
     public void setPause(boolean pause) {
         this.pause = pause;
     }
@@ -64,7 +64,7 @@ public abstract class EventSimulationCore extends MonteCarlo implements ISimDele
 
     private void addStep() {
         if (isLiveMode()) {
-            timeLine.add(new RealTimeEvent(stepLength, this, sleepTime));
+            timeLine.add(new RealTimeEvent(this));
         }
     }
 

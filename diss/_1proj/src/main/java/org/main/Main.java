@@ -29,7 +29,11 @@ public class Main {
 
 //        MonteCarlo test = new STK(1, 8*60*60, 25);
 //        test.simulationStart();
-            new GuiZadanie2().start();
+
+//            new Thread(GuiZadanie2::new).start();
+//            new GuiZadanie2().start();
+
+        new Thread(() -> new GuiZadanie2().start()).start();
 
 
         //DistTests distTests = new DistTests();

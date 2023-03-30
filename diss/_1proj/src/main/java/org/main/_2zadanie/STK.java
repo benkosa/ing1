@@ -20,22 +20,43 @@ public class STK extends EventSimulationCore {
     final Queue<Long, Vehicle> queueInStk = new Queue<>(5);
     //final PriorityQueue<Vehicle> queueAfterStk = new PriorityQueue<>();
     final Queue<Integer, Vehicle> queueAfterStk = new Queue<>();
-    final WorkersGroup group1;
-    final WorkersGroup group2;
+    WorkersGroup group1;
+    WorkersGroup group2;
     private long vehicleId = 0;
     LinkedList<Vehicle> arrivedVehicles = new LinkedList<>();
     LinkedList<Vehicle> leftVehicles = new LinkedList<>();
 
 
-    public STK(long replications, long maxTime, int seed) {
+    public STK(long replications, long maxTime, int seed, int workers1, int workers2) {
         super(replications, maxTime);
         seedGenerator = new SeedGenerator(seed);
         vehicleTypeGen = new UniformDouble(seedGenerator);
         VehicleArrived = new ExponentialDistribution(seedGenerator, (double)(60/23)*60);
         paymentTime = new DiscreteUniformDistribution(seedGenerator, 65, 177);
         triangularDistribution = new TriangularDistribution(seedGenerator, 180, 695, 431);
-        group1 = new WorkersGroup(5);
-        group2 = new WorkersGroup(20);
+        setWorkers(workers1, workers2);
+    }
+
+    public STK(long replications, long maxTime, int seed, int workers1, int workers2, int stepLength, int stepTime) {
+        super(replications, maxTime);
+        seedGenerator = new SeedGenerator(seed);
+        vehicleTypeGen = new UniformDouble(seedGenerator);
+        VehicleArrived = new ExponentialDistribution(seedGenerator, (double)(60/23)*60);
+        paymentTime = new DiscreteUniformDistribution(seedGenerator, 65, 177);
+        triangularDistribution = new TriangularDistribution(seedGenerator, 180, 695, 431);
+        setWorkers(workers1, workers2);
+        changeSlowDown(stepLength, stepTime);
+    }
+
+
+    public void changeSlowDown(int stepLength, int stepTime) {
+        this.stepLength = stepLength;
+        this.sleepTime = stepTime;
+    }
+
+    public void setWorkers(int g1, int g2) {
+        group1 = new WorkersGroup(g1);
+        group2 = new WorkersGroup(g2);
     }
 
     public void scheduleNewArrival() {

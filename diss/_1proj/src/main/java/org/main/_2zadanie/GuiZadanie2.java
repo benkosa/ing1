@@ -4,6 +4,8 @@ import org.main._2zadanie.Workers.Worker;
 import org.main.shared.EventSimulation.EventSimulationCore;
 
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -42,17 +44,72 @@ public class GuiZadanie2 extends JFrame implements ISimDelegate{
     private JTextField a60TextField;
     private JTextField a1000TextField;
     private JLabel realTime;
+    private JTextField a5TextField;
+    private JTextField a20TextField;
+    private JButton adjustSlowDownButton;
 
     public GuiZadanie2() {
         pauseButton.addActionListener(e -> stk.setPause(true));
         playButton.addActionListener(e -> stk.setPause(false));
+        startRealTimeButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                startSimRealTime();
+            }
+        });
+        startTurboButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                startSimTurbo();
+            }
+        });
+        adjustSlowDownButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                adjustSlowMode();
+            }
+        });
     }
+
+    private GuiZadanie2 guiPointer;
 
     public JPanel getJPanel () {
         return this.panel1;
     }
 
-    STK stk = new STK(1, 8*60*60, 25);
+    STK stk;
+
+    private void startSimRealTime() {
+        stk = new STK(
+                1,
+                8*60*60,
+                Integer.parseInt(a0TextField.getText()),
+                Integer.parseInt(a5TextField.getText()),
+                Integer.parseInt(a20TextField.getText()),
+                Integer.parseInt(a60TextField.getText()),
+                Integer.parseInt(a1000TextField.getText())
+        );
+        stk.registerDelegate(this);
+        stk.simulationStart();
+    }
+    private void startSimTurbo() {
+        stk = new STK(
+                Long.parseLong(a100000TextField.getText()) ,
+                8*60*60,
+                Integer.parseInt(a0TextField.getText()),
+                Integer.parseInt(a5TextField.getText()),
+                Integer.parseInt(a20TextField.getText())
+        );
+        stk.registerDelegate(this);
+        stk.simulationStart();
+    }
+
+    private void adjustSlowMode() {
+        stk.changeSlowDown(
+                Integer.parseInt(a60TextField.getText()),
+                Integer.parseInt(a1000TextField.getText())
+        );
+    }
 
     public void start() {
         this.setContentPane(this.getJPanel());
@@ -60,8 +117,6 @@ public class GuiZadanie2 extends JFrame implements ISimDelegate{
         this.setSize(1780, 780);
         this.setVisible(true);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        stk.registerDelegate(this);
-        stk.simulationStart();
     }
 
     @Override
@@ -94,11 +149,16 @@ public class GuiZadanie2 extends JFrame implements ISimDelegate{
         simTime.setText(stk.getCurrentTime()+"");
 
         getLastEventInfo();
-        actualiseRealTime(stk);
+        this.realTime.setText(msToHMS(stk.getCurrentTime()));
     }
 
-    private void actualiseRealTime(STK stk) {
-        this.realTime.setText(stk.getCurrentTime()+"");
+    private String msToHMS(double seconds) {
+        seconds += 9*60*60;
+        double minutes = seconds / 60;
+        double hours = minutes / 60;
+        minutes %= 60;
+        seconds %= 60;
+        return String.format("%02d:%02d:%02d", (int) hours, (int) minutes, (int) seconds);
     }
 
     private void getLastEventInfo() {

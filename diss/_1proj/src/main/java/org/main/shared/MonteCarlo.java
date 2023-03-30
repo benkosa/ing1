@@ -1,9 +1,30 @@
 package org.main.shared;
 
-public abstract class MonteCarlo {
+import javax.swing.*;
+
+public abstract class MonteCarlo extends SwingWorker<Double, Double> {
     protected long replications;
     protected boolean interrupt = false;
 
+    @Override
+    protected Double doInBackground() throws Exception {
+        long i;
+        double result = 0;
+        this.beforeSimulation();
+        for (i = 0; i < replications; i++) {
+            beforeReplication();
+            result = onePass();
+            afterReplication();
+
+            if (interrupt) {
+                this.afterSimulation();
+                return result;
+            }
+        }
+        this.afterSimulation();
+
+        return result;
+    }
 
     public MonteCarlo(
             final long REPLICATIONS
@@ -22,22 +43,9 @@ public abstract class MonteCarlo {
     protected abstract void afterReplication();
 
     public double simulationStart() {
-        long i;
-        double result = 0;
-        this.beforeSimulation();
-        for (i = 0; i < replications; i++) {
-            beforeReplication();
-            result = onePass();
-            afterReplication();
-
-            if (interrupt) {
-                this.afterSimulation();
-                return result;
-            }
-        }
-        this.afterSimulation();
-
-        return result;
+        execute();
+        return 0;
     }
+
 
 }

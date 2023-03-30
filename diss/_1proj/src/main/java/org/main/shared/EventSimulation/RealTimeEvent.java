@@ -1,27 +1,20 @@
 package org.main.shared.EventSimulation;
 
-import org.main.shared.EventSimulation.EventSimulation;
-import org.main.shared.EventSimulation.EventSimulationCore;
-
 public class RealTimeEvent extends EventSimulation {
 
-    private final int stepTime;
-    private final int sleepTime;
+
     @Override
     public void execute() {
-        eventTime = stepTime;
+        eventTime = myCore.stepLength;
         myCore.addEvent(this);
-        System.out.println(myCore.getCurrentTime());
         try {
-            Thread.sleep(sleepTime);
+            Thread.sleep(myCore.sleepTime);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public RealTimeEvent(double eventTime, EventSimulationCore myCore, int sleepTime) {
-        super(eventTime, myCore);
-        this.sleepTime = sleepTime;
-        this.stepTime = (int)eventTime;
+    public RealTimeEvent(EventSimulationCore myCore) {
+        super(myCore.stepLength, myCore);
     }
 }
