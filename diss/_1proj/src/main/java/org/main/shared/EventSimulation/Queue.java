@@ -61,6 +61,7 @@ public class Queue<I, T> {
             System.out.println("error: queue move not existing element");
             return;
         }
+        lockedQueue.remove(id);
         queue.add(element);
 
     }

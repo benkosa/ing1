@@ -4,6 +4,8 @@ import org.main.shared.EventSimulation.EventSimulationCore;
 
 import javax.swing.*;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.LinkedList;
 
 public class GuiZadanie2 extends JFrame implements ISimDelegate{
 
@@ -19,6 +21,7 @@ public class GuiZadanie2 extends JFrame implements ISimDelegate{
     private JLabel group2;
     private JLabel simTime;
     private JLabel lastEvent;
+    private JScrollPane ScrollPane6;
 
     public GuiZadanie2() {
         pauseButton.addActionListener(e -> stk.setPause(true));
@@ -46,8 +49,9 @@ public class GuiZadanie2 extends JFrame implements ISimDelegate{
         final STK stk = (STK)core;
         refreshTable(ScrollPane1, new String[]{"i", "type"}, valuesToArray(stk.arrivedVehicles));
         refreshTable(ScrollPane2, new String[]{"id", "type"}, valuesToArray(stk.queueBeforeStk.getQueue()));
-        refreshTable(ScrollPane3, new String[]{"id", "type"}, valuesToArray(stk.queueInStk));
-        refreshTable(ScrollPane4, new String[]{"id", "type"}, valuesToArray(stk.queueAfterStk));
+        refreshTable(ScrollPane3, new String[]{"id", "type"}, valuesToArray(stk.queueInStk.getQueue()));
+        refreshTable(ScrollPane6, new String[]{"id", "type"}, hashMapToArray(stk.queueInStk.getLockedQueue()));
+        refreshTable(ScrollPane4, new String[]{"id", "type"}, valuesToArray(stk.queueAfterStk.getQueue()));
         refreshTable(ScrollPane5, new String[]{"i", "type"}, valuesToArray(stk.leftVehicles));
         group1.setText("pocet pracovnikov: " + stk.group1.getNumberOfWorkers() + "; zaneprazdneny: " + stk.group1.getWorkersInUsage());
         group2.setText("pocet pracovnikov: " + stk.group2.getNumberOfWorkers() + "; zaneprazdneny: " + stk.group2.getWorkersInUsage());
@@ -66,7 +70,11 @@ public class GuiZadanie2 extends JFrame implements ISimDelegate{
 
     }
 
-
+    private String[][] hashMapToArray(HashMap<Long, Vehicle> queue) {
+        LinkedList<Vehicle> list  = new LinkedList<>();
+        queue.forEach( (key, value) -> list.add(value));
+        return valuesToArray(list);
+    }
 
     private String[][] valuesToArray(Collection<Vehicle> queue) {
         String[][] tableValues = new String[queue.size()][2];

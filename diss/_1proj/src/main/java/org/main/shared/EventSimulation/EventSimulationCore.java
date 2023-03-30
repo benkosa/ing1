@@ -27,7 +27,7 @@ public abstract class EventSimulationCore extends MonteCarlo implements ISimDele
     private final double maxTime;
     private boolean pause = false;
     public int stepLength = 60;
-    public int sleepTime = 10;
+    public int sleepTime = 1000;
     public void setPause(boolean pause) {
         this.pause = pause;
     }

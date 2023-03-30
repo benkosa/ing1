@@ -6,7 +6,6 @@ public class VehicleInspectionEndEvent extends VehicleEvent {
     @Override
     public void execute() {
         stk.group2.freeWorker();
-        //stk.queueInStk.move(vehicle.id);
         //ak je volny vorker zo skupiny 2 a cakaju auta na inspekciu
         if (stk.group2.isWorkerFree() && stk.isWaitingCarForInspection()) {
             final Vehicle newVehicle = stk.queueInStk.poll();
@@ -18,7 +17,7 @@ public class VehicleInspectionEndEvent extends VehicleEvent {
             stk.group1.hireWorker();
             stk.scheduleStartPayment(vehicle);
         } else {
-            stk.queueAfterStk.add(vehicle);
+            stk.queueAfterStk.addQueue(vehicle);
         }
     }
 

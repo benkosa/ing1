@@ -32,9 +32,9 @@ public class Main {
             new GuiZadanie2().start();
 
 
-            DistTests distTests = new DistTests();
+        //DistTests distTests = new DistTests();
             //distTests.testTriangular();
-            distTests.testExponential(1000, 5, 5);
+            //distTests.testExponential(100000, 5, 25);
 
 
     }

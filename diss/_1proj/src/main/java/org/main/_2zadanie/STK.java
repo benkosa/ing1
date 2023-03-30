@@ -19,10 +19,10 @@ public class STK extends EventSimulationCore {
     //final PriorityQueue<Vehicle> queueBeforeStk = new PriorityQueue<>();
     final Queue<Integer, Vehicle> queueBeforeStk = new Queue<>();
     final int queueInStkCapacity = 5;
-    final PriorityQueue<Vehicle> queueInStk = new PriorityQueue<>();
-    //final Queue<Long, Vehicle> queueInStk = new Queue<>(5);
-    final PriorityQueue<Vehicle> queueAfterStk = new PriorityQueue<>();
-    //final Queue<Integer, Vehicle> queueAfterStk = new Queue<>();
+    //final PriorityQueue<Vehicle> queueInStk = new PriorityQueue<>();
+    final Queue<Long, Vehicle> queueInStk = new Queue<>(5);
+    //final PriorityQueue<Vehicle> queueAfterStk = new PriorityQueue<>();
+    final Queue<Integer, Vehicle> queueAfterStk = new Queue<>();
     final WorkersGroup group1;
     final WorkersGroup group2;
     private long vehicleId = 0;
@@ -54,16 +54,13 @@ public class STK extends EventSimulationCore {
         addEvent(new VehicleReceivedEvent(0, this, vehicle));
     }
     public boolean isSpaceInsideStk() {
-        return queueInStk.size() < queueInStkCapacity;
+        return queueInStk.isSpaceInQueue();
     }
     public boolean isWaitingCarForInspection() {
-        return queueInStk.size() > 0;
+        return queueInStk.getReadySize() > 0;
     }
     public void arrivedInStkQueue(Vehicle vehicle) {
-        this.queueInStk.add(vehicle);
-        if (queueInStk.size() > queueInStkCapacity) {
-            System.out.println("error: arrivedInStkQueue queueInStk > queueInStkCapacity");
-        }
+        this.queueInStk.addQueueLocked(vehicle.id, vehicle);
     }
     public void scheduleReceiveVehicleEnd(Vehicle vehicle) {
         addEvent(new VehicleReceivedEndEvent(triangularDistribution.sample(), this, vehicle));
