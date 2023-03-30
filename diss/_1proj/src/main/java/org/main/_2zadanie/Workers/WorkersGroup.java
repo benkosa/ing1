@@ -1,6 +1,5 @@
 package org.main._2zadanie.Workers;
 
-import org.main._2zadanie.STK;
 import org.main._2zadanie.Vehicle;
 
 import java.util.HashMap;

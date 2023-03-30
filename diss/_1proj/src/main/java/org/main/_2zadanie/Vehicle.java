@@ -1,10 +1,8 @@
 package org.main._2zadanie;
 
-import org.main.shared.Distribution.BasicDistribution;
 import org.main.shared.Distribution.DiscreteEmpiricalDistribution;
 import org.main.shared.Distribution.DiscreteUniformDistribution;
 import org.main.shared.Distribution.SeedGenerator;
-import org.main.stanok.Customer;
 
 public class Vehicle implements Comparable<Vehicle>{
     private double inspectionTime;
