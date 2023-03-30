@@ -1,48 +1,61 @@
 package org.main._2zadanie.Workers;
 
 import org.main._2zadanie.STK;
+import org.main._2zadanie.Vehicle;
 
-public abstract class WorkersGroup {
-    private final int numberOfWorkers;
+import java.util.HashMap;
+import java.util.LinkedList;
 
-    private final STK stk;
+public class WorkersGroup {
+    final private LinkedList<Worker> workers = new LinkedList<>();
+
+    public LinkedList<Worker> getWorkers() {
+        return workers;
+    }
+
+    public HashMap<Long, Worker> getHiredWorkers() {
+        return hiredWorkers;
+    }
+
+    final private HashMap<Long, Worker> hiredWorkers = new HashMap<>();
 
     public int getNumberOfWorkers() {
-        return numberOfWorkers;
+        return workers.size() + hiredWorkers.size();
     }
-
     public int getWorkersInUsage() {
-        return workersInUsage;
+        return hiredWorkers.size();
     }
-
-    private int workersInUsage;
-
-
-    public WorkersGroup(int numberOfWorkers, STK stk) {
-        this.numberOfWorkers = numberOfWorkers;
-        this.stk = stk;
+    public WorkersGroup(int numberOfWorkers) {
+        for (int i = 0; i < numberOfWorkers; i++) {
+            workers.push(new Worker(i));
+        }
     }
-
     /**
      *
      */
-    public void freeWorker() {
-        workersInUsage-=1;
-        if (workersInUsage < 0) {
-            System.out.println("error: workersInUsage < 0");
+    public void freeWorker(Vehicle vehicle) {
+        final Worker worker = hiredWorkers.get(vehicle.id);
+        if (worker == null) {
+            System.out.println("warning: free not existing worker");
+            return;
         }
+        hiredWorkers.remove(vehicle.id);
+        workers.add(worker);
+
     };
-
     public boolean isWorkerFree() {
-        return workersInUsage < numberOfWorkers;
+        return workers.size() > 0;
+    }
+    public void hireWorker(Vehicle vehicle) {
+        final Worker worker = workers.poll();
+        if (worker == null) {
+            System.out.println("warning: hire not existing worker");
+            return;
+        }
+        hiredWorkers.put(vehicle.id, worker);
     }
 
-    public void hireWorker() {
-        workersInUsage+=1;
-        if (workersInUsage > numberOfWorkers) {
-            System.out.println("error: workersInUsage > numberOfWorkers");
-        }
-    }
+
 
 
 }

@@ -1,5 +1,6 @@
 package org.main._2zadanie;
 
+import org.main._2zadanie.Workers.Worker;
 import org.main.shared.EventSimulation.EventSimulationCore;
 
 import javax.swing.*;
@@ -22,6 +23,10 @@ public class GuiZadanie2 extends JFrame implements ISimDelegate{
     private JLabel simTime;
     private JLabel lastEvent;
     private JScrollPane ScrollPane6;
+    private JScrollPane ScrollPane7;
+    private JScrollPane ScrollPane8;
+    private JScrollPane ScrollPane9;
+    private JScrollPane ScrollPane10;
 
     public GuiZadanie2() {
         pauseButton.addActionListener(e -> stk.setPause(true));
@@ -47,14 +52,18 @@ public class GuiZadanie2 extends JFrame implements ISimDelegate{
     @Override
     public void refresh(EventSimulationCore core) {
         final STK stk = (STK)core;
-        refreshTable(ScrollPane1, new String[]{"i", "type"}, valuesToArray(stk.arrivedVehicles));
-        refreshTable(ScrollPane2, new String[]{"id", "type"}, valuesToArray(stk.queueBeforeStk.getQueue()));
-        refreshTable(ScrollPane3, new String[]{"id", "type"}, valuesToArray(stk.queueInStk.getQueue()));
-        refreshTable(ScrollPane6, new String[]{"id", "type"}, hashMapToArray(stk.queueInStk.getLockedQueue()));
-        refreshTable(ScrollPane4, new String[]{"id", "type"}, valuesToArray(stk.queueAfterStk.getQueue()));
-        refreshTable(ScrollPane5, new String[]{"i", "type"}, valuesToArray(stk.leftVehicles));
-        group1.setText("pocet pracovnikov: " + stk.group1.getNumberOfWorkers() + "; zaneprazdneny: " + stk.group1.getWorkersInUsage());
-        group2.setText("pocet pracovnikov: " + stk.group2.getNumberOfWorkers() + "; zaneprazdneny: " + stk.group2.getWorkersInUsage());
+        refreshTable(ScrollPane1, new String[]{"i", "type"}, valuesToArrayVehicle(stk.arrivedVehicles));
+        refreshTable(ScrollPane2, new String[]{"id", "type"}, valuesToArrayVehicle(stk.queueBeforeStk.getQueue()));
+        refreshTable(ScrollPane3, new String[]{"id", "type"}, valuesToArrayVehicle(stk.queueInStk.getQueue()));
+        refreshTable(ScrollPane6, new String[]{"id", "type"}, hashMapToArrayVehicles(stk.queueInStk.getLockedQueue()));
+        refreshTable(ScrollPane4, new String[]{"id", "type"}, valuesToArrayVehicle(stk.queueAfterStk.getQueue()));
+        refreshTable(ScrollPane5, new String[]{"i", "type"}, valuesToArrayVehicle(stk.leftVehicles));
+
+        refreshTable(ScrollPane7, new String[]{"i", "id w"}, valuesToArrayWorkers(stk.group1.getWorkers()));
+        refreshTable(ScrollPane8, new String[]{"i", "id w", "id c"}, hashMapToArrayWorkers(stk.group1.getHiredWorkers()));
+        refreshTable(ScrollPane9, new String[]{"i", "id w"}, valuesToArrayWorkers(stk.group2.getWorkers()));
+        refreshTable(ScrollPane10, new String[]{"i", "id w", "id c"}, hashMapToArrayWorkers(stk.group2.getHiredWorkers()));
+
         simTime.setText(stk.getCurrentTime()+"");
         getLastEventInfo();
     }
@@ -70,13 +79,13 @@ public class GuiZadanie2 extends JFrame implements ISimDelegate{
 
     }
 
-    private String[][] hashMapToArray(HashMap<Long, Vehicle> queue) {
+    private String[][] hashMapToArrayVehicles(HashMap<Long, Vehicle> queue) {
         LinkedList<Vehicle> list  = new LinkedList<>();
         queue.forEach( (key, value) -> list.add(value));
-        return valuesToArray(list);
+        return valuesToArrayVehicle(list);
     }
 
-    private String[][] valuesToArray(Collection<Vehicle> queue) {
+    private String[][] valuesToArrayVehicle(Collection<Vehicle> queue) {
         String[][] tableValues = new String[queue.size()][2];
         int i = 0;
         for (Vehicle vehicle : queue) {
@@ -84,6 +93,24 @@ public class GuiZadanie2 extends JFrame implements ISimDelegate{
             i+=1;
         }
 
+        return tableValues;
+    }
+    private String[][] valuesToArrayWorkers(Collection<Worker> queue) {
+        String[][] tableValues = new String[queue.size()][2];
+        int i = 0;
+        for (Worker worker : queue) {
+            tableValues[i] = new String[]{i+"", worker.getId()+""};
+            i+=1;
+        }
+        return tableValues;
+    }
+    private String[][] hashMapToArrayWorkers(HashMap<Long, Worker> queue) {
+        String[][] tableValues = new String[queue.size()][3];
+        final int[] i = {0};
+        queue.forEach( (key, value) -> {
+            tableValues[i[0]] = new String[] {i[0]+"", value.getId()+"", key+""};
+            i[0] +=1;
+        });
         return tableValues;
     }
 

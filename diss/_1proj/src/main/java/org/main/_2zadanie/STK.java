@@ -1,14 +1,11 @@
 package org.main._2zadanie;
 
-import org.main._2zadanie.Workers.Group1;
-import org.main._2zadanie.Workers.Group2;
 import org.main._2zadanie.Workers.WorkersGroup;
 import org.main.shared.Distribution.*;
 import org.main.shared.EventSimulation.EventSimulationCore;
 import org.main.shared.EventSimulation.Queue;
 
 import java.util.LinkedList;
-import java.util.PriorityQueue;
 
 public class STK extends EventSimulationCore {
     final SeedGenerator seedGenerator;
@@ -37,8 +34,8 @@ public class STK extends EventSimulationCore {
         VehicleArrived = new ExponentialDistribution(seedGenerator, (double)(60/23)*60);
         paymentTime = new DiscreteUniformDistribution(seedGenerator, 65, 177);
         triangularDistribution = new TriangularDistribution(seedGenerator, 180, 695, 431);
-        group1 = new Group1(5, this);
-        group2 = new Group2(20, this);
+        group1 = new WorkersGroup(5);
+        group2 = new WorkersGroup(20);
     }
 
     public void scheduleNewArrival() {

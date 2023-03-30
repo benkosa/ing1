@@ -10,7 +10,7 @@ public class VehicleReceivedEvent extends VehicleEvent{
         // a je volny dalsi zamestnanec zo skupiny 1
         if (stk.queueAfterStk.getSize() > 0 && stk.group1.isWorkerFree()) {
             final Vehicle newVehicle = stk.queueAfterStk.poll();
-            stk.group1.hireWorker();
+            stk.group1.hireWorker(newVehicle);
             stk.scheduleStartPayment(newVehicle);
         // ak je auto v rade pred stk
         // a je miesto v rade na konrolu
@@ -21,7 +21,7 @@ public class VehicleReceivedEvent extends VehicleEvent{
                 stk.group1.isWorkerFree()
         ) {
             final Vehicle newVehicle = stk.queueBeforeStk.poll();
-            stk.group1.hireWorker();
+            stk.group1.hireWorker(newVehicle);
             stk.arrivedInStkQueue(newVehicle);
             stk.scheduleReceiveVehicle(newVehicle);
         }
