@@ -39,13 +39,19 @@ public class STK extends EventSimulationCore {
     }
 
     public void scheduleNewArrival() {
-        addEvent(
-                new VehicleArrivedEvent(
-                        VehicleArrived.sample(),
-                        this,
-                        new Vehicle(seedGenerator, vehicleTypeGen.sample(), vehicleId+=1)
-                )
-        );
+        //24300 == (6*60+45)*60
+        if (getCurrentTime() < 24300) {
+            final double arrivedTime = VehicleArrived.sample();
+            if ((getCurrentTime() + arrivedTime) < 24300) {
+                addEvent(
+                        new VehicleArrivedEvent(
+                                VehicleArrived.sample(),
+                                this,
+                                new Vehicle(seedGenerator, vehicleTypeGen.sample(), vehicleId += 1)
+                        )
+                );
+            }
+        }
     }
     public void scheduleReceiveVehicle(Vehicle vehicle){
         addEvent(new VehicleReceivedEvent(0, this, vehicle));

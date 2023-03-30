@@ -1,7 +1,7 @@
 package org.main._2zadanie.Workers;
 
 public class Worker {
-    private int id;
+    final private int id;
 
     public int getId() {
         return id;
