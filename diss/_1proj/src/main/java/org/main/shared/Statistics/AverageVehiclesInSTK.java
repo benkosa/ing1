@@ -8,7 +8,7 @@ public class AverageVehiclesInSTK extends Statistics {
         if (vehicleLeft > vehicleArrived) {
             System.out.println("warning: more vehicles left than arrived");
         }
-        return vehicleArrived - vehicleLeft;
+        return (double)vehicleArrived - vehicleLeft;
     }
 
     @Override

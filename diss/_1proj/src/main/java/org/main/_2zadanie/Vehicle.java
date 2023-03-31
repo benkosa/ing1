@@ -11,6 +11,15 @@ public class Vehicle implements Comparable<Vehicle>{
     protected boolean isInFifoQueue;
     private VehicleType vehicleType;
     public long id;
+    private double arrived;
+
+    public double getArrived() {
+        return arrived;
+    }
+
+    public void setArrived(double arrived) {
+        this.arrived = arrived;
+    }
 
     public Vehicle(SeedGenerator seedGenerator, double type, long id) {
         this.seedGenerator = seedGenerator;

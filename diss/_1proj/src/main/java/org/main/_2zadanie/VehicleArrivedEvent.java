@@ -7,6 +7,7 @@ public class VehicleArrivedEvent extends VehicleEvent{
     public void execute() {
         stk.scheduleNewArrival();
         stk.saveArrivedVehicle(vehicle);
+        vehicle.setArrived(stk.getCurrentTime());
         // ak je volny woker a je miesto v rade na kontrolu
         if (stk.group1.isWorkerFree() && stk.isSpaceInsideStk()) {
             stk.group1.hireWorker(this.vehicle);
