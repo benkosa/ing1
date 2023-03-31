@@ -4,6 +4,7 @@ import org.main._2zadanie.Workers.WorkersGroup;
 import org.main.shared.Distribution.*;
 import org.main.shared.EventSimulation.EventSimulationCore;
 import org.main.shared.EventSimulation.Queue;
+import org.main.shared.Statistics.AverageVehiclesInSTK;
 
 import java.util.LinkedList;
 
@@ -25,6 +26,8 @@ public class STK extends EventSimulationCore {
     private long vehicleId = 0;
     LinkedList<Vehicle> arrivedVehicles = new LinkedList<>();
     LinkedList<Vehicle> leftVehicles = new LinkedList<>();
+
+    public final AverageVehiclesInSTK averageVehiclesInSTK = new AverageVehiclesInSTK();
 
 
     public STK(long replications, long maxTime, int seed, int workers1, int workers2) {
@@ -64,6 +67,7 @@ public class STK extends EventSimulationCore {
         if (getCurrentTime() < 24300) {
             final double arrivedTime = VehicleArrived.sample();
             if ((getCurrentTime() + arrivedTime) < 24300) {
+                averageVehiclesInSTK.vehicleArrived();
                 addEvent(
                         new VehicleArrivedEvent(
                                 VehicleArrived.sample(),
@@ -112,6 +116,7 @@ public class STK extends EventSimulationCore {
         }
     }
     private void initialize() {
+        averageVehiclesInSTK.initialize();
     }
 
     @Override
@@ -122,7 +127,7 @@ public class STK extends EventSimulationCore {
 
     @Override
     protected void afterSimulation() {
-
+        System.out.println(averageVehiclesInSTK.totalResult());
     }
 
     @Override
@@ -132,6 +137,7 @@ public class STK extends EventSimulationCore {
 
     @Override
     protected void afterReplication() {
+        averageVehiclesInSTK.countResult();
 
     }
 }
