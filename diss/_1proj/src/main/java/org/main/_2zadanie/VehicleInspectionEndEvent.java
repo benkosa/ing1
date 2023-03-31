@@ -17,6 +17,7 @@ public class VehicleInspectionEndEvent extends VehicleEvent {
             stk.group1.hireWorker(vehicle);
             stk.scheduleStartPayment(vehicle);
         } else {
+            vehicle.arrivedInQueue(stk.getCurrentTime());
             stk.queueAfterStk.addQueue(vehicle);
         }
     }

@@ -5,6 +5,7 @@ import org.main.shared.EventSimulation.EventSimulationCore;
 public class VehicleReceivedEndEvent extends VehicleEvent{
     @Override
     public void execute() {
+        vehicle.arrivedInQueue(stk.getCurrentTime());
         stk.queueInStk.move(vehicle.id);
 
         //ak je volny vorker zp skupiny 2 a cakaju auta na inspekciu
