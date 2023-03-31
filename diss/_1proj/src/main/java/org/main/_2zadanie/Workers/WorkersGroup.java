@@ -1,23 +1,22 @@
 package org.main._2zadanie.Workers;
 
+import org.main._2zadanie.STK;
 import org.main._2zadanie.Vehicle;
+import org.main.shared.Statistics.AverageQueueLength;
 
 import java.util.HashMap;
 import java.util.LinkedList;
 
 public class WorkersGroup {
     final private LinkedList<Worker> workers = new LinkedList<>();
-
     public LinkedList<Worker> getWorkers() {
         return workers;
     }
-
     public HashMap<Long, Worker> getHiredWorkers() {
         return hiredWorkers;
     }
-
     final private HashMap<Long, Worker> hiredWorkers = new HashMap<>();
-
+    protected AverageQueueLength averageFreeWorker;
     public int getNumberOfWorkers() {
         return workers.size() + hiredWorkers.size();
     }
@@ -29,9 +28,7 @@ public class WorkersGroup {
             workers.push(new Worker(i));
         }
     }
-    /**
-     *
-     */
+    /** */
     public void freeWorker(Vehicle vehicle) {
         final Worker worker = hiredWorkers.get(vehicle.id);
         if (worker == null) {
@@ -40,7 +37,7 @@ public class WorkersGroup {
         }
         hiredWorkers.remove(vehicle.id);
         workers.add(worker);
-
+        averageFreeWorker.countAverageQueueLength();
     };
     public boolean isWorkerFree() {
         return workers.size() > 0;
@@ -52,9 +49,11 @@ public class WorkersGroup {
             return;
         }
         hiredWorkers.put(vehicle.id, worker);
+        averageFreeWorker.countAverageQueueLength();
     }
 
 
-
-
+    public void assignStatistics(AverageQueueLength averageFreeWorker) {
+        this.averageFreeWorker = averageFreeWorker;
+    }
 }

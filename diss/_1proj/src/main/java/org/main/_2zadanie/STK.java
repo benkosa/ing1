@@ -4,6 +4,7 @@ import org.main._2zadanie.Workers.WorkersGroup;
 import org.main.shared.Distribution.*;
 import org.main.shared.EventSimulation.EventSimulationCore;
 import org.main.shared.EventSimulation.Queue;
+import org.main.shared.Statistics.AverageQueueLength;
 import org.main.shared.Statistics.AverageVehicleTimeInSystem;
 import org.main.shared.Statistics.AverageVehiclesInSTK;
 
@@ -30,6 +31,8 @@ public class STK extends EventSimulationCore {
 
     public final AverageVehiclesInSTK averageVehiclesInSTK = new AverageVehiclesInSTK();
     public final AverageVehicleTimeInSystem averageVehicleTimeInSystem = new AverageVehicleTimeInSystem(this);
+    public final AverageQueueLength averageFreeWorker1;
+    public final AverageQueueLength averageFreeWorker2;
 
 
     public STK(long replications, long maxTime, int seed, int workers1, int workers2) {
@@ -40,6 +43,10 @@ public class STK extends EventSimulationCore {
         paymentTime = new DiscreteUniformDistribution(seedGenerator, 65, 177);
         triangularDistribution = new TriangularDistribution(seedGenerator, 180, 695, 431);
         setWorkers(workers1, workers2);
+        averageFreeWorker1 = new AverageQueueLength(this, group1.getWorkers());
+        averageFreeWorker2 = new AverageQueueLength(this, group2.getWorkers());
+        workersAssignStatistics();
+
     }
 
     public STK(long replications, long maxTime, int seed, int workers1, int workers2, int stepLength, int stepTime) {
@@ -51,6 +58,9 @@ public class STK extends EventSimulationCore {
         triangularDistribution = new TriangularDistribution(seedGenerator, 180, 695, 431);
         setWorkers(workers1, workers2);
         changeSlowDown(stepLength, stepTime);
+        averageFreeWorker1 = new AverageQueueLength(this, group1.getWorkers());
+        averageFreeWorker2 = new AverageQueueLength(this, group2.getWorkers());
+        workersAssignStatistics();
     }
 
 
@@ -62,6 +72,11 @@ public class STK extends EventSimulationCore {
     public void setWorkers(int g1, int g2) {
         group1 = new WorkersGroup(g1);
         group2 = new WorkersGroup(g2);
+    }
+
+    public void workersAssignStatistics() {
+        group1.assignStatistics(averageFreeWorker1);
+        group2.assignStatistics(averageFreeWorker2);
     }
 
     public void scheduleNewArrival() {
@@ -120,6 +135,8 @@ public class STK extends EventSimulationCore {
     private void initialize() {
         averageVehiclesInSTK.initialize();
         averageVehicleTimeInSystem.initialize();
+        averageFreeWorker1.initialize();
+        averageFreeWorker2.initialize();
     }
 
     @Override
@@ -132,6 +149,8 @@ public class STK extends EventSimulationCore {
     protected void afterSimulation() {
         System.out.println(averageVehiclesInSTK.totalResult());
         System.out.println(averageVehicleTimeInSystem.totalResult());
+        System.out.println(averageFreeWorker1.totalResult());
+        System.out.println(averageFreeWorker2.totalResult());
     }
 
     @Override
@@ -143,6 +162,8 @@ public class STK extends EventSimulationCore {
     protected void afterReplication() {
         averageVehiclesInSTK.countResult();
         averageVehicleTimeInSystem.countResult();
+        averageFreeWorker1.countResult();
+        averageFreeWorker2.countResult();
 
     }
 }
