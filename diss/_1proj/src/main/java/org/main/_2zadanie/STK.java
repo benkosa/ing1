@@ -33,6 +33,7 @@ public class STK extends EventSimulationCore {
     public final AverageVehicleTimeInSystem averageVehicleTimeInSystem = new AverageVehicleTimeInSystem(this);
     public final AverageQueueLength averageFreeWorker1;
     public final AverageQueueLength averageFreeWorker2;
+    public final AverageQueueLength averageQueueBeforeSTK = new AverageQueueLength(this, queueBeforeStk.getQueue());
 
 
     public STK(long replications, long maxTime, int seed, int workers1, int workers2) {
@@ -46,6 +47,7 @@ public class STK extends EventSimulationCore {
         averageFreeWorker1 = new AverageQueueLength(this, group1.getWorkers());
         averageFreeWorker2 = new AverageQueueLength(this, group2.getWorkers());
         workersAssignStatistics();
+        queueBeforeStk.assignStatistics(averageQueueBeforeSTK);
 
     }
 
@@ -61,6 +63,7 @@ public class STK extends EventSimulationCore {
         averageFreeWorker1 = new AverageQueueLength(this, group1.getWorkers());
         averageFreeWorker2 = new AverageQueueLength(this, group2.getWorkers());
         workersAssignStatistics();
+        queueBeforeStk.assignStatistics(averageQueueBeforeSTK);
     }
 
 
@@ -137,6 +140,7 @@ public class STK extends EventSimulationCore {
         averageVehicleTimeInSystem.initialize();
         averageFreeWorker1.initialize();
         averageFreeWorker2.initialize();
+        averageQueueBeforeSTK.initialize();
     }
 
     @Override
@@ -151,6 +155,7 @@ public class STK extends EventSimulationCore {
         System.out.println(averageVehicleTimeInSystem.totalResult());
         System.out.println(averageFreeWorker1.totalResult());
         System.out.println(averageFreeWorker2.totalResult());
+        System.out.println(averageQueueBeforeSTK.totalResult());
     }
 
     @Override
@@ -164,6 +169,7 @@ public class STK extends EventSimulationCore {
         averageVehicleTimeInSystem.countResult();
         averageFreeWorker1.countResult();
         averageFreeWorker2.countResult();
+        averageQueueBeforeSTK.countResult();
 
     }
 }

@@ -1,5 +1,7 @@
 package org.main.shared.EventSimulation;
 
+import org.main.shared.Statistics.AverageQueueLength;
+
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.PriorityQueue;
@@ -13,10 +15,10 @@ public class Queue<I, T> {
         this.capacity = capacity;
     }
     public Queue() { }
-
     public Long getCapacity() {
         return capacity;
     }
+    private AverageQueueLength averageQueueBeforeSTK = null;
 
     /**
      * return number of element in queue
@@ -40,6 +42,7 @@ public class Queue<I, T> {
             System.out.println("error: queue capacity overflow");
         }
         queue.add(element);
+        countStatistics();
     }
 
     /**
@@ -70,7 +73,9 @@ public class Queue<I, T> {
      * Retrieves and removes the head of this queue
      */
     public T poll() {
-        return queue.poll();
+        final T element = queue.poll();
+        countStatistics();
+        return element;
     }
 
     /**
@@ -90,5 +95,14 @@ public class Queue<I, T> {
     public boolean isSpaceInQueue() {
         if (capacity == null) return true;
         return getSize() < capacity;
+    }
+    public void assignStatistics(AverageQueueLength averageQueueBeforeSTK) {
+        this.averageQueueBeforeSTK = averageQueueBeforeSTK;
+    }
+
+    private void countStatistics() {
+        if (averageQueueBeforeSTK != null) {
+            averageQueueBeforeSTK.countAverageQueueLength();
+        }
     }
 }
