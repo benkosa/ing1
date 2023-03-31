@@ -1,6 +1,8 @@
 package org.main.shared.EventSimulation;
 
+import org.main._2zadanie.Vehicle;
 import org.main.shared.Statistics.AverageQueueLength;
+import org.main.shared.Statistics.AverageWaitingTimeInQueue;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -18,7 +20,7 @@ public class Queue<I, T> {
     public Long getCapacity() {
         return capacity;
     }
-    private AverageQueueLength averageQueueBeforeSTK = null;
+    private AverageWaitingTimeInQueue averageQueueBeforeSTK = null;
 
     /**
      * return number of element in queue
@@ -42,7 +44,6 @@ public class Queue<I, T> {
             System.out.println("error: queue capacity overflow");
         }
         queue.add(element);
-        countStatistics();
     }
 
     /**
@@ -74,7 +75,7 @@ public class Queue<I, T> {
      */
     public T poll() {
         final T element = queue.poll();
-        countStatistics();
+        countStatistics(element);
         return element;
     }
 
@@ -96,13 +97,14 @@ public class Queue<I, T> {
         if (capacity == null) return true;
         return getSize() < capacity;
     }
-    public void assignStatistics(AverageQueueLength averageQueueBeforeSTK) {
+    public void assignStatistics(AverageWaitingTimeInQueue averageQueueBeforeSTK) {
         this.averageQueueBeforeSTK = averageQueueBeforeSTK;
     }
 
-    private void countStatistics() {
+    private void countStatistics(T element) {
         if (averageQueueBeforeSTK != null) {
-            averageQueueBeforeSTK.countAverageQueueLength();
+            Vehicle vehicle = (Vehicle) element;
+            averageQueueBeforeSTK.countAverageTimeInQueue(vehicle.getStartWaitingInQue());
         }
     }
 

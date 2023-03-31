@@ -8,7 +8,10 @@ public class Vehicle implements Comparable<Vehicle>{
     private double inspectionTime;
     SeedGenerator seedGenerator;
     protected double startWaitingInQue;
-    protected boolean isInFifoQueue;
+
+    public double getStartWaitingInQue() {
+        return startWaitingInQue;
+    }
     private VehicleType vehicleType;
     public long id;
     private double arrived;
@@ -58,13 +61,11 @@ public class Vehicle implements Comparable<Vehicle>{
         return vehicleType;
     }
 
-    public void arrivedInQueue(double startWaitingInQue, boolean isFifo) {
-        this.isInFifoQueue = isFifo;
+    public void arrivedInQueue(double startWaitingInQue) {
         this.startWaitingInQue = startWaitingInQue;
     }
     @Override
     public int compareTo(Vehicle o) {
-        if (isInFifoQueue) return Double.compare(o.startWaitingInQue, this.startWaitingInQue);
         return Double.compare(this.startWaitingInQue, o.startWaitingInQue);
     }
 }

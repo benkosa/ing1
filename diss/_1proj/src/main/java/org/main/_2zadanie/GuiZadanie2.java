@@ -122,12 +122,12 @@ public class GuiZadanie2 extends JFrame implements ISimDelegate{
     @Override
     public void refresh(EventSimulationCore core) {
         final STK stk = (STK)core;
-        refreshTable(ScrollPane1, new String[]{"i", "type"}, valuesToArrayVehicle(stk.arrivedVehicles));
-        refreshTable(ScrollPane2, new String[]{"id", "type"}, valuesToArrayVehicle(stk.queueBeforeStk.getQueue()));
-        refreshTable(ScrollPane3, new String[]{"id", "type"}, valuesToArrayVehicle(stk.queueInStk.getQueue()));
-        refreshTable(ScrollPane6, new String[]{"id", "type"}, hashMapToArrayVehicles(stk.queueInStk.getLockedQueue()));
-        refreshTable(ScrollPane4, new String[]{"id", "type"}, valuesToArrayVehicle(stk.queueAfterStk.getQueue()));
-        refreshTable(ScrollPane5, new String[]{"i", "type"}, valuesToArrayVehicle(stk.leftVehicles));
+        refreshTable(ScrollPane1, new String[]{"i", "type", "start waiting"}, valuesToArrayVehicle(stk.arrivedVehicles));
+        refreshTable(ScrollPane2, new String[]{"id", "type", "start waiting"}, valuesToArrayVehicle(stk.queueBeforeStk.getQueue()));
+        refreshTable(ScrollPane3, new String[]{"id", "type", "start waiting"}, valuesToArrayVehicle(stk.queueInStk.getQueue()));
+        refreshTable(ScrollPane6, new String[]{"id", "type", "start waiting"}, hashMapToArrayVehicles(stk.queueInStk.getLockedQueue()));
+        refreshTable(ScrollPane4, new String[]{"id", "type", "start waiting"}, valuesToArrayVehicle(stk.queueAfterStk.getQueue()));
+        refreshTable(ScrollPane5, new String[]{"i", "type", "start waiting"}, valuesToArrayVehicle(stk.leftVehicles));
 
         refreshTable(ScrollPane7, new String[]{"id w"}, valuesToArrayWorkers(stk.group1.getWorkers()));
         refreshTable(ScrollPane8, new String[]{"id w", "id c"}, hashMapToArrayWorkers(stk.group1.getHiredWorkers()));
@@ -179,10 +179,10 @@ public class GuiZadanie2 extends JFrame implements ISimDelegate{
     }
 
     private String[][] valuesToArrayVehicle(Collection<Vehicle> queue) {
-        String[][] tableValues = new String[queue.size()][2];
+        String[][] tableValues = new String[queue.size()][3];
         int i = 0;
         for (Vehicle vehicle : queue) {
-            tableValues[i] = new String[]{vehicle.id+"", vehicle.getVehicleType()+""};
+            tableValues[i] = new String[]{vehicle.id+"", vehicle.getVehicleType()+"", msToHMS(vehicle.getStartWaitingInQue())};
             i+=1;
         }
 

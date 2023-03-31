@@ -7,6 +7,7 @@ import org.main.shared.EventSimulation.Queue;
 import org.main.shared.Statistics.AverageQueueLength;
 import org.main.shared.Statistics.AverageVehicleTimeInSystem;
 import org.main.shared.Statistics.AverageVehiclesInSTK;
+import org.main.shared.Statistics.AverageWaitingTimeInQueue;
 
 import java.util.LinkedList;
 
@@ -29,7 +30,7 @@ public class STK extends EventSimulationCore {
     public final AverageVehicleTimeInSystem averageVehicleTimeInSystem = new AverageVehicleTimeInSystem(this);
     public final AverageQueueLength averageFreeWorker1;
     public final AverageQueueLength averageFreeWorker2;
-    public final AverageQueueLength averageQueueBeforeSTK = new AverageQueueLength(this, queueBeforeStk.getQueue());
+    public final AverageWaitingTimeInQueue averageQueueBeforeSTK = new AverageWaitingTimeInQueue(this);
 
 
     public STK(long replications, long maxTime, int seed, int workers1, int workers2) {
@@ -162,7 +163,7 @@ public class STK extends EventSimulationCore {
         System.out.println("priemerny cas vozidla v stk:            " + averageVehicleTimeInSystem.totalResult()/60 + " min");
         System.out.println("priemerny pocet volnych pracovnikov 1   " + averageFreeWorker1.totalResult());
         System.out.println("priemerny pocet volnych pracovnikov 2   " + averageFreeWorker2.totalResult());
-        System.out.println("priemerna dlzka rady pred stk           " + averageQueueBeforeSTK.totalResult());
+        System.out.println("priemerna dlzka cakania v rade pred stk " + averageQueueBeforeSTK.totalResult()/60+ " min");
     }
 
     @Override

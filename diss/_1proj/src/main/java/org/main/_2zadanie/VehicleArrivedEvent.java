@@ -10,13 +10,14 @@ public class VehicleArrivedEvent extends VehicleEvent{
         vehicle.setArrived(stk.getCurrentTime());
         // ak je volny woker a je miesto v rade na kontrolu
         if (stk.group1.isWorkerFree() && stk.isSpaceInsideStk()) {
-            stk.averageQueueBeforeSTK.countAverageQueueLength();
+            vehicle.startWaitingInQue = stk.getCurrentTime();
+            stk.averageQueueBeforeSTK.countAverageTimeInQueue(vehicle.startWaitingInQue);
             stk.group1.hireWorker(this.vehicle);
             stk.arrivedInStkQueue(this.vehicle);
             stk.scheduleReceiveVehicle(this.vehicle);
         // vojdeme do radu pred stk
         } else {
-            vehicle.arrivedInQueue(stk.getCurrentTime(), true);
+            vehicle.arrivedInQueue(stk.getCurrentTime());
             stk.queueBeforeStk.addQueue(vehicle);
         }
     }
