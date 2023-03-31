@@ -105,4 +105,9 @@ public class Queue<I, T> {
             averageQueueBeforeSTK.countAverageQueueLength();
         }
     }
+
+    public void clear(){
+        queue.clear();
+        lockedQueue.clear();
+    }
 }

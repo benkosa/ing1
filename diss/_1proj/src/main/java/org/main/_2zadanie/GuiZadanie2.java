@@ -94,13 +94,13 @@ public class GuiZadanie2 extends JFrame implements ISimDelegate{
     }
     private void startSimTurbo() {
         stk = new STK(
-                Long.parseLong(a100000TextField.getText()) ,
+                Long.parseLong(a100000TextField.getText()),
                 8*60*60,
                 Integer.parseInt(a0TextField.getText()),
                 Integer.parseInt(a5TextField.getText()),
                 Integer.parseInt(a20TextField.getText())
         );
-        stk.registerDelegate(this);
+        //stk.registerDelegate(this);
         stk.simulationStart();
     }
 
@@ -114,7 +114,7 @@ public class GuiZadanie2 extends JFrame implements ISimDelegate{
     public void start() {
         this.setContentPane(this.getJPanel());
         this.setTitle("Zadanie 2 udalostna simulacia");
-        this.setSize(1780, 780);
+        this.setSize(1000, 830);
         this.setVisible(true);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }

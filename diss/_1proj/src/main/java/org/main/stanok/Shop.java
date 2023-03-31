@@ -30,6 +30,12 @@ public class Shop extends EventSimulationCore {
         averageQueueLength = new AverageQueueLength(this, shopQueue);
         averageWaitingTimeInQueue = new AverageWaitingTimeInQueue(this);
     }
+    private void initialize() {
+        averageQueueLength.initialize();
+        averageWaitingTimeInQueue.initialize();
+        isServing = false;
+        shopQueue.clear();
+    }
 
     @Override
     protected void beforeSimulation() { }
@@ -63,11 +69,4 @@ public class Shop extends EventSimulationCore {
         averageQueueLength.countAverageQueueLength();
     }
 
-
-    private void initialize() {
-        averageQueueLength.initialize();
-        averageWaitingTimeInQueue.initialize();
-        isServing = false;
-        shopQueue.clear();
-    }
 }

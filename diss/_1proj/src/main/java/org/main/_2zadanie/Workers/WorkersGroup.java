@@ -17,6 +17,7 @@ public class WorkersGroup {
     }
     final private HashMap<Long, Worker> hiredWorkers = new HashMap<>();
     protected AverageQueueLength averageFreeWorker;
+    final private int numberOfWorkers;
     public int getNumberOfWorkers() {
         return workers.size() + hiredWorkers.size();
     }
@@ -24,10 +25,16 @@ public class WorkersGroup {
         return hiredWorkers.size();
     }
     public WorkersGroup(int numberOfWorkers) {
+        this.numberOfWorkers = numberOfWorkers;
+        addWorkers();
+    }
+
+    private void addWorkers() {
         for (int i = 0; i < numberOfWorkers; i++) {
             workers.push(new Worker(i));
         }
     }
+
     /** */
     public void freeWorker(Vehicle vehicle) {
         final Worker worker = hiredWorkers.get(vehicle.id);
@@ -55,5 +62,11 @@ public class WorkersGroup {
 
     public void assignStatistics(AverageQueueLength averageFreeWorker) {
         this.averageFreeWorker = averageFreeWorker;
+    }
+
+    public void clear() {
+        workers.clear();
+        hiredWorkers.clear();
+        addWorkers();
     }
 }

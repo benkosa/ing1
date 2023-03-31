@@ -16,12 +16,8 @@ public class STK extends EventSimulationCore {
     final UniformDouble vehicleTypeGen;
     final DiscreteUniformDistribution paymentTime;
     final TriangularDistribution triangularDistribution;
-    //final PriorityQueue<Vehicle> queueBeforeStk = new PriorityQueue<>();
     final Queue<Integer, Vehicle> queueBeforeStk = new Queue<>();
-    final int queueInStkCapacity = 5;
-    //final PriorityQueue<Vehicle> queueInStk = new PriorityQueue<>();
     final Queue<Long, Vehicle> queueInStk = new Queue<>(5);
-    //final PriorityQueue<Vehicle> queueAfterStk = new PriorityQueue<>();
     final Queue<Integer, Vehicle> queueAfterStk = new Queue<>();
     WorkersGroup group1;
     WorkersGroup group2;
@@ -141,26 +137,38 @@ public class STK extends EventSimulationCore {
         averageFreeWorker1.initialize();
         averageFreeWorker2.initialize();
         averageQueueBeforeSTK.initialize();
-    }
 
-    @Override
-    protected void beforeSimulation() {
-        initialize();
-        scheduleNewArrival();
+        queueBeforeStk.clear();
+        queueInStk.clear();
+        queueAfterStk.clear();
+
+        group1.clear();
+        group2.clear();
+
+        arrivedVehicles.clear();
+        leftVehicles.clear();
+
+        vehicleId = 0;
     }
+    @Override
+    protected void beforeSimulation() { }
 
     @Override
     protected void afterSimulation() {
-        System.out.println(averageVehiclesInSTK.totalResult());
-        System.out.println(averageVehicleTimeInSystem.totalResult());
-        System.out.println(averageFreeWorker1.totalResult());
-        System.out.println(averageFreeWorker2.totalResult());
-        System.out.println(averageQueueBeforeSTK.totalResult());
+        System.out.println("replikacie:                             " + replications);
+        System.out.println("pracovnikov 1:                          " + group1.getNumberOfWorkers());
+        System.out.println("pracovnikov 2:                          " + group2.getNumberOfWorkers());
+        System.out.println("vozidla v stk po ukonceni:              " + averageVehiclesInSTK.totalResult());
+        System.out.println("priemerny cas vozidla v stk:            " + averageVehicleTimeInSystem.totalResult()/60 + " min");
+        System.out.println("priemerny pocet volnych pracovnikov 1   " + averageFreeWorker1.totalResult());
+        System.out.println("priemerny pocet volnych pracovnikov 2   " + averageFreeWorker2.totalResult());
+        System.out.println("priemerna dlzka rady pred stk           " + averageQueueBeforeSTK.totalResult());
     }
 
     @Override
     protected void beforeReplication() {
-
+        initialize();
+        scheduleNewArrival();
     }
 
     @Override
@@ -170,6 +178,6 @@ public class STK extends EventSimulationCore {
         averageFreeWorker1.countResult();
         averageFreeWorker2.countResult();
         averageQueueBeforeSTK.countResult();
-
+        initialize();
     }
 }
