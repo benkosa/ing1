@@ -172,8 +172,8 @@ public class STK extends EventSimulationCore {
         System.out.printf(
                 "priemerny cas vozidla v stk:            %f <%f,%f>\n",
                 averageVehicleTimeInSystem.totalResult()/60,
-                averageVehicleTimeInSystem.sampleStandardDeviation.getConfidenceInterval(1.96 )[0],
-                averageVehicleTimeInSystem.sampleStandardDeviation.getConfidenceInterval(1.96 )[1]
+                averageVehicleTimeInSystem.sampleStandardDeviation.getConfidenceInterval(1.645 )[0],
+                averageVehicleTimeInSystem.sampleStandardDeviation.getConfidenceInterval(1.645 )[1]
         );
         System.out.printf("priemerny pocet volnych pracovnikov 1   %f\n", averageFreeWorker1.totalResult());
         System.out.printf("priemerny pocet volnych pracovnikov 2   %f\n", averageFreeWorker2.totalResult());
