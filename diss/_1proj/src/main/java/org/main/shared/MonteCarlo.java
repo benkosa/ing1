@@ -8,6 +8,10 @@ public abstract class MonteCarlo extends SwingWorker<Double, Double> {
 
     @Override
     protected Double doInBackground() throws Exception {
+        return simulation();
+    }
+
+    private Double simulation() {
         long i;
         double result = 0;
         this.beforeSimulation();
@@ -44,6 +48,10 @@ public abstract class MonteCarlo extends SwingWorker<Double, Double> {
 
     public double simulationStart() {
         execute();
+        return 0;
+    }
+    public double simulationStartSingleThread() {
+        simulation();
         return 0;
     }
 

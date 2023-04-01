@@ -3,7 +3,7 @@
   <grid id="27dc6" binding="panel1" default-binding="true" layout-manager="GridLayoutManager" row-count="2" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
     <margin top="0" left="0" bottom="0" right="0"/>
     <constraints>
-      <xy x="20" y="20" width="1528" height="628"/>
+      <xy x="20" y="20" width="1528" height="868"/>
     </constraints>
     <properties/>
     <border type="none"/>
@@ -247,7 +247,7 @@
             <properties/>
             <border type="none"/>
             <children>
-              <grid id="deb35" layout-manager="GridLayoutManager" row-count="11" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+              <grid id="deb35" layout-manager="GridLayoutManager" row-count="10" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
                 <margin top="0" left="0" bottom="0" right="0"/>
                 <constraints>
                   <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="1" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
@@ -255,22 +255,6 @@
                 <properties/>
                 <border type="none"/>
                 <children>
-                  <component id="3f676" class="javax.swing.JButton" binding="pauseButton" default-binding="true">
-                    <constraints>
-                      <grid row="9" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-                    </constraints>
-                    <properties>
-                      <text value="pause"/>
-                    </properties>
-                  </component>
-                  <component id="2ca1f" class="javax.swing.JButton" binding="playButton" default-binding="true">
-                    <constraints>
-                      <grid row="10" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-                    </constraints>
-                    <properties>
-                      <text value="play"/>
-                    </properties>
-                  </component>
                   <component id="f8c84" class="javax.swing.JButton" binding="startRealTimeButton" default-binding="true">
                     <constraints>
                       <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
@@ -326,7 +310,7 @@
                       </grid>
                     </constraints>
                     <properties>
-                      <text value="100000"/>
+                      <text value="1000"/>
                     </properties>
                   </component>
                   <component id="fe049" class="javax.swing.JTextField" binding="a0TextField" default-binding="true">
@@ -392,7 +376,7 @@
                       </grid>
                     </constraints>
                     <properties>
-                      <text value="22"/>
+                      <text value="21"/>
                     </properties>
                   </component>
                   <component id="edb86" class="javax.swing.JButton" binding="adjustSlowDownButton" default-binding="true">
@@ -401,6 +385,38 @@
                     </constraints>
                     <properties>
                       <text value="Adjust slow down"/>
+                    </properties>
+                  </component>
+                  <component id="a49c4" class="javax.swing.JButton" binding="graph2Button" default-binding="true">
+                    <constraints>
+                      <grid row="9" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                    <properties>
+                      <text value="Graph2"/>
+                    </properties>
+                  </component>
+                  <component id="3f676" class="javax.swing.JButton" binding="pauseButton" default-binding="true">
+                    <constraints>
+                      <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                    <properties>
+                      <text value="pause"/>
+                    </properties>
+                  </component>
+                  <component id="2ca1f" class="javax.swing.JButton" binding="playButton" default-binding="true">
+                    <constraints>
+                      <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                    <properties>
+                      <text value="play"/>
+                    </properties>
+                  </component>
+                  <component id="cea06" class="javax.swing.JButton" binding="graph1Button" default-binding="true">
+                    <constraints>
+                      <grid row="9" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                    <properties>
+                      <text value="Graph1"/>
                     </properties>
                   </component>
                 </children>

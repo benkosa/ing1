@@ -1,5 +1,8 @@
 package org.main._2zadanie;
 
+import org.main._2zadanie.Graph.Graph;
+import org.main._2zadanie.Graph.Graph1;
+import org.main._2zadanie.Graph.Graph2;
 import org.main._2zadanie.Workers.Worker;
 import org.main.shared.EventSimulation.EventSimulationCore;
 
@@ -47,6 +50,8 @@ public class GuiZadanie2 extends JFrame implements ISimDelegate{
     private JTextField a5TextField;
     private JTextField a20TextField;
     private JButton adjustSlowDownButton;
+    private JButton graph2Button;
+    private JButton graph1Button;
 
     public GuiZadanie2() {
         pauseButton.addActionListener(e -> stk.setPause(true));
@@ -67,6 +72,30 @@ public class GuiZadanie2 extends JFrame implements ISimDelegate{
             @Override
             public void actionPerformed(ActionEvent e) {
                 adjustSlowMode();
+            }
+        });
+        graph1Button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new Thread(() -> new Graph1(
+                        1,
+                        15,
+                        Long.parseLong(a100000TextField.getText()),
+                        Integer.parseInt(a0TextField.getText()),
+                        Integer.parseInt(a5TextField.getText())
+                )).start();
+            }
+        });
+        graph2Button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new Thread(() -> new Graph2(
+                        10,
+                        25,
+                        Long.parseLong(a100000TextField.getText()),
+                        Integer.parseInt(a0TextField.getText()),
+                        Integer.parseInt(a20TextField.getText())
+                )).start();
             }
         });
     }
