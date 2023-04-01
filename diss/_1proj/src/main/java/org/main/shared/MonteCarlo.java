@@ -30,6 +30,10 @@ public abstract class MonteCarlo extends SwingWorker<Double, Double> {
         return result;
     }
 
+    public long getReplications() {
+        return replications;
+    }
+
     public MonteCarlo(
             final long REPLICATIONS
     ) {

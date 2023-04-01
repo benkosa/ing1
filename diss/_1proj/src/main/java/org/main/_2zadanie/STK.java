@@ -168,26 +168,7 @@ public class STK extends EventSimulationCore {
 
     @Override
     protected void afterSimulation() {
-        System.out.printf("replikacie:                             %d\n", replications);
-        System.out.printf("pracovnikov 1:                          %d\n", group1.getNumberOfWorkers());
-        System.out.printf("pracovnikov 2:                          %d\n", group2.getNumberOfWorkers());
-        System.out.printf("vozidla v stk po ukonceni:              %f\n", averageVehiclesInSTK.totalResult());
-        System.out.printf(
-                "priemerny cas vozidla v stk:            %f <%f,%f>\n",
-                averageVehicleTimeInSystem.totalResult()/60,
-                averageVehicleTimeInSystem.sampleStandardDeviation.getConfidenceInterval(1.645 )[0],
-                averageVehicleTimeInSystem.sampleStandardDeviation.getConfidenceInterval(1.645 )[1]
-        );
-        System.out.printf("priemerny pocet volnych pracovnikov 1   %f\n", averageFreeWorker1.totalResult());
-        System.out.printf("priemerny pocet volnych pracovnikov 2   %f\n", averageFreeWorker2.totalResult());
-        System.out.printf("priemerna dlzka cakania v rade pred stk %f\n", averageWaitingBeforeSTK.totalResult()/60);
-        System.out.printf("priemerny pocet cakajucich pred stk     %f\n", averageQueueBeforeSTK.totalResult());
-        System.out.printf(
-                "priemerny pocet zakaznikov v systeme    %f <%f,%f>\n",
-                averageQueueInSystem.totalResult(),
-                averageQueueInSystem.sampleStandardDeviation.getConfidenceInterval(1.96 )[0],
-                averageQueueInSystem.sampleStandardDeviation.getConfidenceInterval(1.96 )[1]
-        );
+        forceRefresh();
     }
 
     @Override

@@ -88,5 +88,11 @@ public abstract class EventSimulationCore extends MonteCarlo implements ISimDele
         return stepLength > 0;
     }
 
+    public void forceRefresh () {
+        for (ISimDelegate delegate : delegates) {
+            delegate.refresh(this);
+        }
+    }
+
 
 }

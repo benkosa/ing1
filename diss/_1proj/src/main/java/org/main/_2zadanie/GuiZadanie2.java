@@ -52,6 +52,8 @@ public class GuiZadanie2 extends JFrame implements ISimDelegate{
     private JButton adjustSlowDownButton;
     private JButton graph2Button;
     private JButton graph1Button;
+    private JTextArea textArea1;
+    private JTextField textField1;
 
     public GuiZadanie2() {
         pauseButton.addActionListener(e -> stk.setPause(true));
@@ -129,7 +131,7 @@ public class GuiZadanie2 extends JFrame implements ISimDelegate{
                 Integer.parseInt(a5TextField.getText()),
                 Integer.parseInt(a20TextField.getText())
         );
-        //stk.registerDelegate(this);
+        stk.registerDelegate(this);
         stk.simulationStart();
     }
 
@@ -150,35 +152,60 @@ public class GuiZadanie2 extends JFrame implements ISimDelegate{
 
     @Override
     public void refresh(EventSimulationCore core) {
-        final STK stk = (STK)core;
-        refreshTable(ScrollPane1, new String[]{"i", "type", "start waiting"}, valuesToArrayVehicle(stk.arrivedVehicles));
-        refreshTable(ScrollPane2, new String[]{"id", "type", "start waiting"}, valuesToArrayVehicle(stk.queueBeforeStk.getQueue()));
-        refreshTable(ScrollPane3, new String[]{"id", "type", "start waiting"}, valuesToArrayVehicle(stk.queueInStk.getQueue()));
-        refreshTable(ScrollPane6, new String[]{"id", "type", "start waiting"}, hashMapToArrayVehicles(stk.queueInStk.getLockedQueue()));
-        refreshTable(ScrollPane4, new String[]{"id", "type", "start waiting"}, valuesToArrayVehicle(stk.queueAfterStk.getQueue()));
-        refreshTable(ScrollPane5, new String[]{"i", "type", "start waiting"}, valuesToArrayVehicle(stk.leftVehicles));
+        if (core.isLiveMode()) {
+            final STK stk = (STK) core;
+            refreshTable(ScrollPane1, new String[]{"i", "type", "start waiting"}, valuesToArrayVehicle(stk.arrivedVehicles));
+            refreshTable(ScrollPane2, new String[]{"id", "type", "start waiting"}, valuesToArrayVehicle(stk.queueBeforeStk.getQueue()));
+            refreshTable(ScrollPane3, new String[]{"id", "type", "start waiting"}, valuesToArrayVehicle(stk.queueInStk.getQueue()));
+            refreshTable(ScrollPane6, new String[]{"id", "type", "start waiting"}, hashMapToArrayVehicles(stk.queueInStk.getLockedQueue()));
+            refreshTable(ScrollPane4, new String[]{"id", "type", "start waiting"}, valuesToArrayVehicle(stk.queueAfterStk.getQueue()));
+            refreshTable(ScrollPane5, new String[]{"i", "type", "start waiting"}, valuesToArrayVehicle(stk.leftVehicles));
 
-        refreshTable(ScrollPane7, new String[]{"id w"}, valuesToArrayWorkers(stk.group1.getWorkers()));
-        refreshTable(ScrollPane8, new String[]{"id w", "id c"}, hashMapToArrayWorkers(stk.group1.getHiredWorkers()));
-        refreshTable(ScrollPane9, new String[]{"id w"}, valuesToArrayWorkers(stk.group2.getWorkers()));
-        refreshTable(ScrollPane10, new String[]{"id w", "id c"}, hashMapToArrayWorkers(stk.group2.getHiredWorkers()));
+            refreshTable(ScrollPane7, new String[]{"id w"}, valuesToArrayWorkers(stk.group1.getWorkers()));
+            refreshTable(ScrollPane8, new String[]{"id w", "id c"}, hashMapToArrayWorkers(stk.group1.getHiredWorkers()));
+            refreshTable(ScrollPane9, new String[]{"id w"}, valuesToArrayWorkers(stk.group2.getWorkers()));
+            refreshTable(ScrollPane10, new String[]{"id w", "id c"}, hashMapToArrayWorkers(stk.group2.getHiredWorkers()));
 
-        count1.setText(stk.arrivedVehicles.size()+"");
-        count2.setText(stk.queueBeforeStk.getQueue().size()+"");
-        count3.setText(stk.queueInStk.getLockedQueue().size()+"");
-        count4.setText(stk.queueAfterStk.getQueue().size()+"");
-        count5.setText(stk.leftVehicles.size()+"");
-        count6.setText(stk.queueInStk.getQueue().size()+"");
+            count1.setText(stk.arrivedVehicles.size() + "");
+            count2.setText(stk.queueBeforeStk.getQueue().size() + "");
+            count3.setText(stk.queueInStk.getLockedQueue().size() + "");
+            count4.setText(stk.queueAfterStk.getQueue().size() + "");
+            count5.setText(stk.leftVehicles.size() + "");
+            count6.setText(stk.queueInStk.getQueue().size() + "");
 
-        g1uCount.setText(stk.group1.getWorkers().size()+"");
-        g1nuCount.setText(stk.group1.getHiredWorkers().size()+"");
-        g2uCount.setText(stk.group2.getWorkers().size()+"");
-        g2nuCount.setText(stk.group2.getHiredWorkers().size()+"");
+            g1uCount.setText(stk.group1.getWorkers().size() + "");
+            g1nuCount.setText(stk.group1.getHiredWorkers().size() + "");
+            g2uCount.setText(stk.group2.getWorkers().size() + "");
+            g2nuCount.setText(stk.group2.getHiredWorkers().size() + "");
 
-        simTime.setText(stk.getCurrentTime()+"");
+            simTime.setText(stk.getCurrentTime() + "");
 
-        getLastEventInfo();
-        this.realTime.setText(msToHMS(stk.getCurrentTime()));
+            getLastEventInfo();
+            this.realTime.setText(msToHMS(stk.getCurrentTime()));
+        }
+        String result = "";
+        result += String.format("replikacie:\t\t\t%d\n", stk.getReplications());
+        result += String.format("pracovnikov 1:\t\t\t%d\n", stk.group1.getNumberOfWorkers());
+        result += String.format("pracovnikov 2:\t\t\t%d\n", stk.group2.getNumberOfWorkers());
+        result += String.format("vozidla v stk po ukonceni:\t\t%f\n", stk.averageVehiclesInSTK.totalResult());
+        result += String.format(
+                "priemerny cas vozidla v stk:\t\t%f <%f,%f>\n",
+                stk.averageVehicleTimeInSystem.totalResult()/60,
+                stk.averageVehicleTimeInSystem.sampleStandardDeviation.getConfidenceInterval(1.645 )[0],
+                stk.averageVehicleTimeInSystem.sampleStandardDeviation.getConfidenceInterval(1.645 )[1]
+        );
+        result += String.format("priemerny pocet volnych pracovnikov 1\t%f\n", stk.averageFreeWorker1.totalResult());
+        result += String.format("priemerny pocet volnych pracovnikov 2\t%f\n", stk.averageFreeWorker2.totalResult());
+        result += String.format("priemerna dlzka cakania v rade pred stk\t%f\n", stk.averageWaitingBeforeSTK.totalResult()/60);
+        result += String.format("priemerny pocet cakajucich pred stk\t%f\n", stk.averageQueueBeforeSTK.totalResult());
+        result += String.format(
+                "priemerny pocet zakaznikov v systeme\t%f <%f,%f>\n",
+                stk.averageQueueInSystem.totalResult(),
+                stk.averageQueueInSystem.sampleStandardDeviation.getConfidenceInterval(1.96 )[0],
+                stk.averageQueueInSystem.sampleStandardDeviation.getConfidenceInterval(1.96 )[1]
+        );
+
+        this.textArea1.setText(result);
     }
 
     private String msToHMS(double seconds) {
