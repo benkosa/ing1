@@ -19,11 +19,12 @@ public abstract class Graph extends SwingWorker<Double, Double> {
     SwingWrapper<XYChart> sw;
     XYChart chart;
 
-    public Graph(int start, int end) {
+    public Graph(int start, int end, String labelX, String labelY, String chartTitle) {
+        this.chartTitle = chartTitle;
         this.start = start;
         this.end = end;
 
-        chart = QuickChart.getChart(chartTitle, "Replikacie", "Vysledok pokusu", chartTitle, new double[] { 0 }, new double[] { 0 });
+        chart = QuickChart.getChart(chartTitle, labelX, labelY, chartTitle, new double[] { 0 }, new double[] { 0 });
         chart.getStyler().setLegendVisible(false);
         chart.getStyler().setLegendPadding(10);
         chart.getStyler().setXAxisMaxLabelCount(50);

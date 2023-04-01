@@ -15,7 +15,7 @@ public class Graph2 extends Graph{
     }
 
     public Graph2(int start, int end, long replications, int seed, int workers1) {
-        super(start, end);
+        super(start, end, "počte pracovníkov skupiny 2", "priemerny čas stráveny zákazníkom v prevádzke", "Graph 2");
         this.replications = replications;
         this.seed = seed;
         this.workers1 = workers1;
