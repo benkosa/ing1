@@ -9,6 +9,7 @@ import org.main.shared.Statistics.AverageVehicleTimeInSystem;
 import org.main.shared.Statistics.AverageVehiclesInSTK;
 import org.main.shared.Statistics.AverageWaitingTimeInQueue;
 
+import java.util.Collection;
 import java.util.LinkedList;
 
 public class STK extends EventSimulationCore {
@@ -31,6 +32,8 @@ public class STK extends EventSimulationCore {
     public final AverageQueueLength averageFreeWorker1;
     public final AverageQueueLength averageFreeWorker2;
     public final AverageWaitingTimeInQueue averageQueueBeforeSTK = new AverageWaitingTimeInQueue(this);
+    private final Queue<Long, Vehicle> queueInSystem = new Queue<>();
+    public final AverageQueueLength averageQueueInSystem = new AverageQueueLength(this, queueInSystem.getLockedQueue());
 
 
     public STK(long replications, long maxTime, int seed, int workers1, int workers2) {
@@ -123,11 +126,15 @@ public class STK extends EventSimulationCore {
         addEvent(new VehicleInspectionEndEvent(vehicle.getInspectionTime(), this, vehicle));
     }
     protected void saveArrivedVehicle(Vehicle vehicle) {
+        queueInSystem.addQueueLocked(vehicle.id, vehicle);
+        averageQueueInSystem.countAverageQueueLength();
         if (isLiveMode()) {
             arrivedVehicles.add(vehicle);
         }
     }
     protected void saveLeftVehicle(Vehicle vehicle) {
+        queueInSystem.move(vehicle.id);
+        averageQueueInSystem.countAverageQueueLength();
         if (isLiveMode()) {
             leftVehicles.add(vehicle);
         }
@@ -138,10 +145,12 @@ public class STK extends EventSimulationCore {
         averageFreeWorker1.initialize();
         averageFreeWorker2.initialize();
         averageQueueBeforeSTK.initialize();
+        averageQueueInSystem.initialize();
 
         queueBeforeStk.clear();
         queueInStk.clear();
         queueAfterStk.clear();
+        queueInSystem.clear();
 
         group1.clear();
         group2.clear();
@@ -156,14 +165,25 @@ public class STK extends EventSimulationCore {
 
     @Override
     protected void afterSimulation() {
-        System.out.println("replikacie:                             " + replications);
-        System.out.println("pracovnikov 1:                          " + group1.getNumberOfWorkers());
-        System.out.println("pracovnikov 2:                          " + group2.getNumberOfWorkers());
-        System.out.println("vozidla v stk po ukonceni:              " + averageVehiclesInSTK.totalResult());
-        System.out.println("priemerny cas vozidla v stk:            " + averageVehicleTimeInSystem.totalResult()/60 + " min");
-        System.out.println("priemerny pocet volnych pracovnikov 1   " + averageFreeWorker1.totalResult());
-        System.out.println("priemerny pocet volnych pracovnikov 2   " + averageFreeWorker2.totalResult());
-        System.out.println("priemerna dlzka cakania v rade pred stk " + averageQueueBeforeSTK.totalResult()/60+ " min");
+        System.out.printf("replikacie:                             %d\n", replications);
+        System.out.printf("pracovnikov 1:                          %d\n", group1.getNumberOfWorkers());
+        System.out.printf("pracovnikov 2:                          %d\n", group2.getNumberOfWorkers());
+        System.out.printf("vozidla v stk po ukonceni:              %f\n", averageVehiclesInSTK.totalResult());
+        System.out.printf(
+                "priemerny cas vozidla v stk:            %f <%f,%f>\n",
+                averageVehicleTimeInSystem.totalResult()/60,
+                averageVehicleTimeInSystem.sampleStandardDeviation.getConfidenceInterval(1.96 )[0],
+                averageVehicleTimeInSystem.sampleStandardDeviation.getConfidenceInterval(1.96 )[1]
+        );
+        System.out.printf("priemerny pocet volnych pracovnikov 1   %f\n", averageFreeWorker1.totalResult());
+        System.out.printf("priemerny pocet volnych pracovnikov 2   %f\n", averageFreeWorker2.totalResult());
+        System.out.printf("priemerna dlzka cakania v rade pred stk %f\n", averageQueueBeforeSTK.totalResult()/60);
+        System.out.printf(
+                "priemerny pocet zakaznikov v systeme    %f <%f,%f>\n",
+                averageQueueInSystem.totalResult(),
+                averageQueueInSystem.sampleStandardDeviation.getConfidenceInterval(1.96 )[0],
+                averageQueueInSystem.sampleStandardDeviation.getConfidenceInterval(1.96 )[1]
+        );
     }
 
     @Override
@@ -179,6 +199,7 @@ public class STK extends EventSimulationCore {
         averageFreeWorker1.countResult();
         averageFreeWorker2.countResult();
         averageQueueBeforeSTK.countResult();
+        averageQueueInSystem.countResult();
         initialize();
     }
 }

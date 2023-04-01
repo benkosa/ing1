@@ -12,10 +12,14 @@ public class AverageVehicleTimeInSystem extends Statistics{
     private double sumTimeInSystem = 0;
     private long countVehicles;
 
+    public SampleStandardDeviation sampleStandardDeviation = new SampleStandardDeviation();
+
     final private STK stk;
     @Override
     protected double replicationResult() {
-        return sumTimeInSystem/countVehicles;
+        double result = (sumTimeInSystem/countVehicles);
+        sampleStandardDeviation.countReplication(result/60);
+        return result;
     }
 
     @Override
