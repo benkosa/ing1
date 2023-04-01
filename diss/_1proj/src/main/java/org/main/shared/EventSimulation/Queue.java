@@ -20,7 +20,8 @@ public class Queue<I, T> {
     public Long getCapacity() {
         return capacity;
     }
-    private AverageWaitingTimeInQueue averageQueueBeforeSTK = null;
+    private AverageWaitingTimeInQueue averageWaitingBeforeSTK = null;
+    private AverageQueueLength averageQueueLength = null;
 
     /**
      * return number of element in queue
@@ -43,6 +44,7 @@ public class Queue<I, T> {
         if (capacity != null && capacity <= getSize()) {
             System.out.println("error: queue capacity overflow");
         }
+        countAverageQueueLength();
         queue.add(element);
     }
 
@@ -76,6 +78,7 @@ public class Queue<I, T> {
     public T poll() {
         final T element = queue.poll();
         countStatistics(element);
+        countAverageQueueLength();
         return element;
     }
 
@@ -98,13 +101,22 @@ public class Queue<I, T> {
         return getSize() < capacity;
     }
     public void assignStatistics(AverageWaitingTimeInQueue averageQueueBeforeSTK) {
-        this.averageQueueBeforeSTK = averageQueueBeforeSTK;
+        this.averageWaitingBeforeSTK = averageQueueBeforeSTK;
+    }
+    public void assignStatisticsQueueLength(AverageQueueLength averageQueueLength) {
+        this.averageQueueLength = averageQueueLength;
     }
 
     private void countStatistics(T element) {
-        if (averageQueueBeforeSTK != null) {
+        if (averageWaitingBeforeSTK != null) {
             Vehicle vehicle = (Vehicle) element;
-            averageQueueBeforeSTK.countAverageTimeInQueue(vehicle.getStartWaitingInQue());
+            averageWaitingBeforeSTK.countAverageTimeInQueue(vehicle.getStartWaitingInQue());
+        }
+    }
+
+    private void countAverageQueueLength() {
+        if (averageQueueLength != null) {
+            averageQueueLength.countAverageQueueLength();
         }
     }
 

@@ -82,7 +82,7 @@ public class GuiZadanie2 extends JFrame implements ISimDelegate{
                         15,
                         Long.parseLong(a100000TextField.getText()),
                         Integer.parseInt(a0TextField.getText()),
-                        Integer.parseInt(a5TextField.getText())
+                        Integer.parseInt(a20TextField.getText())
                 )).start();
             }
         });
@@ -94,7 +94,7 @@ public class GuiZadanie2 extends JFrame implements ISimDelegate{
                         25,
                         Long.parseLong(a100000TextField.getText()),
                         Integer.parseInt(a0TextField.getText()),
-                        Integer.parseInt(a20TextField.getText())
+                        Integer.parseInt(a5TextField.getText())
                 )).start();
             }
         });

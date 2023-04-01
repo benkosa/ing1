@@ -15,6 +15,7 @@ public class VehicleArrivedEvent extends VehicleEvent{
             stk.group1.hireWorker(this.vehicle);
             stk.arrivedInStkQueue(this.vehicle);
             stk.scheduleReceiveVehicle(this.vehicle);
+            stk.averageQueueBeforeSTK.countAverageQueueLength();
         // vojdeme do radu pred stk
         } else {
             vehicle.arrivedInQueue(stk.getCurrentTime());

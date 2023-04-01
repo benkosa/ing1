@@ -10,7 +10,7 @@ public class Graph1  extends Graph{
     public double onePass(int i) {
         STK stk = new STK(replications, 8*60*60, seed, i, workers2);
         stk.simulationStartSingleThread();
-        return stk.averageWaitingBeforeSTK.totalResult()/60;
+        return stk.averageQueueBeforeSTK.totalResult();
     }
 
     public Graph1(int start, int end, long replications, int seed, int workers2) {

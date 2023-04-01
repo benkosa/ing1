@@ -33,6 +33,7 @@ public class STK extends EventSimulationCore {
     public final AverageWaitingTimeInQueue averageWaitingBeforeSTK = new AverageWaitingTimeInQueue(this);
     private final Queue<Long, Vehicle> queueInSystem = new Queue<>();
     public final AverageQueueLength averageQueueInSystem = new AverageQueueLength(this, queueInSystem.getLockedQueue());
+    public final AverageQueueLength averageQueueBeforeSTK = new AverageQueueLength(this, queueBeforeStk.getQueue());
 
 
     public STK(long replications, long maxTime, int seed, int workers1, int workers2) {
@@ -47,6 +48,7 @@ public class STK extends EventSimulationCore {
         averageFreeWorker2 = new AverageQueueLength(this, group2.getWorkers());
         workersAssignStatistics();
         queueBeforeStk.assignStatistics(averageWaitingBeforeSTK);
+        queueBeforeStk.assignStatisticsQueueLength(averageQueueBeforeSTK);
 
     }
 
@@ -63,6 +65,7 @@ public class STK extends EventSimulationCore {
         averageFreeWorker2 = new AverageQueueLength(this, group2.getWorkers());
         workersAssignStatistics();
         queueBeforeStk.assignStatistics(averageWaitingBeforeSTK);
+        queueBeforeStk.assignStatisticsQueueLength(averageQueueBeforeSTK);
     }
 
 
@@ -145,6 +148,7 @@ public class STK extends EventSimulationCore {
         averageFreeWorker2.initialize();
         averageWaitingBeforeSTK.initialize();
         averageQueueInSystem.initialize();
+        averageQueueBeforeSTK.initialize();
 
         queueBeforeStk.clear();
         queueInStk.clear();
@@ -177,6 +181,7 @@ public class STK extends EventSimulationCore {
         System.out.printf("priemerny pocet volnych pracovnikov 1   %f\n", averageFreeWorker1.totalResult());
         System.out.printf("priemerny pocet volnych pracovnikov 2   %f\n", averageFreeWorker2.totalResult());
         System.out.printf("priemerna dlzka cakania v rade pred stk %f\n", averageWaitingBeforeSTK.totalResult()/60);
+        System.out.printf("priemerny pocet cakajucich pred stk     %f\n", averageQueueBeforeSTK.totalResult());
         System.out.printf(
                 "priemerny pocet zakaznikov v systeme    %f <%f,%f>\n",
                 averageQueueInSystem.totalResult(),
@@ -199,6 +204,7 @@ public class STK extends EventSimulationCore {
         averageFreeWorker2.countResult();
         averageWaitingBeforeSTK.countResult();
         averageQueueInSystem.countResult();
+        averageQueueBeforeSTK.countResult();
         initialize();
     }
 
