@@ -188,9 +188,4 @@ public class STK extends EventSimulationCore {
         averageQueueBeforeSTK.countResult();
         initialize();
     }
-
-    public void changeWorkers(int w1, int w2) {
-        group1 = new WorkersGroup(w1);
-        group2 = new WorkersGroup(w2);
-    }
 }
