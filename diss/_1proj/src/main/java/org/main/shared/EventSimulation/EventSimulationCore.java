@@ -16,10 +16,10 @@ public abstract class EventSimulationCore extends MonteCarlo implements ISimDele
     }
     final private List< ISimDelegate > delegates = new ArrayList<>();
     @Override
-    public void refresh(EventSimulationCore stk) {
+    public void refresh(EventSimulationCore stk, String message) {
         if (isLiveMode()) {
             for (ISimDelegate delegate : delegates) {
-                delegate.refresh(this);
+                delegate.refresh(this, message);
             }
         }
     }
@@ -78,7 +78,7 @@ public abstract class EventSimulationCore extends MonteCarlo implements ISimDele
             this.currentTime = event.eventTime;
             event.execute();
             lastEvent = event;
-            refresh(null);
+            refresh(null, null);
         }
         currentTime = 0;
         timeLine.clear();
@@ -88,9 +88,9 @@ public abstract class EventSimulationCore extends MonteCarlo implements ISimDele
         return stepLength > 0;
     }
 
-    public void forceRefresh () {
+    public void forceRefresh (String message) {
         for (ISimDelegate delegate : delegates) {
-            delegate.refresh(this);
+            delegate.refresh(this, message);
         }
     }
 

@@ -151,8 +151,8 @@ public class GuiZadanie2 extends JFrame implements ISimDelegate{
     }
 
     @Override
-    public void refresh(EventSimulationCore core) {
-        if (core.isLiveMode()) {
+    public void refresh(EventSimulationCore core, String message) {
+        if (message == null) {
             final STK stk = (STK) core;
             refreshTable(ScrollPane1, new String[]{"i", "type", "start waiting"}, valuesToArrayVehicle(stk.arrivedVehicles));
             refreshTable(ScrollPane2, new String[]{"id", "type", "start waiting"}, valuesToArrayVehicle(stk.queueBeforeStk.getQueue()));
@@ -182,30 +182,31 @@ public class GuiZadanie2 extends JFrame implements ISimDelegate{
 
             getLastEventInfo();
             this.realTime.setText(msToHMS(stk.getCurrentTime()));
-        }
-        String result = "";
-        result += String.format("replikacie:\t\t\t%d\n", stk.getReplications());
-        result += String.format("pracovnikov 1:\t\t\t%d\n", stk.group1.getNumberOfWorkers());
-        result += String.format("pracovnikov 2:\t\t\t%d\n", stk.group2.getNumberOfWorkers());
-        result += String.format("vozidla v stk po ukonceni:\t\t%f\n", stk.averageVehiclesInSTK.totalResult());
-        result += String.format(
-                "priemerny cas vozidla v stk:\t\t%f <%f,%f>\n",
-                stk.averageVehicleTimeInSystem.totalResult()/60,
-                stk.averageVehicleTimeInSystem.sampleStandardDeviation.getConfidenceInterval(1.645 )[0],
-                stk.averageVehicleTimeInSystem.sampleStandardDeviation.getConfidenceInterval(1.645 )[1]
-        );
-        result += String.format("priemerny pocet volnych pracovnikov 1\t%f\n", stk.averageFreeWorker1.totalResult());
-        result += String.format("priemerny pocet volnych pracovnikov 2\t%f\n", stk.averageFreeWorker2.totalResult());
-        result += String.format("priemerna dlzka cakania v rade pred stk\t%f\n", stk.averageWaitingBeforeSTK.totalResult()/60);
-        result += String.format("priemerny pocet cakajucich pred stk\t%f\n", stk.averageQueueBeforeSTK.totalResult());
-        result += String.format(
-                "priemerny pocet zakaznikov v systeme\t%f <%f,%f>\n",
-                stk.averageQueueInSystem.totalResult(),
-                stk.averageQueueInSystem.sampleStandardDeviation.getConfidenceInterval(1.96 )[0],
-                stk.averageQueueInSystem.sampleStandardDeviation.getConfidenceInterval(1.96 )[1]
-        );
+        }else if (message.equals("result")) {
+            String result = "";
+            result += String.format("replikacie:\t\t\t%d\n", stk.getReplications());
+            result += String.format("pracovnikov 1:\t\t\t%d\n", stk.group1.getNumberOfWorkers());
+            result += String.format("pracovnikov 2:\t\t\t%d\n", stk.group2.getNumberOfWorkers());
+            result += String.format("vozidla v stk po ukonceni:\t\t%f\n", stk.averageVehiclesInSTK.totalResult());
+            result += String.format(
+                    "priemerny cas vozidla v stk:\t\t%f <%f,%f>\n",
+                    stk.averageVehicleTimeInSystem.totalResult() / 60,
+                    stk.averageVehicleTimeInSystem.sampleStandardDeviation.getConfidenceInterval(1.645)[0],
+                    stk.averageVehicleTimeInSystem.sampleStandardDeviation.getConfidenceInterval(1.645)[1]
+            );
+            result += String.format("priemerny pocet volnych pracovnikov 1\t%f\n", stk.averageFreeWorker1.totalResult());
+            result += String.format("priemerny pocet volnych pracovnikov 2\t%f\n", stk.averageFreeWorker2.totalResult());
+            result += String.format("priemerna dlzka cakania v rade pred stk\t%f\n", stk.averageWaitingBeforeSTK.totalResult() / 60);
+            result += String.format("priemerny pocet cakajucich pred stk\t%f\n", stk.averageQueueBeforeSTK.totalResult());
+            result += String.format(
+                    "priemerny pocet zakaznikov v systeme\t%f <%f,%f>\n",
+                    stk.averageQueueInSystem.totalResult(),
+                    stk.averageQueueInSystem.sampleStandardDeviation.getConfidenceInterval(1.96)[0],
+                    stk.averageQueueInSystem.sampleStandardDeviation.getConfidenceInterval(1.96)[1]
+            );
 
-        this.textArea1.setText(result);
+            this.textArea1.setText(result);
+        }
     }
 
     private String msToHMS(double seconds) {

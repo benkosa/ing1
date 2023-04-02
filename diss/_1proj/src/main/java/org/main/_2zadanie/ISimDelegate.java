@@ -4,5 +4,5 @@ import org.main.shared.EventSimulation.EventSimulationCore;
 
 public interface ISimDelegate {
     /* Metóda určená pre aktualizáciu GUI*/
-    void refresh(EventSimulationCore core);
+    void refresh(EventSimulationCore core, String message);
 }

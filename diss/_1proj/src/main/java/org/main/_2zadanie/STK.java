@@ -168,7 +168,7 @@ public class STK extends EventSimulationCore {
 
     @Override
     protected void afterSimulation() {
-        forceRefresh();
+        forceRefresh("result");
     }
 
     @Override
