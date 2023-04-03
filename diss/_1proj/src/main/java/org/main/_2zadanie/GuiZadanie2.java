@@ -1,6 +1,5 @@
 package org.main._2zadanie;
 
-import org.main._2zadanie.Graph.Graph;
 import org.main._2zadanie.Graph.Graph1;
 import org.main._2zadanie.Graph.Graph2;
 import org.main._2zadanie.Workers.Worker;
@@ -9,6 +8,8 @@ import org.main.shared.EventSimulation.EventSimulationCore;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -53,53 +54,47 @@ public class GuiZadanie2 extends JFrame implements ISimDelegate{
     private JButton graph2Button;
     private JButton graph1Button;
     private JTextArea textArea1;
-    private JTextField textField1;
+    private JButton a10Button;
+    private JButton a100Button;
+    private JButton a2000Button;
+    private JButton a1000Button;
 
     public GuiZadanie2() {
         pauseButton.addActionListener(e -> stk.setPause(true));
         playButton.addActionListener(e -> stk.setPause(false));
-        startRealTimeButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                startSimRealTime();
-            }
-        });
-        startTurboButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                startSimTurbo();
-            }
-        });
-        adjustSlowDownButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                adjustSlowMode();
-            }
-        });
-        graph1Button.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                new Thread(() -> new Graph1(
-                        1,
-                        15,
-                        Long.parseLong(a100000TextField.getText()),
-                        Integer.parseInt(a0TextField.getText()),
-                        Integer.parseInt(a20TextField.getText())
-                )).start();
-            }
-        });
-        graph2Button.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                new Thread(() -> new Graph2(
-                        10,
-                        25,
-                        Long.parseLong(a100000TextField.getText()),
-                        Integer.parseInt(a0TextField.getText()),
-                        Integer.parseInt(a5TextField.getText())
-                )).start();
-            }
-        });
+        startRealTimeButton.addActionListener(e -> startSimRealTime());
+        startTurboButton.addActionListener(e -> startSimTurbo());
+        adjustSlowDownButton.addActionListener(e -> adjustSlowMode());
+        graph1Button.addActionListener(e -> new Thread(() -> new Graph1(
+                1,
+                15,
+                Long.parseLong(a100000TextField.getText()),
+                Integer.parseInt(a0TextField.getText()),
+                Integer.parseInt(a20TextField.getText())
+        )).start());
+        graph2Button.addActionListener(e -> new Thread(() -> new Graph2(
+                10,
+                25,
+                Long.parseLong(a100000TextField.getText()),
+                Integer.parseInt(a0TextField.getText()),
+                Integer.parseInt(a5TextField.getText())
+        )).start());
+        a10Button.addActionListener(e -> stk.changeSlowDown(
+                Integer.parseInt(a60TextField.getText()),
+                10
+        ));
+        a100Button.addActionListener(e -> stk.changeSlowDown(
+                Integer.parseInt(a60TextField.getText()),
+                100
+        ));
+        a1000Button.addActionListener(e -> stk.changeSlowDown(
+                Integer.parseInt(a60TextField.getText()),
+                1000
+        ));
+        a2000Button.addActionListener(e -> stk.changeSlowDown(
+                Integer.parseInt(a60TextField.getText()),
+                2000
+        ));
     }
 
     private GuiZadanie2 guiPointer;

@@ -40,7 +40,7 @@ public class STK extends EventSimulationCore {
         super(replications, maxTime);
         seedGenerator = new SeedGenerator(seed);
         vehicleTypeGen = new UniformDouble(seedGenerator);
-        VehicleArrived = new ExponentialDistribution(seedGenerator, (double)(60/23)*60);
+        VehicleArrived = new ExponentialDistribution(seedGenerator, (60.0/23.0)*60);
         paymentTime = new DiscreteUniformDistribution(seedGenerator, 65, 177);
         triangularDistribution = new TriangularDistribution(seedGenerator, 180, 695, 431);
         setWorkers(workers1, workers2);
@@ -56,7 +56,7 @@ public class STK extends EventSimulationCore {
         super(replications, maxTime);
         seedGenerator = new SeedGenerator(seed);
         vehicleTypeGen = new UniformDouble(seedGenerator);
-        VehicleArrived = new ExponentialDistribution(seedGenerator, (double)(60/23)*60);
+        VehicleArrived = new ExponentialDistribution(seedGenerator, (60.0/23.0)*60);
         paymentTime = new DiscreteUniformDistribution(seedGenerator, 65, 177);
         triangularDistribution = new TriangularDistribution(seedGenerator, 180, 695, 431);
         setWorkers(workers1, workers2);
@@ -92,7 +92,7 @@ public class STK extends EventSimulationCore {
                 averageVehiclesInSTK.vehicleArrived();
                 addEvent(
                         new VehicleArrivedEvent(
-                                VehicleArrived.sample(),
+                                arrivedTime,
                                 this,
                                 new Vehicle(seedGenerator, vehicleTypeGen.sample(), vehicleId += 1)
                         )
