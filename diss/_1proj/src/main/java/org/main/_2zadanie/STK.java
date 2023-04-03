@@ -100,6 +100,16 @@ public class STK extends EventSimulationCore {
             }
         }
     }
+    public void scheduleNewArrival(int time) {
+        averageVehiclesInSTK.vehicleArrived();
+        addEvent(
+                new VehicleArrivedEvent(
+                        time,
+                        this,
+                        new Vehicle(seedGenerator, vehicleTypeGen.sample(), vehicleId += 1)
+                )
+        );
+    }
     public void scheduleReceiveVehicle(Vehicle vehicle){
         addEvent(new VehicleReceivedEvent(0, this, vehicle));
     }
@@ -174,7 +184,7 @@ public class STK extends EventSimulationCore {
     @Override
     protected void beforeReplication() {
         initialize();
-        scheduleNewArrival();
+        scheduleNewArrival(0);
     }
 
     @Override
