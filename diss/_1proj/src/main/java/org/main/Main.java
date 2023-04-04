@@ -33,10 +33,10 @@ public class Main {
 //            new Thread(GuiZadanie2::new).start();
 //            new GuiZadanie2().start();
 
-        //new Thread(() -> new GuiZadanie2().start()).start();
+        new Thread(() -> new GuiZadanie2().start()).start();
 
-        MonteCarlo test = new Shop(1, 100000000, 674567);
-        test.simulationStartSingleThread();
+//        MonteCarlo test = new Shop(1, 100000000, 674567);
+//        test.simulationStartSingleThread();
 
 
         //DistTests distTests = new DistTests();
