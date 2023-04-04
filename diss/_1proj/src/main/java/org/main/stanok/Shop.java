@@ -48,6 +48,7 @@ public class Shop extends EventSimulationCore {
 
     @Override
     protected void beforeReplication() {
+        System.out.println("bol som tu");
         initialize();
         scheduleNewArrival();
     }
