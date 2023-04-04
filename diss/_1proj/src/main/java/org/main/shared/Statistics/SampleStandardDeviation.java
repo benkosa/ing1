@@ -4,7 +4,7 @@ public class SampleStandardDeviation {
 
     double sum1 = 0;
     double sum2 = 0;
-    long samples = 0;
+    double samples = 0;
 
     public void countReplication(double result) {
         sum1+= Math.pow(result, 2);
