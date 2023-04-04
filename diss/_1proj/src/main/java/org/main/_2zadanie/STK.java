@@ -115,9 +115,9 @@ public class STK extends EventSimulationCore {
 
     public void scheduleNewArrival() {
         //24300 == (6*60+45)*60
-        if (getCurrentTime() < 24300) {
+        //if (getCurrentTime() < 24300) {
             final double arrivedTime = VehicleArrived.sample();
-            if ((getCurrentTime() + arrivedTime) < 24300) {
+            if ((getCurrentTime() + arrivedTime) <= 24300) {
                 averageVehiclesInSTK.vehicleArrived();
                 addEvent(
                         new VehicleArrivedEvent(
@@ -127,7 +127,7 @@ public class STK extends EventSimulationCore {
                         )
                 );
             }
-        }
+       // }
     }
     public void scheduleNewArrival(int time) {
         averageVehiclesInSTK.vehicleArrived();
@@ -149,6 +149,7 @@ public class STK extends EventSimulationCore {
         return queueInStk.getReadySize() > 0;
     }
     public void arrivedInStkQueue(Vehicle vehicle) {
+        vehicle.startWaitingInQue = getCurrentTime();
         this.queueInStk.addQueueLocked(vehicle.id, vehicle);
     }
     public void scheduleReceiveVehicleEnd(Vehicle vehicle) {

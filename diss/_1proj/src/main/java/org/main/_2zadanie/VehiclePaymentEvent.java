@@ -6,22 +6,6 @@ public class VehiclePaymentEvent extends VehicleEvent {
     @Override
     public void execute() {
         stk.scheduleEndPayment(this.vehicle);
-        // ak niekto caka na platbu a je volny zamestanec zo skupiny 1
-        if (stk.queueAfterStk.getSize() > 0 && stk.group1.isWorkerFree()) {
-            final Vehicle newVehicle = stk.queueAfterStk.poll();
-            stk.group1.hireWorker(newVehicle);
-            stk.scheduleStartPayment(newVehicle);
-        // ak niekto caka pred stk a je volny zamestnace zo skupiny 1 a je volne miesto na parkovisku
-        } else if (
-                stk.queueBeforeStk.getSize() > 0 &&
-                stk.isSpaceInsideStk() &&
-                stk.group1.isWorkerFree()
-        ) {
-            final Vehicle newVehicle = stk.queueBeforeStk.poll();
-            stk.group1.hireWorker(newVehicle);
-            stk.arrivedInStkQueue(newVehicle);
-            stk.scheduleReceiveVehicle(newVehicle);
-        }
     }
 
     public VehiclePaymentEvent(double eventTime, EventSimulationCore myCore, Vehicle vehicle) {

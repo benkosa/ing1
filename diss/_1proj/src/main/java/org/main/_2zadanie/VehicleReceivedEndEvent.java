@@ -8,8 +8,8 @@ public class VehicleReceivedEndEvent extends VehicleEvent{
         vehicle.arrivedInQueue(stk.getCurrentTime());
         stk.queueInStk.move(vehicle.id);
 
-        //ak je volny vorker zp skupiny 2 a cakaju auta na inspekciu
-        if (stk.group2.isWorkerFree() && stk.isWaitingCarForInspection()) {
+        //ak je volny worker zp skupiny 2 a cakaju auta na inspekciu
+        if (stk.group2.isWorkerFree()) {
             final Vehicle newVehicle = stk.queueInStk.poll();
             stk.group2.hireWorker(newVehicle);
             stk.scheduleStartInspection(newVehicle);
@@ -17,15 +17,14 @@ public class VehicleReceivedEndEvent extends VehicleEvent{
 
         stk.group1.freeWorker(vehicle);
         // ak niekto caka na platbu a je volny zamestanec zo skupiny 1
-        if (stk.queueAfterStk.getSize() > 0 && stk.group1.isWorkerFree()) {
+        if (stk.queueAfterStk.getSize() > 0) {
             final Vehicle newVehicle = stk.queueAfterStk.poll();
             stk.group1.hireWorker(newVehicle);
             stk.scheduleStartPayment(newVehicle);
             // ak niekto caka pred stk a je volny zamestnace zo skupiny 1 a je volne miesto na parkovisku
         } else if (
                 stk.queueBeforeStk.getSize() > 0 &&
-                stk.isSpaceInsideStk() &&
-                stk.group1.isWorkerFree()
+                stk.isSpaceInsideStk()
         ) {
             final Vehicle newVehicle = stk.queueBeforeStk.poll();
             stk.group1.hireWorker(newVehicle);
