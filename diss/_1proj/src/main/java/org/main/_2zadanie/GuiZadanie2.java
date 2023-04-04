@@ -185,13 +185,13 @@ public class GuiZadanie2 extends JFrame implements ISimDelegate{
             result += String.format("vozidla v stk po ukonceni:\t\t%f\n", stk.averageVehiclesInSTK.totalResult());
             result += String.format(
                     "priemerny cas vozidla v stk:\t\t%f <%f,%f>\n",
-                    stk.averageVehicleTimeInSystem.totalResult() / 60,
+                    stk.averageVehicleTimeInSystem.totalResult() / 60.,
                     stk.averageVehicleTimeInSystem.sampleStandardDeviation.getConfidenceInterval(1.645)[0],
                     stk.averageVehicleTimeInSystem.sampleStandardDeviation.getConfidenceInterval(1.645)[1]
             );
             result += String.format("priemerny pocet volnych pracovnikov 1\t%f\n", stk.averageFreeWorker1.totalResult());
             result += String.format("priemerny pocet volnych pracovnikov 2\t%f\n", stk.averageFreeWorker2.totalResult());
-            result += String.format("priemerna dlzka cakania v rade pred stk\t%f\n", stk.averageWaitingBeforeSTK.totalResult() / 60);
+            result += String.format("priemerna dlzka cakania v rade pred stk\t%f\n", stk.averageWaitingBeforeSTK.totalResult() / 60.);
             result += String.format("priemerny pocet cakajucich pred stk\t%f\n", stk.averageQueueBeforeSTK.totalResult());
             result += String.format(
                     "priemerny pocet zakaznikov v systeme\t%f <%f,%f>\n",
@@ -263,9 +263,5 @@ public class GuiZadanie2 extends JFrame implements ISimDelegate{
         JTable table = new JTable(tableValues, tableHeader);
         table.setEnabled(false);
         scrollPane.setViewportView(table);
-    }
-
-    private void createUIComponents() {
-        // TODO: place custom component creation code here
     }
 }
