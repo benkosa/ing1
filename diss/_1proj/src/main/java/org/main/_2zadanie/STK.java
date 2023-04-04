@@ -139,8 +139,8 @@ public class STK extends EventSimulationCore {
                 )
         );
     }
-    public void scheduleReceiveVehicle(Vehicle vehicle){
-        addEvent(new VehicleReceivedEvent(0, this, vehicle));
+    public void scheduleReceiveVehicle(){
+        addEvent(new VehicleReceivedEvent(0, this, null));
     }
     public boolean isSpaceInsideStk() {
         return queueInStk.isSpaceInQueue();
@@ -154,14 +154,14 @@ public class STK extends EventSimulationCore {
     public void scheduleReceiveVehicleEnd(Vehicle vehicle) {
         addEvent(new VehicleReceivedEndEvent(triangularDistribution.sample(), this, vehicle));
     }
-    public void scheduleStartPayment(Vehicle vehicle) {
-        addEvent(new VehiclePaymentEvent(0, this, vehicle));
+    public void scheduleStartPayment() {
+        addEvent(new VehiclePaymentEvent(0, this, null));
     }
     public void scheduleEndPayment(Vehicle vehicle) {
         addEvent(new VehiclePaymentEndEvent(paymentTime.sample(), this, vehicle));
     }
-    public void scheduleStartInspection(Vehicle vehicle) {
-        addEvent(new VehicleInspectionEvent(0, this, vehicle));
+    public void scheduleStartInspection() {
+        addEvent(new VehicleInspectionEvent(0, this, null));
     }
     public void scheduleEndInspection(Vehicle vehicle) {
         addEvent(new VehicleInspectionEndEvent(vehicle.getInspectionTime(), this, vehicle));

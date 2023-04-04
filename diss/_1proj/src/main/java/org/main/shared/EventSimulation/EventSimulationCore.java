@@ -44,6 +44,7 @@ public abstract class EventSimulationCore extends MonteCarlo implements ISimDele
     }
 
     public void addEvent(EventSimulation event) {
+        System.out.println("event " + event.eventTime + " " + timeLine.size());
         if (event.eventTime < 0) {
             System.out.println("event time is less than 0");
             return;
@@ -80,6 +81,7 @@ public abstract class EventSimulationCore extends MonteCarlo implements ISimDele
             lastEvent = event;
             refresh(null, null);
         }
+        System.out.println("bol som tu");
         currentTime = 0;
         timeLine.clear();
     }

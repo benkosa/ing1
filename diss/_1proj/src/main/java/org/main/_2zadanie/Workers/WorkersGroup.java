@@ -39,7 +39,7 @@ public class WorkersGroup {
     public void freeWorker(Vehicle vehicle) {
         final Worker worker = hiredWorkers.get(vehicle.id);
         if (worker == null) {
-            System.out.println("warning: free not existing worker");
+            System.out.println("warning: free not existing worker " + vehicle.id);
             return;
         }
         hiredWorkers.remove(vehicle.id);

@@ -6,6 +6,10 @@ public class VehiclePaymentEvent extends VehicleEvent {
     @Override
     public void execute() {
 
+        vehicle = stk.queueAfterStk.poll();
+
+        stk.group1.hireWorker(vehicle);
+        stk.scheduleEndPayment(vehicle);
     }
 
     public VehiclePaymentEvent(double eventTime, EventSimulationCore myCore, Vehicle vehicle) {

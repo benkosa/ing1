@@ -60,7 +60,7 @@ public class GuiZadanie2 extends JFrame implements ISimDelegate{
     private JButton a1000Button;
 
     public GuiZadanie2() {
-        pauseButton.addActionListener(e -> stk.setPause(true));
+        //pauseButton.addActionListener(e -> stk.setPause(true));
         playButton.addActionListener(e -> stk.setPause(false));
         startRealTimeButton.addActionListener(e -> startSimRealTime());
         startTurboButton.addActionListener(e -> startSimTurbo());
