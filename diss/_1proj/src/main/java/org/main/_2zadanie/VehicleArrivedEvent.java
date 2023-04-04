@@ -14,7 +14,11 @@ public class VehicleArrivedEvent extends VehicleEvent{
         stk.queueBeforeStk.addQueue(vehicle);
 
         if (stk.group1.isWorkerFree()) {
-            stk.scheduleReceiveVehicle();
+            if (stk.queueAfterStk.getSize() > 0) {
+                stk.scheduleStartPayment();
+            } else if (stk.queueBeforeStk.getSize() > 0) {
+                stk.scheduleReceiveVehicle();
+            }
         }
     }
 

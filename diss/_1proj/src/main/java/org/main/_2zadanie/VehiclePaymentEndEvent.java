@@ -7,6 +7,7 @@ public class VehiclePaymentEndEvent extends VehicleEvent {
     public void execute() {
         stk.saveLeftVehicle(vehicle);
         stk.group1.freeWorker(vehicle);
+        stk.averageVehicleTimeInSystem.vehicleLeft(vehicle);
 
         if (stk.queueAfterStk.getSize() > 0) {
             stk.scheduleStartPayment();

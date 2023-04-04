@@ -5,8 +5,6 @@ import org.main.shared.EventSimulation.EventSimulationCore;
 public class VehicleReceivedEvent extends VehicleEvent{
     @Override
     public void execute() {
-        vehicle = stk.queueAfterStk.poll();
-
         //naplanovanie zaciatku platby ak je niekto v rade
         if (stk.queueAfterStk.getSize() > 0) {
             stk.scheduleStartPayment();
