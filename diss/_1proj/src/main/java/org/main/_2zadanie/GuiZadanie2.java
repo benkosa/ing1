@@ -182,19 +182,19 @@ public class GuiZadanie2 extends JFrame implements ISimDelegate{
             result += String.format("replikacie:\t\t\t%d\n", stk.getReplications());
             result += String.format("pracovnikov 1:\t\t\t%d\n", stk.group1.getNumberOfWorkers());
             result += String.format("pracovnikov 2:\t\t\t%d\n", stk.group2.getNumberOfWorkers());
-            result += String.format("vozidla v stk po ukonceni:\t\t%f\n", stk.averageVehiclesInSTK.totalResult());
+            result += String.format("vozidla v stk po ukonceni:\t\t%.4f\n", stk.averageVehiclesInSTK.totalResult());
             result += String.format(
-                    "priemerny cas vozidla v stk:\t\t%f <%f,%f>\n",
+                    "priemerny cas vozidla v stk:\t\t%.4f <%.4f,%.4f>\n",
                     stk.averageVehicleTimeInSystem.totalResult() / 60.,
                     stk.averageVehicleTimeInSystem.sampleStandardDeviation.getConfidenceInterval(1.645)[0],
                     stk.averageVehicleTimeInSystem.sampleStandardDeviation.getConfidenceInterval(1.645)[1]
             );
-            result += String.format("priemerny pocet volnych pracovnikov 1\t%f\n", stk.averageFreeWorker1.totalResult());
-            result += String.format("priemerny pocet volnych pracovnikov 2\t%f\n", stk.averageFreeWorker2.totalResult());
-            result += String.format("priemerna dlzka cakania v rade pred stk\t%f\n", stk.averageWaitingBeforeSTK.totalResult() / 60.);
-            result += String.format("priemerny pocet cakajucich pred stk\t%f\n", stk.averageQueueBeforeSTK.totalResult());
+            result += String.format("priemerny pocet volnych pracovnikov 1\t%.4f\n", stk.averageFreeWorker1.totalResult());
+            result += String.format("priemerny pocet volnych pracovnikov 2\t%.4f\n", stk.averageFreeWorker2.totalResult());
+            result += String.format("priemerna dlzka cakania v rade pred stk\t%.4f\n", stk.averageWaitingBeforeSTK.totalResult() / 60.);
+            result += String.format("priemerny pocet cakajucich pred stk\t%.4f\n", stk.averageQueueBeforeSTK.totalResult());
             result += String.format(
-                    "priemerny pocet zakaznikov v systeme\t%f <%f,%f>\n",
+                    "priemerny pocet zakaznikov v systeme\t%.4f <%.4f,%.4f>\n",
                     stk.averageQueueInSystem.totalResult(),
                     stk.averageQueueInSystem.sampleStandardDeviation.getConfidenceInterval(1.96)[0],
                     stk.averageQueueInSystem.sampleStandardDeviation.getConfidenceInterval(1.96)[1]
