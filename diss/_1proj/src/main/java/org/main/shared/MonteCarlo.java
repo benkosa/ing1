@@ -21,9 +21,6 @@ public abstract class MonteCarlo extends SwingWorker<Double, Double> {
             afterReplication();
 
             if (interrupt) {
-                System.out.println("bol som tu");
-                cancel(true);
-                this.afterSimulation();
                 return result;
             }
         }

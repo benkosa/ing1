@@ -15,7 +15,7 @@ public class STK extends EventSimulationCore {
     final SeedGenerator seedGenerator;
     final ExponentialDistribution VehicleArrived;
     final UniformDouble vehicleTypeGen;
-    final DiscreteUniformDistribution paymentTime;
+    final ContinuousUniformDistribution paymentTime;
     final TriangularDistribution triangularDistribution;
     final Queue<Integer, Vehicle> queueBeforeStk = new Queue<>();
     final Queue<Long, Vehicle> queueInStk = new Queue<>(5);
@@ -41,7 +41,7 @@ public class STK extends EventSimulationCore {
         seedGenerator = new SeedGenerator(seed);
         vehicleTypeGen = new UniformDouble(seedGenerator);
         VehicleArrived = new ExponentialDistribution(seedGenerator, (60.0/23.0)*60);
-        paymentTime = new DiscreteUniformDistribution(seedGenerator, 65, 177);
+        paymentTime = new ContinuousUniformDistribution(seedGenerator, 65, 177);
         triangularDistribution = new TriangularDistribution(seedGenerator, 180, 695, 431);
         setWorkers(workers1, workers2);
         averageFreeWorker1 = new AverageQueueLength(this, group1.getWorkers());
@@ -58,7 +58,7 @@ public class STK extends EventSimulationCore {
                 seedGenerator
         );
         inspectionTimeCargo = new DiscreteEmpiricalDistribution(
-                new int[]{37*60, 43*60, 46*60, 48 ,52*60, 56*60},
+                new int[]{37*60, 43*60, 46*60, 48*60 ,52*60, 56*60},
                 new int[]{42*60, 45*60, 47*60, 51*60, 55*60, 65*60},
                 new double[]{.05, .1, .15, .4, .25, .05},
                 seedGenerator
@@ -72,7 +72,7 @@ public class STK extends EventSimulationCore {
         seedGenerator = new SeedGenerator(seed);
         vehicleTypeGen = new UniformDouble(seedGenerator);
         VehicleArrived = new ExponentialDistribution(seedGenerator, (60.0/23.0)*60);
-        paymentTime = new DiscreteUniformDistribution(seedGenerator, 65, 177);
+        paymentTime = new ContinuousUniformDistribution(seedGenerator, 65, 177);
         triangularDistribution = new TriangularDistribution(seedGenerator, 180, 695, 431);
         setWorkers(workers1, workers2);
         changeSlowDown(stepLength, stepTime);
@@ -90,7 +90,7 @@ public class STK extends EventSimulationCore {
                 seedGenerator
         );
         inspectionTimeCargo = new DiscreteEmpiricalDistribution(
-                new int[]{37*60, 43*60, 46*60, 48 ,52*60, 56*60},
+                new int[]{37*60, 43*60, 46*60, 48*60 ,52*60, 56*60},
                 new int[]{42*60, 45*60, 47*60, 51*60, 55*60, 65*60},
                 new double[]{.05, .1, .15, .4, .25, .05},
                 seedGenerator

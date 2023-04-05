@@ -12,6 +12,10 @@ public class AverageWaitingTimeInQueue extends Statistics{
         countTimeInQueue+= core.getCurrentTime()-startWaitingInQue;
         countCustomersInQueue+=1;
     }
+
+    public void test(double startWaitingInQue) {
+        countTimeInQueue+= core.getCurrentTime()-startWaitingInQue;
+    }
     @Override
     protected double replicationResult() {
         return countTimeInQueue/countCustomersInQueue;

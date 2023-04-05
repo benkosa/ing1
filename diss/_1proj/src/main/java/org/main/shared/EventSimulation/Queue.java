@@ -76,8 +76,8 @@ public class Queue<I, T> {
      * Retrieves and removes the head of this queue
      */
     public T poll() {
-        countAverageQueueLength();
         final T element = queue.poll();
+        countAverageQueueLength();
         countStatistics(element);
         return element;
     }
