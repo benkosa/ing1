@@ -52,7 +52,7 @@ public class GuiZadanie1 extends JFrame {
         });
 
         stopButton.addActionListener(e -> {
-            problem1.stopChart();
+            problem1.stopSimulation();
             problem1 = null;
         });
         startButton1.addActionListener(e -> {
@@ -75,7 +75,7 @@ public class GuiZadanie1 extends JFrame {
             }
         });
         stopButton1.addActionListener(e -> {
-            problem2.stopChart();
+            problem2.stopSimulation();
             problem2 = null;
         });
 

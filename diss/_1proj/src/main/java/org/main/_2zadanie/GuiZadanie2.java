@@ -8,8 +8,6 @@ import org.main.shared.EventSimulation.EventSimulationCore;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -58,6 +56,7 @@ public class GuiZadanie2 extends JFrame implements ISimDelegate{
     private JButton a100Button;
     private JButton a2000Button;
     private JButton a1000Button;
+    private JButton stopButton;
 
     public GuiZadanie2() {
         pauseButton.addActionListener(e -> stk.setPause(true));
@@ -95,6 +94,7 @@ public class GuiZadanie2 extends JFrame implements ISimDelegate{
                 Integer.parseInt(a60TextField.getText()),
                 2000
         ));
+        stopButton.addActionListener(e -> stk.stopSimulation());
     }
 
     private GuiZadanie2 guiPointer;

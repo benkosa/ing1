@@ -366,7 +366,7 @@
                       </grid>
                     </constraints>
                     <properties>
-                      <text value="6"/>
+                      <text value="4"/>
                     </properties>
                   </component>
                   <component id="a9e79" class="javax.swing.JTextField" binding="a20TextField" default-binding="true">
@@ -376,7 +376,7 @@
                       </grid>
                     </constraints>
                     <properties>
-                      <text value="21"/>
+                      <text value="17"/>
                     </properties>
                   </component>
                   <component id="edb86" class="javax.swing.JButton" binding="adjustSlowDownButton" default-binding="true">
@@ -471,6 +471,14 @@
                       </component>
                     </children>
                   </grid>
+                  <component id="36a22" class="javax.swing.JButton" binding="stopButton" default-binding="true">
+                    <constraints>
+                      <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                    <properties>
+                      <text value="Stop"/>
+                    </properties>
+                  </component>
                 </children>
               </grid>
               <grid id="1a837" layout-manager="GridLayoutManager" row-count="1" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">

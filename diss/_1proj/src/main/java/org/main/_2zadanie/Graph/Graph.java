@@ -14,7 +14,7 @@ public abstract class Graph extends SwingWorker<Double, Double> {
     private int start;
     private int end;
     LinkedList<Double> seriesData = new LinkedList<>();
-    String chartTitle = "chart";
+    String chartTitle;
 
     SwingWrapper<XYChart> sw;
     XYChart chart;
@@ -27,7 +27,8 @@ public abstract class Graph extends SwingWorker<Double, Double> {
         chart = QuickChart.getChart(chartTitle, labelX, labelY, chartTitle, new double[] { 0 }, new double[] { 0 });
         chart.getStyler().setLegendVisible(false);
         chart.getStyler().setLegendPadding(10);
-        chart.getStyler().setXAxisMaxLabelCount(50);
+        //chart.getStyler().setXAxisMaxLabelCount(50);
+        chart.getStyler();
 
         // Show it
         sw = new SwingWrapper<>(chart);
@@ -49,7 +50,11 @@ public abstract class Graph extends SwingWorker<Double, Double> {
     @Override
     protected void process(List<Double> chunks) {
         seriesData.addAll(chunks);
-        chart.updateXYSeries(chartTitle, null, seriesData, null);
+        List<Double> xData = new LinkedList<>();
+        for (double i = start; i < seriesData.size()+start; i++) {
+            xData.add(i);
+        }
+        chart.updateXYSeries(chartTitle, xData, seriesData, null);
         try {
             sw.repaintChart();
         } catch (Exception ignored) {}

@@ -7,7 +7,7 @@ public class VehicleInspectionEndEvent extends VehicleEvent {
     public void execute() {
         stk.group2.freeWorker(vehicle);
         //ak je volny vorker zo skupiny 2 a cakaju auta na inspekciu
-        if (stk.group2.isWorkerFree() && stk.isWaitingCarForInspection()) {
+        if (stk.isWaitingCarForInspection()) {
             final Vehicle newVehicle = stk.queueInStk.poll();
             stk.group2.hireWorker(newVehicle);
             stk.scheduleStartInspection(newVehicle);

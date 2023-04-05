@@ -21,6 +21,8 @@ public abstract class MonteCarlo extends SwingWorker<Double, Double> {
             afterReplication();
 
             if (interrupt) {
+                System.out.println("bol som tu");
+                cancel(true);
                 this.afterSimulation();
                 return result;
             }
@@ -40,7 +42,8 @@ public abstract class MonteCarlo extends SwingWorker<Double, Double> {
         this.replications = REPLICATIONS;
     }
 
-    public void stopChart() {
+    public void stopSimulation() {
+        cancel(true);
         this.interrupt = true;
     }
 
