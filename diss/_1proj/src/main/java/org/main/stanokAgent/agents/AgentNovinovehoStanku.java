@@ -4,7 +4,6 @@ import OSPABA.*;
 import  org.main.stanokAgent.simulation.*;
 import  org.main.stanokAgent.managers.*;
 import  org.main.stanokAgent.continualAssistants.*;
-import  org.main.stanokAgent.instantAssistants.*;
 
 //meta! id="1"
 public class AgentNovinovehoStanku extends Agent

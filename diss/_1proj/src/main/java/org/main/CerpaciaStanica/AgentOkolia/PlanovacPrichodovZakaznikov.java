@@ -1,4 +1,4 @@
-package org.main.CerpaciaStanica.asistenti;
+package org.main.CerpaciaStanica.AgentOkolia;
 
 import org.main.CerpaciaStanica.simulacia.Mc;
 import OSPABA.Agent;

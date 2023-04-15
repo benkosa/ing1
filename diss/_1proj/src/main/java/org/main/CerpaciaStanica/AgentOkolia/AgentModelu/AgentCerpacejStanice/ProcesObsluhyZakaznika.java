@@ -1,4 +1,4 @@
-package org.main.CerpaciaStanica.asistenti;
+package org.main.CerpaciaStanica.AgentOkolia.AgentModelu.AgentCerpacejStanice;
 
 import org.main.CerpaciaStanica.simulacia.Mc;
 import OSPABA.Agent;
@@ -21,11 +21,12 @@ public class ProcesObsluhyZakaznika extends Process
 	{
 		switch (message.code())
 		{
+			//zaciatok obsluhy
 		case Mc.start:
 			message.setCode(Mc.koniecObsluhy);
 			hold(_exp.sample(), message);
 		break;
-			
+			//koniec obsluhy
 		case Mc.koniecObsluhy:
 			assistantFinished(message);	
 		break;

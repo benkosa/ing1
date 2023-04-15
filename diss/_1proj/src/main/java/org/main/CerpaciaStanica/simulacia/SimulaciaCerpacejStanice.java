@@ -1,8 +1,8 @@
 package org.main.CerpaciaStanica.simulacia;
 
-import org.main.CerpaciaStanica.agenti.AgentCerpacejStanice;
-import org.main.CerpaciaStanica.agenti.AgentModelu;
-import org.main.CerpaciaStanica.agenti.AgentOkolia;
+import org.main.CerpaciaStanica.AgentOkolia.AgentModelu.AgentCerpacejStanice.AgentCerpacejStanice;
+import org.main.CerpaciaStanica.AgentOkolia.AgentModelu.AgentModelu;
+import org.main.CerpaciaStanica.AgentOkolia.AgentOkolia;
 import OSPABA.Simulation;
 import OSPStat.Stat;
 

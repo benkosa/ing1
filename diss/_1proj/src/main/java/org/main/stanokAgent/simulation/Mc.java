@@ -4,6 +4,8 @@ import OSPABA.*;
 
 public class Mc extends IdList
 {
+	public static final int init = 1015;
+
 	//meta! userInfo="Generated code: do not modify", tag="begin"
 	public static final int prichodZakaznika = 1014;
 	public static final int obsluhaZakaznikaHotova = 1010;

@@ -1,6 +1,5 @@
-package org.main.CerpaciaStanica.manazeri;
+package org.main.CerpaciaStanica.AgentOkolia.AgentModelu.AgentCerpacejStanice;
 
-import org.main.CerpaciaStanica.agenti.AgentCerpacejStanice;
 import org.main.CerpaciaStanica.simulacia.Id;
 import org.main.CerpaciaStanica.simulacia.Mc;
 import org.main.CerpaciaStanica.simulacia.Sprava;
@@ -22,28 +21,33 @@ public class ManagerCerpacejStanice extends Manager
 		switch (message.code())
 		{
 		case Mc.obsluhaZakaznika:
+			// ak je novinovy stanok zaneprazdneny zacneme cakat v rade
 			if (myAgent().isWorking())
 			{
 				((Sprava)message).setZaciatokCakania(mySim().currentTime());
 				myAgent().frontZakaznikov().enqueue(message);
 			}
+			//stanok zacne pracovat
 			else
 			{
 				startWork(message);
 			}
 		break;
-			
+
+		//ukonecnie obslhy
 		case Mc.finish: // procesObsluhyZakaznika
 			myAgent().setWorking(false);
 			myAgent().casCakania().addSample(((Sprava)message).celkoveCakanie());
-			
+
+			//ak je niekto vo fronte zacneme pracovat
 			if (0 < myAgent().frontZakaznikov().size())
 			{
 				Sprava nextMessage = (Sprava)myAgent().frontZakaznikov().dequeue();
 				nextMessage.setCelkoveCakanie(mySim().currentTime() - nextMessage.zaciatokCakania());
 				startWork(nextMessage);
 			}
-			
+
+			//koniec obsluhy pre povodenho zakaznika
 			message.setCode(Mc.obsluhaZakaznikaHotova);
 			response(message);
 		break;

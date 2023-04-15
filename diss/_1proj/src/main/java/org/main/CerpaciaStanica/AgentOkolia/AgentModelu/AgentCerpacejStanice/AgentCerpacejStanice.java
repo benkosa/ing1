@@ -1,6 +1,7 @@
-package org.main.CerpaciaStanica.agenti;
+package org.main.CerpaciaStanica.AgentOkolia.AgentModelu.AgentCerpacejStanice;
 
-import org.main.CerpaciaStanica.manazeri.ManagerCerpacejStanice;
+import org.main.CerpaciaStanica.AgentOkolia.AgentModelu.AgentCerpacejStanice.ManagerCerpacejStanice;
+import org.main.CerpaciaStanica.AgentOkolia.AgentModelu.AgentCerpacejStanice.ProcesObsluhyZakaznika;
 import org.main.CerpaciaStanica.simulacia.Id;
 import org.main.CerpaciaStanica.simulacia.Mc;
 import OSPABA.Agent;
@@ -9,7 +10,6 @@ import OSPABA.Simulation;
 import OSPDataStruct.SimQueue;
 import OSPStat.Stat;
 import OSPStat.WStat;
-import org.main.CerpaciaStanica.asistenti.ProcesObsluhyZakaznika;
 
 public class AgentCerpacejStanice extends Agent
 {	

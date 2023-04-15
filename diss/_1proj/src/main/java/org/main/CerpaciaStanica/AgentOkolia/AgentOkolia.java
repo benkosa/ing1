@@ -1,7 +1,5 @@
-package org.main.CerpaciaStanica.agenti;
+package org.main.CerpaciaStanica.AgentOkolia;
 
-import org.main.CerpaciaStanica.asistenti.PlanovacPrichodovZakaznikov;
-import org.main.CerpaciaStanica.manazeri.ManazerOkolia;
 import org.main.CerpaciaStanica.simulacia.Id;
 import org.main.CerpaciaStanica.simulacia.Mc;
 import OSPABA.Agent;

@@ -1,4 +1,4 @@
-package org.main.CerpaciaStanica.manazeri;
+package org.main.CerpaciaStanica.AgentOkolia;
 
 import org.main.CerpaciaStanica.simulacia.Id;
 import org.main.CerpaciaStanica.simulacia.Mc;
@@ -23,14 +23,16 @@ public class ManazerOkolia extends Manager
 		case Mc.init:
 			zacniPlanovanieZakaznikov();
 		break;
-		
+
+		// povie modelu ze prisiel zakaznik
 		case Mc.finish: // planovacPrichodovZakaznikov
 			message.setCode(Mc.prichodZakaznika);
 			message.setAddressee(mySim().findAgent(Id.agentModelu));
 			
-			notice(message);	
+			notice(message);
 		break;
 
+		//spracovanie odchadzjuceho zakaznika
 		case Mc.odchodZakaznika:
 			;
 		break;

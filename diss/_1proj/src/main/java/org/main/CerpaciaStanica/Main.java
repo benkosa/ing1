@@ -1,4 +1,4 @@
-package org.main.CerpaciaStanica.main;
+package org.main.CerpaciaStanica;
 
 import org.main.CerpaciaStanica.simulacia.SimulaciaCerpacejStanice;
 

@@ -1,4 +1,4 @@
-package org.main.CerpaciaStanica.manazeri;
+package org.main.CerpaciaStanica.AgentOkolia.AgentModelu;
 
 import OSPABA.Agent;
 import OSPABA.Manager;
@@ -7,6 +7,11 @@ import OSPABA.Simulation;
 import org.main.CerpaciaStanica.simulacia.Id;
 import org.main.CerpaciaStanica.simulacia.Mc;
 
+/**
+ * spracovanie prichadzajucich zakaznikov odchadzajucich zakaznikov
+ *
+ * povie manazerovi okolia ze ma zacat planovat zakaznikov
+ */
 public class ManazerModelu extends Manager
 {	
 	public ManazerModelu(int id, Simulation mySim, Agent myAgent)
@@ -19,11 +24,13 @@ public class ManazerModelu extends Manager
 	{
 		switch (message.code())
 		{
+			// povie manazerovi okolia ze ma zacat planovat zakaznikov
 		case Mc.init:
 			message.setAddressee(mySim().findAgent(Id.agentOkolia));
 			notice(message);
 		break;
 
+		// preda prichadazjuceho zakaznika do cepracej stanice
 		case Mc.prichodZakaznika:
 			message.setCode(Mc.obsluhaZakaznika);
 			message.setAddressee(mySim().findAgent(Id.agentCerpacejStanice));
@@ -31,6 +38,7 @@ public class ManazerModelu extends Manager
 			request(message);
 		break;
 
+		// povie agentovi okolia ze zakaznik opusta stanicu
 		case Mc.obsluhaZakaznikaHotova:
 			message.setCode(Mc.odchodZakaznika);
 			message.setAddressee(mySim().findAgent(Id.agentOkolia));

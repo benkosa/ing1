@@ -3,8 +3,6 @@ package  org.main.stanokAgent.managers;
 import OSPABA.*;
 import  org.main.stanokAgent.simulation.*;
 import  org.main.stanokAgent.agents.*;
-import  org.main.stanokAgent.continualAssistants.*;
-import  org.main.stanokAgent.instantAssistants.*;
 
 //meta! id="2"
 public class ManagerModelu extends Manager
