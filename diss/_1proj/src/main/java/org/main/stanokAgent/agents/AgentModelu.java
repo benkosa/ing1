@@ -25,7 +25,7 @@ public class AgentModelu extends Agent
 	//meta! userInfo="Generated code: do not modify", tag="begin"
 	private void init()
 	{
-		new managers.ManagerModelu(Id.managerModelu, mySim(), this);
+		new ManagerModelu(Id.managerModelu, mySim(), this);
 		addOwnMessage(Mc.obsluhaZakaznikaHotova);
 		addOwnMessage(Mc.prichodZakaznika);
 	}
