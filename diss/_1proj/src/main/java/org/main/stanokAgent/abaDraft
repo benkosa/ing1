@@ -2,19 +2,10 @@
 <ABAsim>
   <Agents>
     <Agent>
-      <SimId>2</SimId>
-      <InternalId>2</InternalId>
-      <Name>AgentModelu</Name>
-      <Bounds>909,346,180,180</Bounds>
-      <Reasoner>ManagerModelu</Reasoner>
-      <ReasonerBounds>77,72,32,25</ReasonerBounds>
-      <UsePetriNet>false</UsePetriNet>
-    </Agent>
-    <Agent>
       <SimId>1</SimId>
       <InternalId>1</InternalId>
       <Name>AgentNovinovehoStanku</Name>
-      <Bounds>310,165,180,180</Bounds>
+      <Bounds>258,217,180,180</Bounds>
       <Reasoner>ManagerNovinovehoStanku</Reasoner>
       <ReasonerBounds>74,25,32,25</ReasonerBounds>
       <UsePetriNet>false</UsePetriNet>
@@ -23,7 +14,7 @@
           <SimId>1001</SimId>
           <InternalId>16</InternalId>
           <Name>PricesObsluhyZakaznika</Name>
-          <Bounds>27,60,35,18</Bounds>
+          <Bounds>15,78,35,18</Bounds>
         </Process>
       </Components>
     </Agent>
@@ -44,14 +35,17 @@
         </Scheduler>
       </Components>
     </Agent>
+    <Agent>
+      <SimId>2</SimId>
+      <InternalId>2</InternalId>
+      <Name>AgentModelu</Name>
+      <Bounds>909,346,180,180</Bounds>
+      <Reasoner>ManagerModelu</Reasoner>
+      <ReasonerBounds>77,72,32,25</ReasonerBounds>
+      <UsePetriNet>false</UsePetriNet>
+    </Agent>
   </Agents>
   <Messages>
-    <Message>
-      <InternalId>17</InternalId>
-      <Type>StartFinish</Type>
-      <Source>1</Source>
-      <Destination>16</Destination>
-    </Message>
     <Message>
       <SimId>1014</SimId>
       <InternalId>33</InternalId>
@@ -59,6 +53,20 @@
       <Type>Notice</Type>
       <Source>3</Source>
       <Destination>2</Destination>
+    </Message>
+    <Message>
+      <InternalId>17</InternalId>
+      <Type>StartFinish</Type>
+      <Source>1</Source>
+      <Destination>16</Destination>
+    </Message>
+    <Message>
+      <SimId>1017</SimId>
+      <InternalId>49</InternalId>
+      <Name>Call</Name>
+      <Type>Call</Type>
+      <Source>16</Source>
+      <Destination>1</Destination>
     </Message>
     <Message>
       <InternalId>20</InternalId>
@@ -103,5 +111,5 @@
       <Destination>3</Destination>
     </Message>
   </Messages>
-  <IID>40</IID>
+  <IID>51</IID>
 </ABAsim>
