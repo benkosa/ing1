@@ -37,6 +37,7 @@ public class WorkersGroup {
 
     /** */
     public void freeWorker(Vehicle vehicle) {
+        averageFreeWorker.countAverageQueueLength();
         final Worker worker = hiredWorkers.get(vehicle.id);
         if (worker == null) {
             System.out.println("warning: free not existing worker");
@@ -44,19 +45,18 @@ public class WorkersGroup {
         }
         hiredWorkers.remove(vehicle.id);
         workers.add(worker);
-        averageFreeWorker.countAverageQueueLength();
     };
     public boolean isWorkerFree() {
         return workers.size() > 0;
     }
     public void hireWorker(Vehicle vehicle) {
+        averageFreeWorker.countAverageQueueLength();
         final Worker worker = workers.poll();
         if (worker == null) {
             System.out.println("warning: hire not existing worker");
             return;
         }
         hiredWorkers.put(vehicle.id, worker);
-        averageFreeWorker.countAverageQueueLength();
     }
 
 

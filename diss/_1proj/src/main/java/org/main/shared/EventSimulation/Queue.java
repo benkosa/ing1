@@ -124,4 +124,8 @@ public class Queue<I, T> {
         queue.clear();
         lockedQueue.clear();
     }
+
+    public void emptyQueue() {
+
+    }
 }

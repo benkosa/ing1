@@ -215,6 +215,11 @@ public class STK extends EventSimulationCore {
     protected void beforeReplication() {
         initialize();
         scheduleNewArrival(0);
+        scheduleRemove();
+    }
+
+    public void scheduleRemove() {
+        addEvent(new additionalEvent(5*60, this, null));
     }
 
     @Override

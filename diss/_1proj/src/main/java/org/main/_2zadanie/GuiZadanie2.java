@@ -175,7 +175,7 @@ public class GuiZadanie2 extends JFrame implements ISimDelegate{
 
             simTime.setText(stk.getCurrentTime() + "");
 
-            getLastEventInfo();
+            //getLastEventInfo();
             this.realTime.setText(msToHMS(stk.getCurrentTime()));
         }else if (message.equals("result")) {
             String result = "";
