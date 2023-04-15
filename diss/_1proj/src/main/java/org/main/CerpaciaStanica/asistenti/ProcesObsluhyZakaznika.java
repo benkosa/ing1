@@ -9,7 +9,7 @@ import OSPABA.Process;
 
 public class ProcesObsluhyZakaznika extends Process
 {
-	private static ExponentialRNG _exp = new ExponentialRNG(45d);
+	private static ExponentialRNG _exp = new ExponentialRNG(4d);
 
 	public ProcesObsluhyZakaznika(int id, Simulation mySim, Agent myAgent)
 	{

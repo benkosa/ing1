@@ -13,6 +13,7 @@ public class SimulaciaCerpacejStanice extends Simulation
 	private AgentCerpacejStanice _agentCerpacejStanice;
 	
 	private Stat _casCakaniaStat;
+	private Stat _velkostRadu;
 
 	public SimulaciaCerpacejStanice()
 	{
@@ -26,6 +27,7 @@ public class SimulaciaCerpacejStanice extends Simulation
 	{
 		super.prepareSimulation();
 		_casCakaniaStat = new Stat();
+		_velkostRadu = new Stat();
 	}
 
 	@Override
@@ -40,7 +42,9 @@ public class SimulaciaCerpacejStanice extends Simulation
 	{
 		super.replicationFinished();
 		_casCakaniaStat.addSample(agentCerpacejStanice().casCakania().mean());
+		_velkostRadu.addSample(agentCerpacejStanice().frontZakaznikov().lengthStatistic().mean());
 		System.out.println("R"+ currentReplication() +": "+  _casCakaniaStat.mean() +"("+agentCerpacejStanice().casCakania().mean()+")");
+		System.out.println("R"+ currentReplication() +": "+  _velkostRadu.mean() +"("+agentCerpacejStanice().frontZakaznikov().lengthStatistic().mean()+")");
 	}
 
 	@Override
@@ -48,6 +52,7 @@ public class SimulaciaCerpacejStanice extends Simulation
 	{
 		super.simulationFinished();
 		System.out.println("Waiting time mean:  "+ _casCakaniaStat.mean());
+		System.out.println("Queue length:  "+ _velkostRadu.mean());
 	}
 	
 	public AgentModelu agentModelu()

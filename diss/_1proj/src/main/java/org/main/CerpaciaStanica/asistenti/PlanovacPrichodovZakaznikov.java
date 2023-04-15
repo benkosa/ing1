@@ -9,7 +9,7 @@ import OSPRNG.ExponentialRNG;
 
 public class PlanovacPrichodovZakaznikov extends Scheduler
 {
-	private static ExponentialRNG _exp = new ExponentialRNG(100d);
+	private static ExponentialRNG _exp = new ExponentialRNG(5D);
 
 	public PlanovacPrichodovZakaznikov(int id, Simulation mySim, Agent myAgent)
 	{
