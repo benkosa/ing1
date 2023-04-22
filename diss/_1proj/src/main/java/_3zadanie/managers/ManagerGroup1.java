@@ -30,6 +30,8 @@ public class ManagerGroup1 extends Manager
 	//meta! sender="AgentStk", id="65", type="Request"
 	public void processVehicleArrivedStk(MessageForm message)
 	{
+		final MyMessage myMessage = (MyMessage)message;
+		System.out.println("vehicle arrived: " + myMessage.getVehicle().id + " : " + message.deliveryTime());
 	}
 
 	//meta! sender="AgentStk", id="69", type="Response"

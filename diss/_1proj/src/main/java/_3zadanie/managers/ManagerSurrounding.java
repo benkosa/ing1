@@ -9,9 +9,11 @@ import _3zadanie.instantAssistants.*;
 //meta! id="4"
 public class ManagerSurrounding extends Manager
 {
+	private MySimulation stk;
 	public ManagerSurrounding(int id, Simulation mySim, Agent myAgent)
 	{
 		super(id, mySim, myAgent);
+		stk = (MySimulation) mySim;
 		init();
 	}
 
@@ -40,6 +42,11 @@ public class ManagerSurrounding extends Manager
 	//meta! sender="CustomerArrived", id="80", type="Finish"
 	public void processFinish(MessageForm message)
 	{
+		message.setCode(Mc.vehicleArrivedStk);
+		message.setAddressee(mySim().findAgent(Id.agentModel));
+		final MyMessage myMessage = (MyMessage)message;
+		myMessage.setVehicle(stk.vehicleGenerator.getVehicle());
+		request(message);
 	}
 
 	//meta! userInfo="Process messages defined in code", id="0"

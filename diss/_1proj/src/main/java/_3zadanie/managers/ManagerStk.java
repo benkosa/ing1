@@ -35,6 +35,9 @@ public class ManagerStk extends Manager
 	//meta! sender="AgentModel", id="21", type="Request"
 	public void processVehicleArrivedStkAgentModel(MessageForm message)
 	{
+		message.setAddressee(mySim().findAgent(Id.agentGroup1));
+
+		request(message);
 	}
 
 	//meta! sender="AgentGroup1", id="69", type="Request"

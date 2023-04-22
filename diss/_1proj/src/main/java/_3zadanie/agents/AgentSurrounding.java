@@ -13,6 +13,7 @@ public class AgentSurrounding extends Agent
 	{
 		super(id, mySim, parent);
 		init();
+		addOwnMessage(Mc.vehicleArrived);
 	}
 
 	@Override
@@ -20,6 +21,7 @@ public class AgentSurrounding extends Agent
 	{
 		super.prepareReplication();
 		// Setup component for the next replication
+		spustiSimulaciu();
 	}
 
 	//meta! userInfo="Generated code: do not modify", tag="begin"
@@ -31,4 +33,15 @@ public class AgentSurrounding extends Agent
 		addOwnMessage(Mc.vehicleLeft);
 	}
 	//meta! tag="end"
+
+	public void spustiSimulaciu()
+	{
+		MyMessage myMessage = new MyMessage(mySim());
+		myMessage.setAddressee(findAssistant(Id.customerArrived));
+
+		System.out.println(Id.customerArrived);
+		System.out.println(manager().id());
+
+		manager().startContinualAssistant(myMessage);
+	}
 }

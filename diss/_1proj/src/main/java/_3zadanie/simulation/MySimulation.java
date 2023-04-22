@@ -2,12 +2,21 @@ package _3zadanie.simulation;
 
 import OSPABA.*;
 import _3zadanie.agents.*;
+import _3zadanie.support.VehicleGenerator;
+import shared.Distribution.DiscreteEmpiricalDistribution;
+import shared.Distribution.DiscreteUniformDistribution;
+import shared.Distribution.SeedGenerator;
 
 public class MySimulation extends Simulation
 {
-	public MySimulation()
+	public final SeedGenerator seedGenerator;
+	public final VehicleGenerator vehicleGenerator;
+	public MySimulation(int seed)
 	{
+		seedGenerator = new SeedGenerator(seed);
+		vehicleGenerator = new VehicleGenerator(seedGenerator);
 		init();
+
 	}
 
 	@Override

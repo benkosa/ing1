@@ -1,5 +1,6 @@
 package _3zadanie.agents;
 
+import CerpaciaStanica.simulacia.Sprava;
 import OSPABA.*;
 import _3zadanie.simulation.*;
 import _3zadanie.managers.*;
