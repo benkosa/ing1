@@ -26,9 +26,9 @@ public class AgentGroup1 extends Agent
 	private void init()
 	{
 		new ManagerGroup1(Id.managerGroup1, mySim(), this);
-		new ProcessPayment(Id.processPayment, mySim(), this);
-		new ProcessAcceptVehicle(Id.processAcceptVehicle, mySim(), this);
 		new IsQueueOpen(Id.isQueueOpen, mySim(), this);
+		new ProcessAcceptVehicle(Id.processAcceptVehicle, mySim(), this);
+		new ProcessPayment(Id.processPayment, mySim(), this);
 		addOwnMessage(Mc.vehicleArrivedStk);
 		addOwnMessage(Mc.vehicleInspection);
 		addOwnMessage(Mc.isQueueOpen);

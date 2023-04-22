@@ -70,6 +70,14 @@ public class ManagerGroup1 extends Manager
 	{
 		switch (message.code())
 		{
+		case Mc.isQueueOpen:
+			processIsQueueOpen(message);
+		break;
+
+		case Mc.vehicleInspection:
+			processVehicleInspection(message);
+		break;
+
 		case Mc.finish:
 			switch (message.sender().id())
 			{
@@ -83,16 +91,8 @@ public class ManagerGroup1 extends Manager
 			}
 		break;
 
-		case Mc.vehicleInspection:
-			processVehicleInspection(message);
-		break;
-
 		case Mc.vehicleArrivedStk:
 			processVehicleArrivedStk(message);
-		break;
-
-		case Mc.isQueueOpen:
-			processIsQueueOpen(message);
 		break;
 
 		default:

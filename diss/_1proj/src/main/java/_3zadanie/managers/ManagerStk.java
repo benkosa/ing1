@@ -75,19 +75,6 @@ public class ManagerStk extends Manager
 	{
 		switch (message.code())
 		{
-		case Mc.vehicleInspection:
-			switch (message.sender().id())
-			{
-			case Id.agentGroup1:
-				processVehicleInspectionAgentGroup1(message);
-			break;
-
-			case Id.agentInspection:
-				processVehicleInspectionAgentInspection(message);
-			break;
-			}
-		break;
-
 		case Mc.isQueueOpen:
 			switch (message.sender().id())
 			{
@@ -101,15 +88,28 @@ public class ManagerStk extends Manager
 			}
 		break;
 
+		case Mc.vehicleInspection:
+			switch (message.sender().id())
+			{
+			case Id.agentInspection:
+				processVehicleInspectionAgentInspection(message);
+			break;
+
+			case Id.agentGroup1:
+				processVehicleInspectionAgentGroup1(message);
+			break;
+			}
+		break;
+
 		case Mc.vehicleArrivedStk:
 			switch (message.sender().id())
 			{
-			case Id.agentGroup1:
-				processVehicleArrivedStkAgentGroup1(message);
-			break;
-
 			case Id.agentModel:
 				processVehicleArrivedStkAgentModel(message);
+			break;
+
+			case Id.agentGroup1:
+				processVehicleArrivedStkAgentGroup1(message);
 			break;
 			}
 		break;

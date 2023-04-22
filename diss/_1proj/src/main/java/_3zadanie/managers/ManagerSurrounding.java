@@ -50,6 +50,16 @@ public class ManagerSurrounding extends Manager
 		}
 	}
 
+	//meta! userInfo="Removed from model"
+	public void processVehicleArrived(MessageForm message)
+	{
+	}
+
+	//meta! userInfo="Removed from model"
+	public void processTest(MessageForm message)
+	{
+	}
+
 	//meta! userInfo="Generated code: do not modify", tag="begin"
 	public void init()
 	{
@@ -60,16 +70,16 @@ public class ManagerSurrounding extends Manager
 	{
 		switch (message.code())
 		{
-		case Mc.init:
-			processInit(message);
+		case Mc.finish:
+			processFinish(message);
 		break;
 
 		case Mc.vehicleLeft:
 			processVehicleLeft(message);
 		break;
 
-		case Mc.finish:
-			processFinish(message);
+		case Mc.init:
+			processInit(message);
 		break;
 
 		default:
