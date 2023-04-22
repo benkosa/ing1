@@ -1,6 +1,8 @@
 package _2zadanie;
 
-public class Vehicle implements Comparable<Vehicle>{
+import _2zadanie.Workers.Groupable;
+
+public class Vehicle implements Comparable<Vehicle>, Groupable {
     private final double inspectionTime;
     protected double startWaitingInQue;
 
@@ -37,5 +39,10 @@ public class Vehicle implements Comparable<Vehicle>{
     @Override
     public int compareTo(Vehicle o) {
         return Double.compare(this.startWaitingInQue, o.startWaitingInQue);
+    }
+
+    @Override
+    public long getId() {
+        return id;
     }
 }

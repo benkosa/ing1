@@ -53,11 +53,14 @@ public class ManagerStk extends Manager
 	//meta! sender="AgentInspection", id="102", type="Response"
 	public void processIsQueueOpenAgentInspection(MessageForm message)
 	{
+		response(message);
 	}
 
 	//meta! sender="AgentGroup1", id="98", type="Request"
 	public void processIsQueueOpenAgentGroup1(MessageForm message)
 	{
+		message.setAddressee(Id.agentInspection);
+		request(message);
 	}
 
 	//meta! userInfo="Process messages defined in code", id="0"

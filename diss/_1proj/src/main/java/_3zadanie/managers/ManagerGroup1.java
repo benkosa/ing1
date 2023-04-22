@@ -1,6 +1,7 @@
 package _3zadanie.managers;
 
 import OSPABA.*;
+import _2zadanie.Vehicle;
 import _3zadanie.simulation.*;
 import _3zadanie.agents.*;
 import _3zadanie.continualAssistants.*;
@@ -9,10 +10,12 @@ import _3zadanie.instantAssistants.*;
 //meta! id="58"
 public class ManagerGroup1 extends Manager
 {
+	private final MySimulation stk;
 	public ManagerGroup1(int id, Simulation mySim, Agent myAgent)
 	{
 		super(id, mySim, myAgent);
 		init();
+		stk = (MySimulation) mySim;
 	}
 
 	@Override
@@ -30,8 +33,9 @@ public class ManagerGroup1 extends Manager
 	//meta! sender="AgentStk", id="65", type="Request"
 	public void processVehicleArrivedStk(MessageForm message)
 	{
-		final MyMessage myMessage = (MyMessage)message;
-		System.out.println("vehicle arrived: " + myMessage.getVehicle().id + " : " + message.deliveryTime());
+		message.setCode(Mc.isQueueOpen);
+		message.setAddressee(Id.agentStk);
+		request(message);
 	}
 
 	//meta! sender="AgentStk", id="69", type="Response"
@@ -52,6 +56,47 @@ public class ManagerGroup1 extends Manager
 	//meta! sender="AgentStk", id="98", type="Response"
 	public void processIsQueueOpen(MessageForm message)
 	{
+		final MyMessage myMessage = (MyMessage)message;
+		final Vehicle vehicle = myMessage.getVehicle();
+		//if ()
+		System.out.println("vehicle arrived: " + myMessage.getVehicle().id + " : " + message.deliveryTime());
+				// code from event simulation
+		myMessage.getVehicle().setArrived(stk.currentTime());
+
+		// je volny worker
+		if (myAgent().group1.isWorkerFree()) {
+			//niekto caka na platbu
+			if (myAgent().queueAfterStk.getSize() > 0) {
+				final MyMessage newVehicle = myAgent().queueAfterStk.poll();
+				myAgent().group1.hireWorker(newVehicle);
+				//TODO START PAYMENT
+				//stk.scheduleStartPayment(newVehicle);
+				// ideme priamo na receive
+			} else if (stk.isSpaceInsideStk() && myAgent().queueBeforeStk.getSize() == 0){
+				vehicle.startWaitingInQue = stk.getCurrentTime();
+				stk.averageWaitingBeforeSTK.countAverageTimeInQueue(vehicle.startWaitingInQue);
+				stk.group1.hireWorker(this.vehicle);
+				stk.arrivedInStkQueue(this.vehicle);
+				stk.scheduleReceiveVehicle(this.vehicle);
+				stk.averageQueueBeforeSTK.countAverageQueueLength();
+
+			}else if (stk.isSpaceInsideStk() && stk.queueBeforeStk.getSize() > 0) {
+				final Vehicle newVehicle = stk.queueBeforeStk.poll();
+				stk.group1.hireWorker(newVehicle);
+				stk.arrivedInStkQueue(newVehicle);
+				stk.scheduleReceiveVehicle(newVehicle);
+
+				vehicle.arrivedInQueue(stk.currentTime());
+				myAgent().queueBeforeStk.addQueue(myMessage);
+			} else  {
+				vehicle.arrivedInQueue(stk.currentTime());
+				myAgent().queueBeforeStk.addQueue(myMessage);
+			}
+
+		} else {
+			vehicle.arrivedInQueue(stk.currentTime());
+			myAgent().queueBeforeStk.addQueue(myMessage);
+		}
 	}
 
 	//meta! userInfo="Process messages defined in code", id="0"

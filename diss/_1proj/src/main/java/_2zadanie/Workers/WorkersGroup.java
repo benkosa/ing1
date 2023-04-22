@@ -6,7 +6,7 @@ import shared.Statistics.AverageQueueLength;
 import java.util.HashMap;
 import java.util.LinkedList;
 
-public class WorkersGroup {
+public class WorkersGroup<T extends Groupable> {
     final private LinkedList<Worker> workers = new LinkedList<>();
     public LinkedList<Worker> getWorkers() {
         return workers;
@@ -35,27 +35,27 @@ public class WorkersGroup {
     }
 
     /** */
-    public void freeWorker(Vehicle vehicle) {
+    public void freeWorker(T vehicle) {
         averageFreeWorker.countAverageQueueLength();
-        final Worker worker = hiredWorkers.get(vehicle.id);
+        final Worker worker = hiredWorkers.get(vehicle.getId());
         if (worker == null) {
             System.out.println("warning: free not existing worker");
             return;
         }
-        hiredWorkers.remove(vehicle.id);
+        hiredWorkers.remove(vehicle.getId());
         workers.add(worker);
     };
     public boolean isWorkerFree() {
         return workers.size() > 0;
     }
-    public void hireWorker(Vehicle vehicle) {
+    public void hireWorker(T vehicle) {
         averageFreeWorker.countAverageQueueLength();
         final Worker worker = workers.poll();
         if (worker == null) {
             System.out.println("warning: hire not existing worker");
             return;
         }
-        hiredWorkers.put(vehicle.id, worker);
+        hiredWorkers.put(vehicle.getId(), worker);
     }
 
 

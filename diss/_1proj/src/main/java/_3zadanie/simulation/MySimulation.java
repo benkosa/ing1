@@ -6,17 +6,31 @@ import _3zadanie.support.VehicleGenerator;
 import shared.Distribution.DiscreteEmpiricalDistribution;
 import shared.Distribution.DiscreteUniformDistribution;
 import shared.Distribution.SeedGenerator;
+import shared.EventSimulation.Queue;
 
 public class MySimulation extends Simulation
 {
+	private final int workers1;
+	private final int workers2;
 	public final SeedGenerator seedGenerator;
 	public final VehicleGenerator vehicleGenerator;
-	public MySimulation(int seed)
+
+	public MySimulation(int seed, int workers1, int workers2)
 	{
 		seedGenerator = new SeedGenerator(seed);
 		vehicleGenerator = new VehicleGenerator(seedGenerator);
 		init();
+		this.workers1 = workers1;
+		this.workers2 = workers2;
 
+	}
+
+	public int getWorkers1() {
+		return workers1;
+	}
+
+	public int getWorkers2() {
+		return workers2;
 	}
 
 	@Override

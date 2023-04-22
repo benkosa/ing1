@@ -8,7 +8,6 @@ import java.util.PriorityQueue;
 public class additionalEvent extends VehicleEvent {
     @Override
     public void execute() {
-        stk.scheduleRemove();
         PriorityQueue<Vehicle> queue = (PriorityQueue<Vehicle>)stk.queueBeforeStk.getQueue();
         LinkedList<Vehicle> elementsToRemove = new LinkedList<>();
         queue.forEach(element -> {

@@ -20,8 +20,8 @@ public class STK extends EventSimulationCore {
     final Queue<Integer, Vehicle> queueBeforeStk = new Queue<>();
     final Queue<Long, Vehicle> queueInStk = new Queue<>(5);
     final Queue<Integer, Vehicle> queueAfterStk = new Queue<>();
-    WorkersGroup group1;
-    WorkersGroup group2;
+    WorkersGroup<Vehicle> group1;
+    WorkersGroup<Vehicle> group2;
     private long vehicleId = 0;
     LinkedList<Vehicle> arrivedVehicles = new LinkedList<>();
     LinkedList<Vehicle> leftVehicles = new LinkedList<>();
@@ -215,7 +215,7 @@ public class STK extends EventSimulationCore {
     protected void beforeReplication() {
         initialize();
         scheduleNewArrival(0);
-        scheduleRemove();
+        //scheduleRemove();
     }
 
     public void scheduleRemove() {

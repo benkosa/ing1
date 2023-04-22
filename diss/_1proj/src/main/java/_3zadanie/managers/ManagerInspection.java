@@ -40,6 +40,10 @@ public class ManagerInspection extends Manager
 	//meta! sender="AgentStk", id="102", type="Request"
 	public void processIsQueueOpen(MessageForm message)
 	{
+		MyMessage message1 = (MyMessage) message;
+		message1.setInspectionWorkerFree(myAgent().group2.isWorkerFree());
+		message1.setInspectionQueueFree(myAgent().queueInStk.isSpaceInQueue());
+		response(message);
 	}
 
 	//meta! userInfo="Process messages defined in code", id="0"
