@@ -37,16 +37,17 @@ public class ManagerSurrounding extends Manager
 	//meta! sender="AgentModel", id="20", type="Notice"
 	public void processVehicleLeft(MessageForm message)
 	{
+		System.out.println("VEHICLE LEFT");
 	}
 
 	//meta! sender="CustomerArrived", id="80", type="Finish"
 	public void processFinish(MessageForm message)
 	{
-		message.setCode(Mc.vehicleArrivedStk);
+		message.setCode(Mc.vehicleArrived);
 		message.setAddressee(mySim().findAgent(Id.agentModel));
 		final MyMessage myMessage = (MyMessage)message;
 		myMessage.setVehicle(stk.vehicleGenerator.getVehicle());
-		request(message);
+		request(myMessage);
 	}
 
 	//meta! userInfo="Process messages defined in code", id="0"

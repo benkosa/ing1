@@ -30,14 +30,19 @@ public class ManagerModel extends Manager
 	//meta! sender="AgentStk", id="21", type="Response"
 	public void processVehicleArrivedStk(MessageForm message)
 	{
-		message.setAddressee(mySim().findAgent(Id.agentStk));
 
-		request(message);
+		message.setCode(Mc.vehicleLeft);
+		message.setAddressee(Id.agentSurrounding);
+		notice(message);
 	}
 
 	//meta! sender="AgentSurrounding", id="19", type="Notice"
 	public void processVehicleArrived(MessageForm message)
 	{
+		message.setCode(Mc.vehicleArrivedStk);
+		message.setAddressee(mySim().findAgent(Id.agentStk));
+
+		request(message);
 	}
 
 	//meta! userInfo="Process messages defined in code", id="0"

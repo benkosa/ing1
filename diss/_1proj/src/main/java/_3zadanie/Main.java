@@ -6,7 +6,7 @@ import _3zadanie.simulation.MySimulation;
 
 public class Main {
     public static void main(String[] args) {
-        MySimulation sim = new MySimulation(10, 17, 4);
+        MySimulation sim = new MySimulation(10, 4, 17);
 
         sim.onSimulationWillStart(s ->{
             System.out.println("Simulating...");

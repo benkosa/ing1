@@ -30,6 +30,8 @@ public class ManagerStk extends Manager
 	//meta! sender="AgentGroup1", id="65", type="Response"
 	public void processVehicleArrivedStkAgentGroup1(MessageForm message)
 	{
+		System.out.println("processVehicleArrivedStkAgentGroup1");
+		response(message);
 	}
 
 	//meta! sender="AgentModel", id="21", type="Request"
