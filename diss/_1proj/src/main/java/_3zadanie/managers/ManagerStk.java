@@ -50,6 +50,7 @@ public class ManagerStk extends Manager
 	//meta! sender="AgentInspection", id="74", type="Response"
 	public void processVehicleInspectionAgentInspection(MessageForm message)
 	{
+		System.out.println("BOL SOM TU INSPECTION FINISHED");
 		response(message);
 	}
 

@@ -32,12 +32,20 @@ public class ManagerInspection extends Manager
 	{
 		// start inspection
 		System.out.println("START INSPECTION " + myAgent().group2.getWorkers().size());
+		message.setAddressee(myAgent().findAssistant(Id.processInspection));
+		startContinualAssistant(message);
 
 	}
 
 	//meta! sender="ProcessInspection", id="89", type="Finish"
 	public void processFinish(MessageForm message)
 	{
+		System.out.println("END INSPECTION " + myAgent().group2.getWorkers().size());
+		MyMessage message1 = (MyMessage) message;
+
+		message.setCode(Mc.vehicleInspection);
+		myAgent().group2.freeWorker(message1);
+		response(message);
 	}
 
 	//meta! sender="AgentStk", id="102", type="Request"

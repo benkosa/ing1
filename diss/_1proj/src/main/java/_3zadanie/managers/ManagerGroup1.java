@@ -82,6 +82,7 @@ public class ManagerGroup1 extends Manager
 	//meta! sender="AgentStk", id="69", type="Response"
 	public void processVehicleInspection(MessageForm message)
 	{
+		System.out.println("RETURNED FROM INSPECTION");
 	}
 
 	//meta! sender="ProcessAcceptVehicle", id="84", type="Finish"
