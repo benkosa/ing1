@@ -4,14 +4,11 @@ import _2zadanie.Workers.WorkersGroup;
 import shared.Distribution.*;
 import shared.EventSimulation.EventSimulationCore;
 import shared.EventSimulation.Queue;
-import shared.Statistics.AverageQueueLength;
-import shared.Statistics.AverageVehicleTimeInSystem;
-import shared.Statistics.AverageVehiclesInSTK;
-import shared.Statistics.AverageWaitingTimeInQueue;
+import shared.Statistics.*;
 
 import java.util.LinkedList;
 
-public class STK extends EventSimulationCore {
+public class STK extends EventSimulationCore implements Core {
     final SeedGenerator seedGenerator;
     final ExponentialDistribution VehicleArrived;
     final UniformDouble vehicleTypeGen;
@@ -27,7 +24,7 @@ public class STK extends EventSimulationCore {
     LinkedList<Vehicle> leftVehicles = new LinkedList<>();
 
     public final AverageVehiclesInSTK averageVehiclesInSTK = new AverageVehiclesInSTK();
-    public final AverageVehicleTimeInSystem averageVehicleTimeInSystem = new AverageVehicleTimeInSystem(this);
+    public final AverageVehicleTimeInSystem<STK> averageVehicleTimeInSystem = new AverageVehicleTimeInSystem<>(this);
     public final AverageQueueLength averageFreeWorker1;
     public final AverageQueueLength averageFreeWorker2;
     public final AverageWaitingTimeInQueue averageWaitingBeforeSTK = new AverageWaitingTimeInQueue(this);

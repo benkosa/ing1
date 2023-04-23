@@ -1,18 +1,23 @@
 package _3zadanie.managers;
 
 import OSPABA.*;
+import _2zadanie.STK;
+import _2zadanie.Vehicle;
 import _3zadanie.simulation.*;
 import _3zadanie.agents.*;
 import _3zadanie.continualAssistants.*;
 import _3zadanie.instantAssistants.*;
+import shared.Statistics.AverageVehicleTimeInSystem;
 
 //meta! id="5"
 public class ManagerModel extends Manager
 {
+	private MySimulation stk;
 	public ManagerModel(int id, Simulation mySim, Agent myAgent)
 	{
 		super(id, mySim, myAgent);
 		init();
+		stk = (MySimulation) mySim;
 	}
 
 	@Override
@@ -30,7 +35,8 @@ public class ManagerModel extends Manager
 	//meta! sender="AgentStk", id="21", type="Response"
 	public void processVehicleArrivedStk(MessageForm message)
 	{
-
+		final MyMessage myMessage = (MyMessage)message;
+		stk.averageVehicleTimeInSystem.vehicleLeft(myMessage.getVehicle());
 		message.setCode(Mc.vehicleLeft);
 		message.setAddressee(Id.agentSurrounding);
 		notice(message);
@@ -39,6 +45,9 @@ public class ManagerModel extends Manager
 	//meta! sender="AgentSurrounding", id="19", type="Notice"
 	public void processVehicleArrived(MessageForm message)
 	{
+		final MyMessage myMessage = (MyMessage)message;
+		myMessage.getVehicle().setArrived(mySim().currentTime());
+
 		message.setCode(Mc.vehicleArrivedStk);
 		message.setAddressee(mySim().findAgent(Id.agentStk));
 

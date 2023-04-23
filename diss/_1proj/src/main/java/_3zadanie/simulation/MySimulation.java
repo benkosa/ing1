@@ -1,19 +1,24 @@
 package _3zadanie.simulation;
 
 import OSPABA.*;
+import _2zadanie.STK;
 import _3zadanie.agents.*;
 import _3zadanie.support.VehicleGenerator;
 import shared.Distribution.DiscreteEmpiricalDistribution;
 import shared.Distribution.DiscreteUniformDistribution;
 import shared.Distribution.SeedGenerator;
 import shared.EventSimulation.Queue;
+import shared.Statistics.AverageVehicleTimeInSystem;
+import shared.Statistics.Core;
 
-public class MySimulation extends Simulation
+public class MySimulation extends Simulation implements Core
 {
 	private final int workers1;
 	private final int workers2;
 	public final SeedGenerator seedGenerator;
 	public final VehicleGenerator vehicleGenerator;
+
+	public final AverageVehicleTimeInSystem <MySimulation> averageVehicleTimeInSystem;
 
 	public MySimulation(int seed, int workers1, int workers2)
 	{
@@ -22,6 +27,7 @@ public class MySimulation extends Simulation
 		this.workers1 = workers1;
 		this.workers2 = workers2;
 		init();
+		averageVehicleTimeInSystem = new AverageVehicleTimeInSystem<>(this);
 
 	}
 
@@ -52,6 +58,7 @@ public class MySimulation extends Simulation
 	{
 		// Collect local statistics into global, update UI, etc...
 		super.replicationFinished();
+		averageVehicleTimeInSystem.countResult();
 	}
 
 	@Override
@@ -59,6 +66,7 @@ public class MySimulation extends Simulation
 	{
 		// Dysplay simulation results
 		super.simulationFinished();
+		System.out.println(averageVehicleTimeInSystem.totalResult()/60.0);
 	}
 
 	//meta! userInfo="Generated code: do not modify", tag="begin"
@@ -110,5 +118,10 @@ public AgentInspection agentInspection()
 
 	public void setAgentInspection(AgentInspection agentInspection)
 	{_agentInspection = agentInspection; }
+
+	@Override
+	public double getCurrentTime() {
+		return currentTime();
+	}
 	//meta! tag="end"
 }

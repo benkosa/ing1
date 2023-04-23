@@ -3,9 +3,9 @@ package shared.Statistics;
 import _2zadanie.STK;
 import _2zadanie.Vehicle;
 
-public class AverageVehicleTimeInSystem extends Statistics{
+public class AverageVehicleTimeInSystem<T extends Core> extends Statistics{
 
-    public AverageVehicleTimeInSystem(STK stk) {
+    public AverageVehicleTimeInSystem(T stk) {
         this.stk = stk;
     }
 
@@ -14,7 +14,7 @@ public class AverageVehicleTimeInSystem extends Statistics{
 
     public SampleStandardDeviation sampleStandardDeviation = new SampleStandardDeviation();
 
-    final private STK stk;
+    final private T stk;
     @Override
     protected double replicationResult() {
         double result = sumTimeInSystem/countVehicles;

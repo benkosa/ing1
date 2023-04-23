@@ -39,7 +39,7 @@ public class ManagerGroup1 extends Manager
 		System.out.println(myAgent().group1.isWorkerFree());
 
 		// code from event simulation
-		myMessage.getVehicle().setArrived(stk.currentTime());
+
 
 		// je volny worker
 		if (myAgent().group1.isWorkerFree()) {
