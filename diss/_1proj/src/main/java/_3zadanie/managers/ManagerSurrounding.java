@@ -37,7 +37,6 @@ public class ManagerSurrounding extends Manager
 	//meta! sender="AgentModel", id="20", type="Notice"
 	public void processVehicleLeft(MessageForm message)
 	{
-		System.out.println("VEHICLE LEFT");
 	}
 
 	//meta! sender="CustomerArrived", id="80", type="Finish"

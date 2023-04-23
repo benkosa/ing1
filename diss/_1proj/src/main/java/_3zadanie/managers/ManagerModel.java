@@ -35,6 +35,7 @@ public class ManagerModel extends Manager
 	//meta! sender="AgentStk", id="21", type="Response"
 	public void processVehicleArrivedStk(MessageForm message)
 	{
+		System.out.println("customer left");
 		final MyMessage myMessage = (MyMessage)message;
 		stk.averageVehicleTimeInSystem.vehicleLeft(myMessage.getVehicle());
 		message.setCode(Mc.vehicleLeft);
@@ -45,6 +46,7 @@ public class ManagerModel extends Manager
 	//meta! sender="AgentSurrounding", id="19", type="Notice"
 	public void processVehicleArrived(MessageForm message)
 	{
+		System.out.println("customer arrived");
 		final MyMessage myMessage = (MyMessage)message;
 		myMessage.getVehicle().setArrived(mySim().currentTime());
 

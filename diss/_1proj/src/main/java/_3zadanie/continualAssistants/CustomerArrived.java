@@ -30,8 +30,6 @@ public class CustomerArrived extends Scheduler
 	public void processStart(MessageForm message)
 	{
 		message.setCode(Mc.vehicleArrived);
-
-		System.out.println("customer arrived 1");
 		hold(_exp.sample(), message);
 	}
 
@@ -45,7 +43,6 @@ public class CustomerArrived extends Scheduler
 				if ((mySimulation.currentTime() + time) < 24300) {
 					MessageForm copy = message.createCopy();
 					hold(time, copy);
-					System.out.println("customer arrived 2");
 					assistantFinished(message);
 				}
 			break;
