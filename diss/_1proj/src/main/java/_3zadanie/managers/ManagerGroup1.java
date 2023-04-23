@@ -61,6 +61,7 @@ public class ManagerGroup1 extends Manager
 				//stk.averageQueueBeforeSTK.countAverageQueueLength();
 
 			}else if (myAgent().queueInStk.isSpaceInQueue() && myAgent().queueBeforeStk.getSize() > 0) {
+				System.out.println("bol som tu 1");
 				final MyMessage newVehicle = myAgent().queueBeforeStk.poll();
 				myAgent().group1.hireWorker(newVehicle);
 
@@ -83,14 +84,41 @@ public class ManagerGroup1 extends Manager
 	public void processVehicleInspection(MessageForm message)
 	{
 		System.out.println("RETURNED FROM INSPECTION");
+//		final MyMessage myMessage = (MyMessage)message;
+//		final Vehicle vehicle = myMessage.getVehicle();
+//
+//		//ak je volny vorker zo skupiny 2 a cakaju auta na inspekciu
+//		if (myAgent().queueInStk.getReadySize() > 0) {
+//			isWorkerFree(myMessage);
+//		} else {
+//			//free worker
+//		}
+//		// ak je volny worker zo skupiny 1
+//		if (myAgent().group1.isWorkerFree()) {
+//			//ak uz niekto caka v rade
+//			if (myAgent().queueAfterStk.getSize() > 0) {
+//				final MyMessage newVehicle = myAgent().queueAfterStk.poll();
+//				myAgent().group1.hireWorker(newVehicle);
+//				startProcessPayment(newVehicle);
+//
+//				vehicle.arrivedInQueue(stk.currentTime());
+//				myAgent().queueAfterStk.addQueue(myMessage);
+//
+//			} else  {
+//				myAgent().group1.hireWorker(myMessage);
+//				startProcessPayment(myMessage);
+//			}
+//		} else {
+//			vehicle.arrivedInQueue(stk.currentTime());
+//			myAgent().queueAfterStk.addQueue(myMessage);
+//		}
+
 	}
 
 	//meta! sender="ProcessAcceptVehicle", id="84", type="Finish"
 	public void processFinishProcessAcceptVehicle(MessageForm message)
 	{
-		message.setCode(Mc.isWorkerFree);
-		message.setAddressee(Id.agentStk);
-		request(message);
+		isWorkerFree((MyMessage) message);
 	}
 
 	//meta! sender="ProcessPayment", id="86", type="Finish"
@@ -103,7 +131,7 @@ public class ManagerGroup1 extends Manager
 	{
 		final MyMessage myMessage = (MyMessage)message;
 		final Vehicle vehicle = myMessage.getVehicle();
-		System.out.println("accept vehicle finished");
+		System.out.println("accept vehicle finished " + myMessage.isInspectionWorkerFree());
 
 		vehicle.arrivedInQueue(stk.currentTime());
 		myAgent().queueInStk.move(vehicle.id);
@@ -212,6 +240,12 @@ public class ManagerGroup1 extends Manager
 		message.setAddressee(Id.agentStk);
 		request(message);
 
+	}
+
+	private void isWorkerFree(MyMessage message) {
+		message.setCode(Mc.isWorkerFree);
+		message.setAddressee(Id.agentStk);
+		request(message);
 	}
 
 
