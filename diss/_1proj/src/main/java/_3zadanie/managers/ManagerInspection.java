@@ -42,9 +42,8 @@ public class ManagerInspection extends Manager
 	{
 		System.out.println("END INSPECTION " + myAgent().group2.getWorkers().size());
 		MyMessage message1 = (MyMessage) message;
-
-		message.setCode(Mc.vehicleInspection);
 		myAgent().group2.freeWorker(message1);
+		message.setCode(Mc.vehicleInspection);
 		response(message);
 	}
 
@@ -70,6 +69,9 @@ public class ManagerInspection extends Manager
 	//meta! sender="AgentStk", id="119", type="Notice"
 	public void processFreeWorker(MessageForm message)
 	{
+		System.out.println("HIRE WORKER");
+		myAgent().group2.hireWorker((MyMessage) message);
+
 	}
 
 	//meta! userInfo="Generated code: do not modify", tag="begin"

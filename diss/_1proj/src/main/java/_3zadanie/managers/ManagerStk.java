@@ -78,6 +78,8 @@ public class ManagerStk extends Manager
 	//meta! sender="AgentGroup1", id="116", type="Notice"
 	public void processFreeWorker(MessageForm message)
 	{
+		message.setAddressee(Id.agentInspection);
+		notice(message);
 	}
 
 	//meta! userInfo="Generated code: do not modify", tag="begin"

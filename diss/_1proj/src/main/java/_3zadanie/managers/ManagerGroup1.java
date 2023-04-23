@@ -4,8 +4,6 @@ import OSPABA.*;
 import _2zadanie.Vehicle;
 import _3zadanie.simulation.*;
 import _3zadanie.agents.*;
-import _3zadanie.continualAssistants.*;
-import _3zadanie.instantAssistants.*;
 
 //meta! id="58"
 public class ManagerGroup1 extends Manager
@@ -84,34 +82,34 @@ public class ManagerGroup1 extends Manager
 	public void processVehicleInspection(MessageForm message)
 	{
 		System.out.println("RETURNED FROM INSPECTION");
-//		final MyMessage myMessage = (MyMessage)message;
-//		final Vehicle vehicle = myMessage.getVehicle();
-//
-//		//ak je volny vorker zo skupiny 2 a cakaju auta na inspekciu
-//		if (myAgent().queueInStk.getReadySize() > 0) {
-//			isWorkerFree(myMessage);
-//		} else {
-//			//free worker
-//		}
-//		// ak je volny worker zo skupiny 1
-//		if (myAgent().group1.isWorkerFree()) {
-//			//ak uz niekto caka v rade
-//			if (myAgent().queueAfterStk.getSize() > 0) {
-//				final MyMessage newVehicle = myAgent().queueAfterStk.poll();
-//				myAgent().group1.hireWorker(newVehicle);
-//				startProcessPayment(newVehicle);
-//
-//				vehicle.arrivedInQueue(stk.currentTime());
-//				myAgent().queueAfterStk.addQueue(myMessage);
-//
-//			} else  {
-//				myAgent().group1.hireWorker(myMessage);
-//				startProcessPayment(myMessage);
-//			}
-//		} else {
-//			vehicle.arrivedInQueue(stk.currentTime());
-//			myAgent().queueAfterStk.addQueue(myMessage);
-//		}
+		final MyMessage myMessage = (MyMessage)message;
+		final Vehicle vehicle = myMessage.getVehicle();
+
+		//ak je volny vorker zo skupiny 2 a cakaju auta na inspekciu
+		if (myAgent().queueInStk.getReadySize() > 0) {
+			final MyMessage newVehicle = myAgent().queueInStk.poll();
+			hireWorker(newVehicle);
+			startInspection(newVehicle);
+		}
+		// ak je volny worker zo skupiny 1
+		if (myAgent().group1.isWorkerFree()) {
+			//ak uz niekto caka v rade
+			if (myAgent().queueAfterStk.getSize() > 0) {
+				final MyMessage newVehicle = myAgent().queueAfterStk.poll();
+				myAgent().group1.hireWorker(newVehicle);
+				startProcessPayment(newVehicle);
+
+				vehicle.arrivedInQueue(stk.currentTime());
+				myAgent().queueAfterStk.addQueue(myMessage);
+
+			} else  {
+				myAgent().group1.hireWorker(myMessage);
+				startProcessPayment(myMessage);
+			}
+		} else {
+			vehicle.arrivedInQueue(stk.currentTime());
+			myAgent().queueAfterStk.addQueue(myMessage);
+		}
 
 	}
 
@@ -246,6 +244,18 @@ public class ManagerGroup1 extends Manager
 		message.setCode(Mc.isWorkerFree);
 		message.setAddressee(Id.agentStk);
 		request(message);
+	}
+
+	private void hireWorker(MyMessage message) {
+		MessageForm newMessage = message.createCopy();
+		MyMessage myMessage = (MyMessage) newMessage;
+
+		myMessage.setVehicle(message.getVehicle());
+
+		myMessage.setAddressee(Id.agentStk);
+		myMessage.setCode(Mc.freeWorker);
+		notice(myMessage);
+
 	}
 
 
