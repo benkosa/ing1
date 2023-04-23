@@ -33,7 +33,7 @@ public class ManagerGroup1 extends Manager
 	//meta! sender="AgentStk", id="65", type="Request"
 	public void processVehicleArrivedStk(MessageForm message)
 	{
-		message.setCode(Mc.isQueueOpen);
+		message.setCode(Mc.isWorkerFree);
 		message.setAddressee(Id.agentStk);
 		request(message);
 	}
@@ -54,7 +54,7 @@ public class ManagerGroup1 extends Manager
 	}
 
 	//meta! sender="AgentStk", id="98", type="Response"
-	public void processIsQueueOpen(MessageForm message)
+	public void processIsWorkerFree(MessageForm message)
 	{
 		final MyMessage myMessage = (MyMessage)message;
 		final Vehicle vehicle = myMessage.getVehicle();
@@ -117,12 +117,12 @@ public class ManagerGroup1 extends Manager
 	{
 		switch (message.code())
 		{
-		case Mc.isQueueOpen:
-			processIsQueueOpen(message);
-		break;
-
 		case Mc.vehicleInspection:
 			processVehicleInspection(message);
+		break;
+
+		case Mc.isWorkerFree:
+			processIsWorkerFree(message);
 		break;
 
 		case Mc.finish:

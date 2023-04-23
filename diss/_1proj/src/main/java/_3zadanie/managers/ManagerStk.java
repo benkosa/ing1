@@ -51,13 +51,13 @@ public class ManagerStk extends Manager
 	}
 
 	//meta! sender="AgentInspection", id="102", type="Response"
-	public void processIsQueueOpenAgentInspection(MessageForm message)
+	public void processIsWorkerFreeAgentInspection(MessageForm message)
 	{
 		response(message);
 	}
 
 	//meta! sender="AgentGroup1", id="98", type="Request"
-	public void processIsQueueOpenAgentGroup1(MessageForm message)
+	public void processIsWorkerFreeAgentGroup1(MessageForm message)
 	{
 		message.setAddressee(Id.agentInspection);
 		request(message);
@@ -81,19 +81,6 @@ public class ManagerStk extends Manager
 	{
 		switch (message.code())
 		{
-		case Mc.isQueueOpen:
-			switch (message.sender().id())
-			{
-			case Id.agentInspection:
-				processIsQueueOpenAgentInspection(message);
-			break;
-
-			case Id.agentGroup1:
-				processIsQueueOpenAgentGroup1(message);
-			break;
-			}
-		break;
-
 		case Mc.vehicleInspection:
 			switch (message.sender().id())
 			{
@@ -103,6 +90,19 @@ public class ManagerStk extends Manager
 
 			case Id.agentGroup1:
 				processVehicleInspectionAgentGroup1(message);
+			break;
+			}
+		break;
+
+		case Mc.isWorkerFree:
+			switch (message.sender().id())
+			{
+			case Id.agentGroup1:
+				processIsWorkerFreeAgentGroup1(message);
+			break;
+
+			case Id.agentInspection:
+				processIsWorkerFreeAgentInspection(message);
 			break;
 			}
 		break;

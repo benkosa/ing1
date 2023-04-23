@@ -6,7 +6,7 @@ public class Mc extends IdList
 {
 	//meta! userInfo="Generated code: do not modify", tag="begin"
 	public static final int vehicleArrivedStk = 1031;
-	public static final int isQueueOpen = 1037;
+	public static final int isWorkerFree = 1037;
 	public static final int vehicleInspection = 1033;
 	public static final int init = 1035;
 	public static final int vehicleArrived = 1012;

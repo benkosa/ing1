@@ -38,7 +38,7 @@ public class ManagerInspection extends Manager
 	}
 
 	//meta! sender="AgentStk", id="102", type="Request"
-	public void processIsQueueOpen(MessageForm message)
+	public void processIsWorkerFree(MessageForm message)
 	{
 		MyMessage message1 = (MyMessage) message;
 		message1.setInspectionWorkerFree(myAgent().group2.isWorkerFree());
@@ -64,16 +64,16 @@ public class ManagerInspection extends Manager
 	{
 		switch (message.code())
 		{
-		case Mc.isQueueOpen:
-			processIsQueueOpen(message);
-		break;
-
 		case Mc.vehicleInspection:
 			processVehicleInspection(message);
 		break;
 
 		case Mc.finish:
 			processFinish(message);
+		break;
+
+		case Mc.isWorkerFree:
+			processIsWorkerFree(message);
 		break;
 
 		default:
