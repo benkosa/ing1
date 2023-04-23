@@ -39,9 +39,6 @@ public class AgentSurrounding extends Agent
 		MyMessage myMessage = new MyMessage(mySim());
 		myMessage.setAddressee(findAssistant(Id.customerArrived));
 
-		System.out.println(Id.customerArrived);
-		System.out.println(manager().id());
-
 		manager().startContinualAssistant(myMessage);
 	}
 }

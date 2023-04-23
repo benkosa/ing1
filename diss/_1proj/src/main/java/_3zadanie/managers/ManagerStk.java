@@ -30,7 +30,6 @@ public class ManagerStk extends Manager
 	//meta! sender="AgentGroup1", id="65", type="Response"
 	public void processVehicleArrivedStkAgentGroup1(MessageForm message)
 	{
-		System.out.println("processVehicleArrivedStkAgentGroup1");
 		response(message);
 	}
 
@@ -52,7 +51,6 @@ public class ManagerStk extends Manager
 	//meta! sender="AgentInspection", id="74", type="Response"
 	public void processVehicleInspectionAgentInspection(MessageForm message)
 	{
-		System.out.println("BOL SOM TU INSPECTION FINISHED");
 		response(message);
 	}
 

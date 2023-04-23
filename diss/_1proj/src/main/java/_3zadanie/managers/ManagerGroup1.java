@@ -34,10 +34,6 @@ public class ManagerGroup1 extends Manager
 		final MyMessage myMessage = (MyMessage)message;
 		final Vehicle vehicle = myMessage.getVehicle();
 
-		System.out.println("vehicle arrived: " + myMessage.getVehicle().id + " : " + message.deliveryTime());
-
-		System.out.println(myAgent().group1.isWorkerFree());
-
 		// code from event simulation
 
 
@@ -59,7 +55,7 @@ public class ManagerGroup1 extends Manager
 				//stk.averageQueueBeforeSTK.countAverageQueueLength();
 
 			}else if (myAgent().queueInStk.isSpaceInQueue() && myAgent().queueBeforeStk.getSize() > 0) {
-				System.out.println("bol som tu 1");
+
 				final MyMessage newVehicle = myAgent().queueBeforeStk.poll();
 				myAgent().group1.hireWorker(newVehicle);
 
@@ -81,7 +77,6 @@ public class ManagerGroup1 extends Manager
 	//meta! sender="AgentStk", id="69", type="Response"
 	public void processVehicleInspection(MessageForm message)
 	{
-		System.out.println("RETURNED FROM INSPECTION");
 		final MyMessage myMessage = (MyMessage)message;
 		final Vehicle vehicle = myMessage.getVehicle();
 
@@ -122,7 +117,6 @@ public class ManagerGroup1 extends Manager
 	//meta! sender="ProcessPayment", id="86", type="Finish"
 	public void processFinishProcessPayment(MessageForm message)
 	{
-		System.out.println("PAYMENT END");
 		final MyMessage myMessage = (MyMessage)message;
 		final Vehicle vehicle = myMessage.getVehicle();
 
@@ -154,7 +148,6 @@ public class ManagerGroup1 extends Manager
 	{
 		final MyMessage myMessage = (MyMessage)message;
 		final Vehicle vehicle = myMessage.getVehicle();
-		System.out.println("accept vehicle finished " + myMessage.isInspectionWorkerFree());
 
 		vehicle.arrivedInQueue(stk.currentTime());
 		myAgent().queueInStk.move(vehicle.id);

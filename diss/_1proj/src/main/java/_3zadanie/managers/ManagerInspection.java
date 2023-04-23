@@ -31,7 +31,6 @@ public class ManagerInspection extends Manager
 	public void processVehicleInspection(MessageForm message)
 	{
 		// start inspection
-		System.out.println("START INSPECTION " + myAgent().group2.getWorkers().size());
 		message.setAddressee(myAgent().findAssistant(Id.processInspection));
 		startContinualAssistant(message);
 
@@ -40,7 +39,6 @@ public class ManagerInspection extends Manager
 	//meta! sender="ProcessInspection", id="89", type="Finish"
 	public void processFinish(MessageForm message)
 	{
-		System.out.println("END INSPECTION " + myAgent().group2.getWorkers().size());
 		MyMessage message1 = (MyMessage) message;
 		myAgent().group2.freeWorker(message1);
 		message.setCode(Mc.vehicleInspection);
@@ -69,7 +67,6 @@ public class ManagerInspection extends Manager
 	//meta! sender="AgentStk", id="119", type="Notice"
 	public void processHireWorker(MessageForm message)
 	{
-		System.out.println("HIRE WORKER");
 		myAgent().group2.hireWorker((MyMessage) message);
 
 	}
