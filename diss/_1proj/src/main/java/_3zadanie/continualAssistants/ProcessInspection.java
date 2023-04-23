@@ -11,6 +11,7 @@ public class ProcessInspection extends Process
 	public ProcessInspection(int id, Simulation mySim, CommonAgent myAgent)
 	{
 		super(id, mySim, myAgent);
+		myAgent.addOwnMessage(Mc.processInspectionFinish);
 	}
 
 	@Override
@@ -23,6 +24,9 @@ public class ProcessInspection extends Process
 	//meta! sender="AgentInspection", id="89", type="Start"
 	public void processStart(MessageForm message)
 	{
+		MyMessage myMessage = (MyMessage) message;
+		message.setCode(Mc.processInspectionFinish);
+		hold(myMessage.getVehicle().getInspectionTime(), message);
 	}
 
 	//meta! userInfo="Process messages defined in code", id="0"
@@ -30,6 +34,9 @@ public class ProcessInspection extends Process
 	{
 		switch (message.code())
 		{
+			case Mc.processInspectionFinish:
+				assistantFinished(message);
+				break;
 		}
 	}
 

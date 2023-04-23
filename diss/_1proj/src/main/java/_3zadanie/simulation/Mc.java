@@ -17,4 +17,5 @@ public class Mc extends IdList
 
 	public static final int processAcceptVehicleFinish = 1;
 	public static final int processPaymentFinish = 2;
+    public static final int processInspectionFinish = 3;
 }
