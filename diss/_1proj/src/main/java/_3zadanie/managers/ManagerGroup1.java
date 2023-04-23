@@ -122,6 +122,29 @@ public class ManagerGroup1 extends Manager
 	//meta! sender="ProcessPayment", id="86", type="Finish"
 	public void processFinishProcessPayment(MessageForm message)
 	{
+		System.out.println("PAYMENT END");
+		final MyMessage myMessage = (MyMessage)message;
+		final Vehicle vehicle = myMessage.getVehicle();
+
+		myAgent().group1.freeWorker(myMessage);
+		//stk.saveLeftVehicle(vehicle);
+		//stk.averageVehiclesInSTK.vehicleLeft();
+		//stk.averageVehicleTimeInSystem.vehicleLeft(vehicle);
+
+		// ak niekto caka na platbu a je volny zamestanec zo skupiny 1
+		if (myAgent().queueAfterStk.getSize() > 0) {
+			final MyMessage newVehicle = myAgent().queueAfterStk.poll();
+			myAgent().group1.hireWorker(newVehicle);
+			startProcessPayment(newVehicle);
+			// ak niekto caka pred stk a je volny zamestnace zo skupiny 1 a je volne miesto na parkovisku
+		} else if (
+				myAgent().queueBeforeStk.getSize() > 0 &&
+						myAgent().queueInStk.isSpaceInQueue()
+		) {
+			final MyMessage newVehicle = myAgent().queueBeforeStk.poll();
+			myAgent().group1.hireWorker(newVehicle);
+			startProcessAcceptVehicle(newVehicle);
+		}
 	}
 
 	//meta! sender="AgentStk", id="98", type="Response"
