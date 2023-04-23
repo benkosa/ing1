@@ -81,12 +81,12 @@ public class ManagerSurrounding extends Manager
 			processInit(message);
 		break;
 
-		case Mc.finish:
-			processFinish(message);
-		break;
-
 		case Mc.vehicleLeft:
 			processVehicleLeft(message);
+		break;
+
+		case Mc.finish:
+			processFinish(message);
 		break;
 
 		default:

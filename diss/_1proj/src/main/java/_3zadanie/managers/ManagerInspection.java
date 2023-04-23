@@ -67,6 +67,11 @@ public class ManagerInspection extends Manager
 		}
 	}
 
+	//meta! sender="AgentStk", id="119", type="Notice"
+	public void processFreeWorker(MessageForm message)
+	{
+	}
+
 	//meta! userInfo="Generated code: do not modify", tag="begin"
 	public void init()
 	{
@@ -79,6 +84,10 @@ public class ManagerInspection extends Manager
 		{
 		case Mc.vehicleInspection:
 			processVehicleInspection(message);
+		break;
+
+		case Mc.freeWorker:
+			processFreeWorker(message);
 		break;
 
 		case Mc.finish:

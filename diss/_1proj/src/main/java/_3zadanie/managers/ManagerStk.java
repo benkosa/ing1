@@ -75,6 +75,11 @@ public class ManagerStk extends Manager
 		}
 	}
 
+	//meta! sender="AgentGroup1", id="116", type="Notice"
+	public void processFreeWorker(MessageForm message)
+	{
+	}
+
 	//meta! userInfo="Generated code: do not modify", tag="begin"
 	public void init()
 	{
@@ -96,6 +101,10 @@ public class ManagerStk extends Manager
 				processVehicleInspectionAgentGroup1(message);
 			break;
 			}
+		break;
+
+		case Mc.freeWorker:
+			processFreeWorker(message);
 		break;
 
 		case Mc.isWorkerFree:

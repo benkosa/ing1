@@ -34,6 +34,7 @@ public class AgentInspection extends Agent
 	{
 		new ManagerInspection(Id.managerInspection, mySim(), this);
 		new ProcessInspection(Id.processInspection, mySim(), this);
+		addOwnMessage(Mc.freeWorker);
 		addOwnMessage(Mc.vehicleInspection);
 		addOwnMessage(Mc.isWorkerFree);
 	}
