@@ -51,7 +51,7 @@ public class ManagerGroup1 extends Manager
 				myAgent().group1.hireWorker(newVehicle);
 				startProcessPayment(newVehicle);
 				// ideme priamo na receive
-			} else if (myAgent().queueBeforeStk.isSpaceInQueue() && myAgent().queueBeforeStk.getSize() == 0){
+			} else if (myAgent().queueInStk.isSpaceInQueue() && myAgent().queueBeforeStk.getSize() == 0){
 				vehicle.arrivedInQueue(stk.currentTime());
 				//stk.averageWaitingBeforeSTK.countAverageTimeInQueue(vehicle.startWaitingInQue);
 				myAgent().group1.hireWorker(myMessage);
@@ -60,7 +60,7 @@ public class ManagerGroup1 extends Manager
 
 				//stk.averageQueueBeforeSTK.countAverageQueueLength();
 
-			}else if (myAgent().queueBeforeStk.isSpaceInQueue() && myAgent().queueBeforeStk.getSize() > 0) {
+			}else if (myAgent().queueInStk.isSpaceInQueue() && myAgent().queueBeforeStk.getSize() > 0) {
 				final MyMessage newVehicle = myAgent().queueBeforeStk.poll();
 				myAgent().group1.hireWorker(newVehicle);
 
@@ -102,6 +102,33 @@ public class ManagerGroup1 extends Manager
 	{
 		final MyMessage myMessage = (MyMessage)message;
 		final Vehicle vehicle = myMessage.getVehicle();
+		System.out.println("accept vehicle finished");
+
+		vehicle.arrivedInQueue(stk.currentTime());
+		myAgent().queueInStk.move(vehicle.id);
+
+		//ak je volny worker zp skupiny 2 a cakaju auta na inspekciu
+		if (myMessage.isInspectionWorkerFree()) {
+			final MyMessage newVehicle = myAgent().queueInStk.poll();
+			startInspection(newVehicle);
+		}
+
+		myAgent().group1.freeWorker(myMessage);
+		// ak niekto caka na platbu a je volny zamestanec zo skupiny 1
+		if (myAgent().queueAfterStk.getSize() > 0) {
+			final MyMessage newVehicle = myAgent().queueAfterStk.poll();
+			myAgent().group1.hireWorker(newVehicle);
+			startProcessPayment(newVehicle);
+			// ak niekto caka pred stk a je volny zamestnace zo skupiny 1 a je volne miesto na parkovisku
+		} else if (
+				myAgent().queueBeforeStk.getSize() > 0 &&
+						myAgent().queueInStk.isSpaceInQueue()
+		) {
+			final MyMessage newVehicle = myAgent().queueBeforeStk.poll();
+			myAgent().group1.hireWorker(newVehicle);
+			startProcessAcceptVehicle(newVehicle);
+		}
+
 	}
 
 	//meta! userInfo="Process messages defined in code", id="0"
@@ -175,6 +202,14 @@ public class ManagerGroup1 extends Manager
 
 		message.setAddressee(myAgent().findAssistant(Id.processPayment));
 		startContinualAssistant(message);
+
+	}
+
+	private void startInspection(MyMessage message) {
+
+		message.setCode(Mc.vehicleInspection);
+		message.setAddressee(Id.agentStk);
+		request(message);
 
 	}
 

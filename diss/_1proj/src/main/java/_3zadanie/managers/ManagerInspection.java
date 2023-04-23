@@ -30,6 +30,9 @@ public class ManagerInspection extends Manager
 	//meta! sender="AgentStk", id="74", type="Request"
 	public void processVehicleInspection(MessageForm message)
 	{
+		// start inspection
+		System.out.println("START INSPECTION " + myAgent().group2.getWorkers().size());
+
 	}
 
 	//meta! sender="ProcessInspection", id="89", type="Finish"
@@ -42,6 +45,9 @@ public class ManagerInspection extends Manager
 	{
 		MyMessage message1 = (MyMessage) message;
 		message1.setInspectionWorkerFree(myAgent().group2.isWorkerFree());
+		if (myAgent().group2.isWorkerFree()) {
+			myAgent().group2.hireWorker(message1);
+		}
 		response(message);
 	}
 

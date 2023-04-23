@@ -43,11 +43,14 @@ public class ManagerStk extends Manager
 	//meta! sender="AgentGroup1", id="69", type="Request"
 	public void processVehicleInspectionAgentGroup1(MessageForm message)
 	{
+		message.setAddressee(Id.agentInspection);
+		request(message);
 	}
 
 	//meta! sender="AgentInspection", id="74", type="Response"
 	public void processVehicleInspectionAgentInspection(MessageForm message)
 	{
+		response(message);
 	}
 
 	//meta! sender="AgentInspection", id="102", type="Response"
