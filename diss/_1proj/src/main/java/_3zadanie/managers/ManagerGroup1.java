@@ -127,6 +127,8 @@ public class ManagerGroup1 extends Manager
 		final Vehicle vehicle = myMessage.getVehicle();
 
 		myAgent().group1.freeWorker(myMessage);
+		myMessage.setCode(Mc.vehicleArrivedStk);
+		response(myMessage);
 		//stk.saveLeftVehicle(vehicle);
 		//stk.averageVehiclesInSTK.vehicleLeft();
 		//stk.averageVehicleTimeInSystem.vehicleLeft(vehicle);

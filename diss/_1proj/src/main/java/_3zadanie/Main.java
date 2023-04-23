@@ -12,6 +12,6 @@ public class Main {
             System.out.println("Simulating...");
         });
 
-        sim.simulate(1, 24300);
+        sim.simulate(1, 8*60*60);
     }
 }

@@ -41,10 +41,13 @@ public class CustomerArrived extends Scheduler
 		switch (message.code())
 		{
 			case Mc.vehicleArrived:
-				MessageForm copy = message.createCopy();
-				hold(_exp.sample(), copy);
-				System.out.println("customer arrived 2");
-				assistantFinished(message);
+				double time = _exp.sample();
+				if ((mySimulation.currentTime() + time) < 24300) {
+					MessageForm copy = message.createCopy();
+					hold(time, copy);
+					System.out.println("customer arrived 2");
+					assistantFinished(message);
+				}
 			break;
 		}
 	}
