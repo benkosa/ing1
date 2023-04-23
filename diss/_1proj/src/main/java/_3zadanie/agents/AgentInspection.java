@@ -13,7 +13,6 @@ import shared.EventSimulation.Queue;
 public class AgentInspection extends Agent
 {
 	public final WorkersGroup<MyMessage> group2;
-	public final Queue<Long, Vehicle> queueInStk = new Queue<>(5);
 	final MySimulation stk;
 	public AgentInspection(int id, Simulation mySim, Agent parent)
 	{

@@ -33,34 +33,14 @@ public class ManagerGroup1 extends Manager
 	//meta! sender="AgentStk", id="65", type="Request"
 	public void processVehicleArrivedStk(MessageForm message)
 	{
-		message.setCode(Mc.isWorkerFree);
-		message.setAddressee(Id.agentStk);
-		request(message);
-	}
-
-	//meta! sender="AgentStk", id="69", type="Response"
-	public void processVehicleInspection(MessageForm message)
-	{
-	}
-
-	//meta! sender="ProcessAcceptVehicle", id="84", type="Finish"
-	public void processFinishProcessAcceptVehicle(MessageForm message)
-	{
-	}
-
-	//meta! sender="ProcessPayment", id="86", type="Finish"
-	public void processFinishProcessPayment(MessageForm message)
-	{
-	}
-
-	//meta! sender="AgentStk", id="98", type="Response"
-	public void processIsWorkerFree(MessageForm message)
-	{
 		final MyMessage myMessage = (MyMessage)message;
 		final Vehicle vehicle = myMessage.getVehicle();
-		//if ()
+
 		System.out.println("vehicle arrived: " + myMessage.getVehicle().id + " : " + message.deliveryTime());
-				// code from event simulation
+
+		System.out.println(myAgent().group1.isWorkerFree());
+
+		// code from event simulation
 		myMessage.getVehicle().setArrived(stk.currentTime());
 
 		// je volny worker
@@ -69,22 +49,22 @@ public class ManagerGroup1 extends Manager
 			if (myAgent().queueAfterStk.getSize() > 0) {
 				final MyMessage newVehicle = myAgent().queueAfterStk.poll();
 				myAgent().group1.hireWorker(newVehicle);
-				//TODO START PAYMENT
-				//stk.scheduleStartPayment(newVehicle);
+				startProcessPayment(newVehicle);
 				// ideme priamo na receive
-			} else if (stk.isSpaceInsideStk() && myAgent().queueBeforeStk.getSize() == 0){
-				vehicle.startWaitingInQue = stk.getCurrentTime();
-				stk.averageWaitingBeforeSTK.countAverageTimeInQueue(vehicle.startWaitingInQue);
-				stk.group1.hireWorker(this.vehicle);
-				stk.arrivedInStkQueue(this.vehicle);
-				stk.scheduleReceiveVehicle(this.vehicle);
-				stk.averageQueueBeforeSTK.countAverageQueueLength();
+			} else if (myAgent().queueBeforeStk.isSpaceInQueue() && myAgent().queueBeforeStk.getSize() == 0){
+				vehicle.arrivedInQueue(stk.currentTime());
+				//stk.averageWaitingBeforeSTK.countAverageTimeInQueue(vehicle.startWaitingInQue);
+				myAgent().group1.hireWorker(myMessage);
 
-			}else if (stk.isSpaceInsideStk() && stk.queueBeforeStk.getSize() > 0) {
-				final Vehicle newVehicle = stk.queueBeforeStk.poll();
-				stk.group1.hireWorker(newVehicle);
-				stk.arrivedInStkQueue(newVehicle);
-				stk.scheduleReceiveVehicle(newVehicle);
+				startProcessAcceptVehicle(myMessage);
+
+				//stk.averageQueueBeforeSTK.countAverageQueueLength();
+
+			}else if (myAgent().queueBeforeStk.isSpaceInQueue() && myAgent().queueBeforeStk.getSize() > 0) {
+				final MyMessage newVehicle = myAgent().queueBeforeStk.poll();
+				myAgent().group1.hireWorker(newVehicle);
+
+				startProcessAcceptVehicle(newVehicle);
 
 				vehicle.arrivedInQueue(stk.currentTime());
 				myAgent().queueBeforeStk.addQueue(myMessage);
@@ -97,6 +77,31 @@ public class ManagerGroup1 extends Manager
 			vehicle.arrivedInQueue(stk.currentTime());
 			myAgent().queueBeforeStk.addQueue(myMessage);
 		}
+	}
+
+	//meta! sender="AgentStk", id="69", type="Response"
+	public void processVehicleInspection(MessageForm message)
+	{
+	}
+
+	//meta! sender="ProcessAcceptVehicle", id="84", type="Finish"
+	public void processFinishProcessAcceptVehicle(MessageForm message)
+	{
+		message.setCode(Mc.isWorkerFree);
+		message.setAddressee(Id.agentStk);
+		request(message);
+	}
+
+	//meta! sender="ProcessPayment", id="86", type="Finish"
+	public void processFinishProcessPayment(MessageForm message)
+	{
+	}
+
+	//meta! sender="AgentStk", id="98", type="Response"
+	public void processIsWorkerFree(MessageForm message)
+	{
+		final MyMessage myMessage = (MyMessage)message;
+		final Vehicle vehicle = myMessage.getVehicle();
 	}
 
 	//meta! userInfo="Process messages defined in code", id="0"
@@ -154,5 +159,24 @@ public class ManagerGroup1 extends Manager
 	{
 		return (AgentGroup1)super.myAgent();
 	}
+
+	private void startProcessAcceptVehicle(MyMessage message) {
+		final Vehicle vehicle = message.getVehicle();
+
+		vehicle.arrivedInQueue(stk.currentTime());
+		myAgent().queueInStk.addQueueLocked(message.getId(), message);
+
+		message.setAddressee(myAgent().findAssistant(Id.processAcceptVehicle));
+		startContinualAssistant(message);
+
+	}
+
+	private void startProcessPayment(MyMessage message) {
+
+		message.setAddressee(myAgent().findAssistant(Id.processPayment));
+		startContinualAssistant(message);
+
+	}
+
 
 }

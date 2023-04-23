@@ -42,7 +42,6 @@ public class ManagerInspection extends Manager
 	{
 		MyMessage message1 = (MyMessage) message;
 		message1.setInspectionWorkerFree(myAgent().group2.isWorkerFree());
-		message1.setInspectionQueueFree(myAgent().queueInStk.isSpaceInQueue());
 		response(message);
 	}
 

@@ -36,7 +36,7 @@ public class WorkersGroup<T extends Groupable> {
 
     /** */
     public void freeWorker(T vehicle) {
-        averageFreeWorker.countAverageQueueLength();
+        countAverageFreeWorker();
         final Worker worker = hiredWorkers.get(vehicle.getId());
         if (worker == null) {
             System.out.println("warning: free not existing worker");
@@ -49,13 +49,18 @@ public class WorkersGroup<T extends Groupable> {
         return workers.size() > 0;
     }
     public void hireWorker(T vehicle) {
-        averageFreeWorker.countAverageQueueLength();
+        countAverageFreeWorker();
         final Worker worker = workers.poll();
         if (worker == null) {
             System.out.println("warning: hire not existing worker");
             return;
         }
         hiredWorkers.put(vehicle.getId(), worker);
+    }
+
+    private void countAverageFreeWorker() {
+        if (averageFreeWorker != null)
+            averageFreeWorker.countAverageQueueLength();
     }
 
 

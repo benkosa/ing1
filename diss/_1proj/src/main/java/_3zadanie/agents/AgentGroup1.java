@@ -15,6 +15,7 @@ import javax.swing.*;
 public class AgentGroup1 extends Agent
 {
 	public final Queue<Integer, MyMessage> queueBeforeStk = new Queue<>();
+	public final Queue<Long, MyMessage> queueInStk = new Queue<>(5);
 	public final Queue<Integer, MyMessage> queueAfterStk = new Queue<>();
 
 	public final WorkersGroup<MyMessage> group1;
@@ -24,7 +25,7 @@ public class AgentGroup1 extends Agent
 		super(id, mySim, parent);
 		init();
 		stk = (MySimulation) mySim;
-		group1 = new WorkersGroup(stk.getWorkers1());
+		group1 = new WorkersGroup<>(stk.getWorkers1());
 	}
 
 	@Override

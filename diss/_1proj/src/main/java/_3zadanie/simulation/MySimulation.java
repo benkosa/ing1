@@ -19,9 +19,9 @@ public class MySimulation extends Simulation
 	{
 		seedGenerator = new SeedGenerator(seed);
 		vehicleGenerator = new VehicleGenerator(seedGenerator);
-		init();
 		this.workers1 = workers1;
 		this.workers2 = workers2;
+		init();
 
 	}
 
