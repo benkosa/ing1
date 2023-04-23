@@ -27,8 +27,8 @@ public class AgentStk extends Agent
 	{
 		new ManagerStk(Id.managerStk, mySim(), this);
 		addOwnMessage(Mc.vehicleArrivedStk);
-		addOwnMessage(Mc.freeWorker);
 		addOwnMessage(Mc.vehicleInspection);
+		addOwnMessage(Mc.hireWorker);
 		addOwnMessage(Mc.isWorkerFree);
 	}
 	//meta! tag="end"

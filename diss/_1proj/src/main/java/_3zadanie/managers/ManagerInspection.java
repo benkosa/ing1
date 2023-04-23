@@ -67,7 +67,7 @@ public class ManagerInspection extends Manager
 	}
 
 	//meta! sender="AgentStk", id="119", type="Notice"
-	public void processFreeWorker(MessageForm message)
+	public void processHireWorker(MessageForm message)
 	{
 		System.out.println("HIRE WORKER");
 		myAgent().group2.hireWorker((MyMessage) message);
@@ -88,8 +88,8 @@ public class ManagerInspection extends Manager
 			processVehicleInspection(message);
 		break;
 
-		case Mc.freeWorker:
-			processFreeWorker(message);
+		case Mc.hireWorker:
+			processHireWorker(message);
 		break;
 
 		case Mc.finish:

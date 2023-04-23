@@ -11,7 +11,7 @@ public class Mc extends IdList
 	public static final int init = 1035;
 	public static final int vehicleArrived = 1012;
 	public static final int vehicleLeft = 1013;
-	public static final int freeWorker = 1040;
+	public static final int hireWorker = 1040;
 	//meta! tag="end"
 
 	// 1..1000 range reserved for user

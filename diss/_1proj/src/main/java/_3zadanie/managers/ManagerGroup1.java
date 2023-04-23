@@ -253,7 +253,7 @@ public class ManagerGroup1 extends Manager
 		myMessage.setVehicle(message.getVehicle());
 
 		myMessage.setAddressee(Id.agentStk);
-		myMessage.setCode(Mc.freeWorker);
+		myMessage.setCode(Mc.hireWorker);
 		notice(myMessage);
 
 	}

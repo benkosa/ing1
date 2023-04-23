@@ -76,7 +76,7 @@ public class ManagerStk extends Manager
 	}
 
 	//meta! sender="AgentGroup1", id="116", type="Notice"
-	public void processFreeWorker(MessageForm message)
+	public void processHireWorker(MessageForm message)
 	{
 		message.setAddressee(Id.agentInspection);
 		notice(message);
@@ -105,8 +105,8 @@ public class ManagerStk extends Manager
 			}
 		break;
 
-		case Mc.freeWorker:
-			processFreeWorker(message);
+		case Mc.hireWorker:
+			processHireWorker(message);
 		break;
 
 		case Mc.isWorkerFree:
