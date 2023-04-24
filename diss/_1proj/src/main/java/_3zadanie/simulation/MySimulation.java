@@ -14,6 +14,12 @@ import shared.Statistics.Core;
 public class MySimulation extends Simulation implements Core
 {
 	private final int workers1;
+
+	@Override
+	public double getCurrentTime() {
+		return currentTime();
+	}
+
 	private final int workers2;
 	public final SeedGenerator seedGenerator;
 	public final VehicleGenerator vehicleGenerator;
@@ -119,10 +125,5 @@ public AgentInspection agentInspection()
 
 	public void setAgentInspection(AgentInspection agentInspection)
 	{_agentInspection = agentInspection; }
-
-	@Override
-	public double getCurrentTime() {
-		return currentTime();
-	}
 	//meta! tag="end"
 }

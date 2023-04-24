@@ -29,7 +29,6 @@ public class AgentSurrounding extends Agent
 	{
 		new ManagerSurrounding(Id.managerSurrounding, mySim(), this);
 		new CustomerArrived(Id.customerArrived, mySim(), this);
-		addOwnMessage(Mc.init);
 		addOwnMessage(Mc.vehicleLeft);
 	}
 	//meta! tag="end"

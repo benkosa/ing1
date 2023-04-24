@@ -183,6 +183,16 @@ public class ManagerGroup1 extends Manager
 		}
 	}
 
+	//meta! sender="AgentStk", id="132", type="Notice"
+	public void processFinishedLunchBreak(MessageForm message)
+	{
+	}
+
+	//meta! sender="ProcessLunchBreakG1", id="125", type="Finish"
+	public void processFinishProcessLunchBreakG1(MessageForm message)
+	{
+	}
+
 	//meta! userInfo="Generated code: do not modify", tag="begin"
 	public void init()
 	{
@@ -193,8 +203,12 @@ public class ManagerGroup1 extends Manager
 	{
 		switch (message.code())
 		{
-		case Mc.vehicleInspection:
-			processVehicleInspection(message);
+		case Mc.finishedLunchBreak:
+			processFinishedLunchBreak(message);
+		break;
+
+		case Mc.vehicleArrivedStk:
+			processVehicleArrivedStk(message);
 		break;
 
 		case Mc.isWorkerFree:
@@ -208,14 +222,18 @@ public class ManagerGroup1 extends Manager
 				processFinishProcessAcceptVehicle(message);
 			break;
 
+			case Id.processLunchBreakG1:
+				processFinishProcessLunchBreakG1(message);
+			break;
+
 			case Id.processPayment:
 				processFinishProcessPayment(message);
 			break;
 			}
 		break;
 
-		case Mc.vehicleArrivedStk:
-			processVehicleArrivedStk(message);
+		case Mc.vehicleInspection:
+			processVehicleInspection(message);
 		break;
 
 		default:

@@ -18,6 +18,8 @@ public class Id extends IdList
 	public static final int processAcceptVehicle = 1002;
 	public static final int processPayment = 1003;
 	public static final int processInspection = 1004;
+	public static final int processLunchBreakG1 = 1005;
 	public static final int customerArrived = 1001;
+	public static final int processLunchBreakG2 = 1006;
 	//meta! tag="end"
 }

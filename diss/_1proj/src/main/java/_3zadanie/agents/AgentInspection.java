@@ -34,10 +34,11 @@ public class AgentInspection extends Agent
 	private void init()
 	{
 		new ManagerInspection(Id.managerInspection, mySim(), this);
+		new ProcessLunchBreakG2(Id.processLunchBreakG2, mySim(), this);
 		new ProcessInspection(Id.processInspection, mySim(), this);
-		addOwnMessage(Mc.vehicleInspection);
-		addOwnMessage(Mc.hireWorker);
 		addOwnMessage(Mc.isWorkerFree);
+		addOwnMessage(Mc.hireWorker);
+		addOwnMessage(Mc.vehicleInspection);
 	}
 	//meta! tag="end"
 }

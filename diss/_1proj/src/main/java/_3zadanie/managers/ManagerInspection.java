@@ -37,7 +37,7 @@ public class ManagerInspection extends Manager
 	}
 
 	//meta! sender="ProcessInspection", id="89", type="Finish"
-	public void processFinish(MessageForm message)
+	public void processFinishProcessInspection(MessageForm message)
 	{
 		MyMessage message1 = (MyMessage) message;
 		myAgent().group2.freeWorker(message1);
@@ -71,6 +71,11 @@ public class ManagerInspection extends Manager
 
 	}
 
+	//meta! sender="ProcessLunchBreakG2", id="128", type="Finish"
+	public void processFinishProcessLunchBreakG2(MessageForm message)
+	{
+	}
+
 	//meta! userInfo="Generated code: do not modify", tag="begin"
 	public void init()
 	{
@@ -81,20 +86,29 @@ public class ManagerInspection extends Manager
 	{
 		switch (message.code())
 		{
-		case Mc.vehicleInspection:
-			processVehicleInspection(message);
+		case Mc.isWorkerFree:
+			processIsWorkerFree(message);
+		break;
+
+		case Mc.finish:
+			switch (message.sender().id())
+			{
+			case Id.processLunchBreakG2:
+				processFinishProcessLunchBreakG2(message);
+			break;
+
+			case Id.processInspection:
+				processFinishProcessInspection(message);
+			break;
+			}
 		break;
 
 		case Mc.hireWorker:
 			processHireWorker(message);
 		break;
 
-		case Mc.finish:
-			processFinish(message);
-		break;
-
-		case Mc.isWorkerFree:
-			processIsWorkerFree(message);
+		case Mc.vehicleInspection:
+			processVehicleInspection(message);
 		break;
 
 		default:

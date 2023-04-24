@@ -82,6 +82,11 @@ public class ManagerStk extends Manager
 		notice(message);
 	}
 
+	//meta! sender="AgentInspection", id="129", type="Notice"
+	public void processFinishedLunchBreak(MessageForm message)
+	{
+	}
+
 	//meta! userInfo="Generated code: do not modify", tag="begin"
 	public void init()
 	{
@@ -92,47 +97,51 @@ public class ManagerStk extends Manager
 	{
 		switch (message.code())
 		{
-		case Mc.vehicleInspection:
+		case Mc.vehicleArrivedStk:
+			switch (message.sender().id())
+			{
+			case Id.agentGroup1:
+				processVehicleArrivedStkAgentGroup1(message);
+			break;
+
+			case Id.agentModel:
+				processVehicleArrivedStkAgentModel(message);
+			break;
+			}
+		break;
+
+		case Mc.isWorkerFree:
 			switch (message.sender().id())
 			{
 			case Id.agentInspection:
-				processVehicleInspectionAgentInspection(message);
+				processIsWorkerFreeAgentInspection(message);
 			break;
 
 			case Id.agentGroup1:
+				processIsWorkerFreeAgentGroup1(message);
+			break;
+			}
+		break;
+
+		case Mc.finishedLunchBreak:
+			processFinishedLunchBreak(message);
+		break;
+
+		case Mc.vehicleInspection:
+			switch (message.sender().id())
+			{
+			case Id.agentGroup1:
 				processVehicleInspectionAgentGroup1(message);
+			break;
+
+			case Id.agentInspection:
+				processVehicleInspectionAgentInspection(message);
 			break;
 			}
 		break;
 
 		case Mc.hireWorker:
 			processHireWorker(message);
-		break;
-
-		case Mc.isWorkerFree:
-			switch (message.sender().id())
-			{
-			case Id.agentGroup1:
-				processIsWorkerFreeAgentGroup1(message);
-			break;
-
-			case Id.agentInspection:
-				processIsWorkerFreeAgentInspection(message);
-			break;
-			}
-		break;
-
-		case Mc.vehicleArrivedStk:
-			switch (message.sender().id())
-			{
-			case Id.agentModel:
-				processVehicleArrivedStkAgentModel(message);
-			break;
-
-			case Id.agentGroup1:
-				processVehicleArrivedStkAgentGroup1(message);
-			break;
-			}
 		break;
 
 		default:

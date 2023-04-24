@@ -29,7 +29,7 @@ public class ManagerSurrounding extends Manager
 		}
 	}
 
-	//meta! sender="AgentModel", id="77", type="Notice"
+	//meta! userInfo="Removed from model"
 	public void processInit(MessageForm message)
 	{
 	}
@@ -77,16 +77,12 @@ public class ManagerSurrounding extends Manager
 	{
 		switch (message.code())
 		{
-		case Mc.init:
-			processInit(message);
+		case Mc.finish:
+			processFinish(message);
 		break;
 
 		case Mc.vehicleLeft:
 			processVehicleLeft(message);
-		break;
-
-		case Mc.finish:
-			processFinish(message);
 		break;
 
 		default:
