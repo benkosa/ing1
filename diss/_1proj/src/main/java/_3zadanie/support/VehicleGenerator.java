@@ -49,4 +49,8 @@ public class VehicleGenerator {
 
         return new Vehicle(vehicleType, inspectionTime, vehicleId += 1);
     }
+
+    public void init() {
+        vehicleId = 0;
+    }
 }

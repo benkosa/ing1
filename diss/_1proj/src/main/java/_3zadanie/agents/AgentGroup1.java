@@ -32,6 +32,12 @@ public class AgentGroup1 extends Agent
 	public void prepareReplication()
 	{
 		super.prepareReplication();
+
+		queueInStk.clear();
+		queueAfterStk.clear();
+		queueBeforeStk.clear();
+
+		group1.clear();
 		// Setup component for the next replication
 	}
 

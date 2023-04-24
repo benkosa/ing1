@@ -36,7 +36,6 @@ public class ManagerGroup1 extends Manager
 
 		// code from event simulation
 
-
 		// je volny worker
 		if (myAgent().group1.isWorkerFree()) {
 			//niekto caka na platbu

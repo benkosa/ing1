@@ -27,6 +27,7 @@ public class AgentInspection extends Agent
 	{
 		super.prepareReplication();
 		// Setup component for the next replication
+		group2.clear();
 	}
 
 	//meta! userInfo="Generated code: do not modify", tag="begin"

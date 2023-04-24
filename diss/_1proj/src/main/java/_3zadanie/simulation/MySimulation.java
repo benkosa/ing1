@@ -51,6 +51,7 @@ public class MySimulation extends Simulation implements Core
 	{
 		super.prepareReplication();
 		// Reset entities, queues, local statistics, etc...
+		averageVehicleTimeInSystem.initialize();
 	}
 
 	@Override
