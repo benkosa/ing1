@@ -64,7 +64,31 @@ public class GuiZadanie3 extends JFrame implements ISimDelegate {
     private JTextArea textArea1;
 
     public GuiZadanie3() {
-        startRealTimeButton.addActionListener(e -> new Thread(() -> startSimRealTime()).start());
+        startRealTimeButton.addActionListener(e -> new Thread(this::startSimRealTime).start());
+        startTurboButton.addActionListener(e -> new Thread(this::startSimTurbo).start());
+        pauseButton.addActionListener(e -> stk.pauseSimulation());
+        playButton.addActionListener(e -> stk.resumeSimulation());
+        stopButton.addActionListener(e -> stk.stopSimulation());
+        adjustSlowDownButton.addActionListener(e -> stk.setSimSpeed(
+                Integer.parseInt(a60TextField.getText()),
+                Integer.parseInt(a1000TextField.getText())
+        ));
+        a10Button.addActionListener(e -> stk.setSimSpeed(
+                Integer.parseInt(a60TextField.getText()),
+                0.1
+        ));
+        a100Button.addActionListener(e -> stk.setSimSpeed(
+                Integer.parseInt(a60TextField.getText()),
+                0.5
+        ));
+        a1000Button.addActionListener(e -> stk.setSimSpeed(
+                Integer.parseInt(a60TextField.getText()),
+                1
+        ));
+        a2000Button.addActionListener(e -> stk.setSimSpeed(
+                Integer.parseInt(a60TextField.getText()),
+                3
+        ));
     }
 
     public void start() {
@@ -137,28 +161,39 @@ public class GuiZadanie3 extends JFrame implements ISimDelegate {
         this.textArea1.setText(result);
     }
 
-    STK stk;
+    private MySimulation stk;
+
     private void startSimRealTime() {
-        MySimulation stk = new MySimulation(25, 20, 20);
+        stk = new MySimulation(
+                Integer.parseInt(a0TextField.getText()),
+                Integer.parseInt(a5TextField.getText()),
+                Integer.parseInt(a20TextField.getText())
+        );
         stk.registerDelegate(this);
 
-        stk.setSimSpeed(1000, 0.1);
-
-//        stk.onRefreshUI((sim)->
-//        {
-//            System.out.println("onRefreshUI");
-//        });
-//
-//        stk.onSimulationWillStart(s ->{
-//            System.out.println("Simulating...");
-//        });
+        stk.setSimSpeed(
+                Integer.parseInt(a60TextField.getText()),
+                Integer.parseInt(a1000TextField.getText())
+        );
 
         stk.onSimulationDidFinish((sim) -> {
             printResult(stk);
         });
 
+        stk.simulate(Integer.parseInt(a100000TextField.getText()) , 8*60*60);
+    }
 
-        stk.simulate(1, 8*60*60);
+    private void startSimTurbo() {
+        stk = new MySimulation(
+                Integer.parseInt(a0TextField.getText()),
+                Integer.parseInt(a5TextField.getText()),
+                Integer.parseInt(a20TextField.getText()));
+
+        stk.onSimulationDidFinish((sim) -> {
+            printResult(stk);
+        });
+
+        stk.simulate(Integer.parseInt(a100000TextField.getText(), 8*60*60));
     }
 
     private void refreshTable(JScrollPane scrollPane, String[] tableHeader, String[][] tableValues) {

@@ -12,7 +12,7 @@
     <orderEntry type="module-library" exported="">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/dependencies/xchart-3.8.2.jar!/" />
+          <root url="jar://$MODULE_DIR$/dependencies/ABACore.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -21,7 +21,7 @@
     <orderEntry type="module-library" exported="">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/dependencies/ABACore.jar!/" />
+          <root url="jar://$MODULE_DIR$/dependencies/xchart-3.8.2.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
