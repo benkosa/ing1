@@ -40,6 +40,8 @@ public class ManagerModel extends Manager
 		myAgent().leftVehicles.add(myMessage);
 
 		myAgent().averageVehiclesInSTK.vehicleLeft();
+		myAgent().queueInSystem.move(myMessage.getId());
+		myAgent().averageQueueInSystem.countAverageQueueLength();
 
 		message.setCode(Mc.vehicleLeft);
 		message.setAddressee(Id.agentSurrounding);
@@ -56,6 +58,8 @@ public class ManagerModel extends Manager
 		message.setAddressee(mySim().findAgent(Id.agentStk));
 
 		myAgent().averageVehiclesInSTK.vehicleArrived();
+		myAgent().queueInSystem.addQueueLocked(myMessage.getId(), myMessage);
+		myAgent().averageQueueInSystem.countAverageQueueLength();
 
 		myAgent().arrivedVehicles.add(myMessage);
 

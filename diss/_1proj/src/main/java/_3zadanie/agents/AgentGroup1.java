@@ -9,6 +9,7 @@ import _3zadanie.continualAssistants.*;
 import _3zadanie.instantAssistants.*;
 import shared.EventSimulation.Queue;
 import shared.Statistics.AverageQueueLength;
+import shared.Statistics.AverageWaitingTimeInQueue;
 
 import javax.swing.*;
 
@@ -16,9 +17,12 @@ import javax.swing.*;
 public class AgentGroup1 extends Agent
 {
 	public final AverageQueueLength averageFreeWorker1;
+	public final AverageWaitingTimeInQueue averageWaitingBeforeSTK;
+	public final AverageQueueLength averageQueueBeforeSTK;
 	public final Queue<Integer, MyMessage> queueBeforeStk = new Queue<>();
 	public final Queue<Long, MyMessage> queueInStk = new Queue<>(5);
 	public final Queue<Integer, MyMessage> queueAfterStk = new Queue<>();
+
 
 	public final WorkersGroup<MyMessage> group1;
 	final MySimulation stk;
@@ -30,6 +34,10 @@ public class AgentGroup1 extends Agent
 		group1 = new WorkersGroup<>(stk.getWorkers1());
 		averageFreeWorker1 = new AverageQueueLength(stk, group1.getWorkers());
 		group1.assignStatistics(averageFreeWorker1);
+		averageWaitingBeforeSTK = new AverageWaitingTimeInQueue(stk);
+		queueBeforeStk.assignStatistics(averageWaitingBeforeSTK);
+		averageQueueBeforeSTK = new AverageQueueLength(stk, queueBeforeStk.getQueue());
+		queueBeforeStk.assignStatisticsQueueLength(averageQueueBeforeSTK);
 	}
 
 	@Override
@@ -44,6 +52,8 @@ public class AgentGroup1 extends Agent
 		group1.clear();
 
 		averageFreeWorker1.initialize();
+		averageWaitingBeforeSTK.initialize();
+		averageQueueBeforeSTK.initialize();
 		// Setup component for the next replication
 	}
 

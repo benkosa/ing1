@@ -7,6 +7,12 @@ import _2zadanie.Workers.Groupable;
 public class MyMessage extends MessageForm implements Comparable<MyMessage>, Groupable
 {
 	private Vehicle vehicle;
+
+	@Override
+	public double getStartWaitingInQue() {
+		return vehicle.getStartWaitingInQue();
+	}
+
 	private boolean isInspectionQueueFree = false;
 
 	public boolean isInspectionWorkerFree() {

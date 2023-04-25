@@ -70,6 +70,9 @@ public class MySimulation extends Simulation implements Core
 		_agentModel.averageVehiclesInSTK.countResult();
 		_agentGroup1.averageFreeWorker1.countResult();
 		_agentInspection.averageFreeWorker2.countResult();
+		_agentGroup1.averageWaitingBeforeSTK.countResult();
+		_agentGroup1.averageQueueBeforeSTK.countResult();
+		_agentModel.averageQueueInSystem.countResult();
 	}
 
 	@Override

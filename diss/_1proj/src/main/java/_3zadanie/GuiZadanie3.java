@@ -149,14 +149,14 @@ public class GuiZadanie3 extends JFrame implements ISimDelegate {
         );
         result += String.format("priemerny pocet volnych pracovnikov 1\t%.4f\n", stk.agentGroup1().averageFreeWorker1.totalResult());
         result += String.format("priemerny pocet volnych pracovnikov 2\t%.4f\n", stk.agentInspection().averageFreeWorker2.totalResult());
-//        result += String.format("priemerna dlzka cakania v rade pred stk\t%.4f\n", stk.averageWaitingBeforeSTK.totalResult() / 60.);
-//        result += String.format("priemerny pocet cakajucich pred stk\t%.4f\n", stk.averageQueueBeforeSTK.totalResult());
-//        result += String.format(
-//                "priemerny pocet zakaznikov v systeme\t%.4f <%.4f,%.4f>\n",
-//                stk.averageQueueInSystem.totalResult(),
-//                stk.averageQueueInSystem.sampleStandardDeviation.getConfidenceInterval(1.96)[0],
-//                stk.averageQueueInSystem.sampleStandardDeviation.getConfidenceInterval(1.96)[1]
-//        );
+        result += String.format("priemerna dlzka cakania v rade pred stk\t%.4f\n", stk.agentGroup1().averageWaitingBeforeSTK.totalResult() / 60.);
+        result += String.format("priemerny pocet cakajucich pred stk\t%.4f\n", stk.agentGroup1().averageQueueBeforeSTK.totalResult());
+        result += String.format(
+                "priemerny pocet zakaznikov v systeme\t%.4f <%.4f,%.4f>\n",
+                stk.agentModel().averageQueueInSystem.totalResult(),
+                stk.agentModel().averageQueueInSystem.sampleStandardDeviation.getConfidenceInterval(1.96)[0],
+                stk.agentModel().averageQueueInSystem.sampleStandardDeviation.getConfidenceInterval(1.96)[1]
+        );
 
         this.textArea1.setText(result);
     }

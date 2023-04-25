@@ -2,8 +2,8 @@ package shared.Statistics;
 import shared.EventSimulation.EventSimulationCore;
 
 public class AverageWaitingTimeInQueue extends Statistics{
-    EventSimulationCore core;
-    public AverageWaitingTimeInQueue(EventSimulationCore core) {
+    Core core;
+    public AverageWaitingTimeInQueue(Core core) {
         this.core = core;
     }
     private double countTimeInQueue = 0;

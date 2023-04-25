@@ -46,12 +46,12 @@ public class ManagerGroup1 extends Manager
 				// ideme priamo na receive
 			} else if (myAgent().queueInStk.isSpaceInQueue() && myAgent().queueBeforeStk.getSize() == 0){
 				vehicle.arrivedInQueue(stk.currentTime());
-				//stk.averageWaitingBeforeSTK.countAverageTimeInQueue(vehicle.startWaitingInQue);
+				myAgent().averageWaitingBeforeSTK.countAverageTimeInQueue(myMessage.getStartWaitingInQue());
 				myAgent().group1.hireWorker(myMessage);
 
 				startProcessAcceptVehicle(myMessage);
 
-				//stk.averageQueueBeforeSTK.countAverageQueueLength();
+				myAgent().averageQueueBeforeSTK.countAverageQueueLength();
 
 			}else if (myAgent().queueInStk.isSpaceInQueue() && myAgent().queueBeforeStk.getSize() > 0) {
 

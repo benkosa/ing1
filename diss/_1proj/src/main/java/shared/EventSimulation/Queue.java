@@ -1,6 +1,7 @@
 package shared.EventSimulation;
 
 import _2zadanie.Vehicle;
+import _2zadanie.Workers.Groupable;
 import shared.Statistics.AverageQueueLength;
 import shared.Statistics.AverageWaitingTimeInQueue;
 
@@ -8,7 +9,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.PriorityQueue;
 
-public class Queue<I, T> {
+public class Queue<I, T extends Groupable> {
 
     final private HashMap<I, T> lockedQueue = new HashMap<>();
     final private PriorityQueue <T> queue = new PriorityQueue<>();
@@ -109,7 +110,7 @@ public class Queue<I, T> {
 
     private void countStatistics(T element) {
         if (averageWaitingBeforeSTK != null) {
-            Vehicle vehicle = (Vehicle) element;
+            Groupable vehicle = (Groupable) element;
             averageWaitingBeforeSTK.countAverageTimeInQueue(vehicle.getStartWaitingInQue());
         }
     }
