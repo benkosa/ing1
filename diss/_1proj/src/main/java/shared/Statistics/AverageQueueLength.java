@@ -6,15 +6,15 @@ import java.util.Collection;
 import java.util.HashMap;
 
 public class AverageQueueLength extends Statistics {
-    public AverageQueueLength(EventSimulationCore core, Collection queue) {
+    public AverageQueueLength(Core core, Collection queue) {
         this.core = core;
         this.queue = queue;
     }
-    public AverageQueueLength(EventSimulationCore core, HashMap queue) {
+    public AverageQueueLength(Core core, HashMap queue) {
         this.core = core;
         this.hashmap = queue;
     }
-    private final EventSimulationCore core;
+    private final Core core;
     private Collection queue = null;
     private HashMap hashmap = null;
     private double lastTimeChange = 0;

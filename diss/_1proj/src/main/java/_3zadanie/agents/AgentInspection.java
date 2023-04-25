@@ -8,10 +8,12 @@ import _3zadanie.managers.*;
 import _3zadanie.continualAssistants.*;
 import _3zadanie.instantAssistants.*;
 import shared.EventSimulation.Queue;
+import shared.Statistics.AverageQueueLength;
 
 //meta! id="59"
 public class AgentInspection extends Agent
 {
+	public final AverageQueueLength averageFreeWorker2;
 	public final WorkersGroup<MyMessage> group2;
 	final MySimulation stk;
 	public AgentInspection(int id, Simulation mySim, Agent parent)
@@ -20,6 +22,10 @@ public class AgentInspection extends Agent
 		init();
 		stk = (MySimulation) mySim;
 		group2 = new WorkersGroup<>(stk.getWorkers2());
+
+		averageFreeWorker2 = new AverageQueueLength(stk, group2.getWorkers());
+		group2.assignStatistics(averageFreeWorker2);
+
 	}
 
 	@Override
@@ -28,6 +34,8 @@ public class AgentInspection extends Agent
 		super.prepareReplication();
 		// Setup component for the next replication
 		group2.clear();
+
+		averageFreeWorker2.initialize();
 	}
 
 	//meta! userInfo="Generated code: do not modify", tag="begin"

@@ -147,8 +147,8 @@ public class GuiZadanie3 extends JFrame implements ISimDelegate {
                 stk.averageVehicleTimeInSystem.sampleStandardDeviation.getConfidenceInterval(1.645)[0],
                 stk.averageVehicleTimeInSystem.sampleStandardDeviation.getConfidenceInterval(1.645)[1]
         );
-//        result += String.format("priemerny pocet volnych pracovnikov 1\t%.4f\n", stk.averageFreeWorker1.totalResult());
-//        result += String.format("priemerny pocet volnych pracovnikov 2\t%.4f\n", stk.averageFreeWorker2.totalResult());
+        result += String.format("priemerny pocet volnych pracovnikov 1\t%.4f\n", stk.agentGroup1().averageFreeWorker1.totalResult());
+        result += String.format("priemerny pocet volnych pracovnikov 2\t%.4f\n", stk.agentInspection().averageFreeWorker2.totalResult());
 //        result += String.format("priemerna dlzka cakania v rade pred stk\t%.4f\n", stk.averageWaitingBeforeSTK.totalResult() / 60.);
 //        result += String.format("priemerny pocet cakajucich pred stk\t%.4f\n", stk.averageQueueBeforeSTK.totalResult());
 //        result += String.format(

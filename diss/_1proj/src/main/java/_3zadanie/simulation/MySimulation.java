@@ -68,6 +68,8 @@ public class MySimulation extends Simulation implements Core
 		super.replicationFinished();
 		averageVehicleTimeInSystem.countResult();
 		_agentModel.averageVehiclesInSTK.countResult();
+		_agentGroup1.averageFreeWorker1.countResult();
+		_agentInspection.averageFreeWorker2.countResult();
 	}
 
 	@Override

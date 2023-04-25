@@ -5,10 +5,11 @@ import shared.Distribution.SeedGenerator;
 import shared.EventSimulation.EventSimulationCore;
 import shared.Statistics.AverageQueueLength;
 import shared.Statistics.AverageWaitingTimeInQueue;
+import shared.Statistics.Core;
 
 import java.util.PriorityQueue;
 
-public class Shop extends EventSimulationCore {
+public class Shop extends EventSimulationCore implements Core {
 
     SeedGenerator genSeed;
 
