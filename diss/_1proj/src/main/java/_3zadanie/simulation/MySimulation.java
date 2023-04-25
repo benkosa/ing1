@@ -11,6 +11,8 @@ import shared.EventSimulation.Queue;
 import shared.Statistics.AverageVehicleTimeInSystem;
 import shared.Statistics.Core;
 
+import java.util.function.Consumer;
+
 public class MySimulation extends Simulation implements Core
 {
 	private final int workers1;
@@ -34,7 +36,6 @@ public class MySimulation extends Simulation implements Core
 		this.workers2 = workers2;
 		init();
 		averageVehicleTimeInSystem = new AverageVehicleTimeInSystem<>(this);
-
 	}
 
 	public int getWorkers1() {

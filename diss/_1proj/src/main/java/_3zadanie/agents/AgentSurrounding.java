@@ -1,10 +1,12 @@
 package _3zadanie.agents;
 
 import OSPABA.*;
+import _2zadanie.Vehicle;
 import _3zadanie.simulation.*;
 import _3zadanie.managers.*;
 import _3zadanie.continualAssistants.*;
 import _3zadanie.instantAssistants.*;
+import shared.EventSimulation.Queue;
 
 //meta! id="4"
 public class AgentSurrounding extends Agent

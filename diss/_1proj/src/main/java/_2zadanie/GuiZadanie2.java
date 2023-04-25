@@ -10,7 +10,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedList;
 
-public class GuiZadanie2 extends JFrame implements ISimDelegate{
+public class GuiZadanie2 extends JFrame implements ISimDelegate<EventSimulationCore>{
 
     private JPanel panel1;
     private JScrollPane ScrollPane1;

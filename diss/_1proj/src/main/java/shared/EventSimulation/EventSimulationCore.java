@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.PriorityQueue;
 
-public abstract class EventSimulationCore extends MonteCarlo implements ISimDelegate {
+public abstract class EventSimulationCore extends MonteCarlo implements ISimDelegate<EventSimulationCore> {
     private final PriorityQueue<EventSimulation> timeLine = new PriorityQueue<>();
     public double getCurrentTime() {
         return currentTime;
