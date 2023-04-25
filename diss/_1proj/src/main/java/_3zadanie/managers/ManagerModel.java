@@ -39,6 +39,8 @@ public class ManagerModel extends Manager
 		stk.averageVehicleTimeInSystem.vehicleLeft(myMessage.getVehicle());
 		myAgent().leftVehicles.add(myMessage);
 
+		myAgent().averageVehiclesInSTK.vehicleLeft();
+
 		message.setCode(Mc.vehicleLeft);
 		message.setAddressee(Id.agentSurrounding);
 		notice(message);
@@ -52,6 +54,8 @@ public class ManagerModel extends Manager
 
 		message.setCode(Mc.vehicleArrivedStk);
 		message.setAddressee(mySim().findAgent(Id.agentStk));
+
+		myAgent().averageVehiclesInSTK.vehicleArrived();
 
 		myAgent().arrivedVehicles.add(myMessage);
 

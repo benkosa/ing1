@@ -67,6 +67,7 @@ public class MySimulation extends Simulation implements Core
 		// Collect local statistics into global, update UI, etc...
 		super.replicationFinished();
 		averageVehicleTimeInSystem.countResult();
+		_agentModel.averageVehiclesInSTK.countResult();
 	}
 
 	@Override

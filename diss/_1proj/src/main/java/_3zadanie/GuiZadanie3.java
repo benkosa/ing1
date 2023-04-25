@@ -140,7 +140,7 @@ public class GuiZadanie3 extends JFrame implements ISimDelegate {
         result += String.format("replikacie:\t\t\t%d\n", stk.replicationCount());
         result += String.format("pracovnikov 1:\t\t\t%d\n", stk.agentGroup1().group1.getNumberOfWorkers());
         result += String.format("pracovnikov 2:\t\t\t%d\n", stk.agentInspection().group2.getNumberOfWorkers());
-        //result += String.format("vozidla v stk po ukonceni:\t\t%.4f\n", stk.averageVehiclesInSTK.totalResult());
+        result += String.format("vozidla v stk po ukonceni:\t\t%.4f\n", stk.agentModel().averageVehiclesInSTK.totalResult());
         result += String.format(
                 "priemerny cas vozidla v stk:\t\t%.4f <%.4f,%.4f>\n",
                 stk.averageVehicleTimeInSystem.totalResult() / 60.,
@@ -193,7 +193,7 @@ public class GuiZadanie3 extends JFrame implements ISimDelegate {
             printResult(stk);
         });
 
-        stk.simulate(Integer.parseInt(a100000TextField.getText(), 8*60*60));
+        stk.simulate(Integer.parseInt(a100000TextField.getText()), 8*60*60);
     }
 
     private void refreshTable(JScrollPane scrollPane, String[] tableHeader, String[][] tableValues) {
