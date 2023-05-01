@@ -30,7 +30,7 @@ public class CustomerArrived extends Scheduler
 	public void processStart(MessageForm message)
 	{
 		message.setCode(Mc.vehicleArrived);
-		hold(_exp.sample(), message);
+		hold(0, message);
 	}
 
 	//meta! userInfo="Process messages defined in code", id="0"
