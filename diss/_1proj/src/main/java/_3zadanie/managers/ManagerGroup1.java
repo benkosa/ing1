@@ -189,11 +189,6 @@ public class ManagerGroup1 extends Manager
 	{
 	}
 
-	//meta! userInfo="Removed from model"
-	public void processFinishProcessLunchBreakG1(MessageForm message)
-	{
-	}
-
 	//meta! sender="AgentStk", id="151", type="Notice"
 	public void processLunchBreakStarted(MessageForm message)
 	{

@@ -5,6 +5,7 @@ import _3zadanie.simulation.*;
 import _3zadanie.agents.*;
 import _3zadanie.continualAssistants.*;
 import _3zadanie.instantAssistants.*;
+import shared.Workers.Worker;
 
 //meta! id="59"
 public class ManagerInspection extends Manager
@@ -71,19 +72,32 @@ public class ManagerInspection extends Manager
 
 	}
 
-	//meta! userInfo="Removed from model"
-	public void processFinishProcessLunchBreakG2(MessageForm message)
-	{
-	}
-
 	//meta! sender="AgentStk", id="152", type="Notice"
 	public void processLunchBreakStarted(MessageForm message)
 	{
+		System.out.println("lunch break started in group 1 sdfd");
+		myAgent().group2.getWorkers().forEach(worker -> {
+			MyMessage myMessage = (MyMessage)message.createCopy();
+			myMessage.setWorker(worker);
+			startLunchBreak(myMessage);
+		});
+
+		myAgent().group2.startLunchBreak();
+	}
+
+	private void startLunchBreak(MessageForm message) {
+		message.setCode(Mc.startLunchBreak);
+		message.setAddressee(Id.agentStk);
+		request(message);
 	}
 
 	//meta! sender="AgentStk", id="158", type="Response"
 	public void processStartLunchBreak(MessageForm message)
 	{
+		System.out.println("lunch break finished");
+		MyMessage myMessage = (MyMessage)message;
+		Worker worker = myMessage.getWorker();
+		myAgent().group2.endLunchBreakWorker(worker);
 	}
 
 	//meta! userInfo="Generated code: do not modify", tag="begin"

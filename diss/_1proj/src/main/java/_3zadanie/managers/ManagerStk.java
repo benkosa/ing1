@@ -113,6 +113,8 @@ public class ManagerStk extends Manager
 	//meta! sender="AgentInspection", id="158", type="Request"
 	public void processStartLunchBreakAgentInspection(MessageForm message)
 	{
+		message.setAddressee(Id.agentLunchBreak);
+		request(message);
 	}
 
 	//meta! userInfo="Generated code: do not modify", tag="begin"
