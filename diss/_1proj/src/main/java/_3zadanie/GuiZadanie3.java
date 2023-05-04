@@ -1,19 +1,14 @@
 package _3zadanie;
 
-import OSPABA.IAnimDelegate;
 import OSPABA.ISimDelegate;
 import OSPABA.SimState;
 import OSPABA.Simulation;
-import _2zadanie.STK;
 import _2zadanie.Vehicle;
-import _2zadanie.Workers.Worker;
+import shared.Workers.Worker;
 import _3zadanie.simulation.MyMessage;
 import _3zadanie.simulation.MySimulation;
-import shared.EventSimulation.EventSimulationCore;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -62,6 +57,10 @@ public class GuiZadanie3 extends JFrame implements ISimDelegate {
     private JLabel lastEvent;
     private JLabel realTime;
     private JTextArea textArea1;
+    private JLabel g1pCount;
+    private JLabel g2pCount;
+    private JScrollPane ScrollPane11;
+    private JScrollPane ScrollPane12;
 
     public GuiZadanie3() {
         startRealTimeButton.addActionListener(e -> new Thread(this::startSimRealTime).start());
@@ -117,6 +116,8 @@ public class GuiZadanie3 extends JFrame implements ISimDelegate {
         refreshTable(ScrollPane8, new String[]{"id w", "id c"}, hashMapToArrayWorkers(stk.agentGroup1().group1.getHiredWorkers()));
         refreshTable(ScrollPane9, new String[]{"id w"}, valuesToArrayWorkers(stk.agentInspection().group2.getWorkers()));
         refreshTable(ScrollPane10, new String[]{"id w", "id c"}, hashMapToArrayWorkers(stk.agentInspection().group2.getHiredWorkers()));
+        refreshTable(ScrollPane11, new String[]{"id w", "id c"}, hashMapToArrayBreak(stk.agentGroup1().group1.getLunchBreakWorkers()));
+        //refreshTable(ScrollPane12, new String[]{"id w", "id c"}, hashMapToArrayWorkers(stk.agentInspection().group2.getHiredWorkers()));
 
         count1.setText(stk.agentModel().arrivedVehicles.size() + "");
         count2.setText(stk.agentGroup1().queueBeforeStk.getQueue().size() + "");
@@ -127,11 +128,14 @@ public class GuiZadanie3 extends JFrame implements ISimDelegate {
 
         g1uCount.setText(stk.agentGroup1().group1.getWorkers().size() + "");
         g1nuCount.setText(stk.agentGroup1().group1.getHiredWorkers().size() + "");
+        g1pCount.setText(stk.agentGroup1().group1.getLunchBreakWorkers().size() + "");
         g2uCount.setText(stk.agentInspection().group2.getWorkers().size() + "");
         g2nuCount.setText(stk.agentInspection().group2.getHiredWorkers().size() + "");
+        //g2pCount.setText(stk.agentInspection().group2.getLunchBreakWorkers().size() + "");
 
 
         simTime.setText(stk.getCurrentTime() + "");
+        realTime.setText(msToHMS(stk.getCurrentTime()));
 
     }
 
@@ -240,6 +244,16 @@ public class GuiZadanie3 extends JFrame implements ISimDelegate {
     }
 
     private String[][] hashMapToArrayWorkers(HashMap<Long, Worker> queue) {
+        String[][] tableValues = new String[queue.size()][2];
+        final int[] i = {0};
+        queue.forEach( (key, value) -> {
+            tableValues[i[0]] = new String[] {value.getId()+"", key+""};
+            i[0] +=1;
+        });
+        return tableValues;
+    }
+
+    private String[][] hashMapToArrayBreak(HashMap<Integer, Worker> queue) {
         String[][] tableValues = new String[queue.size()][2];
         final int[] i = {0};
         queue.forEach( (key, value) -> {

@@ -1,7 +1,6 @@
 package shared.EventSimulation;
 
-import _2zadanie.Vehicle;
-import _2zadanie.Workers.Groupable;
+import shared.Workers.Groupable;
 import shared.Statistics.AverageQueueLength;
 import shared.Statistics.AverageWaitingTimeInQueue;
 

@@ -1,6 +1,6 @@
 package _2zadanie;
 
-import _2zadanie.Workers.WorkersGroup;
+import shared.Workers.WorkersGroup;
 import shared.Distribution.*;
 import shared.EventSimulation.EventSimulationCore;
 import shared.EventSimulation.Queue;

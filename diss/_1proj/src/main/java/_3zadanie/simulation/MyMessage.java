@@ -2,11 +2,22 @@ package _3zadanie.simulation;
 
 import OSPABA.*;
 import _2zadanie.Vehicle;
-import _2zadanie.Workers.Groupable;
+import shared.Workers.Groupable;
+import shared.Workers.Worker;
 
 public class MyMessage extends MessageForm implements Comparable<MyMessage>, Groupable
 {
 	private Vehicle vehicle;
+
+	private Worker worker;
+
+	public Worker getWorker() {
+		return worker;
+	}
+
+	public void setWorker(Worker worker) {
+		this.worker = worker;
+	}
 
 	@Override
 	public double getStartWaitingInQue() {

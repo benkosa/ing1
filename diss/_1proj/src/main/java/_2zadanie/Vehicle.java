@@ -1,6 +1,6 @@
 package _2zadanie;
 
-import _2zadanie.Workers.Groupable;
+import shared.Workers.Groupable;
 
 public class Vehicle implements Comparable<Vehicle>, Groupable {
     private final double inspectionTime;

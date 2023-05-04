@@ -1,13 +1,10 @@
 package _3zadanie.agents;
 
 import OSPABA.*;
-import _2zadanie.Vehicle;
-import _2zadanie.Workers.WorkersGroup;
+import shared.Workers.WorkersGroup;
 import _3zadanie.simulation.*;
 import _3zadanie.managers.*;
 import _3zadanie.continualAssistants.*;
-import _3zadanie.instantAssistants.*;
-import shared.EventSimulation.Queue;
 import shared.Statistics.AverageQueueLength;
 
 //meta! id="59"

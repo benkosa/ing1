@@ -1,4 +1,4 @@
-package _2zadanie.Workers;
+package shared.Workers;
 
 public interface Groupable {
     public abstract long getId();

@@ -2,7 +2,7 @@ package _2zadanie;
 
 import _2zadanie.Graph.Graph1;
 import _2zadanie.Graph.Graph2;
-import _2zadanie.Workers.Worker;
+import shared.Workers.Worker;
 import shared.EventSimulation.EventSimulationCore;
 
 import javax.swing.*;

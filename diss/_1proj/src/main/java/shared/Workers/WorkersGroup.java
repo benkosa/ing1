@@ -1,20 +1,19 @@
-package _2zadanie.Workers;
+package shared.Workers;
 
-import _2zadanie.Vehicle;
 import shared.Statistics.AverageQueueLength;
 
 import java.util.HashMap;
 import java.util.LinkedList;
 
 public class WorkersGroup<T extends Groupable> {
-    final private LinkedList<Worker> workers = new LinkedList<>();
+    final protected LinkedList<Worker> workers = new LinkedList<>();
     public LinkedList<Worker> getWorkers() {
         return workers;
     }
     public HashMap<Long, Worker> getHiredWorkers() {
         return hiredWorkers;
     }
-    final private HashMap<Long, Worker> hiredWorkers = new HashMap<>();
+    final protected HashMap<Long, Worker> hiredWorkers = new HashMap<>();
     protected AverageQueueLength averageFreeWorker;
     final private int numberOfWorkers;
     public int getNumberOfWorkers() {
@@ -28,7 +27,7 @@ public class WorkersGroup<T extends Groupable> {
         addWorkers();
     }
 
-    private void addWorkers() {
+    protected void addWorkers() {
         for (int i = 0; i < numberOfWorkers; i++) {
             workers.push(new Worker(i));
         }
@@ -58,7 +57,7 @@ public class WorkersGroup<T extends Groupable> {
         hiredWorkers.put(vehicle.getId(), worker);
     }
 
-    private void countAverageFreeWorker() {
+    protected void countAverageFreeWorker() {
         if (averageFreeWorker != null)
             averageFreeWorker.countAverageQueueLength();
     }
