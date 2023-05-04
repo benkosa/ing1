@@ -30,7 +30,7 @@ public class ManagerLunchBreak extends Manager
 	//meta! sender="AgentStk", id="160", type="Request"
 	public void processStartLunchBreak(MessageForm message)
 	{
-		System.out.println("lunch break started processStartLunchBreak");
+		//System.out.println("lunch break started processStartLunchBreak");
 		message.setAddressee(Id.processLunchBreak);
 		startContinualAssistant(message);
 	}

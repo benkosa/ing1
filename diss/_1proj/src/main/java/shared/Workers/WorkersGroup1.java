@@ -15,6 +15,10 @@ public class WorkersGroup1<T extends Groupable> extends WorkersGroup<T>{
 
     private boolean lunchBreakStarted = false;
 
+    public boolean isLunchBreakTime() {
+        return lunchBreakStarted;
+    }
+
     public void startLunchBreak() {
         lunchBreakStarted = true;
         while (workers.size() > 0) {

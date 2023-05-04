@@ -11,6 +11,16 @@ public class MyMessage extends MessageForm implements Comparable<MyMessage>, Gro
 
 	private Worker worker;
 
+	private boolean workerStartedLunchBreak = false;
+
+	public boolean isWorkerStartedLunchBreak() {
+		return workerStartedLunchBreak;
+	}
+
+	public void setWorkerStartedLunchBreak(boolean workerStartedLunchBreak) {
+		this.workerStartedLunchBreak = workerStartedLunchBreak;
+	}
+
 	public Worker getWorker() {
 		return worker;
 	}

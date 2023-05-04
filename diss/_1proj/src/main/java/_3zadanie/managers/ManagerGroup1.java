@@ -80,12 +80,18 @@ public class ManagerGroup1 extends Manager
 		final MyMessage myMessage = (MyMessage)message;
 		final Vehicle vehicle = myMessage.getVehicle();
 
-		//ak je volny vorker zo skupiny 2 a cakaju auta na inspekciu
-		if (myAgent().queueInStk.getReadySize() > 0) {
-			final MyMessage newVehicle = myAgent().queueInStk.poll();
-			hireWorker(newVehicle);
-			startInspection(newVehicle);
+		//osetrenie ak isiel worker na prestavku
+		if (myMessage.isWorkerStartedLunchBreak()) {
+			myMessage.setWorkerStartedLunchBreak(false);
+		} else {
+			//ak je volny vorker zo skupiny 2 a cakaju auta na inspekciu
+			if (myAgent().queueInStk.getReadySize() > 0) {
+				final MyMessage newVehicle = myAgent().queueInStk.poll();
+				hireWorker(newVehicle);
+				startInspection(newVehicle);
+			}
 		}
+
 		// ak je volny worker zo skupiny 1
 		if (myAgent().group1.isWorkerFree()) {
 			//ak uz niekto caka v rade
@@ -188,6 +194,7 @@ public class ManagerGroup1 extends Manager
 
 		if (myAgent().queueInStk.getReadySize() > 0) {
 			final MyMessage newVehicle = myAgent().queueInStk.poll();
+			hireWorker(newVehicle);
 			startInspection(newVehicle);
 		}
 

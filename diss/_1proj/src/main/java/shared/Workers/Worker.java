@@ -15,4 +15,8 @@ public class Worker {
     public void hadLunchBreak() {
         hadLunchBreak = true;
     }
+
+    public boolean shouldGoToLunchBreak() {
+        return !hadLunchBreak;
+    }
 }
