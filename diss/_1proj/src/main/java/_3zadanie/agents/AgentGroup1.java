@@ -58,10 +58,12 @@ public class AgentGroup1 extends Agent
 	private void init()
 	{
 		new ManagerGroup1(Id.managerGroup1, mySim(), this);
+		new ProcessPayment(Id.processPayment, mySim(), this);
 		new ProcessAcceptVehicle(Id.processAcceptVehicle, mySim(), this);
 		new ProcessLunchBreakG1(Id.processLunchBreakG1, mySim(), this);
-		new ProcessPayment(Id.processPayment, mySim(), this);
 		addOwnMessage(Mc.vehicleArrivedStk);
+		addOwnMessage(Mc.lunchBreakStarted);
+		addOwnMessage(Mc.startLunchBreak);
 		addOwnMessage(Mc.isWorkerFree);
 		addOwnMessage(Mc.vehicleInspection);
 		addOwnMessage(Mc.finishedLunchBreak);

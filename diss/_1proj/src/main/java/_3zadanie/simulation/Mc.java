@@ -6,11 +6,13 @@ public class Mc extends IdList
 {
 	//meta! userInfo="Generated code: do not modify", tag="begin"
 	public static final int vehicleArrivedStk = 1031;
-	public static final int finishedLunchBreak = 1043;
-	public static final int isWorkerFree = 1037;
+	public static final int finishedLunchBreak = 1045;
 	public static final int vehicleInspection = 1033;
 	public static final int vehicleArrived = 1012;
 	public static final int vehicleLeft = 1013;
+	public static final int lunchBreakStarted = 1047;
+	public static final int startLunchBreak = 1051;
+	public static final int isWorkerFree = 1037;
 	public static final int hireWorker = 1040;
 	//meta! tag="end"
 

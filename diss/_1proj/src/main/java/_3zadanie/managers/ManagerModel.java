@@ -84,12 +84,12 @@ public class ManagerModel extends Manager
 	{
 		switch (message.code())
 		{
-		case Mc.vehicleArrived:
-			processVehicleArrived(message);
-		break;
-
 		case Mc.vehicleArrivedStk:
 			processVehicleArrivedStk(message);
+		break;
+
+		case Mc.vehicleArrived:
+			processVehicleArrived(message);
 		break;
 
 		default:

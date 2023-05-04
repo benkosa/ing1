@@ -6,10 +6,10 @@ import _3zadanie.managers.*;
 import _3zadanie.continualAssistants.*;
 import _3zadanie.instantAssistants.*;
 
-//meta! id="17"
-public class AgentStk extends Agent
+//meta! id="146"
+public class AgentLunchBreak extends Agent
 {
-	public AgentStk(int id, Simulation mySim, Agent parent)
+	public AgentLunchBreak(int id, Simulation mySim, Agent parent)
 	{
 		super(id, mySim, parent);
 		init();
@@ -25,13 +25,10 @@ public class AgentStk extends Agent
 	//meta! userInfo="Generated code: do not modify", tag="begin"
 	private void init()
 	{
-		new ManagerStk(Id.managerStk, mySim(), this);
-		addOwnMessage(Mc.vehicleArrivedStk);
-		addOwnMessage(Mc.lunchBreakStarted);
+		new ManagerLunchBreak(Id.managerLunchBreak, mySim(), this);
+		new ProcessLunchBreak(Id.processLunchBreak, mySim(), this);
+		new StartLunchBreak(Id.startLunchBreak, mySim(), this);
 		addOwnMessage(Mc.startLunchBreak);
-		addOwnMessage(Mc.isWorkerFree);
-		addOwnMessage(Mc.hireWorker);
-		addOwnMessage(Mc.vehicleInspection);
 	}
 	//meta! tag="end"
 }

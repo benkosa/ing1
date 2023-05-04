@@ -82,8 +82,28 @@ public class ManagerStk extends Manager
 		notice(message);
 	}
 
-	//meta! sender="AgentInspection", id="129", type="Notice"
+	//meta! userInfo="Removed from model"
 	public void processFinishedLunchBreak(MessageForm message)
+	{
+	}
+
+	//meta! sender="AgentLunchBreak", id="149", type="Notice"
+	public void processLunchBreakStarted(MessageForm message)
+	{
+	}
+
+	//meta! sender="AgentLunchBreak", id="160", type="Response"
+	public void processStartLunchBreakAgentLunchBreak(MessageForm message)
+	{
+	}
+
+	//meta! sender="AgentGroup1", id="156", type="Request"
+	public void processStartLunchBreakAgentGroup1(MessageForm message)
+	{
+	}
+
+	//meta! sender="AgentInspection", id="158", type="Request"
+	public void processStartLunchBreakAgentInspection(MessageForm message)
 	{
 	}
 
@@ -97,34 +117,55 @@ public class ManagerStk extends Manager
 	{
 		switch (message.code())
 		{
-		case Mc.vehicleArrivedStk:
-			switch (message.sender().id())
-			{
-			case Id.agentGroup1:
-				processVehicleArrivedStkAgentGroup1(message);
-			break;
-
-			case Id.agentModel:
-				processVehicleArrivedStkAgentModel(message);
-			break;
-			}
-		break;
-
 		case Mc.isWorkerFree:
 			switch (message.sender().id())
 			{
-			case Id.agentInspection:
-				processIsWorkerFreeAgentInspection(message);
-			break;
-
 			case Id.agentGroup1:
 				processIsWorkerFreeAgentGroup1(message);
+			break;
+
+			case Id.agentInspection:
+				processIsWorkerFreeAgentInspection(message);
 			break;
 			}
 		break;
 
-		case Mc.finishedLunchBreak:
-			processFinishedLunchBreak(message);
+		case Mc.hireWorker:
+			processHireWorker(message);
+		break;
+
+		case Mc.lunchBreakStarted:
+			processLunchBreakStarted(message);
+		break;
+
+		case Mc.vehicleArrivedStk:
+			switch (message.sender().id())
+			{
+			case Id.agentModel:
+				processVehicleArrivedStkAgentModel(message);
+			break;
+
+			case Id.agentGroup1:
+				processVehicleArrivedStkAgentGroup1(message);
+			break;
+			}
+		break;
+
+		case Mc.startLunchBreak:
+			switch (message.sender().id())
+			{
+			case Id.agentLunchBreak:
+				processStartLunchBreakAgentLunchBreak(message);
+			break;
+
+			case Id.agentGroup1:
+				processStartLunchBreakAgentGroup1(message);
+			break;
+
+			case Id.agentInspection:
+				processStartLunchBreakAgentInspection(message);
+			break;
+			}
 		break;
 
 		case Mc.vehicleInspection:
@@ -138,10 +179,6 @@ public class ManagerStk extends Manager
 				processVehicleInspectionAgentInspection(message);
 			break;
 			}
-		break;
-
-		case Mc.hireWorker:
-			processHireWorker(message);
 		break;
 
 		default:

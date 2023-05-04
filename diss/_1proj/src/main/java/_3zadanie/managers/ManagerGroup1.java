@@ -193,6 +193,16 @@ public class ManagerGroup1 extends Manager
 	{
 	}
 
+	//meta! sender="AgentStk", id="151", type="Notice"
+	public void processLunchBreakStarted(MessageForm message)
+	{
+	}
+
+	//meta! sender="AgentStk", id="156", type="Response"
+	public void processStartLunchBreak(MessageForm message)
+	{
+	}
+
 	//meta! userInfo="Generated code: do not modify", tag="begin"
 	public void init()
 	{
@@ -203,6 +213,10 @@ public class ManagerGroup1 extends Manager
 	{
 		switch (message.code())
 		{
+		case Mc.isWorkerFree:
+			processIsWorkerFree(message);
+		break;
+
 		case Mc.finishedLunchBreak:
 			processFinishedLunchBreak(message);
 		break;
@@ -211,17 +225,17 @@ public class ManagerGroup1 extends Manager
 			processVehicleArrivedStk(message);
 		break;
 
-		case Mc.isWorkerFree:
-			processIsWorkerFree(message);
+		case Mc.lunchBreakStarted:
+			processLunchBreakStarted(message);
+		break;
+
+		case Mc.vehicleInspection:
+			processVehicleInspection(message);
 		break;
 
 		case Mc.finish:
 			switch (message.sender().id())
 			{
-			case Id.processAcceptVehicle:
-				processFinishProcessAcceptVehicle(message);
-			break;
-
 			case Id.processLunchBreakG1:
 				processFinishProcessLunchBreakG1(message);
 			break;
@@ -229,11 +243,15 @@ public class ManagerGroup1 extends Manager
 			case Id.processPayment:
 				processFinishProcessPayment(message);
 			break;
+
+			case Id.processAcceptVehicle:
+				processFinishProcessAcceptVehicle(message);
+			break;
 			}
 		break;
 
-		case Mc.vehicleInspection:
-			processVehicleInspection(message);
+		case Mc.startLunchBreak:
+			processStartLunchBreak(message);
 		break;
 
 		default:

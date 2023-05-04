@@ -88,9 +88,10 @@ public class MySimulation extends Simulation implements Core
 	{
 		setAgentModel(new AgentModel(Id.agentModel, this, null));
 		setAgentStk(new AgentStk(Id.agentStk, this, agentModel()));
-		setAgentSurrounding(new AgentSurrounding(Id.agentSurrounding, this, agentModel()));
+		setAgentLunchBreak(new AgentLunchBreak(Id.agentLunchBreak, this, agentStk()));
 		setAgentGroup1(new AgentGroup1(Id.agentGroup1, this, agentStk()));
 		setAgentInspection(new AgentInspection(Id.agentInspection, this, agentStk()));
+		setAgentSurrounding(new AgentSurrounding(Id.agentSurrounding, this, agentModel()));
 	}
 
 	private AgentModel _agentModel;
@@ -109,13 +110,13 @@ public AgentStk agentStk()
 	public void setAgentStk(AgentStk agentStk)
 	{_agentStk = agentStk; }
 
-	private AgentSurrounding _agentSurrounding;
+	private AgentLunchBreak _agentLunchBreak;
 
-public AgentSurrounding agentSurrounding()
-	{ return _agentSurrounding; }
+public AgentLunchBreak agentLunchBreak()
+	{ return _agentLunchBreak; }
 
-	public void setAgentSurrounding(AgentSurrounding agentSurrounding)
-	{_agentSurrounding = agentSurrounding; }
+	public void setAgentLunchBreak(AgentLunchBreak agentLunchBreak)
+	{_agentLunchBreak = agentLunchBreak; }
 
 	private AgentGroup1 _agentGroup1;
 
@@ -132,5 +133,13 @@ public AgentInspection agentInspection()
 
 	public void setAgentInspection(AgentInspection agentInspection)
 	{_agentInspection = agentInspection; }
+
+	private AgentSurrounding _agentSurrounding;
+
+public AgentSurrounding agentSurrounding()
+	{ return _agentSurrounding; }
+
+	public void setAgentSurrounding(AgentSurrounding agentSurrounding)
+	{_agentSurrounding = agentSurrounding; }
 	//meta! tag="end"
 }
