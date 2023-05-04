@@ -30,11 +30,16 @@ public class ManagerLunchBreak extends Manager
 	//meta! sender="AgentStk", id="160", type="Request"
 	public void processStartLunchBreak(MessageForm message)
 	{
+		System.out.println("lunch break started processStartLunchBreak");
+		message.setAddressee(Id.processLunchBreak);
+		startContinualAssistant(message);
 	}
 
 	//meta! sender="ProcessLunchBreak", id="155", type="Finish"
 	public void processFinishProcessLunchBreak(MessageForm message)
 	{
+		message.setCode(Mc.startLunchBreak);
+		response(message);
 	}
 
 	//meta! userInfo="Process messages defined in code", id="0"
@@ -48,7 +53,9 @@ public class ManagerLunchBreak extends Manager
 	//meta! sender="StartLunchBreak", id="165", type="Finish"
 	public void processFinishStartLunchBreak(MessageForm message)
 	{
-		System.out.println("manager lunch break started");
+		message.setAddressee(Id.agentStk);
+		message.setCode(Mc.lunchBreakStarted);
+		notice(message);
 	}
 
 	//meta! userInfo="Generated code: do not modify", tag="begin"

@@ -4,6 +4,7 @@ import OSPABA.*;
 import _2zadanie.Vehicle;
 import _3zadanie.simulation.*;
 import _3zadanie.agents.*;
+import shared.Workers.Worker;
 
 //meta! id="58"
 public class ManagerGroup1 extends Manager
@@ -196,11 +197,29 @@ public class ManagerGroup1 extends Manager
 	//meta! sender="AgentStk", id="151", type="Notice"
 	public void processLunchBreakStarted(MessageForm message)
 	{
+		System.out.println("lunch break started in group 1 sdfd");
+		myAgent().group1.getWorkers().forEach(worker -> {
+			MyMessage myMessage = (MyMessage)message.createCopy();
+			myMessage.setWorker(worker);
+			startLunchBreak(myMessage);
+		});
+
+		myAgent().group1.startLunchBreak();
+	}
+
+	private void startLunchBreak(MessageForm message) {
+		message.setCode(Mc.startLunchBreak);
+		message.setAddressee(Id.agentStk);
+		request(message);
 	}
 
 	//meta! sender="AgentStk", id="156", type="Response"
 	public void processStartLunchBreak(MessageForm message)
 	{
+		System.out.println("lunch break finished");
+		MyMessage myMessage = (MyMessage)message;
+		Worker worker = myMessage.getWorker();
+		myAgent().group1.endLunchBreakWorker(worker);
 	}
 
 	//meta! userInfo="Generated code: do not modify", tag="begin"

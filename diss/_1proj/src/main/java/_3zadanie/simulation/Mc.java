@@ -27,4 +27,5 @@ public class Mc extends IdList
 	//public static  final int lunchBreakStartedG2 = 6;
 
 	public static  final int lunchBreakStartedFinnish = 6;
+	public static  final int processLunchBreakFinnish = 7;
 }

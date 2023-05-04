@@ -23,9 +23,9 @@ public class ProcessLunchBreakG1 extends Process
 	{
 		super.prepareReplication();
 		// Setup component for the next replication
-		MyMessage message =  new MyMessage(mySim());
-		message.setCode(Mc.lunchBreakStartedG1);
-		hold(lunchBreakStart, message);
+//		MyMessage message =  new MyMessage(mySim());
+//		message.setCode(Mc.lunchBreakStartedG1);
+//		hold(lunchBreakStart, message);
 	}
 
 	//meta! sender="AgentGroup1", id="125", type="Start"

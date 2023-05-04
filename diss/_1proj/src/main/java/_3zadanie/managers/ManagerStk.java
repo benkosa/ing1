@@ -90,16 +90,24 @@ public class ManagerStk extends Manager
 	//meta! sender="AgentLunchBreak", id="149", type="Notice"
 	public void processLunchBreakStarted(MessageForm message)
 	{
+		MessageForm copy = message.createCopy();
+		message.setAddressee(Id.agentGroup1);
+		copy.setAddressee(Id.agentInspection);
+		notice(message);
+		notice(copy);
 	}
 
 	//meta! sender="AgentLunchBreak", id="160", type="Response"
 	public void processStartLunchBreakAgentLunchBreak(MessageForm message)
 	{
+		response(message);
 	}
 
 	//meta! sender="AgentGroup1", id="156", type="Request"
 	public void processStartLunchBreakAgentGroup1(MessageForm message)
 	{
+		message.setAddressee(Id.agentLunchBreak);
+		request(message);
 	}
 
 	//meta! sender="AgentInspection", id="158", type="Request"
