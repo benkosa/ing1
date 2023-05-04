@@ -94,10 +94,14 @@ public class ManagerInspection extends Manager
 	//meta! sender="AgentStk", id="158", type="Response"
 	public void processStartLunchBreak(MessageForm message)
 	{
-		System.out.println("lunch break finished");
 		MyMessage myMessage = (MyMessage)message;
 		Worker worker = myMessage.getWorker();
 		myAgent().group2.endLunchBreakWorker(worker);
+
+		message.setCode(Mc.finishedLunchBreak);
+		message.setAddressee(Id.agentStk);
+		notice(message);
+
 	}
 
 	//meta! userInfo="Generated code: do not modify", tag="begin"

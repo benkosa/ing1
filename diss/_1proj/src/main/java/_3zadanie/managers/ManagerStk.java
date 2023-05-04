@@ -82,11 +82,6 @@ public class ManagerStk extends Manager
 		notice(message);
 	}
 
-	//meta! userInfo="Removed from model"
-	public void processFinishedLunchBreak(MessageForm message)
-	{
-	}
-
 	//meta! sender="AgentLunchBreak", id="149", type="Notice"
 	public void processLunchBreakStarted(MessageForm message)
 	{
@@ -120,6 +115,8 @@ public class ManagerStk extends Manager
 	//meta! sender="AgentInspection", id="166", type="Notice"
 	public void processFinishedLunchBreak(MessageForm message)
 	{
+		message.setAddressee(Id.agentGroup1);
+		notice(message);
 	}
 
 	//meta! userInfo="Generated code: do not modify", tag="begin"

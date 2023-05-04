@@ -128,19 +128,7 @@ public class ManagerGroup1 extends Manager
 		//stk.averageVehicleTimeInSystem.vehicleLeft(vehicle);
 
 		// ak niekto caka na platbu a je volny zamestanec zo skupiny 1
-		if (myAgent().queueAfterStk.getSize() > 0) {
-			final MyMessage newVehicle = myAgent().queueAfterStk.poll();
-			myAgent().group1.hireWorker(newVehicle);
-			startProcessPayment(newVehicle);
-			// ak niekto caka pred stk a je volny zamestnace zo skupiny 1 a je volne miesto na parkovisku
-		} else if (
-				myAgent().queueBeforeStk.getSize() > 0 &&
-						myAgent().queueInStk.isSpaceInQueue()
-		) {
-			final MyMessage newVehicle = myAgent().queueBeforeStk.poll();
-			myAgent().group1.hireWorker(newVehicle);
-			startProcessAcceptVehicle(newVehicle);
-		}
+		startWorker1Job();
 	}
 
 	//meta! sender="AgentStk", id="98", type="Response"
@@ -159,6 +147,12 @@ public class ManagerGroup1 extends Manager
 		}
 
 		myAgent().group1.freeWorker(myMessage);
+		startWorker1Job();
+
+	}
+
+
+	public void startWorker1Job() {
 		// ak niekto caka na platbu a je volny zamestanec zo skupiny 1
 		if (myAgent().queueAfterStk.getSize() > 0) {
 			final MyMessage newVehicle = myAgent().queueAfterStk.poll();
@@ -173,8 +167,8 @@ public class ManagerGroup1 extends Manager
 			myAgent().group1.hireWorker(newVehicle);
 			startProcessAcceptVehicle(newVehicle);
 		}
-
 	}
+
 
 	//meta! userInfo="Process messages defined in code", id="0"
 	public void processDefault(MessageForm message)
@@ -187,6 +181,17 @@ public class ManagerGroup1 extends Manager
 	//meta! sender="AgentStk", id="132", type="Notice"
 	public void processFinishedLunchBreak(MessageForm message)
 	{
+		//worker 2 has finished his lunch break
+
+		if (myAgent().queueInStk.getReadySize() > 0) {
+			final MyMessage newVehicle = myAgent().queueInStk.poll();
+			startInspection(newVehicle);
+		}
+
+		if (myAgent().group1.isWorkerFree()) {
+			startWorker1Job();
+		}
+
 	}
 
 	//meta! sender="AgentStk", id="151", type="Notice"
@@ -217,19 +222,7 @@ public class ManagerGroup1 extends Manager
 		myAgent().group1.endLunchBreakWorker(worker);
 
 		// ak niekto caka na platbu a je volny zamestanec zo skupiny 1
-		if (myAgent().queueAfterStk.getSize() > 0) {
-			final MyMessage newVehicle = myAgent().queueAfterStk.poll();
-			myAgent().group1.hireWorker(newVehicle);
-			startProcessPayment(newVehicle);
-			// ak niekto caka pred stk a je volny zamestnace zo skupiny 1 a je volne miesto na parkovisku
-		} else if (
-				myAgent().queueBeforeStk.getSize() > 0 &&
-						myAgent().queueInStk.isSpaceInQueue()
-		) {
-			final MyMessage newVehicle = myAgent().queueBeforeStk.poll();
-			myAgent().group1.hireWorker(newVehicle);
-			startProcessAcceptVehicle(newVehicle);
-		}
+		startWorker1Job();
 	}
 
 	//meta! userInfo="Generated code: do not modify", tag="begin"
