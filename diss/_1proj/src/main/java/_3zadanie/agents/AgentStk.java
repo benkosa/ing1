@@ -32,6 +32,7 @@ public class AgentStk extends Agent
 		addOwnMessage(Mc.isWorkerFree);
 		addOwnMessage(Mc.hireWorker);
 		addOwnMessage(Mc.vehicleInspection);
+		addOwnMessage(Mc.finishedLunchBreak);
 	}
 	//meta! tag="end"
 }

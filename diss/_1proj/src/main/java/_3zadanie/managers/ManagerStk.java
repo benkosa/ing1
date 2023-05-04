@@ -117,6 +117,11 @@ public class ManagerStk extends Manager
 		request(message);
 	}
 
+	//meta! sender="AgentInspection", id="166", type="Notice"
+	public void processFinishedLunchBreak(MessageForm message)
+	{
+	}
+
 	//meta! userInfo="Generated code: do not modify", tag="begin"
 	public void init()
 	{
@@ -189,6 +194,10 @@ public class ManagerStk extends Manager
 				processVehicleInspectionAgentInspection(message);
 			break;
 			}
+		break;
+
+		case Mc.finishedLunchBreak:
+			processFinishedLunchBreak(message);
 		break;
 
 		default:
