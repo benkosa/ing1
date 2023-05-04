@@ -48,6 +48,7 @@ public class ManagerLunchBreak extends Manager
 	//meta! sender="StartLunchBreak", id="165", type="Finish"
 	public void processFinishStartLunchBreak(MessageForm message)
 	{
+		System.out.println("manager lunch break started");
 	}
 
 	//meta! userInfo="Generated code: do not modify", tag="begin"
