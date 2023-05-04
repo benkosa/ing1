@@ -192,7 +192,7 @@ public class ManagerGroup1 extends Manager
 	//meta! sender="AgentStk", id="151", type="Notice"
 	public void processLunchBreakStarted(MessageForm message)
 	{
-		System.out.println("lunch break started in group 1 sdfd");
+		// lunch break started in group 1
 		myAgent().group1.getWorkers().forEach(worker -> {
 			MyMessage myMessage = (MyMessage)message.createCopy();
 			myMessage.setWorker(worker);
@@ -211,10 +211,25 @@ public class ManagerGroup1 extends Manager
 	//meta! sender="AgentStk", id="156", type="Response"
 	public void processStartLunchBreak(MessageForm message)
 	{
-		System.out.println("lunch break finished");
+		// lunch break finished for worker
 		MyMessage myMessage = (MyMessage)message;
 		Worker worker = myMessage.getWorker();
 		myAgent().group1.endLunchBreakWorker(worker);
+
+		// ak niekto caka na platbu a je volny zamestanec zo skupiny 1
+		if (myAgent().queueAfterStk.getSize() > 0) {
+			final MyMessage newVehicle = myAgent().queueAfterStk.poll();
+			myAgent().group1.hireWorker(newVehicle);
+			startProcessPayment(newVehicle);
+			// ak niekto caka pred stk a je volny zamestnace zo skupiny 1 a je volne miesto na parkovisku
+		} else if (
+				myAgent().queueBeforeStk.getSize() > 0 &&
+						myAgent().queueInStk.isSpaceInQueue()
+		) {
+			final MyMessage newVehicle = myAgent().queueBeforeStk.poll();
+			myAgent().group1.hireWorker(newVehicle);
+			startProcessAcceptVehicle(newVehicle);
+		}
 	}
 
 	//meta! userInfo="Generated code: do not modify", tag="begin"
