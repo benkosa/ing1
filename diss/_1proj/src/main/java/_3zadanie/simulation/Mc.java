@@ -21,11 +21,6 @@ public class Mc extends IdList
 	public static final int processAcceptVehicleFinish = 1;
 	public static final int processPaymentFinish = 2;
     public static final int processInspectionFinish = 3;
-
-	public static  final int lunchBreakStartedG1 = 4;
-	public static final int processLunchBreakG1Finish = 5;
-	//public static  final int lunchBreakStartedG2 = 6;
-
-	public static  final int lunchBreakStartedFinnish = 6;
-	public static  final int processLunchBreakFinnish = 7;
+	public static  final int lunchBreakStartedFinnish = 4;
+	public static  final int processLunchBreakFinnish = 5;
 }

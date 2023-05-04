@@ -189,7 +189,7 @@ public class ManagerGroup1 extends Manager
 	{
 	}
 
-	//meta! sender="ProcessLunchBreakG1", id="125", type="Finish"
+	//meta! userInfo="Removed from model"
 	public void processFinishProcessLunchBreakG1(MessageForm message)
 	{
 	}
@@ -252,13 +252,13 @@ public class ManagerGroup1 extends Manager
 			processVehicleInspection(message);
 		break;
 
+		case Mc.startLunchBreak:
+			processStartLunchBreak(message);
+		break;
+
 		case Mc.finish:
 			switch (message.sender().id())
 			{
-			case Id.processLunchBreakG1:
-				processFinishProcessLunchBreakG1(message);
-			break;
-
 			case Id.processPayment:
 				processFinishProcessPayment(message);
 			break;
@@ -267,10 +267,6 @@ public class ManagerGroup1 extends Manager
 				processFinishProcessAcceptVehicle(message);
 			break;
 			}
-		break;
-
-		case Mc.startLunchBreak:
-			processStartLunchBreak(message);
 		break;
 
 		default:
