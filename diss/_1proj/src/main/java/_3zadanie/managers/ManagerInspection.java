@@ -50,6 +50,7 @@ public class ManagerInspection extends Manager
 			lunchBreakMessage.setWorker(worker);
 			startLunchBreak(lunchBreakMessage);
 			message1.setWorkerStartedLunchBreak(true);
+			myAgent().group2.startLunchBreak(worker);
 		}
 
 		message.setCode(Mc.vehicleInspection);

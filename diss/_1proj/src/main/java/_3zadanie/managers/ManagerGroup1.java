@@ -126,6 +126,9 @@ public class ManagerGroup1 extends Manager
 		final MyMessage myMessage = (MyMessage)message;
 		final Vehicle vehicle = myMessage.getVehicle();
 
+
+		Worker worker = myAgent().group1.getHiredWorkers().get(myMessage.getId());
+
 		myAgent().group1.freeWorker(myMessage);
 		myMessage.setCode(Mc.vehicleArrivedStk);
 		response(myMessage);
@@ -133,8 +136,18 @@ public class ManagerGroup1 extends Manager
 		//stk.averageVehiclesInSTK.vehicleLeft();
 		//stk.averageVehicleTimeInSystem.vehicleLeft(vehicle);
 
-		// ak niekto caka na platbu a je volny zamestanec zo skupiny 1
-		startWorker1Job();
+		processFreeWorker(worker, myMessage);
+	}
+
+	private void processFreeWorker(Worker worker,  MyMessage message) {
+		if (myAgent().group1.isLunchBreakTime() && worker.shouldGoToLunchBreak()) {
+			MyMessage lunchBreakMessage = (MyMessage)message.createCopy();
+			lunchBreakMessage.setWorker(worker);
+			startLunchBreak(lunchBreakMessage);
+			myAgent().group1.startLunchBreak(worker);
+		} else {
+			startWorker1Job();
+		}
 	}
 
 	//meta! sender="AgentStk", id="98", type="Response"
@@ -152,8 +165,10 @@ public class ManagerGroup1 extends Manager
 			startInspection(newVehicle);
 		}
 
+		Worker worker = myAgent().group1.getHiredWorkers().get(myMessage.getId());
 		myAgent().group1.freeWorker(myMessage);
-		startWorker1Job();
+
+		processFreeWorker(worker, myMessage);
 
 	}
 

@@ -23,7 +23,7 @@ public class WorkersGroup1<T extends Groupable> extends WorkersGroup<T>{
         lunchBreakStarted = true;
         while (workers.size() > 0) {
             countAverageFreeWorker();
-            startLunchBreak(workers.poll());
+            _startLunchBreak(workers.poll());
         }
     }
 
@@ -36,7 +36,15 @@ public class WorkersGroup1<T extends Groupable> extends WorkersGroup<T>{
         countAverageFreeWorker();
         workers.add(worker);
     };
+    private void _startLunchBreak(Worker worker) {
+        worker.hadLunchBreak();
+        lunchBreakWorkers.put(worker.getId(), worker);
+    }
+
     public void startLunchBreak(Worker worker) {
+        if (!workers.remove(worker)) {
+            System.out.println("warning remove not existing worker");
+        }
         worker.hadLunchBreak();
         lunchBreakWorkers.put(worker.getId(), worker);
     }

@@ -7,7 +7,7 @@ import _3zadanie.agents.*;
 //meta! id="164"
 public class StartLunchBreak extends Scheduler
 {
-	final static int LUNCH_BREAK_START = 60;
+	final static int LUNCH_BREAK_START = 60*60*2;
 	public StartLunchBreak(int id, Simulation mySim, CommonAgent myAgent)
 	{
 		super(id, mySim, myAgent);
