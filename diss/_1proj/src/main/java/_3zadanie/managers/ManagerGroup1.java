@@ -152,6 +152,9 @@ public class ManagerGroup1 extends Manager
 	}
 
 
+	/**
+	 * start payment or vehicle preparation
+	 */
 	public void startWorker1Job() {
 		// ak niekto caka na platbu a je volny zamestanec zo skupiny 1
 		if (myAgent().queueAfterStk.getSize() > 0) {
