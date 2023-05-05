@@ -8,10 +8,12 @@ import shared.Workers.Worker;
 //meta! id="59"
 public class ManagerInspection extends Manager
 {
+	private MySimulation stk;
 	public ManagerInspection(int id, Simulation mySim, Agent myAgent)
 	{
 		super(id, mySim, myAgent);
 		init();
+		stk = (MySimulation) mySim;
 	}
 
 	@Override
@@ -83,7 +85,7 @@ public class ManagerInspection extends Manager
 	//meta! sender="AgentStk", id="152", type="Notice"
 	public void processLunchBreakStarted(MessageForm message)
 	{
-		//System.out.println("lunch break started in group 1 sdfd");
+		//System.out.println("lunch break started in group 1");
 		myAgent().groupExpensive.getWorkers().forEach(worker -> {
 			MyMessage myMessage = (MyMessage)message.createCopy();
 			myMessage.setWorker(worker);
@@ -91,6 +93,14 @@ public class ManagerInspection extends Manager
 		});
 
 		myAgent().groupExpensive.startLunchBreak();
+
+		myAgent().groupCheap.getWorkers().forEach(worker -> {
+			MyMessage myMessage = (MyMessage)message.createCopy();
+			myMessage.setWorker(worker);
+			startLunchBreak(myMessage);
+		});
+
+		myAgent().groupCheap.startLunchBreak();
 	}
 
 	private void startLunchBreak(MessageForm message) {
@@ -104,11 +114,12 @@ public class ManagerInspection extends Manager
 	{
 		MyMessage myMessage = (MyMessage)message;
 		Worker worker = myMessage.getWorker();
-		myAgent().groupExpensive.endLunchBreakWorker(worker);
+		worker.endLunchBreak();
 
 		message.setCode(Mc.finishedLunchBreak);
 		message.setAddressee(Id.agentStk);
 		notice(message);
+
 
 	}
 

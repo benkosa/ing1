@@ -1,6 +1,7 @@
 package shared.Workers;
 
 public class Worker {
+    private WorkersGroup workersGroup;
     final private int id;
     private boolean hadLunchBreak = false;
 
@@ -8,8 +9,9 @@ public class Worker {
         return id;
     }
 
-    public Worker(int id) {
+    public Worker(int id, WorkersGroup workersGroup) {
         this.id = id;
+        this.workersGroup = workersGroup;
     }
 
     public void hadLunchBreak() {
@@ -18,5 +20,10 @@ public class Worker {
 
     public boolean shouldGoToLunchBreak() {
         return !hadLunchBreak;
+    }
+
+    public void endLunchBreak() {
+        WorkersGroup1 workersGroup1 = (WorkersGroup1) workersGroup;
+        workersGroup1.endLunchBreakWorker(this);
     }
 }

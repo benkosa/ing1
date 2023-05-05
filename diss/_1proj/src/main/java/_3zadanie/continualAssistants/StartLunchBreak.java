@@ -19,10 +19,12 @@ public class StartLunchBreak extends Scheduler
 		super.prepareReplication();
 		// Setup component for the next replication
 		myAgent().addOwnMessage(Mc.lunchBreakStartedFinnish);
-
-		MyMessage myMessage = new MyMessage(mySim());
-		myMessage.setAddressee(myAgent().findAssistant(Id.startLunchBreak));
-		myAgent().manager().startContinualAssistant(myMessage);
+		MySimulation stk = (MySimulation) mySim();
+		if (!stk.isVerificationMode()) {
+			MyMessage myMessage = new MyMessage(mySim());
+			myMessage.setAddressee(myAgent().findAssistant(Id.startLunchBreak));
+			myAgent().manager().startContinualAssistant(myMessage);
+		}
 	}
 
 	//meta! sender="AgentLunchBreak", id="165", type="Start"

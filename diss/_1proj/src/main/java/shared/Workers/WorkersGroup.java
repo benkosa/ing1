@@ -29,7 +29,7 @@ public class WorkersGroup<T extends Groupable> {
 
     protected void addWorkers() {
         for (int i = 0; i < numberOfWorkers; i++) {
-            workers.push(new Worker(i));
+            workers.push(new Worker(i, this));
         }
     }
 
