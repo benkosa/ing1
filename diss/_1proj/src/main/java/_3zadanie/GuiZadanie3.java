@@ -61,6 +61,15 @@ public class GuiZadanie3 extends JFrame implements ISimDelegate {
     private JLabel g2pCount;
     private JScrollPane ScrollPane11;
     private JScrollPane ScrollPane12;
+    private JTextField a0TextField1;
+    private JScrollPane ScrollPane13;
+    private JScrollPane ScrollPane14;
+    private JScrollPane ScrollPane15;
+    private JLabel g3uCount;
+    private JLabel g3nuCount;
+    private JLabel g3pCount;
+    private JCheckBox overenieCheckBox;
+    private JTextField a5TextField1;
 
     public GuiZadanie3() {
         startRealTimeButton.addActionListener(e -> new Thread(this::startSimRealTime).start());
@@ -69,24 +78,24 @@ public class GuiZadanie3 extends JFrame implements ISimDelegate {
         playButton.addActionListener(e -> stk.resumeSimulation());
         stopButton.addActionListener(e -> stk.stopSimulation());
         adjustSlowDownButton.addActionListener(e -> stk.setSimSpeed(
-                Integer.parseInt(a60TextField.getText()),
-                Integer.parseInt(a1000TextField.getText())
+                Double.parseDouble(a60TextField.getText()),
+                Double.parseDouble(a1000TextField.getText())
         ));
         a10Button.addActionListener(e -> stk.setSimSpeed(
                 Integer.parseInt(a60TextField.getText()),
-                0.1
+                0.001
         ));
         a100Button.addActionListener(e -> stk.setSimSpeed(
                 Integer.parseInt(a60TextField.getText()),
-                0.5
+                0.01
         ));
         a1000Button.addActionListener(e -> stk.setSimSpeed(
                 Integer.parseInt(a60TextField.getText()),
-                1
+                .1
         ));
         a2000Button.addActionListener(e -> stk.setSimSpeed(
                 Integer.parseInt(a60TextField.getText()),
-                3
+                .5
         ));
     }
 
@@ -114,10 +123,15 @@ public class GuiZadanie3 extends JFrame implements ISimDelegate {
 
         refreshTable(ScrollPane7, new String[]{"id w"}, valuesToArrayWorkers(stk.agentGroup1().group1.getWorkers()));
         refreshTable(ScrollPane8, new String[]{"id w", "id c"}, hashMapToArrayWorkers(stk.agentGroup1().group1.getHiredWorkers()));
-        refreshTable(ScrollPane9, new String[]{"id w"}, valuesToArrayWorkers(stk.agentInspection().group2.getWorkers()));
-        refreshTable(ScrollPane10, new String[]{"id w", "id c"}, hashMapToArrayWorkers(stk.agentInspection().group2.getHiredWorkers()));
         refreshTable(ScrollPane11, new String[]{"id w", "id c"}, hashMapToArrayBreak(stk.agentGroup1().group1.getLunchBreakWorkers()));
-        refreshTable(ScrollPane12, new String[]{"id w", "id c"}, hashMapToArrayBreak(stk.agentInspection().group2.getLunchBreakWorkers()));
+
+        refreshTable(ScrollPane9, new String[]{"id w"}, valuesToArrayWorkers(stk.agentInspection().groupExpensive.getWorkers()));
+        refreshTable(ScrollPane10, new String[]{"id w", "id c"}, hashMapToArrayWorkers(stk.agentInspection().groupExpensive.getHiredWorkers()));
+        refreshTable(ScrollPane12, new String[]{"id w", "id c"}, hashMapToArrayBreak(stk.agentInspection().groupExpensive.getLunchBreakWorkers()));
+
+        refreshTable(ScrollPane13, new String[]{"id w"}, valuesToArrayWorkers(stk.agentInspection().groupCheap.getWorkers()));
+        refreshTable(ScrollPane14, new String[]{"id w", "id c"}, hashMapToArrayWorkers(stk.agentInspection().groupCheap.getHiredWorkers()));
+        refreshTable(ScrollPane15, new String[]{"id w", "id c"}, hashMapToArrayBreak(stk.agentInspection().groupCheap.getLunchBreakWorkers()));
 
         count1.setText(stk.agentModel().arrivedVehicles.size() + "");
         count2.setText(stk.agentGroup1().queueBeforeStk.getQueue().size() + "");
@@ -129,9 +143,14 @@ public class GuiZadanie3 extends JFrame implements ISimDelegate {
         g1uCount.setText(stk.agentGroup1().group1.getWorkers().size() + "");
         g1nuCount.setText(stk.agentGroup1().group1.getHiredWorkers().size() + "");
         g1pCount.setText(stk.agentGroup1().group1.getLunchBreakWorkers().size() + "");
-        g2uCount.setText(stk.agentInspection().group2.getWorkers().size() + "");
-        g2nuCount.setText(stk.agentInspection().group2.getHiredWorkers().size() + "");
-        g2pCount.setText(stk.agentInspection().group2.getLunchBreakWorkers().size() + "");
+
+        g2uCount.setText(stk.agentInspection().groupExpensive.getWorkers().size() + "");
+        g2nuCount.setText(stk.agentInspection().groupExpensive.getHiredWorkers().size() + "");
+        g2pCount.setText(stk.agentInspection().groupExpensive.getLunchBreakWorkers().size() + "");
+
+        g3uCount.setText(stk.agentInspection().groupCheap.getWorkers().size() + "");
+        g3nuCount.setText(stk.agentInspection().groupCheap.getHiredWorkers().size() + "");
+        g3pCount.setText(stk.agentInspection().groupCheap.getLunchBreakWorkers().size() + "");
 
 
         simTime.setText(stk.getCurrentTime() + "");
@@ -143,7 +162,7 @@ public class GuiZadanie3 extends JFrame implements ISimDelegate {
         String result = "";
         result += String.format("replikacie:\t\t\t%d\n", stk.replicationCount());
         result += String.format("pracovnikov 1:\t\t\t%d\n", stk.agentGroup1().group1.getNumberOfWorkers());
-        result += String.format("pracovnikov 2:\t\t\t%d\n", stk.agentInspection().group2.getNumberOfWorkers());
+        result += String.format("pracovnikov 2:\t\t\t%d\n", stk.agentInspection().groupExpensive.getNumberOfWorkers());
         result += String.format("vozidla v stk po ukonceni:\t\t%.4f\n", stk.agentModel().averageVehiclesInSTK.totalResult());
         result += String.format(
                 "priemerny cas vozidla v stk:\t\t%.4f <%.4f,%.4f>\n",
@@ -171,7 +190,9 @@ public class GuiZadanie3 extends JFrame implements ISimDelegate {
         stk = new MySimulation(
                 Integer.parseInt(a0TextField.getText()),
                 Integer.parseInt(a5TextField.getText()),
-                Integer.parseInt(a20TextField.getText())
+                Integer.parseInt(a20TextField.getText()),
+                Integer.parseInt(a5TextField1.getText()),
+                overenieCheckBox.isSelected()
         );
         stk.registerDelegate(this);
 
@@ -191,7 +212,10 @@ public class GuiZadanie3 extends JFrame implements ISimDelegate {
         stk = new MySimulation(
                 Integer.parseInt(a0TextField.getText()),
                 Integer.parseInt(a5TextField.getText()),
-                Integer.parseInt(a20TextField.getText()));
+                Integer.parseInt(a20TextField.getText()),
+                Integer.parseInt(a5TextField1.getText()),
+                overenieCheckBox.isSelected()
+        );
 
         stk.onSimulationDidFinish((sim) -> {
             printResult(stk);

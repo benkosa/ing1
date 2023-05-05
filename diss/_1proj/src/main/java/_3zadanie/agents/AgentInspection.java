@@ -1,7 +1,6 @@
 package _3zadanie.agents;
 
 import OSPABA.*;
-import shared.Workers.WorkersGroup;
 import _3zadanie.simulation.*;
 import _3zadanie.managers.*;
 import _3zadanie.continualAssistants.*;
@@ -12,17 +11,19 @@ import shared.Workers.WorkersGroup1;
 public class AgentInspection extends Agent
 {
 	public final AverageQueueLength averageFreeWorker2;
-	public final WorkersGroup1<MyMessage> group2;
+	public final WorkersGroup1<MyMessage> groupCheap;
+	public final WorkersGroup1<MyMessage> groupExpensive;
 	final MySimulation stk;
 	public AgentInspection(int id, Simulation mySim, Agent parent)
 	{
 		super(id, mySim, parent);
 		init();
 		stk = (MySimulation) mySim;
-		group2 = new WorkersGroup1<>(stk.getWorkers2());
+		groupExpensive = new WorkersGroup1<>(stk.getWorkersExpensive());
+		groupCheap = new WorkersGroup1<>(stk.getWorkersCheap());
 
-		averageFreeWorker2 = new AverageQueueLength(stk, group2.getWorkers());
-		group2.assignStatistics(averageFreeWorker2);
+		averageFreeWorker2 = new AverageQueueLength(stk, groupExpensive.getWorkers());
+		groupExpensive.assignStatistics(averageFreeWorker2);
 
 	}
 
@@ -31,7 +32,7 @@ public class AgentInspection extends Agent
 	{
 		super.prepareReplication();
 		// Setup component for the next replication
-		group2.clear();
+		groupExpensive.clear();
 
 		averageFreeWorker2.initialize();
 	}

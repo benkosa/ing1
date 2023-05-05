@@ -1,17 +1,11 @@
 package _3zadanie.simulation;
 
 import OSPABA.*;
-import _2zadanie.STK;
 import _3zadanie.agents.*;
 import _3zadanie.support.VehicleGenerator;
-import shared.Distribution.DiscreteEmpiricalDistribution;
-import shared.Distribution.DiscreteUniformDistribution;
 import shared.Distribution.SeedGenerator;
-import shared.EventSimulation.Queue;
 import shared.Statistics.AverageVehicleTimeInSystem;
 import shared.Statistics.Core;
-
-import java.util.function.Consumer;
 
 public class MySimulation extends Simulation implements Core
 {
@@ -22,18 +16,32 @@ public class MySimulation extends Simulation implements Core
 		return currentTime();
 	}
 
-	private final int workers2;
+	private final int workersExpensive;
+	private final int workersCheap;
+
+	public boolean isVerificationMode() {
+		return verificationMode;
+	}
+
+	private final boolean verificationMode;
+
+	public int getWorkersCheap() {
+		return workersCheap;
+	}
+
 	public final SeedGenerator seedGenerator;
 	public final VehicleGenerator vehicleGenerator;
 
 	public final AverageVehicleTimeInSystem <MySimulation> averageVehicleTimeInSystem;
 
-	public MySimulation(int seed, int workers1, int workers2)
+	public MySimulation(int seed, int workers1, int workersExpensive, int workersCheap, boolean verificationMode)
 	{
 		seedGenerator = new SeedGenerator(seed);
 		vehicleGenerator = new VehicleGenerator(seedGenerator);
 		this.workers1 = workers1;
-		this.workers2 = workers2;
+		this.workersExpensive = workersExpensive;
+		this.workersCheap = workersCheap;
+		this.verificationMode = verificationMode;
 		init();
 		averageVehicleTimeInSystem = new AverageVehicleTimeInSystem<>(this);
 	}
@@ -42,8 +50,8 @@ public class MySimulation extends Simulation implements Core
 		return workers1;
 	}
 
-	public int getWorkers2() {
-		return workers2;
+	public int getWorkersExpensive() {
+		return workersExpensive;
 	}
 
 	@Override

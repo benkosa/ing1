@@ -1,11 +1,8 @@
 package _3zadanie.managers;
 
 import OSPABA.*;
-import _2zadanie.Vehicle;
 import _3zadanie.simulation.*;
 import _3zadanie.agents.*;
-import _3zadanie.continualAssistants.*;
-import _3zadanie.instantAssistants.*;
 import shared.Workers.Worker;
 
 //meta! id="59"
@@ -42,15 +39,15 @@ public class ManagerInspection extends Manager
 	public void processFinish(MessageForm message)
 	{
 		MyMessage message1 = (MyMessage) message;
-		Worker worker = myAgent().group2.getHiredWorkers().get(message1.getId());
-		myAgent().group2.freeWorker(message1);
+		Worker worker = myAgent().groupExpensive.getHiredWorkers().get(message1.getId());
+		myAgent().groupExpensive.freeWorker(message1);
 
-		if (myAgent().group2.isLunchBreakTime() && worker.shouldGoToLunchBreak()) {
+		if (myAgent().groupExpensive.isLunchBreakTime() && worker.shouldGoToLunchBreak()) {
 			MyMessage lunchBreakMessage = (MyMessage)message.createCopy();
 			lunchBreakMessage.setWorker(worker);
 			startLunchBreak(lunchBreakMessage);
 			message1.setWorkerStartedLunchBreak(true);
-			myAgent().group2.startLunchBreak(worker);
+			myAgent().groupExpensive.startLunchBreak(worker);
 		}
 
 		message.setCode(Mc.vehicleInspection);
@@ -61,9 +58,9 @@ public class ManagerInspection extends Manager
 	public void processIsWorkerFree(MessageForm message)
 	{
 		MyMessage message1 = (MyMessage) message;
-		message1.setInspectionWorkerFree(myAgent().group2.isWorkerFree());
-		if (myAgent().group2.isWorkerFree()) {
-			myAgent().group2.hireWorker(message1);
+		message1.setInspectionWorkerFree(myAgent().groupExpensive.isWorkerFree());
+		if (myAgent().groupExpensive.isWorkerFree()) {
+			myAgent().groupExpensive.hireWorker(message1);
 		}
 		response(message);
 	}
@@ -79,7 +76,7 @@ public class ManagerInspection extends Manager
 	//meta! sender="AgentStk", id="119", type="Notice"
 	public void processHireWorker(MessageForm message)
 	{
-		myAgent().group2.hireWorker((MyMessage) message);
+		myAgent().groupExpensive.hireWorker((MyMessage) message);
 
 	}
 
@@ -87,13 +84,13 @@ public class ManagerInspection extends Manager
 	public void processLunchBreakStarted(MessageForm message)
 	{
 		//System.out.println("lunch break started in group 1 sdfd");
-		myAgent().group2.getWorkers().forEach(worker -> {
+		myAgent().groupExpensive.getWorkers().forEach(worker -> {
 			MyMessage myMessage = (MyMessage)message.createCopy();
 			myMessage.setWorker(worker);
 			startLunchBreak(myMessage);
 		});
 
-		myAgent().group2.startLunchBreak();
+		myAgent().groupExpensive.startLunchBreak();
 	}
 
 	private void startLunchBreak(MessageForm message) {
@@ -107,7 +104,7 @@ public class ManagerInspection extends Manager
 	{
 		MyMessage myMessage = (MyMessage)message;
 		Worker worker = myMessage.getWorker();
-		myAgent().group2.endLunchBreakWorker(worker);
+		myAgent().groupExpensive.endLunchBreakWorker(worker);
 
 		message.setCode(Mc.finishedLunchBreak);
 		message.setAddressee(Id.agentStk);
