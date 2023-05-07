@@ -8,8 +8,12 @@ import shared.Workers.Worker;
 public class MyMessage extends MessageForm implements Comparable<MyMessage>, Groupable
 {
 	private Vehicle vehicle;
+	public Vehicle isCargoFree;
+	public Vehicle isNormalFree;
 
 	private Worker worker;
+
+	public Worker freedWorker = null;
 
 	private boolean workerStartedLunchBreak = false;
 

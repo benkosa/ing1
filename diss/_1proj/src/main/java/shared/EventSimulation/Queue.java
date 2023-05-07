@@ -83,6 +83,15 @@ public class Queue<I, T extends Groupable> {
     }
 
     /**
+     * Retrieves and removes the head of this queue
+     */
+    public void remove(T vehicle) {
+        queue.remove(vehicle);
+        countAverageQueueLength();
+        countStatistics(vehicle);
+    }
+
+    /**
      * Retrieves, but does not remove, the head of this queue
      */
     public T peek() {

@@ -1,6 +1,7 @@
 package _3zadanie.managers;
 
 import OSPABA.*;
+import _2zadanie.Vehicle;
 import _3zadanie.simulation.*;
 import _3zadanie.agents.*;
 import shared.Workers.Worker;
@@ -41,15 +42,34 @@ public class ManagerInspection extends Manager
 	public void processFinish(MessageForm message)
 	{
 		MyMessage message1 = (MyMessage) message;
+		boolean isExpensiveWorker = true;
 		Worker worker = myAgent().groupExpensive.getHiredWorkers().get(message1.getId());
-		myAgent().groupExpensive.freeWorker(message1);
+		if (worker == null) {
+			worker = myAgent().groupCheap.getHiredWorkers().get(message1.getId());
+			isExpensiveWorker = false;
+		}
+		if (worker == null) {
+			System.out.println("chyba");
+		}
+		worker.freeWorker(message1);
+		message1.freedWorker = worker;
 
-		if (myAgent().groupExpensive.isLunchBreakTime() && worker.shouldGoToLunchBreak()) {
-			MyMessage lunchBreakMessage = (MyMessage)message.createCopy();
-			lunchBreakMessage.setWorker(worker);
-			startLunchBreak(lunchBreakMessage);
-			message1.setWorkerStartedLunchBreak(true);
-			myAgent().groupExpensive.startLunchBreak(worker);
+		if (isExpensiveWorker) {
+			if (myAgent().groupExpensive.isLunchBreakTime() && worker.shouldGoToLunchBreak()) {
+				MyMessage lunchBreakMessage = (MyMessage)message.createCopy();
+				lunchBreakMessage.setWorker(worker);
+				startLunchBreak(lunchBreakMessage);
+				message1.setWorkerStartedLunchBreak(true);
+				myAgent().groupExpensive.startLunchBreak(worker);
+			}
+ 		} else {
+			if (myAgent().groupCheap.isLunchBreakTime() && worker.shouldGoToLunchBreak()) {
+				MyMessage lunchBreakMessage = (MyMessage)message.createCopy();
+				lunchBreakMessage.setWorker(worker);
+				startLunchBreak(lunchBreakMessage);
+				message1.setWorkerStartedLunchBreak(true);
+				myAgent().groupCheap.startLunchBreak(worker);
+			}
 		}
 
 		message.setCode(Mc.vehicleInspection);
@@ -60,10 +80,39 @@ public class ManagerInspection extends Manager
 	public void processIsWorkerFree(MessageForm message)
 	{
 		MyMessage message1 = (MyMessage) message;
-		message1.setInspectionWorkerFree(myAgent().groupExpensive.isWorkerFree());
-		if (myAgent().groupExpensive.isWorkerFree()) {
-			myAgent().groupExpensive.hireWorker(message1);
+
+		if (!stk.isVerificationMode()) {
+			Vehicle tmpVehicle = message1.getVehicle();
+
+			if (message1.isCargoFree != null && myAgent().groupExpensive.isWorkerFree()) {
+				message1.setVehicle(message1.isCargoFree);
+				myAgent().groupExpensive.hireWorker(message1);
+				message1.isNormalFree = null;
+			} else if (message1.isNormalFree != null) {
+				if (myAgent().groupCheap.isWorkerFree()) {
+					message1.setVehicle(message1.isNormalFree);
+					myAgent().groupCheap.hireWorker(message1);
+					message1.isCargoFree = null;
+				} else if (myAgent().groupExpensive.isWorkerFree()) {
+					message1.setVehicle(message1.isNormalFree);
+					myAgent().groupExpensive.hireWorker(message1);
+					message1.isCargoFree = null;
+				} else {
+					message1.isNormalFree = null;
+					message1.isCargoFree = null;
+				}
+			} else {
+				message1.isCargoFree = null;
+			}
+			message1.setVehicle(tmpVehicle);
+		} else {
+			message1.setInspectionWorkerFree(myAgent().groupExpensive.isWorkerFree());
+
+			if (myAgent().groupExpensive.isWorkerFree()) {
+				myAgent().groupExpensive.hireWorker(message1);
+			}
 		}
+
 		response(message);
 	}
 
@@ -78,8 +127,12 @@ public class ManagerInspection extends Manager
 	//meta! sender="AgentStk", id="119", type="Notice"
 	public void processHireWorker(MessageForm message)
 	{
-		myAgent().groupExpensive.hireWorker((MyMessage) message);
-
+		if (stk.isVerificationMode()) {
+			myAgent().groupExpensive.hireWorker((MyMessage) message);
+		} else {
+			MyMessage myMessage = (MyMessage) message;
+			myMessage.freedWorker.hireWorker(myMessage);
+		}
 	}
 
 	//meta! sender="AgentStk", id="152", type="Notice"
@@ -115,6 +168,7 @@ public class ManagerInspection extends Manager
 		MyMessage myMessage = (MyMessage)message;
 		Worker worker = myMessage.getWorker();
 		worker.endLunchBreak();
+		myMessage.freedWorker = worker;
 
 		message.setCode(Mc.finishedLunchBreak);
 		message.setAddressee(Id.agentStk);

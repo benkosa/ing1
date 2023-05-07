@@ -2,6 +2,7 @@ package _3zadanie.managers;
 
 import OSPABA.*;
 import _2zadanie.Vehicle;
+import _2zadanie.VehicleType;
 import _3zadanie.simulation.*;
 import _3zadanie.agents.*;
 import shared.Workers.Worker;
@@ -80,10 +81,36 @@ public class ManagerGroup1 extends Manager
 		final MyMessage myMessage = (MyMessage)message;
 		final Vehicle vehicle = myMessage.getVehicle();
 
-		//osetrenie ak isiel worker na prestavku
-		if (myMessage.isWorkerStartedLunchBreak()) {
-			myMessage.setWorkerStartedLunchBreak(false);
-		} else {
+
+
+		if (!stk.isVerificationMode()) {
+			//osetrenie ak isiel worker na prestavku
+			if (myMessage.isWorkerStartedLunchBreak()) {
+				myMessage.setWorkerStartedLunchBreak(false);
+
+			} else {
+				if (myMessage.freedWorker.isExpensive()) {
+					//najst ci caka dodavka zamestnatg
+					MyMessage newVehicle = getCargo();
+					if (newVehicle == null) {
+						newVehicle = getNormal();
+					}
+					if (newVehicle != null) {
+						newVehicle.freedWorker = myMessage.freedWorker;
+						hireWorker(newVehicle);
+						startInspection(newVehicle);
+					}
+
+				} else {
+					MyMessage newVehicle = getNormal();
+					if (newVehicle != null) {
+						newVehicle.freedWorker = myMessage.freedWorker;
+						hireWorker(newVehicle);
+						startInspection(newVehicle);
+					}
+				}
+			}
+		} else  {
 			//ak je volny vorker zo skupiny 2 a cakaju auta na inspekciu
 			if (myAgent().queueInStk.getReadySize() > 0) {
 				final MyMessage newVehicle = myAgent().queueInStk.poll();
@@ -91,6 +118,7 @@ public class ManagerGroup1 extends Manager
 				startInspection(newVehicle);
 			}
 		}
+
 
 		// ak je volny worker zo skupiny 1
 		if (myAgent().group1.isWorkerFree()) {
@@ -117,6 +145,12 @@ public class ManagerGroup1 extends Manager
 	//meta! sender="ProcessAcceptVehicle", id="84", type="Finish"
 	public void processFinishProcessAcceptVehicle(MessageForm message)
 	{
+		final MyMessage myMessage = (MyMessage)message;
+		final Vehicle vehicle = myMessage.getVehicle();
+
+		vehicle.arrivedInQueue(stk.currentTime());
+		myAgent().queueInStk.move(vehicle.id);
+
 		isWorkerFree((MyMessage) message);
 	}
 
@@ -149,20 +183,39 @@ public class ManagerGroup1 extends Manager
 			startWorker1Job();
 		}
 	}
+	private MyMessage removeVehicleFromQueueInStk(Vehicle vehicle) {
+		final MyMessage[] retMessage = new MyMessage[1];
+		myAgent().queueInStk.getQueue().forEach(message -> {
+			if (message.getVehicle() == vehicle) {
+				retMessage[0] = message;
+			}
+		});
+
+		myAgent().queueInStk.remove(retMessage[0]);
+		return retMessage[0];
+	}
 
 	//meta! sender="AgentStk", id="98", type="Response"
 	public void processIsWorkerFree(MessageForm message)
 	{
 		final MyMessage myMessage = (MyMessage)message;
-		final Vehicle vehicle = myMessage.getVehicle();
 
-		vehicle.arrivedInQueue(stk.currentTime());
-		myAgent().queueInStk.move(vehicle.id);
-
-		//ak je volny worker zp skupiny 2 a cakaju auta na inspekciu
-		if (myMessage.isInspectionWorkerFree()) {
-			final MyMessage newVehicle = myAgent().queueInStk.poll();
-			startInspection(newVehicle);
+		if (!stk.isVerificationMode()) {
+			MyMessage newVehicle = null;
+			if (myMessage.isCargoFree != null) {
+				newVehicle = removeVehicleFromQueueInStk(myMessage.isCargoFree);
+			} else if (myMessage.isNormalFree != null) {
+				newVehicle = removeVehicleFromQueueInStk(myMessage.isNormalFree);
+			}
+			if (newVehicle != null) {
+				startInspection(newVehicle);
+			}
+		} else {
+			//ak je volny worker zp skupiny 2 a cakaju auta na inspekciu
+			if (myMessage.isInspectionWorkerFree()) {
+				final MyMessage newVehicle = myAgent().queueInStk.poll();
+				startInspection(newVehicle);
+			}
 		}
 
 		Worker worker = myAgent().group1.getHiredWorkers().get(myMessage.getId());
@@ -206,11 +259,34 @@ public class ManagerGroup1 extends Manager
 	public void processFinishedLunchBreak(MessageForm message)
 	{
 		//worker 2 has finished his lunch break
+		MyMessage myMessage = (MyMessage) message;
+		if (stk.isVerificationMode()) {
+			if (myAgent().queueInStk.getReadySize() > 0) {
+				final MyMessage newVehicle = myAgent().queueInStk.poll();
+				hireWorker(newVehicle);
+				startInspection(newVehicle);
+			}
+		} else {
+			if (myMessage.freedWorker.isExpensive()) {
+				//najst ci caka dodavka zamestnatg
+				MyMessage newVehicle = getCargo();
+				if (newVehicle == null) {
+					newVehicle = getNormal();
+				}
+				if (newVehicle != null) {
+					newVehicle.freedWorker = myMessage.freedWorker;
+					hireWorker(newVehicle);
+					startInspection(newVehicle);
+				}
 
-		if (myAgent().queueInStk.getReadySize() > 0) {
-			final MyMessage newVehicle = myAgent().queueInStk.poll();
-			hireWorker(newVehicle);
-			startInspection(newVehicle);
+			} else {
+				MyMessage newVehicle = getNormal();
+				if (newVehicle != null) {
+					newVehicle.freedWorker = myMessage.freedWorker;
+					hireWorker(newVehicle);
+					startInspection(newVehicle);
+				}
+			}
 		}
 
 		if (myAgent().group1.isWorkerFree()) {
@@ -336,7 +412,84 @@ public class ManagerGroup1 extends Manager
 
 	}
 
+	private void assignPotentialVehicleToMessage(MyMessage message) {
+		final Vehicle[] cargo = {null};
+		final Vehicle[] normal = {null};
+		myAgent().queueInStk.getQueue().forEach((messageVehicle) -> {
+			Vehicle vehicle = messageVehicle.getVehicle();
+
+			if (vehicle.getVehicleType() == VehicleType.CARGO) {
+				if (cargo[0] == null) {
+					cargo[0] = vehicle;
+				} else {
+					if (cargo[0].getStartWaitingInQue() > vehicle.getStartWaitingInQue()) {
+						cargo[0] = vehicle;
+					}
+				}
+			} else {
+				if (normal[0] == null) {
+					normal[0] = vehicle;
+				} else {
+					if (normal[0].getStartWaitingInQue() > vehicle.getStartWaitingInQue()) {
+						normal[0] = vehicle;
+					}
+				}
+			}
+		});
+		message.isCargoFree = cargo[0];
+		message.isNormalFree = normal[0];
+	}
+
+	private MyMessage getCargo() {
+		final Vehicle[] cargo = {null};
+		final MyMessage[] retMessage = {null};
+		myAgent().queueInStk.getQueue().forEach((messageVehicle) -> {
+			Vehicle vehicle = messageVehicle.getVehicle();
+
+			if (vehicle.getVehicleType() == VehicleType.CARGO) {
+				if (cargo[0] == null) {
+					cargo[0] = vehicle;
+					retMessage[0] = messageVehicle;
+				} else {
+					if (cargo[0].getStartWaitingInQue() > vehicle.getStartWaitingInQue()) {
+						cargo[0] = vehicle;
+						retMessage[0] = messageVehicle;
+					}
+				}
+			}
+		});
+		myAgent().queueInStk.remove(retMessage[0]);
+		return retMessage[0];
+	}
+
+	private MyMessage getNormal() {
+		final Vehicle[] normal = {null};
+		final MyMessage[] retMessage = {null};
+		myAgent().queueInStk.getQueue().forEach((messageVehicle) -> {
+			Vehicle vehicle = messageVehicle.getVehicle();
+
+			if (vehicle.getVehicleType() != VehicleType.CARGO) {
+				if (normal[0] == null) {
+					normal[0] = vehicle;
+					retMessage[0] = messageVehicle;
+				} else {
+					if (normal[0].getStartWaitingInQue() > vehicle.getStartWaitingInQue()) {
+						normal[0] = vehicle;
+						retMessage[0] = messageVehicle;
+					}
+				}
+			}
+		});
+		myAgent().queueInStk.remove(retMessage[0]);
+		return retMessage[0];
+	}
+
 	private void isWorkerFree(MyMessage message) {
+
+		if (!stk.isVerificationMode()) {
+			assignPotentialVehicleToMessage(message);
+		}
+
 		message.setCode(Mc.isWorkerFree);
 		message.setAddressee(Id.agentStk);
 		request(message);
@@ -347,6 +500,7 @@ public class ManagerGroup1 extends Manager
 		MyMessage myMessage = (MyMessage) newMessage;
 
 		myMessage.setVehicle(message.getVehicle());
+		myMessage.freedWorker = message.freedWorker;
 
 		myMessage.setAddressee(Id.agentStk);
 		myMessage.setCode(Mc.hireWorker);

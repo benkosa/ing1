@@ -7,6 +7,16 @@ import java.util.LinkedList;
 
 public class WorkersGroup<T extends Groupable> {
     final protected LinkedList<Worker> workers = new LinkedList<>();
+
+    public boolean isExpensive() {
+        return isExpensive;
+    }
+
+    public void setExpensive(boolean expensive) {
+        isExpensive = expensive;
+    }
+
+    private boolean isExpensive;
     public LinkedList<Worker> getWorkers() {
         return workers;
     }

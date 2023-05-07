@@ -1,7 +1,9 @@
 package shared.Workers;
 
+import _3zadanie.simulation.MyMessage;
+
 public class Worker {
-    private WorkersGroup workersGroup;
+    public WorkersGroup workersGroup;
     final private int id;
     private boolean hadLunchBreak = false;
 
@@ -25,5 +27,17 @@ public class Worker {
     public void endLunchBreak() {
         WorkersGroup1 workersGroup1 = (WorkersGroup1) workersGroup;
         workersGroup1.endLunchBreakWorker(this);
+    }
+
+    public void freeWorker(MyMessage message) {
+        workersGroup.freeWorker(message);
+    }
+
+    public void hireWorker(MyMessage message) {
+        workersGroup.hireWorker(message);
+    }
+
+    public boolean isExpensive() {
+        return workersGroup.isExpensive();
     }
 }

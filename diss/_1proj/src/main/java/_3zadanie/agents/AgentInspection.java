@@ -24,6 +24,7 @@ public class AgentInspection extends Agent
 
 		averageFreeWorker2 = new AverageQueueLength(stk, groupExpensive.getWorkers());
 		groupExpensive.assignStatistics(averageFreeWorker2);
+		groupExpensive.setExpensive(true);
 
 	}
 
@@ -33,6 +34,7 @@ public class AgentInspection extends Agent
 		super.prepareReplication();
 		// Setup component for the next replication
 		groupExpensive.clear();
+		groupCheap.clear();
 
 		averageFreeWorker2.initialize();
 	}
