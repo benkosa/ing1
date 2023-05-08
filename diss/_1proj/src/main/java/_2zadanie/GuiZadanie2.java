@@ -2,6 +2,7 @@ package _2zadanie;
 
 import _2zadanie.Graph.Graph1;
 import _2zadanie.Graph.Graph2;
+import shared.Statistics.Statistics;
 import shared.Workers.Worker;
 import shared.EventSimulation.EventSimulationCore;
 
@@ -179,26 +180,40 @@ public class GuiZadanie2 extends JFrame implements ISimDelegate<EventSimulationC
             result += String.format("replikacie:\t\t\t%d\n", stk.getReplications());
             result += String.format("pracovnikov 1:\t\t\t%d\n", stk.group1.getNumberOfWorkers());
             result += String.format("pracovnikov 2:\t\t\t%d\n", stk.group2.getNumberOfWorkers());
-            result += String.format("vozidla v stk po ukonceni:\t\t%.4f\n", stk.averageVehiclesInSTK.totalResult());
-            result += String.format(
-                    "priemerny cas vozidla v stk:\t\t%.4f <%.4f,%.4f>\n",
-                    stk.averageVehicleTimeInSystem.totalResult() / 60.,
-                    stk.averageVehicleTimeInSystem.sampleStandardDeviation.getConfidenceInterval(1.645)[0],
-                    stk.averageVehicleTimeInSystem.sampleStandardDeviation.getConfidenceInterval(1.645)[1]
+            result += String.format("vozidla v stk po ukonceni:\t\t%s\n",
+                    stdResult(stk.averageVehiclesInSTK, 1)
             );
-            result += String.format("priemerny pocet volnych pracovnikov 1\t%.4f\n", stk.averageFreeWorker1.totalResult());
-            result += String.format("priemerny pocet volnych pracovnikov 2\t%.4f\n", stk.averageFreeWorker2.totalResult());
-            result += String.format("priemerna dlzka cakania v rade pred stk\t%.4f\n", stk.averageWaitingBeforeSTK.totalResult() / 60.);
-            result += String.format("priemerny pocet cakajucich pred stk\t%.4f\n", stk.averageQueueBeforeSTK.totalResult());
             result += String.format(
-                    "priemerny pocet zakaznikov v systeme\t%.4f <%.4f,%.4f>\n",
-                    stk.averageQueueInSystem.totalResult(),
-                    stk.averageQueueInSystem.sampleStandardDeviation.getConfidenceInterval(1.96)[0],
-                    stk.averageQueueInSystem.sampleStandardDeviation.getConfidenceInterval(1.96)[1]
+                    "priemerny cas vozidla v stk:\t\t%s\n",
+                    stdResult(stk.averageVehicleTimeInSystem, 60)
             );
-
+            result += String.format("priemerny pocet volnych recepncnych\t%s\n",
+                    stdResult(stk.averageFreeWorker1, 1)
+            );
+            result += String.format("priemerny pocet volnych pracovnikov drahy\t%s\n",
+                    stdResult(stk.averageFreeWorker2, 1)
+            );
+            result += String.format("priemerna dlzka cakania v rade pred stk\t%s\n",
+                    stdResult(stk.averageWaitingBeforeSTK, 60)
+            );
+            result += String.format("priemerny pocet cakajucich pred stk\t%s\n",
+                    stdResult(stk.averageQueueBeforeSTK, 1)
+            );
+            result += String.format(
+                    "priemerny pocet zakaznikov v systeme\t%s\n",
+                    stdResult(stk.averageQueueInSystem ,1)
+            );
             this.textArea1.setText(result);
         }
+    }
+
+    private String stdResult(Statistics stat, double divide) {
+        return String.format(
+                "%.4f <%.4f,%.4f>",
+                stat.totalResult()/divide,
+                stat.sampleStandardDeviation.getConfidenceInterval(1.96)[0]/divide,
+                stat.sampleStandardDeviation.getConfidenceInterval(1.96)[1]/divide
+        );
     }
 
     private String msToHMS(double seconds) {

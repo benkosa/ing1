@@ -11,6 +11,7 @@ import shared.Workers.WorkersGroup1;
 public class AgentInspection extends Agent
 {
 	public final AverageQueueLength averageFreeWorker2;
+	public final AverageQueueLength averageFreeWorkerCheap;
 	public final WorkersGroup1<MyMessage> groupCheap;
 	public final WorkersGroup1<MyMessage> groupExpensive;
 	final MySimulation stk;
@@ -23,7 +24,9 @@ public class AgentInspection extends Agent
 		groupCheap = new WorkersGroup1<>(stk.getWorkersCheap());
 
 		averageFreeWorker2 = new AverageQueueLength(stk, groupExpensive.getWorkers());
+		averageFreeWorkerCheap = new AverageQueueLength(stk, groupCheap.getWorkers());
 		groupExpensive.assignStatistics(averageFreeWorker2);
+		groupCheap.assignStatistics(averageFreeWorkerCheap);
 		groupExpensive.setExpensive(true);
 
 	}
@@ -37,6 +40,7 @@ public class AgentInspection extends Agent
 		groupCheap.clear();
 
 		averageFreeWorker2.initialize();
+		averageFreeWorkerCheap.initialize();
 	}
 
 	//meta! userInfo="Generated code: do not modify", tag="begin"

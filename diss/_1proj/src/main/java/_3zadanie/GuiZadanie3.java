@@ -4,6 +4,10 @@ import OSPABA.ISimDelegate;
 import OSPABA.SimState;
 import OSPABA.Simulation;
 import _2zadanie.Vehicle;
+import shared.Statistics.AverageQueueLength;
+import shared.Statistics.AverageVehicleTimeInSystem;
+import shared.Statistics.AverageVehiclesInSTK;
+import shared.Statistics.Statistics;
 import shared.Workers.Worker;
 import _3zadanie.simulation.MyMessage;
 import _3zadanie.simulation.MySimulation;
@@ -163,25 +167,46 @@ public class GuiZadanie3 extends JFrame implements ISimDelegate {
         result += String.format("replikacie:\t\t\t%d\n", stk.replicationCount());
         result += String.format("pracovnikov 1:\t\t\t%d\n", stk.agentGroup1().group1.getNumberOfWorkers());
         result += String.format("pracovnikov 2:\t\t\t%d\n", stk.agentInspection().groupExpensive.getNumberOfWorkers());
-        result += String.format("vozidla v stk po ukonceni:\t\t%.4f\n", stk.agentModel().averageVehiclesInSTK.totalResult());
-        result += String.format(
-                "priemerny cas vozidla v stk:\t\t%.4f <%.4f,%.4f>\n",
-                stk.averageVehicleTimeInSystem.totalResult() / 60.,
-                stk.averageVehicleTimeInSystem.sampleStandardDeviation.getConfidenceInterval(1.645)[0],
-                stk.averageVehicleTimeInSystem.sampleStandardDeviation.getConfidenceInterval(1.645)[1]
+        result += String.format("Vstupny tok:\t\t\t%.4f\n", stk.agentModel().testInputFlow.totalResult());
+        result += String.format("vozidla v stk po ukonceni:\t\t%s\n",
+                stdResult(stk.agentModel().averageVehiclesInSTK, 1)
         );
-        result += String.format("priemerny pocet volnych pracovnikov 1\t%.4f\n", stk.agentGroup1().averageFreeWorker1.totalResult());
-        result += String.format("priemerny pocet volnych pracovnikov 2\t%.4f\n", stk.agentInspection().averageFreeWorker2.totalResult());
-        result += String.format("priemerna dlzka cakania v rade pred stk\t%.4f\n", stk.agentGroup1().averageWaitingBeforeSTK.totalResult() / 60.);
-        result += String.format("priemerny pocet cakajucich pred stk\t%.4f\n", stk.agentGroup1().averageQueueBeforeSTK.totalResult());
         result += String.format(
-                "priemerny pocet zakaznikov v systeme\t%.4f <%.4f,%.4f>\n",
-                stk.agentModel().averageQueueInSystem.totalResult(),
-                stk.agentModel().averageQueueInSystem.sampleStandardDeviation.getConfidenceInterval(1.96)[0],
-                stk.agentModel().averageQueueInSystem.sampleStandardDeviation.getConfidenceInterval(1.96)[1]
+                "priemerny cas vozidla v stk:\t\t%s\n",
+                stdResult(stk.averageVehicleTimeInSystem, 60)
+        );
+        result += String.format("priemerny pocet volnych recepncnych\t%s\n",
+                stdResult(stk.agentGroup1().averageFreeWorker1, 1)
+        );
+        result += String.format("priemerny pocet volnych pracovnikov drahy\t%s\n",
+                stdResult(stk.agentInspection().averageFreeWorker2, 1)
+        );
+        if(!stk.isVerificationMode()) {
+            result += String.format("priemerny pocet volnych pracovnikov lacny\t%s\n",
+                    stdResult(stk.agentInspection().averageFreeWorkerCheap, 1)
+            );
+        }
+        result += String.format("priemerna dlzka cakania v rade pred stk\t%s\n",
+                stdResult(stk.agentGroup1().averageWaitingBeforeSTK, 60)
+        );
+        result += String.format("priemerny pocet cakajucich pred stk\t%s\n",
+                stdResult(stk.agentGroup1().averageQueueBeforeSTK, 1)
+        );
+        result += String.format(
+                "priemerny pocet zakaznikov v systeme\t%s\n",
+                stdResult(stk.agentModel().averageQueueInSystem ,1)
         );
 
         this.textArea1.setText(result);
+    }
+
+    private String stdResult(Statistics stat, double divide) {
+        return String.format(
+                "%.4f <%.4f,%.4f>",
+                stat.totalResult()/divide,
+                stat.sampleStandardDeviation.getConfidenceInterval(1.96)[0]/divide,
+                stat.sampleStandardDeviation.getConfidenceInterval(1.96)[1]/divide
+        );
     }
 
     private MySimulation stk;

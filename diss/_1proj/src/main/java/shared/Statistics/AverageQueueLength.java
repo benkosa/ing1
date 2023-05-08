@@ -20,7 +20,7 @@ public class AverageQueueLength extends Statistics {
     private double lastTimeChange = 0;
     private double countEventsInQueue = 0;
 
-    public final SampleStandardDeviation sampleStandardDeviation = new SampleStandardDeviation();
+
     public void countAverageQueueLength() {
         final double time = core.getCurrentTime() - lastTimeChange;
         if (time < 0) System.out.println("error: countAverageQueueSize - time < 0");
@@ -32,9 +32,7 @@ public class AverageQueueLength extends Statistics {
     }
     @Override
     public double replicationResult() {
-        double result = (countEventsInQueue/lastTimeChange);
-        sampleStandardDeviation.countReplication(result);
-        return result;
+        return countEventsInQueue/lastTimeChange;
     }
     public void initialize() {
         lastTimeChange = 0;

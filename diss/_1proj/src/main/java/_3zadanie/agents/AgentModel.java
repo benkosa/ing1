@@ -9,6 +9,7 @@ import _3zadanie.continualAssistants.*;
 import _3zadanie.instantAssistants.*;
 import shared.EventSimulation.Queue;
 import shared.Statistics.AverageQueueLength;
+import shared.Statistics.AverageQueueSize;
 import shared.Statistics.AverageVehiclesInSTK;
 
 import java.util.LinkedList;
@@ -19,6 +20,8 @@ public class AgentModel extends Agent
 	public final AverageVehiclesInSTK averageVehiclesInSTK = new AverageVehiclesInSTK();
 	public LinkedList<MyMessage> arrivedVehicles = new LinkedList<>();
 	public LinkedList<MyMessage> leftVehicles = new LinkedList<>();
+
+	public AverageQueueSize testInputFlow = new AverageQueueSize(arrivedVehicles);
 	public final Queue<Long, MyMessage> queueInSystem = new Queue<>();
 	public final AverageQueueLength averageQueueInSystem;
 	public AgentModel(int id, Simulation mySim, Agent parent)
