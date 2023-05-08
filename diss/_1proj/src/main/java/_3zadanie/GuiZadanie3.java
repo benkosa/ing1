@@ -10,6 +10,8 @@ import _3zadanie.simulation.MyMessage;
 import _3zadanie.simulation.MySimulation;
 
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -55,7 +57,6 @@ public class GuiZadanie3 extends JFrame implements ISimDelegate {
     private JLabel g2uCount;
     private JLabel g2nuCount;
     private JLabel simTime;
-    private JLabel lastEvent;
     private JLabel realTime;
     private JTextArea textArea1;
     private JLabel g1pCount;
@@ -71,6 +72,9 @@ public class GuiZadanie3 extends JFrame implements ISimDelegate {
     private JLabel g3pCount;
     private JCheckBox overenieCheckBox;
     private JTextField a5TextField1;
+    private JButton mzdaButton;
+    private JLabel mzdaOut;
+    private JTextPane textPane1;
 
     public GuiZadanie3() {
         startRealTimeButton.addActionListener(e -> new Thread(this::startSimRealTime).start());
@@ -98,6 +102,28 @@ public class GuiZadanie3 extends JFrame implements ISimDelegate {
                 Integer.parseInt(a60TextField.getText()),
                 .5
         ));
+        mzdaButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                mzdaOut.setText(countWage());
+            }
+        });
+    }
+
+
+    private static final int RECEPTION_WAGE = 1100;
+    private static final int CHEAP_MECHANIC_WAGE = 1500;
+    private static final int EXPENSIVE_MECHANIC_WAGE = 2000;
+
+    private String countWage() {
+        return (Integer.parseInt(a5TextField.getText()) * RECEPTION_WAGE +
+                        Integer.parseInt(a20TextField.getText()) * EXPENSIVE_MECHANIC_WAGE +
+                        Integer.parseInt(a5TextField1.getText()) * CHEAP_MECHANIC_WAGE) + " €";
+    }
+    private String countWage(MySimulation stk) {
+        return (stk.agentGroup1().group1.getNumberOfWorkers() * RECEPTION_WAGE +
+                stk.agentInspection().groupExpensive.getNumberOfWorkers() * EXPENSIVE_MECHANIC_WAGE +
+                stk.agentInspection().groupCheap.getNumberOfWorkers() * CHEAP_MECHANIC_WAGE) + " €";
     }
 
     public void start() {
@@ -166,8 +192,14 @@ public class GuiZadanie3 extends JFrame implements ISimDelegate {
         String result = "";
         result += String.format("replikacie:\t\t\t%d\n", stk.replicationCount());
         result += String.format("pracovnikov 1:\t\t\t%d\n", stk.agentGroup1().group1.getNumberOfWorkers());
-        result += String.format("pracovnikov 2:\t\t\t%d\n", stk.agentInspection().groupExpensive.getNumberOfWorkers());
-        result += String.format("Vstupny tok:\t\t\t%.4f\n", stk.agentModel().testInputFlow.totalResult());
+        if(!stk.isVerificationMode()) {
+            result += String.format("pracovnikov 2 drahy:\t\t%d\n", stk.agentInspection().groupExpensive.getNumberOfWorkers());
+            result += String.format("pracovnikov 2 lacny:\t\t%d\n", stk.agentInspection().groupCheap.getNumberOfWorkers());
+            result += String.format("mzda:\t\t\t%s\n", countWage(stk));
+            result += String.format("Vstupny tok:\t\t\t%.4f\n", stk.agentModel().testInputFlow.totalResult());
+        } else {
+            result += String.format("pracovnikov 2:\t\t\t%d\n", stk.agentInspection().groupExpensive.getNumberOfWorkers());
+        }
         result += String.format("vozidla v stk po ukonceni:\t\t%s\n",
                 stdResult(stk.agentModel().averageVehiclesInSTK, 1)
         );
@@ -196,8 +228,7 @@ public class GuiZadanie3 extends JFrame implements ISimDelegate {
                 "priemerny pocet zakaznikov v systeme\t%s\n",
                 stdResult(stk.agentModel().averageQueueInSystem ,1)
         );
-
-        this.textArea1.setText(result);
+        textArea1.setText(result);
     }
 
     private String stdResult(Statistics stat, double divide) {

@@ -67,6 +67,7 @@ public class Queue<I, T extends Groupable> {
             System.out.println("error: queue move not existing element");
             return;
         }
+        countAverageQueueLength();
         lockedQueue.remove(id);
         queue.add(element);
 
@@ -83,7 +84,7 @@ public class Queue<I, T extends Groupable> {
     }
 
     /**
-     * Retrieves and removes the head of this queue
+     * Removes a single instance of the specified element from this queue
      */
     public void remove(T vehicle) {
         queue.remove(vehicle);
