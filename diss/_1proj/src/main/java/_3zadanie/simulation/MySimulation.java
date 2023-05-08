@@ -19,6 +19,12 @@ public class MySimulation extends Simulation implements Core
 	private final int workersExpensive;
 	private final int workersCheap;
 
+	private double inputFlow = 1;
+
+	public double getInputFlow() {
+		return inputFlow;
+	}
+
 	public boolean isVerificationMode() {
 		return verificationMode;
 	}
@@ -34,7 +40,7 @@ public class MySimulation extends Simulation implements Core
 
 	public final AverageVehicleTimeInSystem <MySimulation> averageVehicleTimeInSystem;
 
-	public MySimulation(int seed, int workers1, int workersExpensive, int workersCheap, boolean verificationMode)
+	public MySimulation(int seed, int workers1, int workersExpensive, int workersCheap, boolean verificationMode, double inputFlow)
 	{
 		seedGenerator = new SeedGenerator(seed);
 		vehicleGenerator = new VehicleGenerator(seedGenerator);
@@ -42,8 +48,9 @@ public class MySimulation extends Simulation implements Core
 		this.workersExpensive = workersExpensive;
 		this.workersCheap = workersCheap;
 		this.verificationMode = verificationMode;
-		init();
 		averageVehicleTimeInSystem = new AverageVehicleTimeInSystem<>(this);
+		this.inputFlow = inputFlow;
+		init();
 	}
 
 	public int getWorkers1() {

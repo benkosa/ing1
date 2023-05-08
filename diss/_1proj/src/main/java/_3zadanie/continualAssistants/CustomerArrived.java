@@ -14,7 +14,7 @@ public class CustomerArrived extends Scheduler
 	{
 		super(id, mySim, myAgent);
 		mySimulation = (MySimulation)mySim;
-		_exp = new ExponentialDistribution(mySimulation.seedGenerator, (60.0/23.0)*60);
+		_exp = new ExponentialDistribution(mySimulation.seedGenerator, (60.0/(23.0*mySimulation.getInputFlow()))*60.);
 	}
 
 	private static ExponentialDistribution _exp;

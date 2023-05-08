@@ -461,7 +461,7 @@
                           <text value="Vstupny tok + %"/>
                         </properties>
                       </component>
-                      <component id="c96d" class="javax.swing.JTextField" binding="a0TextField1" default-binding="true">
+                      <component id="c96d" class="javax.swing.JTextField" binding="a0TextField2" default-binding="true">
                         <constraints>
                           <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                             <preferred-size width="150" height="-1"/>

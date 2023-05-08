@@ -4,9 +4,6 @@ import OSPABA.ISimDelegate;
 import OSPABA.SimState;
 import OSPABA.Simulation;
 import _2zadanie.Vehicle;
-import shared.Statistics.AverageQueueLength;
-import shared.Statistics.AverageVehicleTimeInSystem;
-import shared.Statistics.AverageVehiclesInSTK;
 import shared.Statistics.Statistics;
 import shared.Workers.Worker;
 import _3zadanie.simulation.MyMessage;
@@ -65,7 +62,7 @@ public class GuiZadanie3 extends JFrame implements ISimDelegate {
     private JLabel g2pCount;
     private JScrollPane ScrollPane11;
     private JScrollPane ScrollPane12;
-    private JTextField a0TextField1;
+    private JTextField a0TextField2;
     private JScrollPane ScrollPane13;
     private JScrollPane ScrollPane14;
     private JScrollPane ScrollPane15;
@@ -217,7 +214,8 @@ public class GuiZadanie3 extends JFrame implements ISimDelegate {
                 Integer.parseInt(a5TextField.getText()),
                 Integer.parseInt(a20TextField.getText()),
                 Integer.parseInt(a5TextField1.getText()),
-                overenieCheckBox.isSelected()
+                overenieCheckBox.isSelected(),
+                getInputFlow()
         );
         stk.registerDelegate(this);
 
@@ -233,15 +231,23 @@ public class GuiZadanie3 extends JFrame implements ISimDelegate {
         stk.simulate(Integer.parseInt(a100000TextField.getText()) , 8*60*60);
     }
 
+    private double getInputFlow() {
+        double inputFlow = Double.parseDouble(a0TextField2.getText());
+        if (inputFlow == 0) {
+            return 1;
+        }
+        return 1+inputFlow/100;
+    }
+
     private void startSimTurbo() {
         stk = new MySimulation(
                 Integer.parseInt(a0TextField.getText()),
                 Integer.parseInt(a5TextField.getText()),
                 Integer.parseInt(a20TextField.getText()),
                 Integer.parseInt(a5TextField1.getText()),
-                overenieCheckBox.isSelected()
+                overenieCheckBox.isSelected(),
+                getInputFlow()
         );
-
         stk.onSimulationDidFinish((sim) -> {
             printResult(stk);
         });
