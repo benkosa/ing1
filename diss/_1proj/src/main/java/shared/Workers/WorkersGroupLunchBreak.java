@@ -2,8 +2,8 @@ package shared.Workers;
 
 import java.util.HashMap;
 
-public class WorkersGroup1<T extends Groupable> extends WorkersGroup<T>{
-    public WorkersGroup1(int numberOfWorkers) {
+public class WorkersGroupLunchBreak<T extends Groupable> extends WorkersGroup<T>{
+    public WorkersGroupLunchBreak(int numberOfWorkers) {
         super(numberOfWorkers);
     }
 
@@ -42,6 +42,7 @@ public class WorkersGroup1<T extends Groupable> extends WorkersGroup<T>{
     }
 
     public void startLunchBreak(Worker worker) {
+        countAverageFreeWorker();
         if (!workers.remove(worker)) {
             System.out.println("warning remove not existing worker");
         }

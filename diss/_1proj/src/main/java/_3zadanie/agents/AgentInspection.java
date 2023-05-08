@@ -5,23 +5,23 @@ import _3zadanie.simulation.*;
 import _3zadanie.managers.*;
 import _3zadanie.continualAssistants.*;
 import shared.Statistics.AverageQueueLength;
-import shared.Workers.WorkersGroup1;
+import shared.Workers.WorkersGroupLunchBreak;
 
 //meta! id="59"
 public class AgentInspection extends Agent
 {
 	public final AverageQueueLength averageFreeWorker2;
 	public final AverageQueueLength averageFreeWorkerCheap;
-	public final WorkersGroup1<MyMessage> groupCheap;
-	public final WorkersGroup1<MyMessage> groupExpensive;
+	public final WorkersGroupLunchBreak<MyMessage> groupCheap;
+	public final WorkersGroupLunchBreak<MyMessage> groupExpensive;
 	final MySimulation stk;
 	public AgentInspection(int id, Simulation mySim, Agent parent)
 	{
 		super(id, mySim, parent);
 		init();
 		stk = (MySimulation) mySim;
-		groupExpensive = new WorkersGroup1<>(stk.getWorkersExpensive());
-		groupCheap = new WorkersGroup1<>(stk.getWorkersCheap());
+		groupExpensive = new WorkersGroupLunchBreak<>(stk.getWorkersExpensive());
+		groupCheap = new WorkersGroupLunchBreak<>(stk.getWorkersCheap());
 
 		averageFreeWorker2 = new AverageQueueLength(stk, groupExpensive.getWorkers());
 		averageFreeWorkerCheap = new AverageQueueLength(stk, groupCheap.getWorkers());

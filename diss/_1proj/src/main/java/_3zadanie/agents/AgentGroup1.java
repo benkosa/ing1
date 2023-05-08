@@ -1,14 +1,13 @@
 package _3zadanie.agents;
 
 import OSPABA.*;
-import shared.Workers.WorkersGroup;
 import _3zadanie.simulation.*;
 import _3zadanie.managers.*;
 import _3zadanie.continualAssistants.*;
 import shared.EventSimulation.Queue;
 import shared.Statistics.AverageQueueLength;
 import shared.Statistics.AverageWaitingTimeInQueue;
-import shared.Workers.WorkersGroup1;
+import shared.Workers.WorkersGroupLunchBreak;
 
 //meta! id="58"
 public class AgentGroup1 extends Agent
@@ -21,14 +20,14 @@ public class AgentGroup1 extends Agent
 	public final Queue<Integer, MyMessage> queueAfterStk = new Queue<>();
 
 
-	public final WorkersGroup1<MyMessage> group1;
+	public final WorkersGroupLunchBreak<MyMessage> group1;
 	final MySimulation stk;
 	public AgentGroup1(int id, Simulation mySim, Agent parent)
 	{
 		super(id, mySim, parent);
 		init();
 		stk = (MySimulation) mySim;
-		group1 = new WorkersGroup1<>(stk.getWorkers1());
+		group1 = new WorkersGroupLunchBreak<>(stk.getWorkers1());
 		averageFreeWorker1 = new AverageQueueLength(stk, group1.getWorkers());
 		group1.assignStatistics(averageFreeWorker1);
 		averageWaitingBeforeSTK = new AverageWaitingTimeInQueue(stk);

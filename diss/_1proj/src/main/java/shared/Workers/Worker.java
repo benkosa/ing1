@@ -25,7 +25,7 @@ public class Worker {
     }
 
     public void endLunchBreak() {
-        WorkersGroup1 workersGroup1 = (WorkersGroup1) workersGroup;
+        WorkersGroupLunchBreak workersGroup1 = (WorkersGroupLunchBreak) workersGroup;
         workersGroup1.endLunchBreakWorker(this);
     }
 
