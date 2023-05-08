@@ -27,7 +27,7 @@ public class AgentGroup1 extends Agent
 		super(id, mySim, parent);
 		init();
 		stk = (MySimulation) mySim;
-		group1 = new WorkersGroupLunchBreak<>(stk.getWorkers1());
+		group1 = new WorkersGroupLunchBreak<>(stk.getWorkers1(), stk);
 		averageFreeWorker1 = new AverageQueueLength(stk, group1.getWorkers());
 		group1.assignStatistics(averageFreeWorker1);
 		averageWaitingBeforeSTK = new AverageWaitingTimeInQueue(stk);

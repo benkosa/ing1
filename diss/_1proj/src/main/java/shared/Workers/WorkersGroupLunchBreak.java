@@ -1,10 +1,12 @@
 package shared.Workers;
 
+import shared.Statistics.Core;
+
 import java.util.HashMap;
 
 public class WorkersGroupLunchBreak<T extends Groupable> extends WorkersGroup<T>{
-    public WorkersGroupLunchBreak(int numberOfWorkers) {
-        super(numberOfWorkers);
+    public WorkersGroupLunchBreak(int numberOfWorkers, Core core) {
+        super(numberOfWorkers, core);
     }
 
     final private HashMap<Integer, Worker> lunchBreakWorkers = new HashMap<>();

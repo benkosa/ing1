@@ -101,8 +101,8 @@ public class STK extends EventSimulationCore implements Core {
     }
 
     public void setWorkers(int g1, int g2) {
-        group1 = new WorkersGroup(g1);
-        group2 = new WorkersGroup(g2);
+        group1 = new WorkersGroup(g1, this);
+        group2 = new WorkersGroup(g2, this);
     }
 
     public void workersAssignStatistics() {

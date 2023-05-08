@@ -37,6 +37,7 @@ public class ManagerModel extends Manager
 	{
 		final MyMessage myMessage = (MyMessage)message;
 		stk.averageVehicleTimeInSystem.vehicleLeft(myMessage.getVehicle());
+		myMessage.vehicleLeft = stk.currentTime();
 		myAgent().leftVehicles.add(myMessage);
 
 		myAgent().averageVehiclesInSTK.vehicleLeft();
@@ -61,7 +62,9 @@ public class ManagerModel extends Manager
 		myAgent().queueInSystem.addQueueLocked(myMessage.getId(), myMessage);
 		myAgent().averageQueueInSystem.countAverageQueueLength();
 
+		myMessage.vehicleArrived = stk.currentTime();
 		myAgent().arrivedVehicles.add(myMessage);
+
 
 		request(message);
 	}

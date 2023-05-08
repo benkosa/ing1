@@ -265,7 +265,7 @@
                     <children>
                       <component id="137e8" class="javax.swing.JButton" binding="startRealTimeButton" default-binding="true">
                         <constraints>
-                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="1" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                         </constraints>
                         <properties>
                           <text value="Start real time"/>
@@ -273,7 +273,7 @@
                       </component>
                       <component id="a5de2" class="javax.swing.JButton" binding="startTurboButton" default-binding="true">
                         <constraints>
-                          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="1" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                         </constraints>
                         <properties>
                           <text value="Start turbo"/>
@@ -313,7 +313,7 @@
                       </component>
                       <component id="fd5d8" class="javax.swing.JTextField" binding="a100000TextField" default-binding="true">
                         <constraints>
-                          <grid row="4" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                          <grid row="4" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="1" anchor="8" fill="1" indent="0" use-parent-layout="false">
                             <preferred-size width="150" height="-1"/>
                           </grid>
                         </constraints>
@@ -323,7 +323,7 @@
                       </component>
                       <component id="a0ae7" class="javax.swing.JTextField" binding="a0TextField" default-binding="true">
                         <constraints>
-                          <grid row="5" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                          <grid row="5" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="1" anchor="8" fill="1" indent="0" use-parent-layout="false">
                             <preferred-size width="150" height="-1"/>
                           </grid>
                         </constraints>
@@ -333,7 +333,7 @@
                       </component>
                       <component id="81f56" class="javax.swing.JTextField" binding="a60TextField" default-binding="true">
                         <constraints>
-                          <grid row="6" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                          <grid row="6" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="1" anchor="8" fill="1" indent="0" use-parent-layout="false">
                             <preferred-size width="150" height="-1"/>
                           </grid>
                         </constraints>
@@ -343,7 +343,7 @@
                       </component>
                       <component id="b3f14" class="javax.swing.JTextField" binding="a1000TextField" default-binding="true">
                         <constraints>
-                          <grid row="7" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                          <grid row="7" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="1" anchor="8" fill="1" indent="0" use-parent-layout="false">
                             <preferred-size width="150" height="-1"/>
                           </grid>
                         </constraints>
@@ -369,7 +369,7 @@
                       </component>
                       <component id="2b3b9" class="javax.swing.JTextField" binding="a5TextField" default-binding="true">
                         <constraints>
-                          <grid row="9" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                          <grid row="9" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="1" anchor="8" fill="1" indent="0" use-parent-layout="false">
                             <preferred-size width="150" height="-1"/>
                           </grid>
                         </constraints>
@@ -379,7 +379,7 @@
                       </component>
                       <component id="223f0" class="javax.swing.JButton" binding="adjustSlowDownButton" default-binding="true">
                         <constraints>
-                          <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                          <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="1" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                         </constraints>
                         <properties>
                           <text value="Adjust slow down"/>
@@ -411,7 +411,7 @@
                         <children>
                           <component id="68505" class="javax.swing.JButton" binding="a2000Button" default-binding="true">
                             <constraints>
-                              <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                              <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="1" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                             </constraints>
                             <properties>
                               <text value=".5"/>
@@ -419,7 +419,7 @@
                           </component>
                           <component id="5428a" class="javax.swing.JButton" binding="a1000Button" default-binding="true">
                             <constraints>
-                              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="1" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                             </constraints>
                             <properties>
                               <text value="0.1"/>
@@ -437,7 +437,7 @@
                         <children>
                           <component id="8d6a4" class="javax.swing.JButton" binding="a10Button" default-binding="true">
                             <constraints>
-                              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="1" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                             </constraints>
                             <properties>
                               <text value="0.001"/>
@@ -445,7 +445,7 @@
                           </component>
                           <component id="504d7" class="javax.swing.JButton" binding="a100Button" default-binding="true">
                             <constraints>
-                              <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                              <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="1" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                             </constraints>
                             <properties>
                               <text value="0.01"/>
@@ -463,7 +463,7 @@
                       </component>
                       <component id="c96d" class="javax.swing.JTextField" binding="a0TextField2" default-binding="true">
                         <constraints>
-                          <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                          <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="1" anchor="8" fill="1" indent="0" use-parent-layout="false">
                             <preferred-size width="150" height="-1"/>
                           </grid>
                         </constraints>
@@ -473,7 +473,7 @@
                       </component>
                       <component id="a2df6" class="javax.swing.JButton" binding="stopButton" default-binding="true">
                         <constraints>
-                          <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                          <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="1" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                         </constraints>
                         <properties>
                           <text value="Stop"/>
@@ -489,7 +489,7 @@
                         <children>
                           <component id="daace" class="javax.swing.JButton" binding="playButton" default-binding="true">
                             <constraints>
-                              <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                              <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="1" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                             </constraints>
                             <properties>
                               <text value="play"/>
@@ -497,7 +497,7 @@
                           </component>
                           <component id="13e25" class="javax.swing.JButton" binding="pauseButton" default-binding="true">
                             <constraints>
-                              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="1" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                             </constraints>
                             <properties>
                               <text value="pause"/>
@@ -507,7 +507,7 @@
                       </grid>
                       <component id="a8bb1" class="javax.swing.JCheckBox" binding="overenieCheckBox" default-binding="true">
                         <constraints>
-                          <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                          <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="1" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                         </constraints>
                         <properties>
                           <text value="overenie"/>
@@ -571,7 +571,9 @@
                             <children>
                               <scrollpane id="5e6c0" binding="ScrollPane7">
                                 <constraints>
-                                  <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                                  <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                                    <minimum-size width="50" height="-1"/>
+                                  </grid>
                                 </constraints>
                                 <properties/>
                                 <border type="none"/>
@@ -579,7 +581,9 @@
                               </scrollpane>
                               <scrollpane id="fda2f" binding="ScrollPane8">
                                 <constraints>
-                                  <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                                  <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                                    <minimum-size width="150" height="-1"/>
+                                  </grid>
                                 </constraints>
                                 <properties/>
                                 <border type="none"/>
@@ -619,7 +623,9 @@
                               </component>
                               <scrollpane id="bb7d" binding="ScrollPane11">
                                 <constraints>
-                                  <grid row="2" column="2" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                                  <grid row="2" column="2" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                                    <minimum-size width="50" height="-1"/>
+                                  </grid>
                                 </constraints>
                                 <properties/>
                                 <border type="none"/>
@@ -653,7 +659,9 @@
                             <children>
                               <scrollpane id="a7fcd" binding="ScrollPane9">
                                 <constraints>
-                                  <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                                  <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                                    <minimum-size width="50" height="-1"/>
+                                  </grid>
                                 </constraints>
                                 <properties/>
                                 <border type="none"/>
@@ -661,7 +669,9 @@
                               </scrollpane>
                               <scrollpane id="c43a4" binding="ScrollPane10">
                                 <constraints>
-                                  <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                                  <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                                    <minimum-size width="150" height="-1"/>
+                                  </grid>
                                 </constraints>
                                 <properties/>
                                 <border type="none"/>
@@ -701,7 +711,9 @@
                               </component>
                               <scrollpane id="9fa64" binding="ScrollPane12">
                                 <constraints>
-                                  <grid row="2" column="2" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                                  <grid row="2" column="2" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                                    <minimum-size width="50" height="-1"/>
+                                  </grid>
                                 </constraints>
                                 <properties/>
                                 <border type="none"/>
@@ -751,7 +763,9 @@
                               </component>
                               <scrollpane id="c146e" binding="ScrollPane15">
                                 <constraints>
-                                  <grid row="2" column="2" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                                  <grid row="2" column="2" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                                    <minimum-size width="50" height="-1"/>
+                                  </grid>
                                 </constraints>
                                 <properties/>
                                 <border type="none"/>
@@ -759,7 +773,9 @@
                               </scrollpane>
                               <scrollpane id="84ed" binding="ScrollPane14">
                                 <constraints>
-                                  <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                                  <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                                    <minimum-size width="150" height="-1"/>
+                                  </grid>
                                 </constraints>
                                 <properties/>
                                 <border type="none"/>
@@ -767,7 +783,9 @@
                               </scrollpane>
                               <scrollpane id="d13e" binding="ScrollPane13">
                                 <constraints>
-                                  <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                                  <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                                    <minimum-size width="50" height="-1"/>
+                                  </grid>
                                 </constraints>
                                 <properties/>
                                 <border type="none"/>

@@ -1,10 +1,22 @@
 package shared.Workers;
 
 import _3zadanie.simulation.MyMessage;
+import shared.Statistics.Core;
 
 public class Worker {
     public WorkersGroup workersGroup;
+    protected double startedWork = 0;
+
+    public double getStartedWork() {
+        return startedWork;
+    }
+
     final private int id;
+
+    public boolean isHadLunchBreak() {
+        return hadLunchBreak;
+    }
+
     private boolean hadLunchBreak = false;
 
     public int getId() {
@@ -34,6 +46,7 @@ public class Worker {
     }
 
     public void hireWorker(MyMessage message) {
+        startedWork = workersGroup.core.getCurrentTime();
         workersGroup.hireWorker(message);
     }
 

@@ -20,8 +20,8 @@ public class AgentInspection extends Agent
 		super(id, mySim, parent);
 		init();
 		stk = (MySimulation) mySim;
-		groupExpensive = new WorkersGroupLunchBreak<>(stk.getWorkersExpensive());
-		groupCheap = new WorkersGroupLunchBreak<>(stk.getWorkersCheap());
+		groupExpensive = new WorkersGroupLunchBreak<>(stk.getWorkersExpensive(), stk);
+		groupCheap = new WorkersGroupLunchBreak<>(stk.getWorkersCheap(), stk);
 
 		averageFreeWorker2 = new AverageQueueLength(stk, groupExpensive.getWorkers());
 		averageFreeWorkerCheap = new AverageQueueLength(stk, groupCheap.getWorkers());

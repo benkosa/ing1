@@ -1,12 +1,15 @@
 package shared.Workers;
 
 import shared.Statistics.AverageQueueLength;
+import shared.Statistics.Core;
 
 import java.util.HashMap;
 import java.util.LinkedList;
 
 public class WorkersGroup<T extends Groupable> {
     final protected LinkedList<Worker> workers = new LinkedList<>();
+
+    protected Core core;
 
     public boolean isExpensive() {
         return isExpensive;
@@ -32,7 +35,8 @@ public class WorkersGroup<T extends Groupable> {
     public int getWorkersInUsage() {
         return hiredWorkers.size();
     }
-    public WorkersGroup(int numberOfWorkers) {
+    public WorkersGroup(int numberOfWorkers, Core core) {
+        this.core = core;
         this.numberOfWorkers = numberOfWorkers;
         addWorkers();
     }
@@ -64,6 +68,7 @@ public class WorkersGroup<T extends Groupable> {
             System.out.println("warning: hire not existing worker");
             return;
         }
+        worker.startedWork = core.getCurrentTime();
         hiredWorkers.put(vehicle.getId(), worker);
     }
 

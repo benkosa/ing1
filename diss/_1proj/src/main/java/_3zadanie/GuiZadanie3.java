@@ -103,7 +103,7 @@ public class GuiZadanie3 extends JFrame implements ISimDelegate {
     public void start() {
         this.setContentPane(this.panel1);
         this.setTitle("Zadanie 3 agentova simulacia");
-        this.setSize(1000, 830);
+        this.setSize(1450, 830);
         this.setVisible(true);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
@@ -115,24 +115,27 @@ public class GuiZadanie3 extends JFrame implements ISimDelegate {
     public void refresh(Simulation simulation) {
         MySimulation stk = (MySimulation) simulation;
 
-        refreshTable(ScrollPane1, new String[]{"i", "type", "start waiting"}, valuesToArrayVehicle(stk.agentModel().arrivedVehicles));
+        refreshTable(ScrollPane1, new String[]{"i", "type", "start waiting"}, valuesToArrayVehicleTotalArrived(stk.agentModel().arrivedVehicles));
         refreshTable(ScrollPane2, new String[]{"id", "type", "start waiting"}, valuesToArrayVehicle(stk.agentGroup1().queueBeforeStk.getQueue()));
         refreshTable(ScrollPane3, new String[]{"id", "type", "start waiting"}, valuesToArrayVehicle(stk.agentGroup1().queueInStk.getQueue()));
         refreshTable(ScrollPane6, new String[]{"id", "type", "start waiting"}, hashMapToArrayVehicles(stk.agentGroup1().queueInStk.getLockedQueue()));
         refreshTable(ScrollPane4, new String[]{"id", "type", "start waiting"}, valuesToArrayVehicle(stk.agentGroup1().queueAfterStk.getQueue()));
-        refreshTable(ScrollPane5, new String[]{"i", "type", "start waiting"}, valuesToArrayVehicle(stk.agentModel().leftVehicles));
+        refreshTable(ScrollPane5, new String[]{"i", "type", "start waiting"}, valuesToArrayVehicleTotalLeft(stk.agentModel().leftVehicles));
 
-        refreshTable(ScrollPane7, new String[]{"id w"}, valuesToArrayWorkers(stk.agentGroup1().group1.getWorkers()));
-        refreshTable(ScrollPane8, new String[]{"id w", "id c"}, hashMapToArrayWorkers(stk.agentGroup1().group1.getHiredWorkers()));
-        refreshTable(ScrollPane11, new String[]{"id w", "id c"}, hashMapToArrayBreak(stk.agentGroup1().group1.getLunchBreakWorkers()));
+        refreshTable(ScrollPane7, new String[]{"id w", "p"}, valuesToArrayWorkers(stk.agentGroup1().group1.getWorkers()));
+        refreshTable(ScrollPane8, new String[]{"id w", "id c", "s", "p"}, hashMapToArrayWorkers(stk.agentGroup1().group1.getHiredWorkers()))
+                .getColumnModel().getColumn(2).setMinWidth(65);
+        refreshTable(ScrollPane11, new String[]{"id w", "p"}, hashMapToArrayBreak(stk.agentGroup1().group1.getLunchBreakWorkers()));
 
-        refreshTable(ScrollPane9, new String[]{"id w"}, valuesToArrayWorkers(stk.agentInspection().groupExpensive.getWorkers()));
-        refreshTable(ScrollPane10, new String[]{"id w", "id c"}, hashMapToArrayWorkers(stk.agentInspection().groupExpensive.getHiredWorkers()));
-        refreshTable(ScrollPane12, new String[]{"id w", "id c"}, hashMapToArrayBreak(stk.agentInspection().groupExpensive.getLunchBreakWorkers()));
+        refreshTable(ScrollPane9, new String[]{"id w", "p"}, valuesToArrayWorkers(stk.agentInspection().groupExpensive.getWorkers()));
+        refreshTable(ScrollPane10, new String[]{"id w", "id c", "s", "p"}, hashMapToArrayWorkers(stk.agentInspection().groupExpensive.getHiredWorkers()))
+                .getColumnModel().getColumn(2).setMinWidth(65);
+        refreshTable(ScrollPane12, new String[]{"id w", "p"}, hashMapToArrayBreak(stk.agentInspection().groupExpensive.getLunchBreakWorkers()));
 
-        refreshTable(ScrollPane13, new String[]{"id w"}, valuesToArrayWorkers(stk.agentInspection().groupCheap.getWorkers()));
-        refreshTable(ScrollPane14, new String[]{"id w", "id c"}, hashMapToArrayWorkers(stk.agentInspection().groupCheap.getHiredWorkers()));
-        refreshTable(ScrollPane15, new String[]{"id w", "id c"}, hashMapToArrayBreak(stk.agentInspection().groupCheap.getLunchBreakWorkers()));
+        refreshTable(ScrollPane13, new String[]{"id w", "p"}, valuesToArrayWorkers(stk.agentInspection().groupCheap.getWorkers()));
+        refreshTable(ScrollPane14, new String[]{"id w", "id c", "s", "p"}, hashMapToArrayWorkers(stk.agentInspection().groupCheap.getHiredWorkers()))
+                .getColumnModel().getColumn(2).setMinWidth(65);
+        refreshTable(ScrollPane15, new String[]{"id w", "p"}, hashMapToArrayBreak(stk.agentInspection().groupCheap.getLunchBreakWorkers()));
 
         count1.setText(stk.agentModel().arrivedVehicles.size() + "");
         count2.setText(stk.agentGroup1().queueBeforeStk.getQueue().size() + "");
@@ -255,17 +258,18 @@ public class GuiZadanie3 extends JFrame implements ISimDelegate {
         stk.simulate(Integer.parseInt(a100000TextField.getText()), 8*60*60);
     }
 
-    private void refreshTable(JScrollPane scrollPane, String[] tableHeader, String[][] tableValues) {
+    private JTable refreshTable(JScrollPane scrollPane, String[] tableHeader, String[][] tableValues) {
         JTable table = new JTable(tableValues, tableHeader);
         table.setEnabled(false);
         scrollPane.setViewportView(table);
+        return table;
     }
 
     private String[][] valuesToArrayWorkers(Collection<Worker> queue) {
-        String[][] tableValues = new String[queue.size()][1];
+        String[][] tableValues = new String[queue.size()][2];
         int i = 0;
         for (Worker worker : queue) {
-            tableValues[i] = new String[]{worker.getId()+""};
+            tableValues[i] = new String[]{worker.getId()+"", worker.isHadLunchBreak() ? "1" : "0"};
             i+=1;
         }
         return tableValues;
@@ -277,6 +281,30 @@ public class GuiZadanie3 extends JFrame implements ISimDelegate {
         for (MyMessage message : queue) {
             Vehicle vehicle = message.getVehicle();
             tableValues[i] = new String[]{vehicle.id+"", vehicle.getVehicleType()+"", msToHMS(vehicle.getStartWaitingInQue())};
+            i+=1;
+        }
+
+        return tableValues;
+    }
+
+    private String[][] valuesToArrayVehicleTotalArrived(Collection<MyMessage> queue) {
+        String[][] tableValues = new String[queue.size()][3];
+        int i = 0;
+        for (MyMessage message : queue) {
+            Vehicle vehicle = message.getVehicle();
+            tableValues[i] = new String[]{vehicle.id+"", vehicle.getVehicleType()+"", msToHMS(message.vehicleArrived)};
+            i+=1;
+        }
+
+        return tableValues;
+    }
+
+    private String[][] valuesToArrayVehicleTotalLeft(Collection<MyMessage> queue) {
+        String[][] tableValues = new String[queue.size()][3];
+        int i = 0;
+        for (MyMessage message : queue) {
+            Vehicle vehicle = message.getVehicle();
+            tableValues[i] = new String[]{vehicle.id+"", vehicle.getVehicleType()+"", msToHMS(message.vehicleLeft)};
             i+=1;
         }
 
@@ -299,20 +327,20 @@ public class GuiZadanie3 extends JFrame implements ISimDelegate {
     }
 
     private String[][] hashMapToArrayWorkers(HashMap<Long, Worker> queue) {
-        String[][] tableValues = new String[queue.size()][2];
+        String[][] tableValues = new String[queue.size()][4];
         final int[] i = {0};
         queue.forEach( (key, value) -> {
-            tableValues[i[0]] = new String[] {value.getId()+"", key+""};
+            tableValues[i[0]] = new String[] {value.getId()+"", key+"", msToHMS(value.getStartedWork()) ,value.isHadLunchBreak() ? "1" : "0"};
             i[0] +=1;
         });
         return tableValues;
     }
 
     private String[][] hashMapToArrayBreak(HashMap<Integer, Worker> queue) {
-        String[][] tableValues = new String[queue.size()][2];
+        String[][] tableValues = new String[queue.size()][3];
         final int[] i = {0};
         queue.forEach( (key, value) -> {
-            tableValues[i[0]] = new String[] {value.getId()+"", key+""};
+            tableValues[i[0]] = new String[] {value.getId()+"", value.isHadLunchBreak() ? "1" : "0"};
             i[0] +=1;
         });
         return tableValues;
