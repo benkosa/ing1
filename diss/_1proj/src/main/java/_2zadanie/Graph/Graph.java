@@ -10,8 +10,10 @@ import java.util.List;
 
 public abstract class Graph extends SwingWorker<Double, Double> {
 
-    private int start;
-    private int end;
+    public static final int SIM_TIME = 8*60*60;
+
+    protected int start;
+    protected int end;
     LinkedList<Double> seriesData = new LinkedList<>();
     String chartTitle;
 
@@ -44,7 +46,7 @@ public abstract class Graph extends SwingWorker<Double, Double> {
         return .0;
     }
 
-    public abstract double onePass(int i);
+    public abstract double onePass(double i);
 
     @Override
     protected void process(List<Double> chunks) {

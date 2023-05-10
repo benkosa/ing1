@@ -3,6 +3,9 @@ package _3zadanie;
 import OSPABA.ISimDelegate;
 import OSPABA.SimState;
 import OSPABA.Simulation;
+import _2zadanie.Graph.Graph1;
+import _2zadanie.Graph.GraphAgent1;
+import _2zadanie.Graph.GraphAgent2;
 import _2zadanie.Vehicle;
 import shared.Statistics.Statistics;
 import shared.Workers.Worker;
@@ -102,6 +105,29 @@ public class GuiZadanie3 extends JFrame implements ISimDelegate {
                 Integer.parseInt(a60TextField.getText()),
                 .5
         ));
+        graph1Button.addActionListener(e -> {
+            new Thread(() -> new GraphAgent1(
+                    1,
+                    16,
+                    Integer.parseInt(a100000TextField.getText()),
+                    Integer.parseInt(a0TextField.getText()),
+                    Integer.parseInt(a20TextField.getText()),
+                    Integer.parseInt(a5TextField1.getText()),
+                    getInputFlow()
+            )).start();
+        });
+        graph2Button.addActionListener(e -> {
+            new Thread(() -> new GraphAgent2(
+                    10,
+                    26,
+                    Integer.parseInt(a100000TextField.getText()),
+                    Integer.parseInt(a0TextField.getText()),
+                    Integer.parseInt(a5TextField.getText()),
+                    Integer.parseInt(a20TextField.getText()),
+                    Integer.parseInt(a5TextField1.getText()),
+                    getInputFlow()
+            )).start();
+        });
         mzdaButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -114,6 +140,8 @@ public class GuiZadanie3 extends JFrame implements ISimDelegate {
     private static final int RECEPTION_WAGE = 1100;
     private static final int CHEAP_MECHANIC_WAGE = 1500;
     private static final int EXPENSIVE_MECHANIC_WAGE = 2000;
+
+    private static final int SIM_TIME = 8*60*60;
 
     private String countWage() {
         return (Integer.parseInt(a5TextField.getText()) * RECEPTION_WAGE +
@@ -229,6 +257,63 @@ public class GuiZadanie3 extends JFrame implements ISimDelegate {
                 stdResult(stk.agentModel().averageQueueInSystem ,1)
         );
         textArea1.setText(result);
+        //printCsv();
+        //sSystem.out.print(printCsvOneLine(stk));
+    }
+
+    private void printCsv() {
+        String result = "";
+        result += String.format("%d\n", stk.replicationCount());
+        result += String.format("%d\n", stk.agentGroup1().group1.getNumberOfWorkers());
+        if(!stk.isVerificationMode()) {
+            result += String.format("%d\n", stk.agentInspection().groupExpensive.getNumberOfWorkers());
+            result += String.format("%d\n", stk.agentInspection().groupCheap.getNumberOfWorkers());
+            result += String.format("%s\n", countWage(stk));
+            result += String.format("%.4f\n", stk.agentModel().testInputFlow.totalResult());
+        } else {
+            result += String.format("%d\n", stk.agentInspection().groupExpensive.getNumberOfWorkers());
+        }
+        result += String.format("%s\n",
+                stdResultCsv(stk.agentModel().averageVehiclesInSTK, 1)
+        );
+        result += String.format(
+                "%s\n",
+                stdResultCsv(stk.averageVehicleTimeInSystem, 60)
+        );
+        result += String.format("%s\n",
+                stdResultCsv(stk.agentGroup1().averageFreeWorker1, 1)
+        );
+        result += String.format("%s\n",
+                stdResultCsv(stk.agentInspection().averageFreeWorker2, 1)
+        );
+        if(!stk.isVerificationMode()) {
+            result += String.format("%s\n",
+                    stdResultCsv(stk.agentInspection().averageFreeWorkerCheap, 1)
+            );
+        }
+        result += String.format("%s\n",
+                stdResultCsv(stk.agentGroup1().averageWaitingBeforeSTK, 60)
+        );
+        result += String.format("%s\n",
+                stdResultCsv(stk.agentGroup1().averageQueueBeforeSTK, 1)
+        );
+        result += String.format(
+                "%s\n",
+                stdResultCsv(stk.agentModel().averageQueueInSystem ,1)
+        );
+        result = result.replace(".", ",");
+        System.out.println(result);
+    }
+
+    private String stdResultCsv(Statistics stat, double divide) {
+        return String.format(
+                "%.4f\t%.4f\t%.4f\t%.4f\t%.4f",
+                stat.totalResult()/divide,
+                stat.sampleStandardDeviation.getConfidenceInterval(1.90)[0]/divide,
+                stat.sampleStandardDeviation.getConfidenceInterval(1.90)[1]/divide,
+                stat.sampleStandardDeviation.getConfidenceInterval(1.96)[0]/divide,
+                stat.sampleStandardDeviation.getConfidenceInterval(1.96)[1]/divide
+        );
     }
 
     private String stdResult(Statistics stat, double divide) {
@@ -238,6 +323,56 @@ public class GuiZadanie3 extends JFrame implements ISimDelegate {
                 stat.sampleStandardDeviation.getConfidenceInterval(1.96)[0]/divide,
                 stat.sampleStandardDeviation.getConfidenceInterval(1.96)[1]/divide
         );
+    }
+
+    private String stdResultCsvOneLine(Statistics stat, double divide) {
+        return String.format(
+                "%.4f",
+                stat.totalResult()/divide
+        );
+    }
+    private String printCsvOneLine(MySimulation stk) {
+        String result = "";
+        result += String.format("%d\t", stk.replicationCount());
+        result += String.format("%d\t", stk.agentGroup1().group1.getNumberOfWorkers());
+        if(!stk.isVerificationMode()) {
+            result += String.format("%d\t", stk.agentInspection().groupExpensive.getNumberOfWorkers());
+            result += String.format("%d\t", stk.agentInspection().groupCheap.getNumberOfWorkers());
+            result += String.format("%s\t", countWage(stk));
+            result += String.format("%.4f\t", stk.agentModel().testInputFlow.totalResult());
+        } else {
+            result += String.format("%d\t", stk.agentInspection().groupExpensive.getNumberOfWorkers());
+        }
+        result += String.format("%s\t",
+                stdResultCsv(stk.agentModel().averageVehiclesInSTK, 1)
+        );
+        result += String.format(
+                "%s\t",
+                stdResultCsv(stk.averageVehicleTimeInSystem, 60)
+        );
+        result += String.format("%s\t",
+                stdResultCsv(stk.agentGroup1().averageFreeWorker1, 1)
+        );
+        result += String.format("%s\t",
+                stdResultCsv(stk.agentInspection().averageFreeWorker2, 1)
+        );
+        if(!stk.isVerificationMode()) {
+            result += String.format("%s\t",
+                    stdResultCsv(stk.agentInspection().averageFreeWorkerCheap, 1)
+            );
+        }
+        result += String.format("%s\t",
+                stdResultCsv(stk.agentGroup1().averageWaitingBeforeSTK, 60)
+        );
+        result += String.format("%s\t",
+                stdResultCsv(stk.agentGroup1().averageQueueBeforeSTK, 1)
+        );
+        result += String.format(
+                "%s\t",
+                stdResultCsv(stk.agentModel().averageQueueInSystem ,1)
+        );
+        result = result.replace(".", ",");
+        return result+"\n";
     }
 
     private MySimulation stk;
@@ -262,7 +397,7 @@ public class GuiZadanie3 extends JFrame implements ISimDelegate {
             printResult(stk);
         });
 
-        stk.simulate(Integer.parseInt(a100000TextField.getText()) , 8*60*60);
+        stk.simulate(1 , SIM_TIME);
     }
 
     private double getInputFlow() {
@@ -286,7 +421,7 @@ public class GuiZadanie3 extends JFrame implements ISimDelegate {
             printResult(stk);
         });
 
-        stk.simulate(Integer.parseInt(a100000TextField.getText()), 8*60*60);
+        stk.simulate(Integer.parseInt(a100000TextField.getText()), SIM_TIME);
     }
 
     private JTable refreshTable(JScrollPane scrollPane, String[] tableHeader, String[][] tableValues) {

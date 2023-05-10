@@ -8,8 +8,8 @@ public class Graph2 extends Graph{
     int seed;
     long replications;
     @Override
-    public double onePass(int i) {
-        STK stk = new STK(replications, 8*60*60, seed, workers1, i);
+    public double onePass(double i) {
+        STK stk = new STK(replications, 8*60*60, seed, workers1, (int)i);
         stk.simulationStartSingleThread();
         return stk.averageVehicleTimeInSystem.totalResult()/60.;
     }

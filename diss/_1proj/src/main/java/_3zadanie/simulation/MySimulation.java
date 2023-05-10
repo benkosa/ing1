@@ -97,7 +97,6 @@ public class MySimulation extends Simulation implements Core
 	{
 		// Dysplay simulation results
 		super.simulationFinished();
-		System.out.println(averageVehicleTimeInSystem.totalResult()/60.0);
 	}
 
 	//meta! userInfo="Generated code: do not modify", tag="begin"

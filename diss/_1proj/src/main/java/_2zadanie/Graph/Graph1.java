@@ -7,8 +7,8 @@ public class Graph1  extends Graph{
     int seed;
     long replications;
     @Override
-    public double onePass(int i) {
-        STK stk = new STK(replications, 8*60*60, seed, i, workers2);
+    public double onePass(double i) {
+        STK stk = new STK(replications, 8*60*60, seed, (int)i, workers2);
         stk.simulationStartSingleThread();
         return stk.averageQueueBeforeSTK.totalResult();
     }

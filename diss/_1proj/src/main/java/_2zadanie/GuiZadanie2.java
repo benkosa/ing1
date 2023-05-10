@@ -204,7 +204,51 @@ public class GuiZadanie2 extends JFrame implements ISimDelegate<EventSimulationC
                     stdResult(stk.averageQueueInSystem ,1)
             );
             this.textArea1.setText(result);
+            printCsv();
         }
+    }
+
+    private void printCsv() {
+        String result = "";
+        result += String.format("%d\n", stk.getReplications());
+        result += String.format("%d\n", stk.group1.getNumberOfWorkers());
+        result += String.format("%d\n", stk.group2.getNumberOfWorkers());
+        result += String.format("%s\n",
+                stdResultCsv(stk.averageVehiclesInSTK, 1)
+        );
+        result += String.format(
+                "%s\n",
+                stdResultCsv(stk.averageVehicleTimeInSystem, 60)
+        );
+        result += String.format("%s\n",
+                stdResultCsv(stk.averageFreeWorker1, 1)
+        );
+        result += String.format("%s\n",
+                stdResultCsv(stk.averageFreeWorker2, 1)
+        );
+        result += String.format("%s\n",
+                stdResultCsv(stk.averageWaitingBeforeSTK, 60)
+        );
+        result += String.format("%s\n",
+                stdResultCsv(stk.averageQueueBeforeSTK, 1)
+        );
+        result += String.format(
+                "%s\n",
+                stdResultCsv(stk.averageQueueInSystem ,1)
+        );
+        result = result.replace(".", ",");
+        System.out.println(result);
+    }
+
+    private String stdResultCsv(Statistics stat, double divide) {
+        return String.format(
+                "%.4f\t%.4f\t%.4f\t%.4f\t%.4f",
+                stat.totalResult()/divide,
+                stat.sampleStandardDeviation.getConfidenceInterval(1.90)[0]/divide,
+                stat.sampleStandardDeviation.getConfidenceInterval(1.90)[1]/divide,
+                stat.sampleStandardDeviation.getConfidenceInterval(1.96)[0]/divide,
+                stat.sampleStandardDeviation.getConfidenceInterval(1.96)[1]/divide
+        );
     }
 
     private String stdResult(Statistics stat, double divide) {
