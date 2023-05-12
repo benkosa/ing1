@@ -258,7 +258,7 @@ public class GuiZadanie3 extends JFrame implements ISimDelegate {
         );
         textArea1.setText(result);
         //printCsv();
-        //sSystem.out.print(printCsvOneLine(stk));
+        //System.out.print(printCsvOneLine(stk));
     }
 
     private void printCsv() {
@@ -309,10 +309,10 @@ public class GuiZadanie3 extends JFrame implements ISimDelegate {
         return String.format(
                 "%.4f\t%.4f\t%.4f\t%.4f\t%.4f",
                 stat.totalResult()/divide,
-                stat.sampleStandardDeviation.getConfidenceInterval(1.90)[0]/divide,
-                stat.sampleStandardDeviation.getConfidenceInterval(1.90)[1]/divide,
-                stat.sampleStandardDeviation.getConfidenceInterval(1.96)[0]/divide,
-                stat.sampleStandardDeviation.getConfidenceInterval(1.96)[1]/divide
+                stat.sampleStandardDeviation.getConfidenceInterval(1.645)[0]/divide,
+                stat.sampleStandardDeviation.getConfidenceInterval(1.645)[1]/divide,
+                stat.sampleStandardDeviation.getConfidenceInterval(1.812)[0]/divide,
+                stat.sampleStandardDeviation.getConfidenceInterval(1.812)[1]/divide
         );
     }
 
@@ -320,8 +320,8 @@ public class GuiZadanie3 extends JFrame implements ISimDelegate {
         return String.format(
                 "%.4f <%.4f,%.4f>",
                 stat.totalResult()/divide,
-                stat.sampleStandardDeviation.getConfidenceInterval(1.96)[0]/divide,
-                stat.sampleStandardDeviation.getConfidenceInterval(1.96)[1]/divide
+                stat.sampleStandardDeviation.getConfidenceInterval(1.812)[0]/divide,
+                stat.sampleStandardDeviation.getConfidenceInterval(1.812)[1]/divide
         );
     }
 

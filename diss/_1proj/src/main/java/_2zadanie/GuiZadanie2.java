@@ -244,10 +244,10 @@ public class GuiZadanie2 extends JFrame implements ISimDelegate<EventSimulationC
         return String.format(
                 "%.4f\t%.4f\t%.4f\t%.4f\t%.4f",
                 stat.totalResult()/divide,
-                stat.sampleStandardDeviation.getConfidenceInterval(1.90)[0]/divide,
-                stat.sampleStandardDeviation.getConfidenceInterval(1.90)[1]/divide,
-                stat.sampleStandardDeviation.getConfidenceInterval(1.96)[0]/divide,
-                stat.sampleStandardDeviation.getConfidenceInterval(1.96)[1]/divide
+                stat.sampleStandardDeviation.getConfidenceInterval(1.645)[0]/divide,
+                stat.sampleStandardDeviation.getConfidenceInterval(1.645)[1]/divide,
+                stat.sampleStandardDeviation.getConfidenceInterval(1.812)[0]/divide,
+                stat.sampleStandardDeviation.getConfidenceInterval(1.812)[1]/divide
         );
     }
 
@@ -255,8 +255,8 @@ public class GuiZadanie2 extends JFrame implements ISimDelegate<EventSimulationC
         return String.format(
                 "%.4f <%.4f,%.4f>",
                 stat.totalResult()/divide,
-                stat.sampleStandardDeviation.getConfidenceInterval(1.96)[0]/divide,
-                stat.sampleStandardDeviation.getConfidenceInterval(1.96)[1]/divide
+                stat.sampleStandardDeviation.getConfidenceInterval(1.812)[0]/divide,
+                stat.sampleStandardDeviation.getConfidenceInterval(1.812)[1]/divide
         );
     }
 
